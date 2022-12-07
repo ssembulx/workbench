@@ -1,7 +1,27 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-const routes: Routes = [];
+import { AllocationComponent } from './allocation/allocation.component';
+import { ApproveComponent } from './approve/approve.component';
+import { HomeComponent } from './home/home.component';
+import { MasterComponent } from './master/master.component';
+import { UserComponent } from './user/user.component';
+const routes: Routes = [{
+  path: '', component: HomeComponent
+},
+{
+  path: 'home', component: HomeComponent
+},
+{
+  path: 'allocation', component: AllocationComponent
+}, {
+  path: 'approve', component: ApproveComponent
+},
+{
+  path: 'master', component: MasterComponent
+},
+{
+  path: 'user', component: UserComponent
+}];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

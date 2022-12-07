@@ -3,10 +3,24 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './header/header.component';
+import { HomeComponent } from './home/home.component';
+import { AllocationComponent } from './allocation/allocation.component';
+import { ApproveComponent } from './approve/approve.component';
+import { MasterComponent } from './master/master.component';
+import { UserComponent } from './user/user.component';
+import { VPGLabComponent } from './vpg-lab/vpg-lab.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
+    HomeComponent,
+    AllocationComponent,
+    ApproveComponent,
+    MasterComponent,
+    UserComponent,
+    VPGLabComponent
   ],
   imports: [
     BrowserModule,
