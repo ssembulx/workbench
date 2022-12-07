@@ -10,7 +10,9 @@ import { ApproveComponent } from './approve/approve.component';
 import { MasterComponent } from './master/master.component';
 import { UserComponent } from './user/user.component';
 import { VPGLabComponent } from './vpg-lab/vpg-lab.component';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,9 +26,11 @@ import { VPGLabComponent } from './vpg-lab/vpg-lab.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    NgbModule
   ],
-  providers: [],
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
