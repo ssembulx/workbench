@@ -6,3 +6,43 @@
     width: auto;
     height: 400px;
 }
+
+.tab_header {
+    height: 40px;
+    border: 1px solid #ced4da;
+    margin-bottom: 10px;
+}
+
+.float_left {
+    float: left;
+}
+
+.padding_l_r_0 {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.loc_div {
+    background-color: #9BC2E6;
+    text-align: center;
+    height: 37px;
+    color: white;
+    line-height: 35.5px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.count_div {
+    text-align: center;
+    height: 37px;
+    /* color: white; */
+    line-height: 35.5px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.cus_select {
+    height: 37px;
+    /* padding-left: 2px; */
+    margin-left: 2px;
+}

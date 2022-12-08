@@ -15,6 +15,7 @@ export class VPGLabComponent implements OnInit {
     newSeatNoForRow: false
   };
   public cart: any = {
+    selectedSeatsNo: [],
     selectedSeats: [],
     seatstoStore: [],
     totalamount: 0,
@@ -128,6 +129,7 @@ export class VPGLabComponent implements OnInit {
     if (seatObject.status == "available") {
       seatObject.status = "booked";
       this.cart.selectedSeats.push(seatObject.seatLabel);
+      this.cart.selectedSeatsNo.push(seatObject.seatNo);
       this.cart.seatstoStore.push(seatObject.key);
       this.cart.totalamount += seatObject.price;
     } else if ((seatObject.status = "booked")) {
@@ -135,6 +137,7 @@ export class VPGLabComponent implements OnInit {
       var seatIndex = this.cart.selectedSeats.indexOf(seatObject.seatLabel);
       if (seatIndex > -1) {
         this.cart.selectedSeats.splice(seatIndex, 1);
+        this.cart.selectedSeatsNo.splice(seatIndex, 1);
         this.cart.seatstoStore.splice(seatIndex, 1);
         this.cart.totalamount -= seatObject.price;
       }
