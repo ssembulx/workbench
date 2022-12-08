@@ -28,9 +28,13 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ],
             "webWorkerTsConfig": "tsconfig.worker.json"
           },
           "configurations": {
@@ -99,11 +103,17 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [
+             
+              
+            ],
             "webWorkerTsConfig": "tsconfig.worker.json"
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "511dfe76-2545-4afe-b71c-f62dacaf6c20"
   }
 }

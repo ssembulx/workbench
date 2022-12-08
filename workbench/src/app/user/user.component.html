@@ -3,7 +3,7 @@
       <div class="user-content">
         <div class="table-container">
             <div class="btn-add-user">
-                <button class="btn add-btn" data-bs-toggle="modal" data-bs-target=".test_modal">Add User</button>
+                <button class="btn add-btn" data-bs-toggle="modal" data-bs-target="#test_modal">Add User</button>
             </div>
             <table class="table table-bordered user-table">
                 <thead>
@@ -38,13 +38,13 @@
  
       <!-- =========***** Modal popup for add user*****=============-->
 
-     <div class="modal fade test_modal" tabindex="-1" aria-labelledby="testModalLabel" aria-hidden="true">
+     <div class="modal fade" id="test_modal" tabindex="-1" aria-labelledby="testModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="testModalLabel"><i class="fas fa-user-plus"></i>&nbsp; Add user
                     </h1>
-                    <button type="button" class="btn-close btn-close-white shadow-none " data-bs-dismiss="modal"
+                    <button type="button" class="btn-close btn-close-white shadow-none" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
