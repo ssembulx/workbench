@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import {MatSort, Sort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import {LiveAnnouncer} from '@angular/cdk/a11y';
+
 
 export interface userData {
   slno: number;
@@ -35,7 +35,7 @@ export class UserComponent implements OnInit {
   // dataSource = new MatTableDataSource(ELEMENT_DATA);
   dataSource:any = new MatTableDataSource();
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) { }
+  constructor() { }
 
   userData = [
     { slno: 1, wwid: "11445685", idsid: "bgurusam", displayName: "Gurusamy, Balaji", email: "balaji.gurusamy@intel.com", role: "view", badge:"BB", lastLoggedOn:"Not yet logged in"},
