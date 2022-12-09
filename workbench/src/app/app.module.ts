@@ -10,6 +10,8 @@ import { ApproveComponent } from './approve/approve.component';
 import { MasterComponent } from './master/master.component';
 import { UserComponent } from './user/user.component';
 import { VPGLabComponent } from './vpg-lab/vpg-lab.component';
+import {MatTableModule} from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { VPGLabComponent } from './vpg-lab/vpg-lab.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatTableModule,
+    MatSortModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

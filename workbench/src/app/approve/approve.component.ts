@@ -17,5 +17,4 @@ export class ApproveComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }
