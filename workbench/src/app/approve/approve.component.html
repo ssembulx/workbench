@@ -1,1 +1,107 @@
-<p>approve works!</p>
+<div class="users">
+    <div class="content">
+      <div class="user-content">
+        <div class="Floor-container row">
+            <table class="table table-bordered floor-table1">
+                <thead>
+                    <tr>
+                        <th>SRR1</th>
+                        <th>100/200</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>Floor 1</td>
+                    <td>30/40</td>
+                </tr>
+                <tr>
+                    <td>Floor 2</td>
+                    <td>35/35</td>
+                </tr>
+                <tr>   
+                    <td>Floor 3</td>
+                    <td>20/25</td>
+                </tr>
+            </table>
+            
+            <table class="table table-bordered floor-table2">
+                <thead>
+                    <tr>
+                        <th>SRR2</th>
+                        <th>100/200</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>Floor 1</td>
+                    <td>30/40</td>
+                </tr>
+                <tr>
+                    <td>Floor 2</td>
+                    <td>35/35</td>
+                </tr>
+                <tr>   
+                    <td>Floor 3</td>
+                    <td>20/25</td>
+                </tr>
+            </table>
+
+            <table class="table table-bordered floor-table3">
+                <thead>
+                    <tr>
+                        <th>SRR2</th>
+                        <th>100/200</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>Floor 1</td>
+                    <td>30/40</td>
+                </tr>
+                <tr>
+                    <td>Floor 2</td>
+                    <td>35/35</td>
+                </tr>
+                <tr>   
+                    <td>Floor 3</td>
+                    <td>20/25</td>
+                </tr>
+            </table>
+        </div>
+        <div class="table-container">
+            <div class="btn-add-user">
+                <button class="btn add-btn">Reject</button>
+                <button class="btn add-btn">Approve</button>
+            </div>
+            <table class="table table-bordered user-table">
+                <thead>
+                    <tr>
+                        <th class="v-align">SL NO.</th>
+                        <th class="v-align">Lab Details</th>
+                        <th class="v-align">Program</th>
+                        <th class="v-align">SKU</th>
+                        <th class="v-align">Vendor</th>
+                        <th class="v-align">Allocated To</th>
+                        <th class="v-align">From WW</th>
+                        <th class="v-align">To WW</th>
+                        <th class="v-align">#Bench</th>
+                        <th class="v-align">Select</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of aproveData">
+                        <td>{{data.slno}}</td>
+                        <td>{{data.LabDetails}}</td>
+                        <td>{{data.program}}</td>
+                        <td>{{data.SKU}}</td>
+                        <td>{{data.vendor}}</td>
+                        <td>{{data.AllocateTo}}</td>
+                        <td>{{data.FromWW}}</td>
+                        <td>{{data.ToWW}}</td>
+                        <td>{{data.Bench}}</td>
+                        <td>{{data.Remarks}}</td>
+                       
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+</div>

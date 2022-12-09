@@ -6,6 +6,25 @@
                 <button class="btn add-btn" data-bs-toggle="modal" data-bs-target="#test_modal">Add User</button>
             </div>
             <table class="table table-bordered user-table">
+            <!-- <table mat-table [dataSource]="dataSource" matSort class="table m-0">
+            
+                <ng-container matColumnDef="sl no">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by sl no">SL No.</th>
+                    <td mat-cell *matCellDef="let data"> {{data.slno}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="wwid">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by wwid">WWID</th>
+                    <td mat-cell *matCellDef="let data"> {{data.wwid}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="wwid">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by wwid">WWID</th>
+                    <td mat-cell *matCellDef="let data"> {{data.wwid}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
                 <thead>
                     <tr>
                         <th class="v-align">SL NO.</th>
