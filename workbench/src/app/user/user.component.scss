@@ -31,9 +31,13 @@
                     tbody {
                         border-top: none;
                         td {
-                            text-align: center;
+                            
                             &:first-child {
                                 width: 5%;
+                                text-align: center;
+                            }
+                            &:last-child{
+                                text-align: center;
                             }
                            
                         }
