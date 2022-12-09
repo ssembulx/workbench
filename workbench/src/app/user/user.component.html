@@ -28,18 +28,18 @@
                 <thead>
                     <tr>
                         <th class="v-align">SL NO.</th>
-                        <th class="v-align">WWID</th>
-                        <th class="v-align">IDSID</th>
-                        <th class="v-align">DISPLAY NAME</th>
-                        <th class="v-align">EMAIL</th>
-                        <th class="v-align">ROLE</th>
-                        <th class="v-align">BADGE</th>
-                        <th class="v-align">LAST LOGGED ON</th>
+                        <th class="v-align" (click)="setOrderRelease('WWID')"><span class="sort-by">WWID</span></th>
+                        <th class="v-align" (click)="setOrderRelease('IDSID')"><span class="sort-by">IDSID</span></th>
+                        <th class="v-align" (click)="setOrderRelease('DISPLAY NAME')"><span class="sort-by">DISPLAY NAME</span></th>
+                        <th class="v-align" (click)="setOrderRelease('EMAIL')"><span class="sort-by">EMAIL</span></th>
+                        <th class="v-align" (click)="setOrderRelease('ROLE')"><span class="sort-by">ROLE</span></th>
+                        <th class="v-align" (click)="setOrderRelease('BADGE')"><span class="sort-by">BADGE</span></th>
+                        <th class="v-align" (click)="setOrderRelease('LAST LOGGED ON')"><span class="sort-by">LAST LOGGED ON</span></th>
                         <th class="v-align">ACTION</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let data of userData">
+                    <tr *ngFor="let data of userData | orderBy: orderMappedRelease:reverseMappedRelease: true ;">
                         <td>{{data.slno}}</td>
                         <td>{{data.wwid}}</td>
                         <td>{{data.idsid}}</td>

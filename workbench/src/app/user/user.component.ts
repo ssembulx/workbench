@@ -31,6 +31,9 @@ const ELEMENT_DATA: userData[] = [
 })
 export class UserComponent implements OnInit {
 
+  orderMappedRelease: string = '';
+  reverseMappedRelease: boolean = true;
+
   displayedColumns: string[] = ['slno', 'wwid', 'idsid', 'displayName','email','role','badge','lastLoggedOn'];
   // dataSource = new MatTableDataSource(ELEMENT_DATA);
   dataSource:any = new MatTableDataSource();
@@ -67,5 +70,11 @@ export class UserComponent implements OnInit {
   ngOnInit(): void {
     // this.dataSource.data = new MatTableDataSource(ELEMENT_DATA);
   }
-
+  //**** Sorting functionality in table(ascending descending order) ****//
+  setOrderRelease(value: string) {
+    if (this.orderMappedRelease === value) {
+      this.reverseMappedRelease = !this.reverseMappedRelease;
+    }
+    this.orderMappedRelease = value;
+  }
 }

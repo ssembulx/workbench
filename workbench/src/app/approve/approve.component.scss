@@ -12,7 +12,7 @@
         .user-content{
             .Floor-container{
                 .floor-table1{
-                    max-width: 15%;
+                    max-width: 44%;
                     margin-top: 8px;
                     margin-left: 239px;
                     thead {
@@ -20,10 +20,10 @@
                         th {
                             text-align: center;
                             &:first-child {
-                                width: 5%;
+                                width: 50%;
                             }
                             &:nth-child(2){
-                                width: 5%;
+                                width: 50%;
                             }
                         }
                     }
@@ -32,27 +32,27 @@
                         td {
                             text-align: center;
                             &:first-child {
-                                width: 5%;
+                                width: 50%;
                             }
                             &:nth-child(2){
-                                width: 5%;
+                                width: 50%;
                             }
                         }  
                     }
                 }
                 .floor-table2{
-                    max-width: 15%;
+                    max-width: 63%;
                     margin-top: 8px;
-                    margin-left: 83px;
+                    margin-left: 38px;
                     thead {
                         background-color: #d5cbd7;
                         th {
                             text-align: center;
                             &:first-child {
-                                width: 5%;
+                                width: 50%;
                             }
                             &:nth-child(2){
-                                width: 5%;
+                                width: 50%;
                             }
                         }
                     }
@@ -61,27 +61,27 @@
                         td {
                             text-align: center;
                             &:first-child {
-                                width: 5%;
+                                width: 50%;
                             }
                             &:nth-child(2){
-                                width: 5%;
+                                width: 50%;
                             }
                         }  
                     }
                 }
                 .floor-table3{
-                    max-width: 15%;
+                    max-width: 44%;
                     margin-top: 8px;
-                    margin-left: 90px;
+                    margin-left: -23px;
                     thead {
                         background-color: #d5cbd7;
                         th {
                             text-align: center;
                             &:first-child {
-                                width: 5%;
+                                width: 50%;
                             }
                             &:nth-child(2){
-                                width: 5%;
+                                width: 50%;
                             }
                         }
                     }
@@ -90,10 +90,10 @@
                         td {
                             text-align: center;
                             &:first-child {
-                                width: 5%;
+                                width: 50%;
                             }
                             &:nth-child(2){
-                                width: 5%;
+                                width: 50%;
                             }
                         }  
                     }
@@ -108,23 +108,52 @@
                     margin-top: 8px;
                     thead {
                         background-color: #d5cbd7;
-                        th {
-                            text-align: center;
-                            &:first-child {
-                                width: 5%;
+                        display: table;
+                        width: 100%;
+                        table-layout: fixed;
+                        tr{
+                            th {
+                                text-align: center;
+                                &:first-child {
+                                    width: 5%;
+                                }
+                                &:nth-child(2){
+                                    width: 20.9%;
+                                }
+                                &:nth-child(11){
+                                    width: 7%;
+                                }
+                                .chcekbox-style{
+                                    width: 14px;
+                                    margin-top: 4px;
+                                    height: 14px;
+                                    margin-right: 6px;
+                                }
                             }
-                       
                         }
+                     
                     }
                     tbody {
-                        border-top: none;
-                        td {
-                            text-align: center;
-                            &:first-child {
-                                width: 5%;
+                        display: block;
+                        max-height: 48.5vh;
+                        overflow-y: scroll;
+                       tr{
+                        display: table;
+                        width: 100%;
+                        table-layout: fixed;
+                            td {
+                                text-align: center;
+                                &:first-child {
+                                    width: 5%;
+                                }
+                                &:nth-child(2){
+                                    width: 21.1%;
+                                }
+                                &:nth-child(11){
+                                    width: 6%;
+                                }
                             }
-                           
-                        }
+                       }
                     }
                   
                 }
@@ -158,4 +187,28 @@
     }
 }
 
-
+th span.sort-by {
+    cursor: pointer; 
+      padding-right: 18px;
+      position: relative;
+  }
+  span.sort-by:before,
+  span.sort-by:after {
+      border: 4px solid transparent;
+      content: "";
+      display: block;
+      height: 0;
+      right: 5px;
+      top: 50%;
+      position: absolute;
+      width: 0;
+  }
+  span.sort-by:before {
+      border-bottom-color: #0071c5;
+      margin-top: -9px;
+  }
+  span.sort-by:after {
+      border-top-color: #0071c5;
+      margin-top: 1px;
+  }
+  

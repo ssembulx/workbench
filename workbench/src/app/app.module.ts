@@ -13,6 +13,7 @@ import { VPGLabComponent } from './vpg-lab/vpg-lab.component';
 /* import {MatTableModule} from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort'; */
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { OrderModule } from 'ngx-order-pipe';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
    /*  MatTableModule,
     MatSortModule, */
     NgbModule,
+    OrderModule
   ],
   providers: [],
   bootstrap: [AppComponent]
