@@ -2,7 +2,7 @@
     <ng-container>
         <!-- <img class="img_lab" src="../../assets/image/VPG_Lab.svg"> -->
         <!-- <img class="img_lab" src="../../assets/image/spritesheet.png"> -->
-        <div class="row">
+        <div class="row margin_l_r_0">
             <div class="col-12 tab_header padding_l_r_0 float_left">
                 <!--  <h2>Example <span class="label label-default">New</span></h2> -->
                 <div class="col-2 float_left">
@@ -11,7 +11,7 @@
                 <div class="col-3 float_left">
                     <select class="form-select cus_select" aria-label="Default select example">
                         <option selected>VPG Lab</option>
-                      <!--   <option value="1">One</option>
+                        <!--   <option value="1">One</option>
                         <option value="2">Two</option>
                         <option value="3">Three</option> -->
                     </select>
@@ -33,7 +33,47 @@
                 </div>
             </div>
         </div>
-
+        <div class="user-content">
+            <div class="table-container margin_l_r_0">
+                <!-- <div class="btn-add-user">
+                    <button class="btn add-btn" data-bs-toggle="modal" data-bs-target=".test_modal">Add User</button>
+                </div> -->
+                <div class="cus_heading">
+                    Allocation Details
+                </div>
+                <table class="table table-bordered user-table">
+                    <thead>
+                        <tr>
+                            <th class="v-align">#</th>
+                            <th class="v-align">Program</th>
+                            <th class="v-align">SKU</th>
+                            <th class="v-align">Vendor</th>
+                            <th class="v-align">Allocated To</th>
+                            <th class="v-align">From WW</th>
+                            <th class="v-align">To WW</th>
+                            <th class="v-align">#.Bench</th>
+                            <th class="v-align">Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of userData">
+                            <td>{{data.slno}}</td>
+                            <td>{{data.wwid}}</td>
+                            <td>{{data.idsid}}</td>
+                            <td>{{data.displayName}}</td>
+                            <td>{{data.email}}</td>
+                            <td>{{data.role}}</td>
+                            <td>{{data.badge}}</td>
+                            <td>{{data.lastLoggedOn}}</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </ng-container>
+    <div class="cus_heading">
+        Workbench
+    </div>
     <app-vpg-lab></app-vpg-lab>
 </div>

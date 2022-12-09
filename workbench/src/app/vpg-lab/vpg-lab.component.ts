@@ -178,7 +178,7 @@ export class VPGLabComponent implements OnInit {
       return j == 0 || j == 1 || j == 2 ? true : false;
     }
     else if (i == 0) {
-      return j == 3 || j == 4 || j == 5 ? true : false;
+      return j == 3 || j == 4 ? true : false;
     }
     else {
       return false;
@@ -187,6 +187,14 @@ export class VPGLabComponent implements OnInit {
   callSingleLeft(i: any, j: any) {
     if (i == 0) {
       return j == 3 ? true : false;
+    }
+    else {
+      return false;
+    }
+  }
+  callSingleTopDashed(i: any, j: any) {
+    if (i == 0) {
+      return j == 5 ? true : false;
     }
     else {
       return false;
