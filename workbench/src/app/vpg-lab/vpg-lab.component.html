@@ -1,1 +1,112 @@
-<p>vpg-lab works!</p>
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8 seat-container">
+        <div class="wall">
+            <div *ngFor="let seatrow of seatmap; let i = index ">
+                <div class="col-12 pricing-label"
+                    *ngIf="seatChartConfig?.showRowWisePricing && seatrow.seatPricingInformation != ''">
+                    {{seatrow.seatPricingInformation}}</div>
+                <div class="seatrow container padding_l_r_0"
+                    [ngClass]="{  'full_bottom' : i == 2 , 'double_side': i==1 , 'single_right': i==0 }">
+                    <div *ngIf="seatChartConfig?.showRowsLabel">
+                        <div class="row-label"> {{seatrow.seatRowLabel}} </div>
+                    </div>
+                    <ng-container *ngFor="let seatobj of seatrow.seats; let j = index">
+                        <div [ngClass]="{  'single_top' : callSingleTop(i,j),'single_left' : callSingleLeft(i,j) }">
+                            <div class="seat-item seat-space" style="color:white ; background-color:white"
+                                *ngIf="seatobj.seatLabel == ''"> &nbsp; </div>
+                            <div placement="top" ngbTooltip="Desk : {{seatobj.seatNo}}"
+                                [ngClass]="{ 'seat-item' : true , 'seat-available' : seatobj.status == 'available' ,'seat-booked' : seatobj.status == 'booked' ,'seat-unavailable' : seatobj.status == 'unavailable' }"
+                                (click)="selectSeat(seatobj)"
+                                *ngIf="(seatobj.status == 'available' || seatobj.status == 'booked' )&& seatobj.seatLabel != ''">
+                                <img [ngClass]="{ 'rotate_90' : seatobj.dir=='l' , 'rotate_180' : seatobj.dir=='u', 'rotate_270' : seatobj.dir=='r'}"
+                                    src="../../assets/image/Table_Available.png">
+                                <!-- <img *ngIf="seatobj.dir=='d'" src="../../assets/image/Table_Down.png">
+                        <img *ngIf="seatobj.dir=='u'" src="../../assets/image/Table_Up.png">
+                        <img *ngIf="seatobj.dir=='r'" src="../../assets/image/Table_Right.png">
+                        <img *ngIf="seatobj.dir=='l'" src="../../assets/image/Table_Left.png"> -->
+                            </div>
+
+                            <div ngbTooltip="Desk not available" placement="top"
+                                [ngClass]="{ 'seat-item' : true , 'seat-unavailable' : true }"
+                                *ngIf="seatobj.status == 'unavailable' && seatobj.seatLabel != ''">
+                                <img [ngClass]="{ 'rotate_90' : seatobj.dir=='l' , 'rotate_180' : seatobj.dir=='u', 'rotate_270' : seatobj.dir=='r'}"
+                                    src="../../assets/image/Table_Unavailable.png">
+                                <!--  <img *ngIf="seatobj.dir=='u'" src="../../assets/image/Table_Unavailable.png">
+                        <img *ngIf="seatobj.dir=='r'" src="../../assets/image/Table_Unavailable.png">
+                        <img *ngIf="seatobj.dir=='l'" src="../../assets/image/Table_Unavailable.png"> -->
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-2"></div>
+</div>
+<!-- <div>
+    <table>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><img class="img_cus" src="../../assets/image/Table_Down.png"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><img class="img_cus" src="../../assets/image/Table_Down.png"></td>
+                <td><img class="img_cus" src="../../assets/image/Table_Down.png"></td>
+                <td><img class="img_cus" src="../../assets/image/Table_Down.png"></td>
+                <td></td>
+                <td></td>
+                <td><img class="img_cus" src="../../assets/image/Table_Down.png"></td>
+            </tr>
+            <tr>
+                <td><img class="img_cus" src="../../assets/image/Table_Down.png"></td>
+                <td><img class="img_cus" src="../../assets/image/Table_Down.png"></td>
+                <td><img class="img_cus" src="../../assets/image/Table_Down.png"></td>
+                <td></td>
+                <td></td>
+                <td><img class="img_cus" src="../../assets/image/Table_Down.png"></td>
+            </tr>
+        </tbody>
+    </table>
+</div> -->
+<!-- *ngIf="cart?.selectedSeats?.length > 0" -->
+<div class="row">
+    <div class="col-lg-12 summary-bar">
+        <div class="col-lg-2 float_left">
+
+        </div>
+        <div class="col-lg-8 selected-seats">
+            <div class="col-lg-6 float_left no-padding">
+                <h5>Total Selected Desk :</h5>
+                <!-- <h5>Total Amount :&nbsp;&nbsp; {{cart.totalamount}} Rs</h5> -->
+                <h5> {{ cart?.selectedSeats?.length }}</h5>
+            </div>
+            <div class="col-lg-6 float_left no-padding">
+                <h5>Selected Desk : </h5>
+                <span *ngFor="let seatLabel of cart.selectedSeatsNo" class="badge badge-primary">{{seatLabel}}</span>
+            </div>
+        </div>
+        <div class="col-lg-2 float_left">
+
+        </div>
+    </div>
+    <div class="col-lg-12 book-area summary-bar">
+        <div class="col-lg-2 float_left">
+
+        </div>
+        <div class="col-lg-8 float_left">
+
+            <button [disabled]="cart?.selectedSeats?.length == 0" type="button" (click)="processBooking()"
+                class="btn btn-primary" mdbWavesEffect>Book Now</button>
+        </div>
+        <div class="col-lg-2 float_left">
+
+        </div>
+    </div>
+</div>
