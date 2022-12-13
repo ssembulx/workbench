@@ -14,6 +14,7 @@ import { VPGLabComponent } from './vpg-lab/vpg-lab.component';
 import { MatSortModule } from '@angular/material/sort'; */
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { OrderModule } from 'ngx-order-pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,9 @@ import { OrderModule } from 'ngx-order-pipe';
    /*  MatTableModule,
     MatSortModule, */
     NgbModule,
-    OrderModule
+    OrderModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
