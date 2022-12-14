@@ -13,7 +13,7 @@ import { VPGLabComponent } from './vpg-lab/vpg-lab.component';
 /* import {MatTableModule} from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort'; */
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,11 +28,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     BrowserModule,
     AppRoutingModule,
-   /*  MatTableModule,
-    MatSortModule, */
+    /*  MatTableModule,
+     MatSortModule, */
     NgbModule,
+
   ],
-  providers: [],
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

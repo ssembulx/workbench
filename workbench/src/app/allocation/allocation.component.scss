@@ -1,0 +1,265 @@
+.img_lab {
+    width: auto;
+    height: 400px;
+}
+
+.tab_header {
+    height: 40px;
+    border: 1px solid #ced4da;
+    margin-bottom: 10px;
+    z-index: 100;
+}
+
+.float_left {
+    float: left;
+}
+
+.padding_l_r_0 {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.margin_l_r_0 {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.loc_div {
+    background-color: #487eb0;
+    text-align: center;
+    height: 37px;
+    color: white;
+    line-height: 35.5px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.count_div {
+    text-align: center;
+    height: 37px;
+    /* color: white; */
+    line-height: 35.5px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.cus_select {
+    height: 37px;
+    /* padding-left: 2px; */
+    margin-left: 2px;
+}
+
+
+.user-content {
+    .table-container {
+        width: 100%;
+        overflow: auto;
+        /* margin: 0px 15px 0px 15px; */
+
+        .user-table {
+            max-width: 150%;
+            margin-top: 8px;
+
+            thead {
+                background-color: #d5cbd7;
+
+                th {
+                    text-align: center;
+
+                    &:first-child {
+                        width: 5%;
+                    }
+
+                }
+            }
+
+            tbody {
+                border-top: none;
+
+                td {
+                    text-align: center;
+
+                    &:first-child {
+                        width: 5%;
+                    }
+
+                }
+            }
+
+        }
+    }
+}
+
+.cus_heading {
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+/* svg css start */
+.st1 {
+    fill: #f2f2f2;
+    stroke: #000000;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 0.75
+}
+
+.st2 {
+    fill: #f2f2f2;
+    stroke: #000000;
+    stroke-linecap: butt;
+    stroke-width: 0.75
+}
+
+.stSRP {
+    fill: #0db000;
+    stroke: #000000;
+    stroke-linecap: butt;
+    stroke-width: 0.75
+}
+
+.st3 {
+    fill: #f2f2f2 !important;
+    stroke: none;
+}
+
+.st4 {
+    fill: #b3b3b3
+}
+
+.st5 {
+    fill: #b3b3b3;
+    stroke: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 0.75;
+    visibility: hidden
+}
+
+.st6 {
+    stroke: #000000;
+    stroke-linecap: butt;
+    stroke-width: 0.24
+}
+
+.st7 {
+    fill: #ffffff;
+    stroke: #ffffff;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 0.24
+}
+
+.st8 {
+    fill: #ffffff
+}
+
+.st9 {
+    stroke: #000000;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 0.24
+}
+
+.st10 {
+    fill: #ffffff;
+    stroke: #000000;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 0.24
+}
+
+.st11 {
+    fill: #ffffff;
+    stroke: #000000;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 0.24;
+    visibility: hidden
+}
+
+.st12 {
+    fill: none;
+    fill-rule: evenodd;
+    font-size: 12px;
+    overflow: visible;
+    stroke-linecap: square;
+    stroke-miterlimit: 3
+}
+
+.st2:hover {
+    fill: #e67e22;
+    stroke: #000000;
+    stroke-linecap: butt;
+    stroke-width: 0.75
+}
+
+.cus_mar_top_10 {
+    margin-top: -10%;
+}
+
+/* svg css end */
+/* custom svg start */
+.not_available_svg {
+    fill: #eccc68;
+    cursor: pointer;
+}
+
+.not_available_parent:hover .not_available_svg {
+    fill: #fcc42d;
+    cursor: pointer;
+}
+
+.available_svg {
+    fill: #bdffd2;
+    cursor: pointer;
+}
+
+/* .available_parent:hover .available_svg {
+    fill: #1ea83c;
+    cursor: pointer;
+} */
+
+.booked_svg {
+    fill: #2ed573;
+    cursor: pointer;
+}
+
+/* custom svg end */
+
+.summary-bar {
+    display: inline-flex;
+    margin-top: -8%;
+    text-align: center;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.badge-primary {
+    color: #fff;
+    background-color: #1ea83c;
+    padding: 5px;
+    margin: 0 5px 5px 0;
+}
+
+.badge {
+    --bs-badge-padding-x: .65em;
+    --bs-badge-padding-y: .35em;
+    --bs-badge-font-size: .75em;
+    --bs-badge-font-weight: 700;
+    --bs-badge-color: #fff;
+    --bs-badge-border-radius: .375rem;
+    display: inline-block;
+    padding: var(--bs-badge-padding-y) var(--bs-badge-padding-x);
+    font-size: var(--bs-badge-font-size);
+    font-weight: var(--bs-badge-font-weight);
+    line-height: 1;
+    color: var(--bs-badge-color);
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: var(--bs-badge-border-radius);
+}
