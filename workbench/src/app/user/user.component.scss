@@ -76,12 +76,8 @@
 }
 
 // =========== add user modal popup =============== //
-.modal {
-    .modal-dialog {
-        margin-top: 134px;
-        width: 28%;
-        .modal-content {
-            border: none;
+.modal-add {
+   
 
             .modal-header {
                 background-color: #0071c5;
@@ -136,8 +132,8 @@
                 }
             }
         }
-    }
-}
+    
+
 
 ::ng-deep .modal-content{
     margin-top:150px;
@@ -190,7 +186,7 @@
             color: white;
             font-size: 14px;
             border-radius: 0px;
-            box-shadow: #842029 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
+            box-shadow: #842029 3px 3px 6px 0px inset, #842029 -3px -3px 6px 1px inset;
             width: 87px;
             text-align: center;
         }

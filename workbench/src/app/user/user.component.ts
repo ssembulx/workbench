@@ -93,4 +93,22 @@ export class UserComponent implements OnInit {
     })
     this.modalReference.close();
   }
+
+  AddRow(addmodal:any){
+    this.modalReference=this.modalService.open(addmodal)  
+  }
+
+  AddUser(){
+    this.userData.push({
+      slno:this.modal.slno,
+      wwid:this.modal.wwid,
+      idsid:this.modal.idsid,
+      displayName:this.modal.name,
+      email: this.modal.email,
+      role: this.modal.role,
+      badge: this.modal.badge,
+      lastLoggedOn: this.modal.lastLoggedOn
+    })
+    this.modalReference.close();
+  }
 }
