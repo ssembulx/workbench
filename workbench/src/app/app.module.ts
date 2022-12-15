@@ -14,6 +14,9 @@ import { VPGLabComponent } from './vpg-lab/vpg-lab.component';
 import { MatSortModule } from '@angular/material/sort'; */
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { OrderModule } from 'ngx-order-pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,6 +35,9 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
      MatSortModule, */
     NgbModule,
 
+    OrderModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
