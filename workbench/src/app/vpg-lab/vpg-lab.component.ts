@@ -44,24 +44,51 @@ export class VPGLabComponent implements OnInit {
 
   ngOnInit(): void {
     //Process a simple bus layout
+    /*  this.seatConfig = [
+       {
+         seat_price: 250,
+         seat_map: [
+           {
+             seat_label: "1",
+             layout: "___g__",
+             direction: "___u__"
+           },
+           {
+             seat_label: "2",
+             layout: "ggg__g",
+             direction: "uuu__r"
+           },
+           {
+             seat_label: "3",
+             layout: "gggg_g",
+             direction: "dddd_r"
+           }
+         ]
+       }
+     ]; */
     this.seatConfig = [
       {
         seat_price: 250,
         seat_map: [
           {
             seat_label: "1",
-            layout: "___g__",
-            direction: "___u__"
+            layout: "g___________",
+            direction: "l___________"
           },
           {
             seat_label: "2",
-            layout: "ggg__g",
-            direction: "uuu__r"
+            layout: "g___________",
+            direction: "l___________"
           },
           {
             seat_label: "3",
-            layout: "gggg_g",
-            direction: "dddd_r"
+            layout: "_gggggggg___",
+            direction: "_dddddddd___"
+          },
+          {
+            seat_label: "4",
+            layout: "_gggggggg___",
+            direction: "_uuuuuuuu___"
           }
         ]
       }

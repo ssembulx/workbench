@@ -206,10 +206,10 @@
     cursor: pointer;
 }
 
-.not_available_parent:hover .not_available_svg {
+/* .not_available_parent:hover .not_available_svg {
     fill: #fcc42d;
     cursor: pointer;
-}
+} */
 
 .available_svg {
     fill: #bdffd2;
@@ -230,8 +230,8 @@
 
 .summary-bar {
     display: inline-flex;
-    margin-top: -8%;
-    text-align: center;
+
+    /* text-align: center; */
 }
 
 .no-padding {
@@ -262,4 +262,23 @@
     white-space: nowrap;
     vertical-align: baseline;
     border-radius: var(--bs-badge-border-radius);
+}
+
+.not_avial {
+    background-color: #eccc68;
+    color: transparent;
+}
+
+.avail {
+    background-color: #bdffd2;
+    color: transparent;
+}
+
+.selec {
+    background-color: #2ed573;
+    color: transparent;
+}
+
+.txt_center {
+    text-align: center;
 }

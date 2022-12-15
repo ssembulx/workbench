@@ -6,14 +6,14 @@
                 <div class="col-12 pricing-label"
                     *ngIf="seatChartConfig?.showRowWisePricing && seatrow.seatPricingInformation != ''">
                     {{seatrow.seatPricingInformation}}</div>
-                <div class="seatrow container padding_l_r_0"
-                    [ngClass]="{  'full_bottom' : i == 2 , 'double_side': i==1 , 'single_right': i==0 }">
+                <div class="seatrow container padding_l_r_0">
+                    <!-- [ngClass]="{  'full_bottom' : i == 2 , 'double_side': i==1 , 'single_right': i==0 }"> -->
                     <div *ngIf="seatChartConfig?.showRowsLabel">
                         <div class="row-label"> {{seatrow.seatRowLabel}} </div>
                     </div>
                     <ng-container *ngFor="let seatobj of seatrow.seats; let j = index">
-                        <div
-                            [ngClass]="{  'single_top' : callSingleTop(i,j),'single_left' : callSingleLeft(i,j) ,'single_top_dashed':callSingleTopDashed(i,j)}">
+                        <div>
+                           <!--  [ngClass]="{  'single_top' : callSingleTop(i,j),'single_left' : callSingleLeft(i,j) ,'single_top_dashed':callSingleTopDashed(i,j)}"> -->
                             <div class="seat-item seat-space" style="color:white ; background-color:white"
                                 *ngIf="seatobj.seatLabel == ''"> &nbsp; </div>
                             <div placement="top" ngbTooltip="Desk : {{seatobj.seatNo}}"
