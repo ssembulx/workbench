@@ -1,0 +1,121 @@
+
+    <div class="content">
+        <div class="row charts-content">
+            <div class="col-6 semi-pie-chart">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="caption">
+                            <i class="fa fa-chart-bar fa-2x chart-icon"></i>
+                            <span class="chart-heading">Summary</span>
+                        </div>
+                     </div>
+                </div>
+                <hr class="box-hr">
+                <div id="chartdiv"></div>  
+            </div>
+            <div class="col-6 stacked-chart">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="caption">
+                            <i class="fa fa-chart-bar fa-2x chart-icon"></i>
+                            <span class="chart-heading">Summary</span>
+                        </div>
+                        <div class="btn-row mr-2">
+                            <div class="btn-dv2" [ngClass]="typeChart == 'Location Chart' ? 'active-btn' : ''" (click)="Options()">
+                                Location
+                            </div>
+                            <div class="btn-dv" [ngClass]="typeChart == 'Vendor Chart' ? 'active-btn' : ''" (click)="Options()">
+                                Program
+                            </div>
+                            <div class="btn-dv3" [ngClass]="typeChart == 'Prgram Chart' ? 'active-btn' : ''" (click)="Options()">
+                                Vendor
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="box-hr">
+                <app-stacked-chart-component></app-stacked-chart-component> 
+            </div>
+        </div>
+        <div class="chart-block-title">
+           <div class="row">
+             <div class="col-4">
+                <div class="caption">
+                    <i class="fa fa-chart-bar fa-2x barchart-icon"></i>
+                    <span class="chart-heading">Labwise Allocated</span>
+                </div>
+             </div>
+             <div class="col-2 float_left">
+                <select class="form-select location_select" aria-label="Default select example">
+                    <option> SRR1</option>
+                    <option>SRR2</option>
+                    <option>SRR3</option>
+                </select>  
+             </div>
+             <div class="col-2 float-program">
+                <select class="form-select location_select" aria-label="Default select example">
+                    <option>ADL-P</option>
+                    <option>MTL-P</option>
+                    <option>RPL-S</option>
+                </select>  
+             </div>
+             <div class="col-2 float-vendor">
+                <select class="form-select location_select" aria-label="Default select example">
+                    <option> UST</option>
+                    <option>Wipro</option>
+                    <option>Infosys</option>
+                </select>  
+             </div>
+             <div class="col-4 float_left-info">
+                <i class="fas fa-info-circle info-icon" mattooltip="info"></i>
+                <i class="fas fa-expand fullscreen-icon" mattooltip="Full Screen"></i>
+             </div>
+             <hr class="box-hr">
+             <app-labwise-alloted-chart-component></app-labwise-alloted-chart-component>                                        
+           </div>
+        </div>
+        <br/>
+        <!-- <div class="table-view">
+            <div class="row">
+                <div class="col-4">
+                    <div class="table-caption">
+                        <i class="fas fa-table fa-2x table-icon"></i>
+                        <span class="table-heading">Summary</span>
+                    </div>
+                 </div>
+            </div>
+            <hr class="box-hr">
+            <div class="table-container">
+                <table class="table table-bordered summary-table">
+                    <thead>
+                        <tr>
+                            <th class="v-align">#</th>
+                            <th class="v-align" (click)="setOrderRelease('Program')"><span class="sort-by">Program</span></th>
+                            <th class="v-align" (click)="setOrderRelease('SKU')"><span class="sort-by">SKU</span></th>
+                            <th class="v-align" (click)="setOrderRelease('Vendor')"><span class="sort-by">Vendor</span></th>
+                            <th class="v-align" (click)="setOrderRelease('Allocated To')"><span class="sort-by">Allocated To</span></th>
+                            <th class="v-align" (click)="setOrderRelease('From WW')"><span class="sort-by">From WW</span></th>
+                            <th class="v-align" (click)="setOrderRelease('To WW')"><span class="sort-by">To WW</span></th>
+                            <th class="v-align" (click)="setOrderRelease('#Bench')"><span class="sort-by">Bench Count</span></th>
+                            <th class="v-align">Status</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of summaryData | orderBy: orderMappedRelease:reverseMappedRelease: true ;">
+                            <td>{{data.slno}}</td>
+                            <td>{{data.program}}</td>
+                            <td>{{data.SKU}}</td>
+                            <td>{{data.vendor}}</td>
+                            <td>{{data.AllocateTo}}</td>
+                            <td>{{data.FromWW}}</td>
+                            <td>{{data.ToWW}}</td>
+                            <td>{{data.BenchCount}}</td>
+                            <td>{{data.Status}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div> -->
+    </div>
+
