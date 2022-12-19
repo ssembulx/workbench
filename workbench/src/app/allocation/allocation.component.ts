@@ -92,7 +92,6 @@ export class AllocationComponent implements OnInit {
     });
   }
   addSeat(deskno: any) {
-    debugger
     if (deskno < 10) {
       this.seatLabel.push("0" + deskno);
     } else {

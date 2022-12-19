@@ -17,6 +17,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { OrderModule } from 'ngx-order-pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { SSRCRD4LabComponent } from './ssr-crd4-lab/ssr-crd4-lab.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +27,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ApproveComponent,
     MasterComponent,
     UserComponent,
-    VPGLabComponent
+    VPGLabComponent,
+    SSRCRD4LabComponent
   ],
   imports: [
     BrowserModule,
