@@ -16,6 +16,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { OrderModule } from 'ngx-order-pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StackedChartComponentComponent } from './stacked-chart-component/stacked-chart-component.component';
+import { LabwiseAllotedChartComponentComponent } from './labwise-alloted-chart-component/labwise-alloted-chart-component.component';
+
 
 import { SSRCRD4LabComponent } from './ssr-crd4-lab/ssr-crd4-lab.component';
 @NgModule({
@@ -28,7 +31,9 @@ import { SSRCRD4LabComponent } from './ssr-crd4-lab/ssr-crd4-lab.component';
     MasterComponent,
     UserComponent,
     VPGLabComponent,
-    SSRCRD4LabComponent
+    SSRCRD4LabComponent,
+    StackedChartComponentComponent,
+    LabwiseAllotedChartComponentComponent
   ],
   imports: [
     BrowserModule,
