@@ -14,6 +14,7 @@ import { VPGLabComponent } from './vpg-lab/vpg-lab.component';
 import { MatSortModule } from '@angular/material/sort'; */
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { SSRCRD4LabComponent } from './ssr-crd4-lab/ssr-crd4-lab.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +24,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     ApproveComponent,
     MasterComponent,
     UserComponent,
-    VPGLabComponent
+    VPGLabComponent,
+    SSRCRD4LabComponent
   ],
   imports: [
     BrowserModule,
