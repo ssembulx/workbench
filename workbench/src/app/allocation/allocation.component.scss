@@ -282,3 +282,71 @@
 .txt_center {
     text-align: center;
 }
+
+
+// =========== add user modal popup =============== //
+.modal-add {
+
+
+    .modal-header {
+        background-color: #0071c5;
+        font-weight: 600;
+        color: white;
+        padding: 10px 18px;
+    }
+
+    .modal-body {
+        padding-bottom: 7px;
+
+        .user-table {
+            max-width: 150%;
+            margin-top: 6px;
+
+            // border: 1px solid grey;
+            tbody {
+                td {
+                    text-align: center;
+                    font-weight: bold;
+
+                    &:first-child {
+                        width: 50%;
+                    }
+
+                    .text-box {
+                        outline: none;
+                        border: none;
+                    }
+                }
+            }
+
+        }
+    }
+
+    .modal-footer {
+        padding: 7px;
+
+        .back-btn {
+            font-family: "IntelOne Display AR Medium";
+            background-color: #0071c5;
+            padding: 4px 10px;
+            color: white;
+            font-size: 14px;
+            border-radius: 0px;
+            box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
+            width: 87px;
+            text-align: center;
+        }
+
+        .back-btn:hover {
+            font-family: "IntelOne Display AR Medium";
+            background-color: #0071c5;
+            color: white;
+        }
+    }
+}
+
+
+
+::ng-deep .modal-content {
+    margin-top: 80px;
+}

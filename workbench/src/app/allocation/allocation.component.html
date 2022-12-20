@@ -1164,7 +1164,7 @@
                     <span class="badge badge-primary selec" style="visibility: hidden;">0</span>
                 </div>
                 <div class="col-lg-4 float_left no-padding">
-                    <button type="button" [disabled]="seatLabel?.length == 0" (click)="processBooking()"
+                    <button type="button" [disabled]="seatLabel?.length == 0" (click)="processBooking(bookingmodal)"
                         class="btn btn-primary" mdbWavesEffect>Book
                         Now</button>
                     <!--  <button [disabled]="cart?.selectedSeats?.length == 0" type="button" (click)="processBooking()"
@@ -1180,3 +1180,61 @@
         </div>
     </div>
 </div>
+<!-- =========***** Modal popup for booking*****=============-->
+<ng-template #bookingmodal let-c="close" let-d="dismiss">
+    <div class="modal-add">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="testModalLabel"><i class="fas fa-user-plus"></i>&nbsp; Allocate Bench
+            </h1>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <i class='fas fa-times'></i></button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-bordered user-table">
+                <tbody>
+                    <tr>
+                        <td>Program </td>
+                        <td><input type="text" class="text-box" value="MTL"></td>
+                    </tr>
+                    <tr>
+                        <td>SKU </td>
+                        <td><input type="text" class="text-box" value="P"></td>
+                    </tr>
+                    <tr>
+                        <td>Vendor </td>
+                        <td><input type="text" class="text-box" value="Vendor2"></td>
+                    </tr>
+                    <tr>
+                        <td>Allocated To </td>
+                        <td><input type="text" class="text-box" value="Srikanth Uppuluri"></td>
+                    </tr>
+                    <tr>
+                        <td>From WW </td>
+                        <td><input type="text" class="text-box" value="WW20-2022"></td>
+                    </tr>
+                    <tr>
+                        <td>To WW </td>
+                        <td><input type="text" class="text-box" value="WW50-2022"></td>
+                    </tr>
+                    <tr>
+                        <td>#. Bench </td>
+                        <td><input type="text" class="text-box"></td>
+                    </tr>
+                    <tr>
+                        <td>Remarks </td>
+                        <td><input type="text" class="text-box"></td>
+                    </tr>
+                    <tr>
+                        <td>Bench </td>
+                        <td><input type="text" class="text-box"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn back-btn close" aria-label="Close"
+                (click)="d('Cross click')">Cancel</button>
+            <button type="button" class="btn back-btn" (click)="saveBooking()">Save</button>
+        </div>
+    </div>
+</ng-template>
