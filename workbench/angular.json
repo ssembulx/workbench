@@ -30,10 +30,7 @@
             "styles": [
               "src/styles.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              
-                "node_modules/@fortawesome/fontawesome-free/css/all.css"
-               
-              
+              "node_modules/@fortawesome/fontawesome-free/css/all.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -47,12 +44,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "4mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "4mb",
+                  "maximumError": "4mb"
                 }
               ],
               "fileReplacements": [
@@ -107,10 +104,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [
-             
-              
-            ],
+            "scripts": [],
             "webWorkerTsConfig": "tsconfig.worker.json"
           }
         }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-allocation',
   templateUrl: './allocation.component.html',
@@ -13,7 +13,10 @@ export class AllocationComponent implements OnInit {
     { slno: 3, wwid: "MTL", idsid: "M", displayName: "Vendor 3", email: "Vijay B R", role: "WW25-2022", badge: "WW52-2022", lastLoggedOn: "1" },
   ]
 
-  constructor() { }
+  constructor(private modalService: NgbModal, config: NgbModalConfig) {
+    config.backdrop = 'static';
+    config.size = 'lg';
+  }
 
   ngOnInit(): void {
   }
@@ -92,7 +95,6 @@ export class AllocationComponent implements OnInit {
     });
   }
   addSeat(deskno: any) {
-    debugger
     if (deskno < 10) {
       this.seatLabel.push("0" + deskno);
     } else {
@@ -118,8 +120,12 @@ export class AllocationComponent implements OnInit {
     }
   }
 
-
-  processBooking() {
+  modalReference: any;
+  processBooking(addmodal: any) {
+    this.modalReference = this.modalService.open(addmodal)
+  }
+  saveBooking(){
+    
   }
 
   toggleClass(event: any, className: string) {

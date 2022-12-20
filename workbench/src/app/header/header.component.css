@@ -159,7 +159,7 @@ h3 {
     position: fixed;
     width: 100%;
     top: 0;
-    z-index: 100;
+    z-index: 101;
 }
 
 .breadcrumb {
@@ -205,16 +205,19 @@ h3 {
 .header-version-modal {
     color: #007bff;
 }
+
 .intel-brand-logo {
     color: white;
     fill: currentColor;
     height: 2rem;
     transition: color .25s ease-in-out;
     vertical-align: middle;
-    }
-	.intel-brand-logo:hover {
+}
+
+.intel-brand-logo:hover {
     color: #7bdeff;
 }
+
 .spark {
     fill: #00c7fd;
 }

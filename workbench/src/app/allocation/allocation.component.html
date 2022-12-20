@@ -88,15 +88,13 @@
         Workbench
     </div>
     <!-- <app-vpg-lab></app-vpg-lab> -->
+    <!-- <app-ssr-crd4-lab></app-ssr-crd4-lab> -->
 
     <div class="row margin_l_r_0">
         <div class="col-2 padding_l_r_0 float_left"></div>
-        <div class="col-8 padding_l_r_0 float_left">
+        <div class="col-8 padding_l_r_0 float_left" style="height: 60vh;">
             <div>
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                    xmlns:ev="http://www.w3.org/2001/xml-events"
-                    xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/" viewBox="0 0 792 612"
-                    xml:space="preserve" color-interpolation-filters="sRGB" width="100%" class="st12 cus_mar_top_10">
+                <svg width="100%" height="60vh" class="st12 cus_mar_top_10">
 
                     <g v:mID="0" v:index="1" v:groupContext="foregroundPage" *ngFor="let desk of deskList">
 
@@ -1116,37 +1114,65 @@
         </div>
         <div class="col-2 padding_l_r_0 float_left"></div>
     </div>
-    <div class="row">
+    <div class="row" style="margin-top: 2rem;">
         <div class="col-lg-12 summary-bar">
             <div class="col-lg-2 float_left">
 
             </div>
             <div class="col-lg-8 selected-seats">
-                <div class="col-lg-6 float_left no-padding">
-                    <h5>Total Selected Desk :</h5>
-                    <!-- <h5>Total Amount :&nbsp;&nbsp; {{cart.totalamount}} Rs</h5> -->
-                    <!-- <h5> {{ cart?.selectedSeats?.length }}</h5> -->
-                    <h5>{{seatNoCounter}}</h5>
+                <div class="col-lg-4 float_left no-padding">
+                    <span class="badge badge-primary not_avial">0</span> Not Available
                 </div>
-                <div class="col-lg-6 float_left no-padding">
-                    <h5>Selected Desk : </h5>
-                    <span *ngFor="let seat of seatLabel" class="badge badge-primary">{{seat}}</span>
+                <div class="col-lg-4 float_left no-padding">
+                    <span class="badge badge-primary avail">0</span> Available
+                </div>
+                <div class="col-lg-4 float_left no-padding">
+                    <span class="badge badge-primary selec">0</span> Selected
                 </div>
             </div>
             <div class="col-lg-2 float_left">
 
             </div>
         </div>
-        <div class="col-lg-12 book-area summary-bar">
+        <div class="col-lg-12 summary-bar">
+            <div class="col-lg-2 float_left">
+
+            </div>
+            <div class="col-lg-8 selected-seats">
+                <div class="col-lg-6 float_left no-padding">
+                    <h5>Total Selected Desk : {{seatNoCounter}}</h5>
+                    <!-- <h5>Total Amount :&nbsp;&nbsp; {{cart.totalamount}} Rs</h5> -->
+                    <!-- <h5> {{ cart?.selectedSeats?.length }}</h5> -->
+                    <!-- <h5 >{{seatNoCounter}}</h5> -->
+                </div>
+                <div class="col-lg-6 float_left no-padding">
+                    <h5>Selected Desk : <span *ngFor="let seat of seatLabel" class="badge badge-primary">{{seat}}</span>
+                    </h5>
+                    <!-- <span *ngFor="let seat of seatLabel" class="badge badge-primary">{{seat}}</span> -->
+                </div>
+            </div>
+            <div class="col-lg-2 float_left">
+
+            </div>
+        </div>
+        <div class="col-lg-12 book-area summary-bar" style="margin-bottom: 2rem;">
             <div class="col-lg-2 float_left">
 
             </div>
             <div class="col-lg-8 float_left">
-                <button type="button" [disabled]="seatLabel?.length == 0" (click)="processBooking()"
-                    class="btn btn-primary" mdbWavesEffect>Book
-                    Now</button>
-                <!--  <button [disabled]="cart?.selectedSeats?.length == 0" type="button" (click)="processBooking()"
-                    class="btn btn-primary" mdbWavesEffect>Book Now</button> -->
+                <div class="col-lg-4 float_left no-padding">
+                    <span class="badge badge-primary selec" style="visibility: hidden;">0</span>
+                </div>
+                <div class="col-lg-4 float_left no-padding">
+                    <button type="button" [disabled]="seatLabel?.length == 0" (click)="processBooking(bookingmodal)"
+                        class="btn btn-primary" mdbWavesEffect>Book
+                        Now</button>
+                    <!--  <button [disabled]="cart?.selectedSeats?.length == 0" type="button" (click)="processBooking()"
+                class="btn btn-primary" mdbWavesEffect>Book Now</button> -->
+                </div>
+                <div class="col-lg-4 float_left no-padding">
+                    <span class="badge badge-primary selec" style="visibility: hidden;">0</span>
+                </div>
             </div>
             <div class="col-lg-2 float_left">
 
@@ -1154,3 +1180,61 @@
         </div>
     </div>
 </div>
+<!-- =========***** Modal popup for booking*****=============-->
+<ng-template #bookingmodal let-c="close" let-d="dismiss">
+    <div class="modal-add">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="testModalLabel"><i class="fas fa-user-plus"></i>&nbsp; Allocate Bench
+            </h1>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <i class='fas fa-times'></i></button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-bordered user-table">
+                <tbody>
+                    <tr>
+                        <td>Program </td>
+                        <td><input type="text" class="text-box" value="MTL"></td>
+                    </tr>
+                    <tr>
+                        <td>SKU </td>
+                        <td><input type="text" class="text-box" value="P"></td>
+                    </tr>
+                    <tr>
+                        <td>Vendor </td>
+                        <td><input type="text" class="text-box" value="Vendor2"></td>
+                    </tr>
+                    <tr>
+                        <td>Allocated To </td>
+                        <td><input type="text" class="text-box" value="Srikanth Uppuluri"></td>
+                    </tr>
+                    <tr>
+                        <td>From WW </td>
+                        <td><input type="text" class="text-box" value="WW20-2022"></td>
+                    </tr>
+                    <tr>
+                        <td>To WW </td>
+                        <td><input type="text" class="text-box" value="WW50-2022"></td>
+                    </tr>
+                    <tr>
+                        <td>#. Bench </td>
+                        <td><input type="text" class="text-box"></td>
+                    </tr>
+                    <tr>
+                        <td>Remarks </td>
+                        <td><input type="text" class="text-box"></td>
+                    </tr>
+                    <tr>
+                        <td>Bench </td>
+                        <td><input type="text" class="text-box"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn back-btn close" aria-label="Close"
+                (click)="d('Cross click')">Cancel</button>
+            <button type="button" class="btn back-btn" (click)="saveBooking()">Save</button>
+        </div>
+    </div>
+</ng-template>

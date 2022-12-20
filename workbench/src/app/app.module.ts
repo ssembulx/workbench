@@ -21,6 +21,8 @@ import { LabwiseAllotedChartComponentComponent } from './labwise-alloted-chart-c
 import { FullscreenDirective } from './shared/fullscreen.directive';
 
 
+
+import { SSRCRD4LabComponent } from './ssr-crd4-lab/ssr-crd4-lab.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +36,9 @@ import { FullscreenDirective } from './shared/fullscreen.directive';
     StackedChartComponentComponent,
     LabwiseAllotedChartComponentComponent,
     FullscreenDirective
+    SSRCRD4LabComponent,
+    StackedChartComponentComponent,
+    LabwiseAllotedChartComponentComponent
   ],
   imports: [
     BrowserModule,
