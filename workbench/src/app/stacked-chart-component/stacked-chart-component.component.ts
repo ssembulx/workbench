@@ -10,10 +10,7 @@ import am4themes_animated from '@amcharts/amcharts4/themes/animated';
   styleUrls: ['./stacked-chart-component.component.scss']
 })
 export class StackedChartComponentComponent implements OnInit, AfterViewInit{
-<<<<<<< HEAD
   colors: any;
-=======
->>>>>>> 54a85a002874ed9f33a468fa9311e9da43f6766e
 
   constructor() { }
   ngAfterViewInit(): void {
