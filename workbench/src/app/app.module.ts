@@ -38,7 +38,8 @@ import { SSRCRD4LabComponent } from './ssr-crd4-lab/ssr-crd4-lab.component';
     FullscreenDirective,
     SSRCRD4LabComponent,
     StackedChartComponentComponent,
-    LabwiseAllotedChartComponentComponent
+    LabwiseAllotedChartComponentComponent,
+    FullscreenDirective
   ],
   imports: [
     BrowserModule,

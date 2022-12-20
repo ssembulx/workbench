@@ -112,6 +112,10 @@ export class LabwiseAllotedChartComponentComponent implements OnInit,AfterViewIn
     bullet2.locationY = 0.5;
     bullet2.label.fill = am4core.color("#ffffff");
 
+    var columnTemplate = series2.columns.template;
+    columnTemplate.strokeWidth = 3;
+    columnTemplate.strokeOpacity = 1;
+
     //*****x-axis scrollbar*****//
     chart.scrollbarX = new am4core.Scrollbar();
     chart.scrollbarX.parent = chart.bottomAxesContainer;

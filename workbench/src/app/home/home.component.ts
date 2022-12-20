@@ -17,6 +17,9 @@ export class HomeComponent implements OnInit,AfterViewInit {
   orderMappedRelease: string = '';
   reverseMappedRelease: boolean = true;
   typeChart = "Location Chart";
+  fullScreenFlag = false;
+  fullScreenBack: boolean = false;
+  smallscreen = true;
 
   constructor() { }
   ngAfterViewInit(): void {
