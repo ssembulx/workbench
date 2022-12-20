@@ -18,6 +18,7 @@ import { OrderModule } from 'ngx-order-pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StackedChartComponentComponent } from './stacked-chart-component/stacked-chart-component.component';
 import { LabwiseAllotedChartComponentComponent } from './labwise-alloted-chart-component/labwise-alloted-chart-component.component';
+import { FullscreenDirective } from './shared/fullscreen.directive';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { LabwiseAllotedChartComponentComponent } from './labwise-alloted-chart-c
     UserComponent,
     VPGLabComponent,
     StackedChartComponentComponent,
-    LabwiseAllotedChartComponentComponent
+    LabwiseAllotedChartComponentComponent,
+    FullscreenDirective
   ],
   imports: [
     BrowserModule,

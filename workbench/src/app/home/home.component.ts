@@ -3,6 +3,9 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
+am4core.options.commercialLicense = true;
+
+am4core.options.autoSetClassName = true;
 
 @Component({
   selector: 'app-home',
@@ -14,6 +17,9 @@ export class HomeComponent implements OnInit,AfterViewInit {
   orderMappedRelease: string = '';
   reverseMappedRelease: boolean = true;
   typeChart = "Location Chart";
+  fullScreenFlag = false;
+  fullScreenBack: boolean = false;
+  smallscreen = true;
 
   constructor() { }
   ngAfterViewInit(): void {
@@ -213,6 +219,8 @@ export class HomeComponent implements OnInit,AfterViewInit {
  Options() {
   // this.mainChartLoader = true;
   this.typeChart = this.typeChart == "Location Chart" ? "Program chart" :  "Location Chart" 
-}
+ }
+ toggleFullScreen(){
 
+ }
 }

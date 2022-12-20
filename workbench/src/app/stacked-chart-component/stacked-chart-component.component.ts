@@ -10,6 +10,7 @@ import am4themes_animated from '@amcharts/amcharts4/themes/animated';
   styleUrls: ['./stacked-chart-component.component.scss']
 })
 export class StackedChartComponentComponent implements OnInit, AfterViewInit{
+  colors: any;
 
   constructor() { }
   ngAfterViewInit(): void {
@@ -26,6 +27,17 @@ export class StackedChartComponentComponent implements OnInit, AfterViewInit{
     
     var chart = am4core.create("chartdiv1", am4charts.XYChart);
     chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+    chart.colors.list = this.colors;
+
+    // color list for chart and legend
+    chart.colors.list = [
+      am4core.color('#ff7979'),
+      am4core.color('#7bed9f'),
+      // am4core.color('#6c5ce7'),
+      // am4core.color('#e84393'),
+      // am4core.color('#f39c12'),
+      // am4core.color('#b2bec3')
+    ];
     
     chart.data = [
       {
@@ -90,7 +102,10 @@ export class StackedChartComponentComponent implements OnInit, AfterViewInit{
     series2.dataFields.valueYShow = "totalPercent";
     // series2.dataItems.template.locations.categoryX = 0.5;
     series2.stacked = true;
-    // series2.tooltip.pointerOrientation = "vertical";
+
+     //**** for dotted outline line ****//
+     series2.stroke = am4core.color("red").lighten(0.5);
+     series2.strokeDasharray="3,3" 
     
     var bullet2 = series2.bullets.push(new am4charts.LabelBullet());
     bullet2.interactionsEnabled = false;

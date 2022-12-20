@@ -10,6 +10,7 @@ import am4themes_animated from '@amcharts/amcharts4/themes/animated';
   styleUrls: ['./labwise-alloted-chart-component.component.scss']
 })
 export class LabwiseAllotedChartComponentComponent implements OnInit,AfterViewInit {
+  colors: any;
 
   constructor() { }
   ngAfterViewInit(): void {
@@ -25,6 +26,17 @@ export class LabwiseAllotedChartComponentComponent implements OnInit,AfterViewIn
     
     var chart = am4core.create("chartdiv2", am4charts.XYChart);
     chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+    chart.colors.list = this.colors;
+
+    // color list for chart and legend
+    chart.colors.list = [
+      am4core.color('#ff7979'),
+      am4core.color('#7bed9f'),
+      // am4core.color('#6c5ce7'),
+      // am4core.color('#e84393'),
+      // am4core.color('#f39c12'),
+      // am4core.color('#b2bec3')
+    ];
     
     chart.data = [
       {
@@ -60,7 +72,6 @@ export class LabwiseAllotedChartComponentComponent implements OnInit,AfterViewIn
     valueAxis.calculateTotals = true;
     valueAxis.renderer.minWidth = 50;
     
-    
     var series1 = chart.series.push(new am4charts.ColumnSeries());
     series1.columns.template.width = am4core.percent(80);
     series1.columns.template.tooltipText =
@@ -89,13 +100,21 @@ export class LabwiseAllotedChartComponentComponent implements OnInit,AfterViewIn
     series2.dataFields.valueYShow = "totalPercent";
     // series2.dataItems.template.locations.categoryX = 0.5;
     series2.stacked = true;
-    // series2.tooltip.pointerOrientation = "vertical";
+    
+    //**** for dotted outline line ****//
+    series2.stroke = am4core.color("red").lighten(0.5);
+    series2.strokeDasharray = "8,4" 
+   
     
     var bullet2 = series2.bullets.push(new am4charts.LabelBullet());
     bullet2.interactionsEnabled = false;
     bullet2.label.text = "{valueY.totalPercent.formatNumber('#.00')}%";
     bullet2.locationY = 0.5;
     bullet2.label.fill = am4core.color("#ffffff");
+
+    var columnTemplate = series2.columns.template;
+    columnTemplate.strokeWidth = 3;
+    columnTemplate.strokeOpacity = 1;
 
     //*****x-axis scrollbar*****//
     chart.scrollbarX = new am4core.Scrollbar();

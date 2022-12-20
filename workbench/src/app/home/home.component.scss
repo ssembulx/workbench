@@ -3,8 +3,8 @@
     height: 371px;
   }
     .content{
-        padding-right: 3%;
-        padding-left: 3%;
+        padding-right: 1%;
+        padding-left: 1%;
         margin-top: 107px;
         .charts-content{
             .semi-pie-chart{
@@ -92,7 +92,7 @@
                 }
                 .btn-row {
                     display: inline-flex;
-                    margin-left: 368px;
+                    margin-left: 407px;
                     .btn-dv {
                         padding: 1px 8px;
                         // background-color: #f39c12;
@@ -228,6 +228,20 @@
                     margin-left: 302%;
                     margin-top: -31px;
                 }
+                .expand-display{
+                    display: block;
+                }
+
+                .remove-display{
+                    display: none;
+                    color: #717171;
+                    font-size: 18px;
+                    cursor: pointer;
+                    float: left;
+                    margin-left: 302%;
+                    margin-top: -31px;
+                }
+             
             }
            
            
@@ -364,4 +378,20 @@
           border-top-color: #0071c5;
           margin-top: 1px;
       }
-      
+
+      .fullscreen-view {
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 101;
+        background: #fff;
+        padding: 25px !important;
+        margin: 0px !important;
+        border-radius: 0px !important;
+        flex: 1;
+        max-width: 100%;
+    }
+
+    
