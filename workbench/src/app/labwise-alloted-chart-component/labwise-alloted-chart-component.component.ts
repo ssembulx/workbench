@@ -41,18 +41,18 @@ export class LabwiseAllotedChartComponentComponent implements OnInit,AfterViewIn
     chart.data = [
       {
         category: "SRR1",
-        value1: 5,
-        value2: 4
+        value1: 55,
+        value2: 45
       },
       {
         category: "SRR2",
-        value1: 4,
-        value2: 5
+        value1: 45,
+        value2: 55
       },
       {
         category: "SRR3",
-        value1: 5,
-        value2: 5
+        value1: 50,
+        value2: 50
       },
     
     ];
@@ -75,7 +75,7 @@ export class LabwiseAllotedChartComponentComponent implements OnInit,AfterViewIn
     var series1 = chart.series.push(new am4charts.ColumnSeries());
     series1.columns.template.width = am4core.percent(80);
     series1.columns.template.tooltipText =
-      "{name}: {valueY.totalPercent.formatNumber('#.00')}%";
+      "{name}: {valueY.formatNumber('#')}";
     series1.name = "Allocated";
     series1.dataFields.categoryX = "category";
     series1.dataFields.valueY = "value1";
@@ -86,14 +86,15 @@ export class LabwiseAllotedChartComponentComponent implements OnInit,AfterViewIn
     
     var bullet1 = series1.bullets.push(new am4charts.LabelBullet());
     bullet1.interactionsEnabled = false;
-    bullet1.label.text = "{valueY.totalPercent.formatNumber('#.00')}%";
+    bullet1.label.text = "{valueY.formatNumber('#')}";
     bullet1.label.fill = am4core.color("#ffffff");
     bullet1.locationY = 0.5;
     
     var series2 = chart.series.push(new am4charts.ColumnSeries());
     series2.columns.template.width = am4core.percent(80);
     series2.columns.template.tooltipText =
-      "{name}: {valueY.totalPercent.formatNumber('#.00')}%";
+      "{name}: {valueY.totalPercent.formatNumber('#')}";
+
     series2.name = "UnAllocated";
     series2.dataFields.categoryX = "category";
     series2.dataFields.valueY = "value2";
@@ -101,19 +102,19 @@ export class LabwiseAllotedChartComponentComponent implements OnInit,AfterViewIn
     // series2.dataItems.template.locations.categoryX = 0.5;
     series2.stacked = true;
     
-    //**** for dotted outline line ****//
+    //**** for dotted outline border ****//
     series2.stroke = am4core.color("red").lighten(0.5);
     series2.strokeDasharray = "8,4" 
    
     
     var bullet2 = series2.bullets.push(new am4charts.LabelBullet());
     bullet2.interactionsEnabled = false;
-    bullet2.label.text = "{valueY.totalPercent.formatNumber('#.00')}%";
+    bullet2.label.text = "{valueY.formatNumber('#')}";
     bullet2.locationY = 0.5;
     bullet2.label.fill = am4core.color("#ffffff");
 
     var columnTemplate = series2.columns.template;
-    columnTemplate.strokeWidth = 3;
+    columnTemplate.strokeWidth = 2;
     columnTemplate.strokeOpacity = 1;
 
     //*****x-axis scrollbar*****//

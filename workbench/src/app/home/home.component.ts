@@ -3,8 +3,10 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
-am4core.options.commercialLicense = true;
+import { Chart } from '@amcharts/amcharts5';
 
+//******removing amchart symbol*****//
+am4core.options.commercialLicense = true;
 am4core.options.autoSetClassName = true;
 
 @Component({
@@ -16,7 +18,8 @@ export class HomeComponent implements OnInit,AfterViewInit {
 
   orderMappedRelease: string = '';
   reverseMappedRelease: boolean = true;
-  typeChart = "Location Chart";
+  typeChart = "Location chart";
+  // typeChart:any
   fullScreenFlag = false;
   fullScreenBack: boolean = false;
   smallscreen = true;
@@ -168,14 +171,25 @@ export class HomeComponent implements OnInit,AfterViewInit {
 
     chart.data = [
       {
-        status: "SIV",
-        value: 50
+        status: "SIV Allocated",
+        value: 50, 
+
       },
       {
-        status: "Non-Siv",
+        status: "SIV UnAllocated",
+        value: 20,
+        
+      },
+      {
+        status: "Non-Siv Allocated",
         value: 20
       },
-    
+      {
+        status: "Non-Siv UnAllocated",
+        value: 30,
+        
+      }
+      
     ];
     chart.radius = am4core.percent(70);
     chart.innerRadius = am4core.percent(40);
@@ -205,6 +219,32 @@ export class HomeComponent implements OnInit,AfterViewInit {
     ];
 
     chart.legend = new am4charts.Legend();
+
+    // **** Removing % from legend values ****//
+    chart.legend.valueLabels.template.disabled = true;
+
+    // **** Removing % from values ****//
+    series.labels.template.text = "{category}: {value.value}";
+    series.slices.template.tooltipText = "{category}: {value.value}";
+    chart.legend.valueLabels.template.text = "{value.value}";
+
+     //**** for dotted outline line ****//
+    //  chart.data.forEach(element => {
+    //    debugger
+    //   if(element.status == "SIV UnAllocated"){
+      
+    //     series.stroke = am4core.color("blue").lighten(0.5);
+    //     series.strokeDasharray="3,3" 
+
+    //   }
+    //   // else if(element.status == "Non-Siv UnAllocated"){
+
+    //   //   series.stroke = am4core.color("blue").lighten(0.5);
+    //   //   series.strokeDasharray="3,3" 
+
+    //   // }
+
+    // });
   }
 
  //**** Sorting functionality in table(ascending descending order) ****//
@@ -215,10 +255,17 @@ export class HomeComponent implements OnInit,AfterViewInit {
   this.orderMappedRelease = value;
 }
 
- // *** Vertical chart in home page *** //
- Options() {
-  // this.mainChartLoader = true;
-  this.typeChart = this.typeChart == "Location Chart" ? "Program chart" :  "Location Chart" 
+ // *** chart options according to click *** //
+ Options(status:any) {
+  if(status == 'location'){
+    this.typeChart = "Location chart"
+  }
+  else if(status == 'program'){
+    this.typeChart = "Program chart"
+  }
+  else if(status == 'vendor'){
+    this.typeChart = "Vendor chart"
+  }
  }
  toggleFullScreen(){
 

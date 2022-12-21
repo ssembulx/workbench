@@ -11,7 +11,10 @@
                      </div>
                 </div>
                 <hr class="box-hr">
-                <div id="chartdiv"></div>  
+                <div class="pie-block">
+                    <div id="chartdiv"></div>
+                </div>
+                  
             </div>
             <div class="col-6 stacked-chart">
                 <div class="row">
@@ -21,20 +24,28 @@
                             <span class="chart-heading">Summary</span>
                         </div>
                         <div class="btn-row mr-2">
-                            <div class="btn-dv2" [ngClass]="typeChart == 'Location Chart' ? 'active-btn' : ''" (click)="Options()">
+                            <div class="btn-dv2" [ngClass]="typeChart == 'Location chart' ? 'active-btn' : ''" (click)="Options('location')">
                                 Location
                             </div>
-                            <div class="btn-dv" [ngClass]="typeChart == 'Vendor Chart' ? 'active-btn' : ''" (click)="Options()">
+                            <div class="btn-dv" [ngClass]="typeChart == 'Program chart' ? 'active-btn' : ''" (click)="Options('program')">
                                 Program
                             </div>
-                            <div class="btn-dv3" [ngClass]="typeChart == 'Prgram Chart' ? 'active-btn' : ''" (click)="Options()">
+                            <div class="btn-dv3" [ngClass]="typeChart == 'Vendor chart' ? 'active-btn' : ''" (click)="Options('vendor')">
                                 Vendor
                             </div>
                         </div>
                     </div>
                 </div>
                 <hr class="box-hr">
-                <app-stacked-chart-component></app-stacked-chart-component> 
+                <div  *ngIf="typeChart == 'Location chart'">
+                    <app-stacked-chart-component></app-stacked-chart-component>
+                </div>
+                <div *ngIf="typeChart == 'Program chart'">
+                    <app-program-stacked-chart-component></app-program-stacked-chart-component>
+                </div>
+                <div *ngIf="typeChart == 'Vendor chart'">
+                    <app-vendor-stacked-chart-component></app-vendor-stacked-chart-component>
+                </div>
             </div>
         </div>
         <div class="chart-block-title">
@@ -67,8 +78,8 @@
                 </select>  
              </div>
              <div class="col-4 float_left-info">
-                <i class="fas fa-info-circle info-icon" mattooltip="info"></i>
-                <i class="fas fa-expand expand-display fullscreen-icon" (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreen"></i>
+                <i class="fas fa-info-circle info-icon" matTooltip="info"></i>
+                <i class="fas fa-expand expand-display fullscreen-icon" matTooltip="Fullscreen" (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreen"></i>
                 <i class="fas fa-compress remove-display" (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreen"></i>
              </div>
              <hr class="box-hr">

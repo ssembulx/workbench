@@ -5,53 +5,49 @@ import * as am4charts from '@amcharts/amcharts4/charts';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 
 @Component({
-  selector: 'app-stacked-chart-component',
-  templateUrl: './stacked-chart-component.component.html',
-  styleUrls: ['./stacked-chart-component.component.scss']
+  selector: 'app-vendor-stacked-chart-component',
+  templateUrl: './vendor-stacked-chart-component.component.html',
+  styleUrls: ['./vendor-stacked-chart-component.component.scss']
 })
-export class StackedChartComponentComponent implements OnInit, AfterViewInit{
-  colors: any;
+export class VendorStackedChartComponentComponent implements OnInit,AfterViewInit {
+
+  colors:any;
 
   constructor() { }
   ngAfterViewInit(): void {
-    this.getStackedChart();
+    this.getVendorStackedChart();
   }
 
   ngOnInit(): void {
-   
   }
-  
-  getStackedChart(){
+
+  getVendorStackedChart(){
     am4core.useTheme(am4themes_animated);
     // Themes end
     
-    var chart = am4core.create("chartdiv1", am4charts.XYChart);
+    var chart = am4core.create("chartdiv4", am4charts.XYChart);
     chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
     chart.colors.list = this.colors;
 
     // color list for chart and legend
     chart.colors.list = [
       am4core.color('#ff7979'),
-      // am4core.color('#7bed9f'),
-      // am4core.color('#6c5ce7'),
-      // am4core.color('#e84393'),
-      // am4core.color('#f39c12'),
-      am4core.color('#b2bec3')
+      am4core.color('#ccae62'),
     ];
     
     chart.data = [
       {
-        category: "SRR1",
+        category: "UST",
         value1: 55,
         value2: 45
       },
       {
-        category: "SRR2",
+        category: "Wipro",
         value1: 45,
         value2: 55
       },
       {
-        category: "SRR3",
+        category: "Infosys",
         value1: 50,
         value2: 50
       },
@@ -72,7 +68,6 @@ export class StackedChartComponentComponent implements OnInit, AfterViewInit{
     valueAxis.strictMinMax = true;
     valueAxis.calculateTotals = true;
     valueAxis.renderer.minWidth = 50;
-    
     
     var series1 = chart.series.push(new am4charts.ColumnSeries());
     series1.columns.template.width = am4core.percent(80);
@@ -102,10 +97,11 @@ export class StackedChartComponentComponent implements OnInit, AfterViewInit{
     series2.dataFields.valueYShow = "totalPercent";
     // series2.dataItems.template.locations.categoryX = 0.5;
     series2.stacked = true;
-
-     //**** for dotted outline border ****//
-     series2.stroke = am4core.color("red").lighten(0.5);
-     series2.strokeDasharray="8,4" 
+    
+    //**** for dotted outline border ****//
+    series2.stroke = am4core.color("red").lighten(0.5);
+    series2.strokeDasharray = "8,4" 
+   
     
     var bullet2 = series2.bullets.push(new am4charts.LabelBullet());
     bullet2.interactionsEnabled = false;
@@ -117,19 +113,18 @@ export class StackedChartComponentComponent implements OnInit, AfterViewInit{
     columnTemplate.strokeWidth = 2;
     columnTemplate.strokeOpacity = 1;
 
-     //*****x-axis scrollbar*****//
-     chart.scrollbarX = new am4core.Scrollbar();
-     chart.scrollbarX.parent = chart.bottomAxesContainer;
-     chart.scrollbarX.width = am4core.percent(99);
-     // chart.scrollbarX.minHeight = 4;
-     chart.scrollbarX.thumb.background.fillOpacity = 0.2;
-     chart.scrollbarX.thumb.background.strokeWidth = 1;
-     chart.scrollbarX.background.fill = am4core.color("#d9d9d9");
-     chart.scrollbarX.thumb.background.fill = am4core.color("#d9d9d9");
-     chart.scrollbarX.startGrip.background.fill = am4core.color("#d9d9d9");
-     chart.scrollbarX.endGrip.background.fill = am4core.color("#d9d9d9");
-     chart.scrollbarX.stroke = am4core.color("#d9d9d9");
-   
+    //*****x-axis scrollbar*****//
+    chart.scrollbarX = new am4core.Scrollbar();
+    chart.scrollbarX.parent = chart.bottomAxesContainer;
+    chart.scrollbarX.width = am4core.percent(99);
+    // chart.scrollbarX.minHeight = 4;
+    chart.scrollbarX.thumb.background.fillOpacity = 0.2;
+    chart.scrollbarX.thumb.background.strokeWidth = 1;
+    chart.scrollbarX.background.fill = am4core.color("#d9d9d9");
+    chart.scrollbarX.thumb.background.fill = am4core.color("#d9d9d9");
+    chart.scrollbarX.startGrip.background.fill = am4core.color("#d9d9d9");
+    chart.scrollbarX.endGrip.background.fill = am4core.color("#d9d9d9");
+    chart.scrollbarX.stroke = am4core.color("#d9d9d9");
+  
   }
-
 }

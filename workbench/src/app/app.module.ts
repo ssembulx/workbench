@@ -19,10 +19,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StackedChartComponentComponent } from './stacked-chart-component/stacked-chart-component.component';
 import { LabwiseAllotedChartComponentComponent } from './labwise-alloted-chart-component/labwise-alloted-chart-component.component';
 import { FullscreenDirective } from './shared/fullscreen.directive';
-
-
-
 import { SSRCRD4LabComponent } from './ssr-crd4-lab/ssr-crd4-lab.component';
+import { ProgramStackedChartComponentComponent } from './program-stacked-chart-component/program-stacked-chart-component.component';
+import { VendorStackedChartComponentComponent } from './vendor-stacked-chart-component/vendor-stacked-chart-component.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,9 +37,9 @@ import { SSRCRD4LabComponent } from './ssr-crd4-lab/ssr-crd4-lab.component';
     LabwiseAllotedChartComponentComponent,
     FullscreenDirective,
     SSRCRD4LabComponent,
-    StackedChartComponentComponent,
-    LabwiseAllotedChartComponentComponent,
-    FullscreenDirective
+    FullscreenDirective,
+    ProgramStackedChartComponentComponent,
+    VendorStackedChartComponentComponent
   ],
   imports: [
     BrowserModule,

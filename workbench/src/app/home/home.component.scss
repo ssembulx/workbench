@@ -1,11 +1,11 @@
 #chartdiv {
-    width: 98%;
+    width: 102%;
     height: 371px;
   }
     .content{
         padding-right: 1%;
         padding-left: 1%;
-        margin-top: 107px;
+        margin-top: 82px;
         .charts-content{
             .semi-pie-chart{
                 border: 2px solid #e7ecf1;
@@ -47,6 +47,9 @@
                     margin-bottom: 6px;
                     margin-top: 5px;
                     margin-left: -10px;
+                }
+                .pie-block{
+                    margin-left: -53px;
                 }
             }
             .stacked-chart{
@@ -179,7 +182,7 @@
                 // }
                 .location_select{
                     height: 37px;
-                    margin-left: 103px;
+                    margin-left: -16px;
                     width: 47%;
                     margin-top: 5px;
                 }
@@ -191,9 +194,9 @@
                 
                 .location_select{
                     height: 37px;
-                    margin-left: -137px;
-                    width: 44%;
-                    margin-top: -37px;
+                    margin-left: -27px;
+                    width: 47%;
+                    margin-top: -37px;  
                 }
             }
             .float-vendor{
