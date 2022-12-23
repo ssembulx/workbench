@@ -26,33 +26,49 @@ export class LabwiseAllotedChartComponentComponent implements OnInit,AfterViewIn
     
     var chart = am4core.create("chartdiv2", am4charts.XYChart);
     chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-    chart.colors.list = this.colors;
+    // chart.colors.list = this.colors;
 
     // color list for chart and legend
     chart.colors.list = [
-      am4core.color('#ff7979'),
-      am4core.color('#7bed9f'),
-      // am4core.color('#6c5ce7'),
-      // am4core.color('#e84393'),
-      // am4core.color('#f39c12'),
-      // am4core.color('#b2bec3')
+      am4core.color('#67b7dc'),
+      am4core.color('#67b7dc'),
     ];
     
     chart.data = [
       {
-        category: "SRR1",
+        category: "CRD1",
         value1: 55,
         value2: 45
       },
       {
-        category: "SRR2",
+        category: "CRD2",
         value1: 45,
         value2: 55
       },
       {
-        category: "SRR3",
+        category: "CRD3",
         value1: 50,
         value2: 50
+      },
+      {
+        category: "CRD4",
+        value1: 50,
+        value2: 30
+      },
+      {
+        category: "CRD5",
+        value1: 50,
+        value2: 40
+      },
+      {
+        category: "CRD6",
+        value1: 50,
+        value2: 60
+      },
+      {
+        category: "CRD7",
+        value1: 50,
+        value2: 20
       },
     
     ];
@@ -64,6 +80,7 @@ export class LabwiseAllotedChartComponentComponent implements OnInit,AfterViewIn
     var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
     categoryAxis.dataFields.category = "category";
     categoryAxis.renderer.grid.template.location = 0;
+    categoryAxis.renderer.minGridDistance = 30;
     
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
     valueAxis.min = 0;
@@ -71,6 +88,8 @@ export class LabwiseAllotedChartComponentComponent implements OnInit,AfterViewIn
     valueAxis.strictMinMax = true;
     valueAxis.calculateTotals = true;
     valueAxis.renderer.minWidth = 50;
+   
+
     
     var series1 = chart.series.push(new am4charts.ColumnSeries());
     series1.columns.template.width = am4core.percent(80);
@@ -101,9 +120,12 @@ export class LabwiseAllotedChartComponentComponent implements OnInit,AfterViewIn
     series2.dataFields.valueYShow = "totalPercent";
     // series2.dataItems.template.locations.categoryX = 0.5;
     series2.stacked = true;
+
+    //**** for transperncy color***//
+    series2. fillOpacity =  0.1;
     
     //**** for dotted outline border ****//
-    series2.stroke = am4core.color("red").lighten(0.5);
+    series2.stroke = am4core.color("#67b7dc").lighten(0.5);
     series2.strokeDasharray = "8,4" 
    
     
@@ -111,11 +133,14 @@ export class LabwiseAllotedChartComponentComponent implements OnInit,AfterViewIn
     bullet2.interactionsEnabled = false;
     bullet2.label.text = "{valueY.formatNumber('#')}";
     bullet2.locationY = 0.5;
-    bullet2.label.fill = am4core.color("#ffffff");
+    bullet2.label.fill = am4core.color("black");
 
     var columnTemplate = series2.columns.template;
     columnTemplate.strokeWidth = 2;
     columnTemplate.strokeOpacity = 1;
+    
+
+    // chart.series.template.fill = am4core.color("green");
 
     //*****x-axis scrollbar*****//
     chart.scrollbarX = new am4core.Scrollbar();
@@ -129,6 +154,7 @@ export class LabwiseAllotedChartComponentComponent implements OnInit,AfterViewIn
     chart.scrollbarX.startGrip.background.fill = am4core.color("#d9d9d9");
     chart.scrollbarX.endGrip.background.fill = am4core.color("#d9d9d9");
     chart.scrollbarX.stroke = am4core.color("#d9d9d9");
+
   
   }
 

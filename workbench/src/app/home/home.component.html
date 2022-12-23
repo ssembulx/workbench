@@ -1,7 +1,7 @@
 
     <div class="content">
         <div class="row charts-content">
-            <div class="col-6 semi-pie-chart">
+            <div class="semi-pie-chart" #fullscreenPie [ngClass]="fullScreenFlag ? 'col-12': 'col-6'">
                 <div class="row">
                     <div class="col-4">
                         <div class="caption">
@@ -11,17 +11,23 @@
                      </div>
                 </div>
                 <hr class="box-hr">
-                <div class="pie-block">
+                <div class="col-4 float_left-info">
+                    <i class="fas fa-info-circle info-icon" matTooltip="info"></i>
+                    <i class="fas fa-expand expand-display fullscreen-icon" matTooltip="Fullscreen" (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreenPie"></i>
+                    <i class="fas fa-compress remove-display" (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreenPie"></i>
+                 </div>
+                <div class="pie-block after-fullscreen-pie">
                     <div id="chartdiv"></div>
                 </div>
-                  
             </div>
-            <div class="col-6 stacked-chart">
+            <div class="stacked-chart" #fullscreenStacked [ngClass]="fullScreenFlag ? 'col-12': 'col-6'">
                 <div class="row">
                     <div class="col-12">
                         <div class="caption">
                             <i class="fa fa-chart-bar fa-2x chart-icon"></i>
-                            <span class="chart-heading">Summary</span>
+                            <span class="chart-heading" *ngIf="typeChart == 'Location chart'">Location Summary</span>
+                            <span class="chart-heading" *ngIf="typeChart == 'Program chart'">Program Summary</span>
+                            <span class="chart-heading" *ngIf="typeChart == 'Vendor chart'">Vendor Summary</span>
                         </div>
                         <div class="btn-row mr-2">
                             <div class="btn-dv2" [ngClass]="typeChart == 'Location chart' ? 'active-btn' : ''" (click)="Options('location')">
@@ -33,6 +39,11 @@
                             <div class="btn-dv3" [ngClass]="typeChart == 'Vendor chart' ? 'active-btn' : ''" (click)="Options('vendor')">
                                 Vendor
                             </div>
+                        </div>
+                        <div class="col-4 float_left-info">
+                            <i class="fas fa-info-circle info-icon" matTooltip="info"></i>
+                            <i class="fas fa-expand expand-display fullscreen-icon" matTooltip="Fullscreen" (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreenStacked"></i>
+                            <i class="fas fa-compress remove-display" (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreenStacked"></i>
                         </div>
                     </div>
                 </div>
@@ -58,13 +69,15 @@
              </div>
              <div class="col-2 float_left">
                 <select class="form-select location_select" aria-label="Default select example">
-                    <option> SRR1</option>
+                    <!-- <option>-- All --</option> -->
+                    <option>SRR1</option>
                     <option>SRR2</option>
                     <option>SRR3</option>
                 </select>  
              </div>
              <div class="col-2 float-program">
                 <select class="form-select location_select" aria-label="Default select example">
+                    <option>-- All Program --</option>
                     <option>ADL-P</option>
                     <option>MTL-P</option>
                     <option>RPL-S</option>
@@ -72,18 +85,19 @@
              </div>
              <div class="col-2 float-vendor">
                 <select class="form-select location_select" aria-label="Default select example">
+                    <option>-- All Vendor --</option>
                     <option> UST</option>
                     <option>Wipro</option>
                     <option>Infosys</option>
                 </select>  
              </div>
              <div class="col-4 float_left-info">
-                <i class="fas fa-info-circle info-icon" matTooltip="info"></i>
+                <!-- <i class="fas fa-info-circle info-icon" matTooltip="info"></i> -->
                 <i class="fas fa-expand expand-display fullscreen-icon" matTooltip="Fullscreen" (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreen"></i>
                 <i class="fas fa-compress remove-display" (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreen"></i>
              </div>
              <hr class="box-hr">
-             <div class="chart-item">
+             <div class="chart-item after-fullscreen">
                 <app-labwise-alloted-chart-component></app-labwise-alloted-chart-component>  
              </div>                                        
            </div>

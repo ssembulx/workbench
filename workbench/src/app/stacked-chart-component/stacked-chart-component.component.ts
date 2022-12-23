@@ -27,16 +27,16 @@ export class StackedChartComponentComponent implements OnInit, AfterViewInit{
     
     var chart = am4core.create("chartdiv1", am4charts.XYChart);
     chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-    chart.colors.list = this.colors;
+    // chart.colors.list = this.colors;
 
     // color list for chart and legend
     chart.colors.list = [
-      am4core.color('#ff7979'),
+      am4core.color('#67b7dc'),
       // am4core.color('#7bed9f'),
       // am4core.color('#6c5ce7'),
       // am4core.color('#e84393'),
       // am4core.color('#f39c12'),
-      am4core.color('#b2bec3')
+      am4core.color('#67b7dc')
     ];
     
     chart.data = [
@@ -54,6 +54,16 @@ export class StackedChartComponentComponent implements OnInit, AfterViewInit{
         category: "SRR3",
         value1: 50,
         value2: 50
+      },
+      {
+        category: "SRR4",
+        value1: 50,
+        value2: 30
+      },
+      {
+        category: "SRR5",
+        value1: 50,
+        value2: 20
       },
     
     ];
@@ -103,15 +113,18 @@ export class StackedChartComponentComponent implements OnInit, AfterViewInit{
     // series2.dataItems.template.locations.categoryX = 0.5;
     series2.stacked = true;
 
-     //**** for dotted outline border ****//
-     series2.stroke = am4core.color("red").lighten(0.5);
-     series2.strokeDasharray="8,4" 
+    //**** for transperncy color***//
+    series2. fillOpacity =  0.1;
     
+    //**** for dotted outline border ****//
+    series2.stroke = am4core.color("#67b7dc").lighten(0.5);
+    series2.strokeDasharray = "8,4" 
+
     var bullet2 = series2.bullets.push(new am4charts.LabelBullet());
     bullet2.interactionsEnabled = false;
     bullet2.label.text = "{valueY.formatNumber('#')}";
     bullet2.locationY = 0.5;
-    bullet2.label.fill = am4core.color("#ffffff");
+    bullet2.label.fill = am4core.color("black");
 
     var columnTemplate = series2.columns.template;
     columnTemplate.strokeWidth = 2;

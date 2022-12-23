@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit,AfterViewInit {
   fullScreenBack: boolean = false;
   smallscreen = true;
 
+
   constructor() { }
   ngAfterViewInit(): void {
     this.getSemiCirclePiechart();
@@ -171,24 +172,24 @@ export class HomeComponent implements OnInit,AfterViewInit {
 
     chart.data = [
       {
+        status: "Non-Siv Allocated",
+        value: 20
+      },
+      {
         status: "SIV Allocated",
         value: 50, 
 
       },
       {
         status: "SIV UnAllocated",
-        value: 20,
-        
-      },
-      {
-        status: "Non-Siv Allocated",
-        value: 20
-      },
-      {
-        status: "Non-Siv UnAllocated",
-        value: 30,
-        
+        value: 20,      
       }
+    
+      // {
+      //   status: "Non-Siv UnAllocated",
+      //   value: 30,
+        
+      // }
       
     ];
     chart.radius = am4core.percent(70);
@@ -206,16 +207,20 @@ export class HomeComponent implements OnInit,AfterViewInit {
     series.slices.template.inert = true;
     series.alignLabels = false;
 
+    // series.slices.template._systemValidateLayouts({fillopacity:0.9})
+
     series.hiddenState.properties.startAngle = 90;
     series.hiddenState.properties.endAngle = 90;
 
     series.colors.list = [
-      am4core.color("#845EC2"),
-      am4core.color("#D65DB1"),
-      am4core.color("#FF6F91"),
-      am4core.color("#FF9671"),
-      am4core.color("#FFC75F"),
-      am4core.color("#F9F871"),
+      // am4core.color("#FF9671"),
+     am4core.color("#6794dc") ,
+      am4core.color("#67b7dc"),
+      am4core.color("#67b7dc").lighten(0.9),
+      // am4core.color("#FF6F91"),
+      
+      // am4core.color("#FFC75F"),
+      // am4core.color("#F9F871"),
     ];
 
     chart.legend = new am4charts.Legend();
@@ -228,6 +233,7 @@ export class HomeComponent implements OnInit,AfterViewInit {
     series.slices.template.tooltipText = "{category}: {value.value}";
     chart.legend.valueLabels.template.text = "{value.value}";
 
+    
      //**** for dotted outline line ****//
     //  chart.data.forEach(element => {
     //    debugger
@@ -268,6 +274,6 @@ export class HomeComponent implements OnInit,AfterViewInit {
   }
  }
  toggleFullScreen(){
-
+    this.fullScreenFlag = !this.fullScreenFlag;
  }
 }
