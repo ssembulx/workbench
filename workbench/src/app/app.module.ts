@@ -22,7 +22,8 @@ import { FullscreenDirective } from './shared/fullscreen.directive';
 import { SSRCRD4LabComponent } from './ssr-crd4-lab/ssr-crd4-lab.component';
 import { ProgramStackedChartComponentComponent } from './program-stacked-chart-component/program-stacked-chart-component.component';
 import { VendorStackedChartComponentComponent } from './vendor-stacked-chart-component/vendor-stacked-chart-component.component';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,6 +44,7 @@ import { VendorStackedChartComponentComponent } from './vendor-stacked-chart-com
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     /*  MatTableModule,
      MatSortModule, */
@@ -50,7 +52,12 @@ import { VendorStackedChartComponentComponent } from './vendor-stacked-chart-com
 
     OrderModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastrModule.forRoot({
+      closeButton: true,
+      timeOut: 15000, // 15 seconds
+      progressBar: true,
+    })
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
