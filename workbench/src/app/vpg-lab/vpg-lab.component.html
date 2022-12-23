@@ -1,6 +1,17 @@
 <div class="row">
     <div class="col-12 seat-container">
         <div class="lab_block">
+            <div class="wall-heading">
+                <h4>SRR2-1F CRD-4-BA-SRR2</h4>
+            </div>
+            <div class="wall-legend">
+                <img src="./assets/image/non_siv.png">
+                <h5>Non SIV</h5>
+                <img src="./assets/image/Booked.png">
+                <h5>Allocated</h5>
+                <img src="./assets/image/Available.png">
+                <h5>Un Allocated</h5>
+            </div>
             <div class="wall">
                 <div *ngFor="let seatrow of seatmap; let i = index ">
                     <div class="col-12 pricing-label"
