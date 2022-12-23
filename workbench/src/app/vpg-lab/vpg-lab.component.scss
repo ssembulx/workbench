@@ -1,20 +1,20 @@
 $seat-available-bg: white;
-$seat-available-color: #1ea83c;
+$seat-available-color: #727272;
 $seat-booked-bg: #1ea83c;
 $seat-booked-color: white;
-$seat-unavailable-bg: #fcc42d;
+$seat-unavailable-bg: #727272;
 $seat-unavailable-color: white;
 
 .badge-primary {
     color: #fff;
-    background-color: $seat-available-color;
+    background-color: #1ea83c;
     padding: 5px;
     margin: 0px 5px 5px 0px;
 }
 
 .seatrow {
     display: inline-flex;
-    width: 670px;
+    /* width: 670px; */
 }
 
 .pricing-label {
@@ -27,19 +27,23 @@ $seat-unavailable-color: white;
 }
 
 .seat-item {
-    height: 100px;
-    width: 100px;
+    height: 90px;
+    width: 90px;
     line-height: 25px;
-    margin: 5px;
+    margin: 1px;
     border-radius: 7px;
     font-size: 14px;
     padding: 5px;
 }
 
 .seat-item img {
-    height: 88px;
-    width: 88px;
+    height: 55px;
+    width: 75px;
     vertical-align: middle;
+}
+
+.seat-item h5 {
+    color: #727272;
 }
 
 .seat-space {
@@ -55,6 +59,10 @@ $seat-unavailable-color: white;
     border: 1.5px solid $seat-available-color;
 }
 
+.seat-available h4 {
+    margin-bottom: 0;
+}
+
 .seat-available:hover {
     color: $seat-available-color;
     background-color: $seat-available-bg;
@@ -62,18 +70,26 @@ $seat-unavailable-color: white;
 }
 
 .seat-unavailable {
-    color: $seat-unavailable-color;
-    background-color: $seat-unavailable-bg;
+    color: #727272;
+    /* background-color: $seat-unavailable-bg; */
     font-weight: bolder;
-    border: 1px solid $seat-unavailable-color;
+    border: 1px solid $seat-unavailable-bg;
+}
+
+.seat-unavailable h4 {
+    margin-bottom: 0;
 }
 
 .seat-booked {
-    color: $seat-booked-color;
+    color: #727272;
     font-weight: bolder;
-    background-color: $seat-booked-bg;
-    border: 1px solid $seat-booked-color;
+    /* background-color: $seat-booked-bg; */
+    border: 1px solid $seat-booked-bg;
 
+}
+
+.seat-booked h4 {
+    margin-bottom: 0;
 }
 
 .seat-item:hover {
@@ -141,7 +157,7 @@ $seat-unavailable-color: white;
 }
 
 .summary-bar {
-    display: inline-flex;
+    /* display: inline-flex; */
     margin-top: 1%;
     text-align: center;
 }
@@ -150,9 +166,16 @@ $seat-unavailable-color: white;
     padding: 0;
 }
 
-/* .wall {
+.wall {
     border: 5px solid #a0a0a0;
-} */
+    /* margin-bottom: 6rem;
+    margin-top: 3rem; */
+    width: 1125px;
+    padding: 5px;
+    margin-bottom: 2rem;
+    margin-top: 3rem;
+    overflow-x: auto;
+}
 
 .img_cus {
     width: 100px;
@@ -203,6 +226,100 @@ $seat-unavailable-color: white;
     float: left;
 }
 
-.single_top_dashed{
+.single_top_dashed {
     border-top: 5px dashed #a0a0a0;
+}
+
+.lab_block {
+    width: 76%;
+    float: left;
+}
+
+.booknow_block {
+    width: 24%;
+    float: left;
+    margin-top: 3rem;
+    position: fixed;
+    right: 10px;
+
+}
+
+.booknow_div {
+    /* position: fixed; */
+    width: 100%;
+    /* left: 0; */
+    /* bottom: 0; */
+    padding: 5px;
+    background-color: #f2f2f2;
+    /* float: left; */
+    /* display: flex; */
+    margin-left: 0px;
+}
+
+
+// =========== add user modal popup =============== //
+.modal-add {
+
+
+    .modal-header {
+        background-color: #0071c5;
+        font-weight: 600;
+        color: white;
+        padding: 10px 18px;
+    }
+
+    .modal-body {
+        padding-bottom: 7px;
+
+        .user-table {
+            max-width: 150%;
+            margin-top: 6px;
+
+            // border: 1px solid grey;
+            tbody {
+                td {
+                    text-align: center;
+                    font-weight: bold;
+
+                    &:first-child {
+                        width: 50%;
+                    }
+
+                    .text-box {
+                        outline: none;
+                        border: none;
+                    }
+                }
+            }
+
+        }
+    }
+
+    .modal-footer {
+        padding: 7px;
+
+        .back-btn {
+            font-family: "IntelOne Display AR Medium";
+            background-color: #0071c5;
+            padding: 4px 10px;
+            color: white;
+            font-size: 14px;
+            border-radius: 0px;
+            box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
+            width: 87px;
+            text-align: center;
+        }
+
+        .back-btn:hover {
+            font-family: "IntelOne Display AR Medium";
+            background-color: #0071c5;
+            color: white;
+        }
+    }
+}
+
+
+
+::ng-deep .modal-content {
+    margin-top: 80px;
 }
