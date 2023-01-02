@@ -64,7 +64,7 @@ import { ToastrModule } from 'ngx-toastr';
     OrderModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
     ToastrModule.forRoot({
       closeButton: true,
       timeOut: 15000, // 15 seconds
