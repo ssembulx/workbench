@@ -4,6 +4,10 @@ import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 
+// //******removing amchart symbol*****//
+am4core.options.commercialLicense = true;
+am4core.options.autoSetClassName = true;
+
 @Component({
   selector: 'app-labwise-alloted-chart-component',
   templateUrl: './labwise-alloted-chart-component.component.html',
@@ -37,13 +41,13 @@ export class LabwiseAllotedChartComponentComponent implements OnInit,AfterViewIn
     chart.data = [
       {
         category: "CRD1",
-        value1: 55,
+        value1: 50,
         value2: 45
       },
       {
         category: "CRD2",
         value1: 45,
-        value2: 55
+        value2: 50
       },
       {
         category: "CRD3",
@@ -63,7 +67,7 @@ export class LabwiseAllotedChartComponentComponent implements OnInit,AfterViewIn
       {
         category: "CRD6",
         value1: 50,
-        value2: 60
+        value2: 30
       },
       {
         category: "CRD7",
@@ -98,7 +102,7 @@ export class LabwiseAllotedChartComponentComponent implements OnInit,AfterViewIn
     series1.name = "Allocated";
     series1.dataFields.categoryX = "category";
     series1.dataFields.valueY = "value1";
-    series1.dataFields.valueYShow = "totalPercent";
+    // series1.dataFields.valueYShow = "totalPercent";
     // series1.dataItems.template.locations.categoryX = 0.5;
     series1.stacked = true;
     // series1.tooltip.pointerOrientation = "vertical";
@@ -117,7 +121,7 @@ export class LabwiseAllotedChartComponentComponent implements OnInit,AfterViewIn
     series2.name = "UnAllocated";
     series2.dataFields.categoryX = "category";
     series2.dataFields.valueY = "value2";
-    series2.dataFields.valueYShow = "totalPercent";
+    // series2.dataFields.valueYShow = "totalPercent";
     // series2.dataItems.template.locations.categoryX = 0.5;
     series2.stacked = true;
 
@@ -139,8 +143,6 @@ export class LabwiseAllotedChartComponentComponent implements OnInit,AfterViewIn
     columnTemplate.strokeWidth = 2;
     columnTemplate.strokeOpacity = 1;
     
-
-    // chart.series.template.fill = am4core.color("green");
 
     //*****x-axis scrollbar*****//
     chart.scrollbarX = new am4core.Scrollbar();

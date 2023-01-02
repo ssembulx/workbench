@@ -22,6 +22,10 @@ import { FullscreenDirective } from './shared/fullscreen.directive';
 import { SSRCRD4LabComponent } from './ssr-crd4-lab/ssr-crd4-lab.component';
 import { ProgramStackedChartComponentComponent } from './program-stacked-chart-component/program-stacked-chart-component.component';
 import { VendorStackedChartComponentComponent } from './vendor-stacked-chart-component/vendor-stacked-chart-component.component';
+import { ReportComponent } from './report/report.component';
+import { SearchLab, SearchPipe, SearchProgram, SearchVendor } from './search.pipe';
+import { SummaryService } from './shared/service';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -39,7 +43,13 @@ import { VendorStackedChartComponentComponent } from './vendor-stacked-chart-com
     SSRCRD4LabComponent,
     FullscreenDirective,
     ProgramStackedChartComponentComponent,
-    VendorStackedChartComponentComponent
+    VendorStackedChartComponentComponent,
+    ReportComponent,
+    SearchPipe,
+    SearchLab,
+    SearchProgram,
+    SearchVendor,
+    
   ],
   imports: [
     BrowserModule,
@@ -50,9 +60,12 @@ import { VendorStackedChartComponentComponent } from './vendor-stacked-chart-com
 
     OrderModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
+  providers: [
+    SummaryService,
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

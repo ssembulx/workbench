@@ -3,27 +3,43 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
+import {SummaryService } from '../shared/service';
 
 @Component({
   selector: 'app-stacked-chart-component',
   templateUrl: './stacked-chart-component.component.html',
   styleUrls: ['./stacked-chart-component.component.scss']
 })
-export class StackedChartComponentComponent implements OnInit, AfterViewInit{
+export class StackedChartComponentComponent implements OnInit{
   colors: any;
+  ChartData:any;
+  constructor(private service:SummaryService) { }
 
-  constructor() { }
-  ngAfterViewInit(): void {
-    this.getStackedChart();
-  }
-
-  ngOnInit(): void {
-   
-  }
+  ngOnInit(): void{
+    // debugger
+  //  this.LabProgramVendorSummary();
+  // this.service.LabProgramVendorSummary().subscribe(res => {
+  //   this.ChartData = res.Location;
+  //   console.log("stacked chart",this.ChartData)
+    this.getLocationChartData();
+  // }
   
-  getStackedChart(){
+//  )
+  }
+  LabProgramVendorSummary(){
+    debugger
+   }
+
+
+
+
+  getLocationChartData() {
+    debugger
     am4core.useTheme(am4themes_animated);
-    // Themes end
+     //  am4core.useTheme(am4themes_animated);
+     am4core.options.autoSetClassName = true;
+     am4core.options.commercialLicense = true;
+  
     
     var chart = am4core.create("chartdiv1", am4charts.XYChart);
     chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
@@ -39,16 +55,17 @@ export class StackedChartComponentComponent implements OnInit, AfterViewInit{
       am4core.color('#67b7dc')
     ];
     
+    // chart.data = this.ChartData;
     chart.data = [
       {
         category: "SRR1",
-        value1: 55,
+        value1: 50,
         value2: 45
       },
       {
         category: "SRR2",
         value1: 45,
-        value2: 55
+        value2: 50
       },
       {
         category: "SRR3",
@@ -81,7 +98,7 @@ export class StackedChartComponentComponent implements OnInit, AfterViewInit{
     valueAxis.max = 100;
     valueAxis.strictMinMax = true;
     valueAxis.calculateTotals = true;
-    valueAxis.renderer.minWidth = 50;
+    valueAxis.renderer.minWidth = 30;
     
     
     var series1 = chart.series.push(new am4charts.ColumnSeries());
@@ -91,7 +108,7 @@ export class StackedChartComponentComponent implements OnInit, AfterViewInit{
     series1.name = "Allocated";
     series1.dataFields.categoryX = "category";
     series1.dataFields.valueY = "value1";
-    series1.dataFields.valueYShow = "totalPercent";
+    // series1.dataFields.valueYShow = "totalPercent";
     // series1.dataItems.template.locations.categoryX = 0.5;
     series1.stacked = true;
     // series1.tooltip.pointerOrientation = "vertical";
@@ -109,7 +126,7 @@ export class StackedChartComponentComponent implements OnInit, AfterViewInit{
     series2.name = "UnAllocated";
     series2.dataFields.categoryX = "category";
     series2.dataFields.valueY = "value2";
-    series2.dataFields.valueYShow = "totalPercent";
+    // series2.dataFields.valueYShow = "totalPercent";
     // series2.dataItems.template.locations.categoryX = 0.5;
     series2.stacked = true;
 
@@ -143,6 +160,8 @@ export class StackedChartComponentComponent implements OnInit, AfterViewInit{
      chart.scrollbarX.endGrip.background.fill = am4core.color("#d9d9d9");
      chart.scrollbarX.stroke = am4core.color("#d9d9d9");
    
+
   }
 
+  
 }

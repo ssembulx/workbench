@@ -4,6 +4,7 @@ import { AllocationComponent } from './allocation/allocation.component';
 import { ApproveComponent } from './approve/approve.component';
 import { HomeComponent } from './home/home.component';
 import { MasterComponent } from './master/master.component';
+import { ReportComponent } from './report/report.component';
 import { UserComponent } from './user/user.component';
 const routes: Routes = [{
   path: '', component: HomeComponent
@@ -18,6 +19,9 @@ const routes: Routes = [{
 },
 {
   path: 'master', component: MasterComponent
+},
+{
+  path: 'report', component: ReportComponent
 },
 {
   path: 'user', component: UserComponent

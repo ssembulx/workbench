@@ -227,9 +227,6 @@ export class VendorStackedChartComponentComponent implements OnInit,AfterViewIni
       vendor: "Wipro",
       value: 70
     }, {
-      vendor: "CGI",
-      value: 60
-    }, {
       vendor: "Infosys",
       value: 20
     }

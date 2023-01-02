@@ -1,13 +1,17 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 // amCharts imports
-import * as am4core from '@amcharts/amcharts4/core';
+// import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 import { Chart } from '@amcharts/amcharts5';
 
-//******removing amchart symbol*****//
-am4core.options.commercialLicense = true;
-am4core.options.autoSetClassName = true;
+// amCharts imports
+import * as am5 from '@amcharts/amcharts5';
+import * as am5xy from '@amcharts/amcharts5/xy';
+import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
+import * as am5percent from "@amcharts/amcharts5/percent";
+
+
 
 @Component({
   selector: 'app-home',
@@ -26,6 +30,7 @@ export class HomeComponent implements OnInit,AfterViewInit {
 
 
   constructor() { }
+  
   ngAfterViewInit(): void {
     this.getSemiCirclePiechart();
   }
@@ -162,95 +167,236 @@ export class HomeComponent implements OnInit,AfterViewInit {
  }
 
  //****** Semicircle Pie Chart ******//
-  getSemiCirclePiechart(){
-       // Themes begin
-    am4core.useTheme(am4themes_animated);
-    // Themes end
+  // getSemiCirclePiechart(){
+  //      // Themes begin
+  //   am4core.useTheme(am4themes_animated);
+  //   // Themes end
 
-    var chart = am4core.create("chartdiv", am4charts.PieChart);
-    chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+  //   var chart = am4core.create("chartdiv", am4charts.PieChart);
+  //   chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
-    chart.data = [
-      {
-        status: "Non-Siv Allocated",
-        value: 20
-      },
-      {
-        status: "SIV Allocated",
-        value: 50, 
+  //   chart.data = [
+  //     {
+  //       status: "Non-Siv Allocated",
+  //       value: 20
+  //     },
+  //     {
+  //       status: "SIV Allocated",
+  //       value: 50, 
 
-      },
-      {
-        status: "SIV UnAllocated",
-        value: 20,      
-      }
+  //     },
+  //     {
+  //       status: "SIV UnAllocated",
+  //       value: 20,      
+  //     }
     
-      // {
-      //   status: "Non-Siv UnAllocated",
-      //   value: 30,
+  //     // {
+  //     //   status: "Non-Siv UnAllocated",
+  //     //   value: 30,
         
-      // }
+  //     // }
       
-    ];
-    chart.radius = am4core.percent(70);
-    chart.innerRadius = am4core.percent(40);
-    chart.startAngle = 180;
-    chart.endAngle = 360;  
+  //   ];
+  //   chart.radius = am4core.percent(70);
+  //   chart.innerRadius = am4core.percent(40);
+  //   chart.startAngle = 180;
+  //   chart.endAngle = 360;  
 
-    var series = chart.series.push(new am4charts.PieSeries());
-    series.dataFields.value = "value";
-    series.dataFields.category = "status";
+  //   var series = chart.series.push(new am4charts.PieSeries());
+  //   series.dataFields.value = "value";
+  //   series.dataFields.category = "status";
 
-    series.slices.template.cornerRadius = 10;
-    series.slices.template.innerCornerRadius = 7;
-    series.slices.template.draggable = true;
-    series.slices.template.inert = true;
-    series.alignLabels = false;
+  //   series.slices.template.cornerRadius = 10;
+  //   series.slices.template.innerCornerRadius = 7;
+  //   series.slices.template.draggable = true;
+  //   series.slices.template.inert = true;
+  //   series.alignLabels = false;
 
-    // series.slices.template._systemValidateLayouts({fillopacity:0.9})
+  //   // series.slices.template._systemValidateLayouts({fillopacity:0.9})
 
-    series.hiddenState.properties.startAngle = 90;
-    series.hiddenState.properties.endAngle = 90;
+  //   series.hiddenState.properties.startAngle = 90;
+  //   series.hiddenState.properties.endAngle = 90;
 
-    series.colors.list = [
-      // am4core.color("#FF9671"),
-     am4core.color("#6794dc") ,
-      am4core.color("#67b7dc"),
-      am4core.color("#67b7dc").lighten(0.9),
-      // am4core.color("#FF6F91"),
+  //   series.colors.list = [
+  //     // am4core.color("#FF9671"),
+  //    am4core.color("#6794dc") ,
+  //     am4core.color("#67b7dc"),
+  //     am4core.color("#67b7dc").lighten(0.9),
+  //     // am4core.color("#FF6F91"),
       
-      // am4core.color("#FFC75F"),
-      // am4core.color("#F9F871"),
-    ];
+  //     // am4core.color("#FFC75F"),
+  //     // am4core.color("#F9F871"),
+  //   ];
 
-    chart.legend = new am4charts.Legend();
+  //   chart.legend = new am4charts.Legend();
 
-    // **** Removing % from legend values ****//
-    chart.legend.valueLabels.template.disabled = true;
+  //   // **** Removing % from legend values ****//
+  //   chart.legend.valueLabels.template.disabled = true;
 
-    // **** Removing % from values ****//
-    series.labels.template.text = "{category}: {value.value}";
-    series.slices.template.tooltipText = "{category}: {value.value}";
-    chart.legend.valueLabels.template.text = "{value.value}";
+  //   // **** Removing % from values ****//
+  //   series.labels.template.text = "{category}: {value.value}";
+  //   series.slices.template.tooltipText = "{category}: {value.value}";
+  //   chart.legend.valueLabels.template.text = "{value.value}";
 
     
-     //**** for dotted outline line ****//
-    //  chart.data.forEach(element => {
-    //    debugger
-    //   if(element.status == "SIV UnAllocated"){
+  //    //**** for dotted outline line ****//
+  //   //  chart.data.forEach(element => {
+  //   //    debugger
+  //   //   if(element.status == "SIV UnAllocated"){
       
-    //     series.stroke = am4core.color("blue").lighten(0.5);
-    //     series.strokeDasharray="3,3" 
+  //   //     series.stroke = am4core.color("blue").lighten(0.5);
+  //   //     series.strokeDasharray="3,3" 
 
-    //   }
-    //   // else if(element.status == "Non-Siv UnAllocated"){
+  //   //   }
+  //   //   // else if(element.status == "Non-Siv UnAllocated"){
 
-    //   //   series.stroke = am4core.color("blue").lighten(0.5);
-    //   //   series.strokeDasharray="3,3" 
+  //   //   //   series.stroke = am4core.color("blue").lighten(0.5);
+  //   //   //   series.strokeDasharray="3,3" 
 
-    //   // }
+  //   //   // }
 
-    // });
+  //   // });
+  // }
+
+ 
+
+  getSemiCirclePiechart(){
+    var root = am5.Root.new("chartdiv");
+
+    // Set themes
+    root.setThemes([
+      am5themes_Animated.new(root)
+    ]);
+    
+    // root.defaultTheme.rule("ColorSet").set("colors", [
+    //   am5.color(0x095256),
+    //   am5.color(0x087f8c),
+    //   am5.color(0x5aaa95),
+    //   am5.color(0x86a873),
+    //   am5.color(0xbb9f06)
+    // ]);
+    
+    // Create chart
+    // start and end angle must be set both for chart and series
+    var chart = root.container.children.push(am5percent.PieChart.new(root, {
+      startAngle: 180,
+      endAngle: 360,
+      layout: root.verticalLayout,
+      innerRadius: am5.percent(50)
+    }));
+    
+    // Create series
+    // start and end angle must be set both for chart and series
+    var series = chart.series.push(am5percent.PieSeries.new(root, {
+      startAngle: 180,
+      endAngle: 360,
+      valueField: "value",
+      categoryField: "category",
+      alignLabels: false,
+      
+    }));
+
+    series.states.create("hidden", {
+      startAngle: 180,
+      endAngle: 180
+    });
+    
+    series.slices.template.setAll({
+      cornerRadius: 5,
+      strokeWidth: 2
+      
+    });
+    
+
+    //   series.get("colors").set("colors", [
+    //   am5.color(0x095256),
+    //   am5.color(0x087f8c),
+    //   am5.color(0x5aaa95),
+    //   // am5.color(0x86a873),
+    //   // am5.color(0xbb9f06)
+    // ]);
+    
+    
+    //**** for transperent color(opacity) ***//
+    series.slices.template.adapters.add("fillOpacity", function(fillOpacity, target:any) {
+      if (target.dataItem.get("category") == "SIV UnAllocated") {
+          return 0.1;
+      }
+      else{
+        return
+      }  
+    });
+    
+    //**** for dotted border ***//
+    series.slices.template.adapters.add("strokeDasharray", function(strokeDasharray, target:any) {
+      if (target.dataItem.get("category") == "SIV UnAllocated") {
+          return [8,4];
+      }
+      else{
+        return
+      }
+    });
+
+    //**** custom color for slices****//
+    series.slices.template.adapters.add("fill", function(fill, target:any) {
+      if (target.dataItem.get("category") == "Non-Siv Allocated") {
+          return am5.color('#6794dc'); 
+      }
+      else if(target.dataItem.get("category") == "SIV Allocated") {
+        return am5.color('#67b7dc')
+      }
+      else if(target.dataItem.get("category") == "SIV UnAllocated") {
+        return am5.color('#67b7dc')
+      }
+      else{
+        return
+      }
+    });
+
+    //**** custom color for border(stroke)****//
+    series.slices.template.adapters.add("stroke", function(fill, target:any) {
+      if (target.dataItem.get("category") == "Non-Siv Allocated") {
+        return am5.color('#6794dc'); 
+      }
+      else if(target.dataItem.get("category") == "SIV Allocated") {
+        return am5.color('#67b7dc')
+      }
+      else if(target.dataItem.get("category") == "SIV UnAllocated") {
+        return am5.color('#67b7dc')
+      }
+      else{
+        return
+      }
+    });
+
+    series.ticks.template.setAll({
+      forceHidden: true
+    });
+    
+    
+    //**** for removing % from labels ***//
+    series.labels.template.set("text", "{category}:{value}");
+    
+     //**** for removing % from tooltip ***//
+    series.slices.template.set("tooltipText", "{category}:{value}");
+    
+    // Set data
+    series.data.setAll([
+      { value: 50, category: "Non-Siv Allocated"},
+      { value: 30, category: "SIV Allocated" },
+      { value: 20, category: "SIV UnAllocated" }
+    ]);
+    
+     // **** Add legend ****//
+     var legend = chart.children.push(am5.Legend.new(root, {
+      nameField: "category",
+      centerX: am5.percent(50),
+      x: am5.percent(55),
+    }));
+
+    legend.data.setAll(series.dataItems);
+
+    series.appear(1000, 100);
   }
 
  //**** Sorting functionality in table(ascending descending order) ****//
