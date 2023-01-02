@@ -323,7 +323,7 @@ export class HomeComponent implements OnInit,AfterViewInit {
           return 0.1;
       }
       else{
-        return
+        return void 0
       }  
     });
     
@@ -333,7 +333,7 @@ export class HomeComponent implements OnInit,AfterViewInit {
           return [8,4];
       }
       else{
-        return
+        return void 0
       }
     });
 
@@ -349,7 +349,7 @@ export class HomeComponent implements OnInit,AfterViewInit {
         return am5.color('#67b7dc')
       }
       else{
-        return
+        return void 0
       }
     });
 
@@ -365,7 +365,7 @@ export class HomeComponent implements OnInit,AfterViewInit {
         return am5.color('#67b7dc')
       }
       else{
-        return
+        return void 0
       }
     });
 
