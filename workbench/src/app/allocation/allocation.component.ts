@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-allocation',
   templateUrl: './allocation.component.html',
@@ -13,7 +14,7 @@ export class AllocationComponent implements OnInit {
     { slno: 3, wwid: "MTL", idsid: "M", displayName: "Vendor 3", email: "Vijay B R", role: "WW25-2022", badge: "WW52-2022", lastLoggedOn: "1" },
   ]
 
-  constructor(private modalService: NgbModal, config: NgbModalConfig) {
+  constructor(private modalService: NgbModal, config: NgbModalConfig, private toastrService: ToastrService) {
     config.backdrop = 'static';
     config.size = 'lg';
   }
@@ -124,8 +125,9 @@ export class AllocationComponent implements OnInit {
   processBooking(addmodal: any) {
     this.modalReference = this.modalService.open(addmodal)
   }
-  saveBooking(){
-    
+  saveBooking() {
+    this.toastrService.success('The booking has been placed successfully', 'Success!');
+    this.modalReference.close();
   }
 
   toggleClass(event: any, className: string) {

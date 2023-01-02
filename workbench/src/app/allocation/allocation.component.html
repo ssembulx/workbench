@@ -3,14 +3,15 @@
         <!-- <img class="img_lab" src="../../assets/image/VPG_Lab.svg"> -->
         <!-- <img class="img_lab" src="../../assets/image/spritesheet.png"> -->
         <div class="row margin_l_r_0">
-            <div class="col-12 tab_header padding_l_r_0 float_left">
+            <div class="col-12 tab_header padding_l_r_0 float_left"
+                style="position: fixed;width: 100%;left: 0;top: 80px;background-color: white;">
                 <!--  <h2>Example <span class="label label-default">New</span></h2> -->
                 <div class="col-2 float_left">
                     <div class="loc_div">Location</div>
                 </div>
                 <div class="col-3 float_left">
                     <select class="form-select cus_select" aria-label="Default select example">
-                        <option selected>VPG Lab</option>
+                        <option selected>SRR2-1F CRD-4-BA-SRR2</option>
                         <!--   <option value="1">One</option>
                         <option value="2">Two</option>
                         <option value="3">Three</option> -->
@@ -84,13 +85,13 @@
             </div>
         </div> -->
     </ng-container>
-    <div class="cus_heading">
+    <!--  <div class="cus_heading">
         Workbench
-    </div>
-    <!-- <app-vpg-lab></app-vpg-lab> -->
+    </div> -->
+    <app-vpg-lab></app-vpg-lab>
     <!-- <app-ssr-crd4-lab></app-ssr-crd4-lab> -->
 
-    <div class="row margin_l_r_0">
+    <!--  <div class="row margin_l_r_0">
         <div class="col-2 padding_l_r_0 float_left"></div>
         <div class="col-8 padding_l_r_0 float_left" style="height: 60vh;">
             <div>
@@ -1113,8 +1114,8 @@
             </div>
         </div>
         <div class="col-2 padding_l_r_0 float_left"></div>
-    </div>
-    <div class="row" style="margin-top: 2rem;">
+    </div> -->
+    <!--  <div class="row" style="margin-top: 2rem;">
         <div class="col-lg-12 summary-bar">
             <div class="col-lg-2 float_left">
 
@@ -1141,14 +1142,10 @@
             <div class="col-lg-8 selected-seats">
                 <div class="col-lg-6 float_left no-padding">
                     <h5>Total Selected Desk : {{seatNoCounter}}</h5>
-                    <!-- <h5>Total Amount :&nbsp;&nbsp; {{cart.totalamount}} Rs</h5> -->
-                    <!-- <h5> {{ cart?.selectedSeats?.length }}</h5> -->
-                    <!-- <h5 >{{seatNoCounter}}</h5> -->
                 </div>
                 <div class="col-lg-6 float_left no-padding">
                     <h5>Selected Desk : <span *ngFor="let seat of seatLabel" class="badge badge-primary">{{seat}}</span>
                     </h5>
-                    <!-- <span *ngFor="let seat of seatLabel" class="badge badge-primary">{{seat}}</span> -->
                 </div>
             </div>
             <div class="col-lg-2 float_left">
@@ -1167,8 +1164,6 @@
                     <button type="button" [disabled]="seatLabel?.length == 0" (click)="processBooking(bookingmodal)"
                         class="btn btn-primary" mdbWavesEffect>Book
                         Now</button>
-                    <!--  <button [disabled]="cart?.selectedSeats?.length == 0" type="button" (click)="processBooking()"
-                class="btn btn-primary" mdbWavesEffect>Book Now</button> -->
                 </div>
                 <div class="col-lg-4 float_left no-padding">
                     <span class="badge badge-primary selec" style="visibility: hidden;">0</span>
@@ -1178,83 +1173,5 @@
 
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
-<!-- =========***** Modal popup for booking*****=============-->
-<ng-template #bookingmodal let-c="close" let-d="dismiss">
-    <div class="modal-add">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="testModalLabel">
-                <!-- <i class="fas fa-user-plus"></i> -->
-                &nbsp; Allocate Bench
-            </h1>
-            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                <i class='fas fa-times'></i></button>
-        </div>
-        <div class="modal-body">
-            <table class="table table-bordered user-table">
-                <tbody>
-                    <tr>
-                        <td>Program </td>
-                        <td>
-                            <select class="form-select location_select" aria-label="Default select example">
-                                <option>ADL</option>
-                                <option>MTL</option>
-                                <option>RPL</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>SKU </td>
-                        <td>
-                            <select class="form-select location_select" aria-label="Default select example">
-                                <option>P</option>
-                                <option>R</option>
-                                <option>S</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Vendor </td>
-                        <td>
-                            <select class="form-select location_select" aria-label="Default select example">
-                                <option> UST</option>
-                                <option>Wipro</option>
-                                <option>Infosys</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Allocated To </td>
-                        <td><input type="text" class="text-box" value="Srikanth Uppuluri"></td>
-                    </tr>
-                    <tr>
-                        <td>From WW </td>
-                        <td><input type="text" class="text-box" value="WW20-2022"></td>
-                    </tr>
-                    <tr>
-                        <td>To WW </td>
-                        <td><input type="text" class="text-box" value="WW50-2022"></td>
-                    </tr>
-                    <tr>
-                        <td>#. Bench </td>
-                        <td>{{seatNoCounter}}</td>
-                    </tr>
-                    <tr>
-                        <td>Remarks </td>
-                        <td><input type="text" class="text-box"></td>
-                    </tr>
-                    <tr>
-                        <td>Bench </td>
-                        <td><span *ngFor="let seat of seatLabel" class="badge badge-primary">{{seat}}</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn back-btn close" aria-label="Close"
-                (click)="d('Cross click')">Cancel</button>
-            <button type="button" class="btn back-btn" (click)="saveBooking()">Save</button>
-        </div>
-    </div>
-</ng-template>

@@ -1,50 +1,101 @@
 <div class="row">
-    <div class="col-2"></div>
-    <div class="col-8 seat-container">
-        <div class="wall">
-            <div *ngFor="let seatrow of seatmap; let i = index ">
-                <div class="col-12 pricing-label"
-                    *ngIf="seatChartConfig?.showRowWisePricing && seatrow.seatPricingInformation != ''">
-                    {{seatrow.seatPricingInformation}}</div>
-                <div class="seatrow container padding_l_r_0">
-                    <!-- [ngClass]="{  'full_bottom' : i == 2 , 'double_side': i==1 , 'single_right': i==0 }"> -->
-                    <div *ngIf="seatChartConfig?.showRowsLabel">
-                        <div class="row-label"> {{seatrow.seatRowLabel}} </div>
-                    </div>
-                    <ng-container *ngFor="let seatobj of seatrow.seats; let j = index">
-                        <div>
-                           <!--  [ngClass]="{  'single_top' : callSingleTop(i,j),'single_left' : callSingleLeft(i,j) ,'single_top_dashed':callSingleTopDashed(i,j)}"> -->
-                            <div class="seat-item seat-space" style="color:white ; background-color:white"
-                                *ngIf="seatobj.seatLabel == ''"> &nbsp; </div>
-                            <div placement="top" ngbTooltip="Desk : {{seatobj.seatNo}}"
-                                [ngClass]="{ 'seat-item' : true , 'seat-available' : seatobj.status == 'available' ,'seat-booked' : seatobj.status == 'booked' ,'seat-unavailable' : seatobj.status == 'unavailable' }"
-                                (click)="selectSeat(seatobj)"
-                                *ngIf="(seatobj.status == 'available' || seatobj.status == 'booked' )&& seatobj.seatLabel != ''">
-                                <img [ngClass]="{ 'rotate_90' : seatobj.dir=='l' , 'rotate_180' : seatobj.dir=='u', 'rotate_270' : seatobj.dir=='r'}"
-                                    src="./assets/image/Table_Available.png">
-                                <!-- <img *ngIf="seatobj.dir=='d'" src="../../assets/image/Table_Down.png">
-                        <img *ngIf="seatobj.dir=='u'" src="../../assets/image/Table_Up.png">
-                        <img *ngIf="seatobj.dir=='r'" src="../../assets/image/Table_Right.png">
-                        <img *ngIf="seatobj.dir=='l'" src="../../assets/image/Table_Left.png"> -->
-                            </div>
-
-                            <div ngbTooltip="Desk not available" placement="top"
-                                [ngClass]="{ 'seat-item' : true , 'seat-unavailable' : true }"
-                                *ngIf="seatobj.status == 'unavailable' && seatobj.seatLabel != ''">
-                                <img [ngClass]="{ 'rotate_90' : seatobj.dir=='l' , 'rotate_180' : seatobj.dir=='u', 'rotate_270' : seatobj.dir=='r'}"
-                                    src="./assets/image/Table_Unavailable.png">
-                                <!--  <img *ngIf="seatobj.dir=='u'" src="../../assets/image/Table_Unavailable.png">
-                        <img *ngIf="seatobj.dir=='r'" src="../../assets/image/Table_Unavailable.png">
-                        <img *ngIf="seatobj.dir=='l'" src="../../assets/image/Table_Unavailable.png"> -->
-                            </div>
+    <div class="col-12 seat-container">
+        <div class="lab_block">
+            <div class="wall-heading">
+                <h4>SRR2-1F CRD-4-BA-SRR2</h4>
+            </div>
+            <div class="wall-legend">
+                <img src="./assets/image/non_siv.png">
+                <h5>Non SIV</h5>
+                <img src="./assets/image/Booked.png">
+                <h5>Allocated</h5>
+                <img src="./assets/image/Available.png">
+                <h5>Un Allocated</h5>
+            </div>
+            <div class="wall">
+                <div *ngFor="let seatrow of seatmap; let i = index ">
+                    <div class="col-12 pricing-label"
+                        *ngIf="seatChartConfig?.showRowWisePricing && seatrow.seatPricingInformation != ''">
+                        {{seatrow.seatPricingInformation}}</div>
+                    <div class="seatrow container padding_l_r_0">
+                        <!-- [ngClass]="{  'full_bottom' : i == 2 , 'double_side': i==1 , 'single_right': i==0 }"> -->
+                        <div *ngIf="seatChartConfig?.showRowsLabel">
+                            <div class="row-label"> {{seatrow.seatRowLabel}} </div>
                         </div>
-                    </ng-container>
+                        <ng-container *ngFor="let seatobj of seatrow.seats; let j = index">
+                            <div>
+                                <!--  [ngClass]="{  'single_top' : callSingleTop(i,j),'single_left' : callSingleLeft(i,j) ,'single_top_dashed':callSingleTopDashed(i,j)}"> -->
+                                <div class="seat-item seat-space" style="color:white ; background-color:white"
+                                    *ngIf="seatobj.seatLabel == ''"> &nbsp; </div>
+                                <div placement="top" ngbTooltip="Desk : {{seatobj.seatNo}}"
+                                    [ngClass]="{ 'seat-item' : true , 'seat-available' : seatobj.status == 'available' ,'seat-booked' : seatobj.status == 'booked' ,'seat-unavailable' : seatobj.status == 'unavailable' }"
+                                    (click)="selectSeat(seatobj)"
+                                    *ngIf="(seatobj.status == 'available' || seatobj.status == 'booked' )&& seatobj.seatLabel != ''">
+                                    <h4>{{seatobj.seatLabel}}</h4>
+                                    <img *ngIf="seatobj.status == 'available'" src="./assets/image/Available.png">
+                                    <img *ngIf="seatobj.status == 'booked'" src="./assets/image/Selected.png">
+                                    <!-- [ngClass]="{ 'rotate_90' : seatobj.dir=='l' , 'rotate_180' : seatobj.dir=='u', 'rotate_270' : seatobj.dir=='r'}" -->
+                                    <!-- <img *ngIf="seatobj.dir=='d'" src="../../assets/image/Table_Down.png">
+                            <img *ngIf="seatobj.dir=='u'" src="../../assets/image/Table_Up.png">
+                            <img *ngIf="seatobj.dir=='r'" src="../../assets/image/Table_Right.png">
+                            <img *ngIf="seatobj.dir=='l'" src="../../assets/image/Table_Left.png"> -->
+                                </div>
+
+                                <div ngbTooltip="Desk not available" placement="top"
+                                    [ngClass]="{ 'seat-item' : true , 'seat-unavailable' : true }"
+                                    *ngIf="seatobj.status == 'unavailable' && seatobj.seatLabel != ''">
+                                    <h4>{{seatobj.seatLabel}}</h4>
+                                    <img src="./assets/image/Booked.png">
+                                    <!-- [ngClass]="{ 'rotate_90' : seatobj.dir=='l' , 'rotate_180' : seatobj.dir=='u', 'rotate_270' : seatobj.dir=='r'}" -->
+                                    <!--  <img *ngIf="seatobj.dir=='u'" src="../../assets/image/Table_Unavailable.png">
+                            <img *ngIf="seatobj.dir=='r'" src="../../assets/image/Table_Unavailable.png">
+                            <img *ngIf="seatobj.dir=='l'" src="../../assets/image/Table_Unavailable.png"> -->
+                                </div>
+                                <div ngbTooltip="Non SIV" placement="top"
+                                    [ngClass]="{ 'seat-item' : true , 'seat-unavailable' : true }"
+                                    *ngIf="seatobj.status == 'non-siv' && seatobj.seatLabel != ''">
+                                    <h4>{{seatobj.seatLabel}}</h4>
+                                    <img src="./assets/image/non_siv.png">
+                                    <!-- [ngClass]="{ 'rotate_90' : seatobj.dir=='l' , 'rotate_180' : seatobj.dir=='u', 'rotate_270' : seatobj.dir=='r'}" -->
+                                    <!--  <img *ngIf="seatobj.dir=='u'" src="../../assets/image/Table_Unavailable.png">
+                            <img *ngIf="seatobj.dir=='r'" src="../../assets/image/Table_Unavailable.png">
+                            <img *ngIf="seatobj.dir=='l'" src="../../assets/image/Table_Unavailable.png"> -->
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="booknow_block">
+            <div class="row booknow_div">
+                <div class="col-lg-12 summary-bar">
+                    <div class="col-lg-12 selected-seats">
+                        <div class="col-lg-6 float_left no-padding">
+                            <h5>Total Selected Desk</h5>
+                            <!-- <h5>Total Selected Desk :<span> {{ cart?.selectedSeats?.length }}</span></h5> -->
+                            <h5> {{ cart?.selectedSeats?.length }}</h5>
+                        </div>
+                        <div class="col-lg-6 float_left no-padding">
+                            <h5>Selected Desk</h5>
+                            <!--  <h5>Selected Desk : <span *ngFor="let seatLabel of cart.selectedSeats"
+                                    class="badge badge-primary">{{seatLabel}}</span></h5> -->
+                            <span *ngFor="let seatLabel of cart.selectedSeats"
+                                class="badge badge-primary">{{seatLabel}}</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 selected-seats">
+                        <div class="col-lg-12 float_left no-padding">
+                            <button [disabled]="cart?.selectedSeats?.length == 0" type="button"
+                                (click)="processBooking(bookingmodal)" class="btn btn-primary" mdbWavesEffect>Book
+                                Now</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
     </div>
-    <div class="col-2"></div>
 </div>
 <!-- <div>
     <table>
@@ -77,7 +128,7 @@
     </table>
 </div> -->
 <!-- *ngIf="cart?.selectedSeats?.length > 0" -->
-<div class="row">
+<!-- <div class="row">
     <div class="col-lg-12 summary-bar">
         <div class="col-lg-2 float_left">
 
@@ -85,7 +136,6 @@
         <div class="col-lg-8 selected-seats">
             <div class="col-lg-6 float_left no-padding">
                 <h5>Total Selected Desk :</h5>
-                <!-- <h5>Total Amount :&nbsp;&nbsp; {{cart.totalamount}} Rs</h5> -->
                 <h5> {{ cart?.selectedSeats?.length }}</h5>
             </div>
             <div class="col-lg-6 float_left no-padding">
@@ -110,4 +160,93 @@
 
         </div>
     </div>
-</div>
+</div> -->
+
+
+<!-- =========***** Modal popup for booking*****=============-->
+<ng-template #bookingmodal let-c="close" let-d="dismiss">
+    <div class="modal-add">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="testModalLabel">
+                <!-- <i class="fas fa-user-plus"></i> -->
+                &nbsp; Allocate Bench
+            </h1>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <i class='fas fa-times'></i></button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-bordered user-table">
+                <tbody>
+                    <tr>
+                        <td>Location </td>
+                        <td style="padding: 0px;">
+                            <select class="form-select location_select" aria-label="Default select example">
+                                <option selected>SRR2-1F CRD-4-BA-SRR2</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Program </td>
+                        <td style="padding: 0px;">
+                            <select class="form-select location_select" aria-label="Default select example">
+                                <option>ADL</option>
+                                <option>MTL</option>
+                                <option>RPL</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>SKU </td>
+                        <td style="padding: 0px;">
+                            <select class="form-select location_select" aria-label="Default select example">
+                                <option>P</option>
+                                <option>R</option>
+                                <option>S</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Vendor </td>
+                        <td style="padding: 0px;">
+                            <select class="form-select location_select" aria-label="Default select example">
+                                <option> UST</option>
+                                <option>Wipro</option>
+                                <option>Infosys</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Allocated To </td>
+                        <td><input type="text" class="text-box" value="Srikanth Uppuluri"></td>
+                    </tr>
+                    <tr>
+                        <td>From WW </td>
+                        <td><input type="text" class="text-box" value="WW20-2022"></td>
+                    </tr>
+                    <tr>
+                        <td>To WW </td>
+                        <td><input type="text" class="text-box" value="WW50-2022"></td>
+                    </tr>
+                    <tr>
+                        <td>#. Bench </td>
+                        <td>{{ cart?.selectedSeats?.length }}</td>
+                    </tr>
+                    <tr>
+                        <td>Remarks </td>
+                        <td><input type="text" class="text-box"></td>
+                    </tr>
+                    <tr>
+                        <td>Bench </td>
+                        <td><span *ngFor="let seatLabel of cart.selectedSeats"
+                                class="badge badge-primary">{{seatLabel}}</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn back-btn close" aria-label="Close"
+                (click)="d('Cross click')">Cancel</button>
+            <button type="button" class="btn back-btn" (click)="saveBooking()">Save</button>
+        </div>
+    </div>
+</ng-template>
