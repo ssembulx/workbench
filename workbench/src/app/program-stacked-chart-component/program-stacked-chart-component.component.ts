@@ -9,6 +9,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import * as am5 from '@amcharts/amcharts5';
 import * as am5xy from '@amcharts/amcharts5/xy';
 import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
+import { SummaryService } from '../shared/service';
 
 
 @Component({
@@ -16,36 +17,37 @@ import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
   templateUrl: './program-stacked-chart-component.component.html',
   styleUrls: ['./program-stacked-chart-component.component.scss']
 })
-export class ProgramStackedChartComponentComponent implements OnInit,AfterViewInit {
+export class ProgramStackedChartComponentComponent implements OnInit{
 
   // colors: any;
+  ChartData:any;
+  ChartLoader = false;
 
-  constructor() { }
-  ngAfterViewInit(): void {
-    // this.getProgramStackedChart();
-    this.getProgramColumnChart();
-  }
+  constructor(private service:SummaryService) { }
+ 
 
   ngOnInit(): void {
+    this.LabProgramSummary();
   }
 
+   //****Calling API for program chart ***//
+  LabProgramSummary(){
+    // this.ChartLoader = false;
+    this.service.LabProgramSummary().subscribe(res => {
+      this.ChartData = res.Data;
+      console.log("stacked chart",this.ChartData)
+      // this.ChartLoader = true;
+      this.getProgramColumnChart();
+     })
+  }
+
+  //**** Chart data ****//
   getProgramColumnChart(){
     var root = am5.Root.new("chartdiv3");
-    
     // Set themes
     root.setThemes([
       am5themes_Animated.new(root)
     ]);
-
-    
-    // Create chart
-    // var chart = root.container.children.push(am5xy.XYChart.new(root, {
-    //   panX: true,
-    //   panY: true,
-    //   wheelX: "panX",
-    //   wheelY: "zoomX",
-    //   pinchZoomX:true
-    // }));
 
     var chart:any = root.container.children.push(am5xy.XYChart.new(root, {
         panY: false,
@@ -53,23 +55,12 @@ export class ProgramStackedChartComponentComponent implements OnInit,AfterViewIn
         panX: true,
         wheelX: "panX",
         pinchZoomX:true,
+
         //for leged position bottom
         layout: root.verticalLayout,    
       }) 
     );
 
-    // chart.get("colors").set("colors", [
-    //   am5.color(0x095256),
-    //   am5.color(0x087f8c),
-    //   am5.color(0x5aaa95),
-    //   am5.color(0x86a873),
-    //   am5.color(0xbb9f06),
-    //   am5.color(0xbb9f06),
-    //   am5.color(0xbb9f06),
-    //   am5.color(0xbb9f06),
-    //   am5.color(0xbb9f06),
-    //   am5.color(0xbb9f06)
-    //   ])
     // Add cursor
     var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
     cursor.lineY.set("visible", false);
@@ -86,7 +77,7 @@ export class ProgramStackedChartComponentComponent implements OnInit,AfterViewIn
 
     var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
       maxDeviation: 0.3,
-      categoryField: "program",
+      categoryField: "Program",
       renderer: xRenderer,
       tooltip: am5.Tooltip.new(root, {})
     }));
@@ -102,9 +93,9 @@ export class ProgramStackedChartComponentComponent implements OnInit,AfterViewIn
       name: "Series 1",
       xAxis: xAxis,
       yAxis: yAxis,
-      valueYField: "value",
+      valueYField: "Value",
       sequencedInterpolation: true,
-      categoryXField: "program",
+      categoryXField: "Program",
       tooltip: am5.Tooltip.new(root, {
         labelText:"{valueY}"
       })
@@ -115,68 +106,49 @@ export class ProgramStackedChartComponentComponent implements OnInit,AfterViewIn
     // *** color for columns ***//
     series.columns.template.adapters.add("fill", function (fill:any, target:any) {
       return chart.get("colors").getIndex(series.columns.indexOf(target));
-    });
-
-    
+    }); 
 
     series.columns.template.adapters.add("stroke", function(stroke:any, target:any) {
       return chart.get("colors").getIndex(series.columns.indexOf(target));
     });
     
-
-    // Set data
-    var data = [{
-      program: "ADL-P",
-      value: 80
-    }, {
-      program: "MTL-P",
-      value: 70
-    }, {
-      program: "RKL-S",
-      value: 60
-    }, {
-      program: "GLK-S",
-      value: 50
-    }, {
-      program: "RPL-T",
-      value: 40
-    }, {
-      program: "MTL-S",
-      value: 35
-    }, {
-      program: "RTL-S",
-      value: 30
-    }, {
-      program: "TGL-R",
-      value: 25
-    }, {
-      program: "CFL-H",
-      value: 20
-    }, {
-      program: "WHL-U",
-      value: 15
-    }
-  ];
+    var data = this.ChartData;
+  //   // Set data
+  //   var data = [{
+  //     program: "ADL-P",
+  //     value: 80
+  //   }, {
+  //     program: "MTL-P",
+  //     value: 70
+  //   }, {
+  //     program: "RKL-S",
+  //     value: 60
+  //   }, {
+  //     program: "GLK-S",
+  //     value: 50
+  //   }, {
+  //     program: "RPL-T",
+  //     value: 40
+  //   }, {
+  //     program: "MTL-S",
+  //     value: 35
+  //   }, {
+  //     program: "RTL-S",
+  //     value: 30
+  //   }, {
+  //     program: "TGL-R",
+  //     value: 25
+  //   }, {
+  //     program: "CFL-H",
+  //     value: 20
+  //   }, {
+  //     program: "WHL-U",
+  //     value: 15
+  //   }
+  // ];
 
     xAxis.data.setAll(data);
     series.data.setAll(data);
-
-    // Add legend
-    // var legend = chart.children.push(am5.Legend.new(root, {
-    //   nameField: "name",
-    //   fillField: "color",
-    //   strokeField: "color",
-    //   centerX: am5.percent(50),
-    //   x: am5.percent(50)
-    // }));
-
-    // legend.data.setAll([{
-    //   name: "ADL-P",
-    //   color: am5.color(0x297373)
-    // }, {
-    //   name: "Over budget",
-    //   color: am5.color(0xff621f)
-    // }]);
 
     // **** Add legend ****//
     var legend = chart.children.push(am5.Legend.new(root, {

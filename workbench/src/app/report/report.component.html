@@ -96,19 +96,24 @@
                                 <i class="fas fa-search"></i>&nbsp;&nbsp;Lab Details</span></th>
                             <th class="v-align" (click)="setOrderRelease('Program')"><span class="sort-by" [ngbTooltip]="programSearch" placement="top" tooltipClass="custom-tooltip" [autoClose]="false" triggers="manual" #ts2="ngbTooltip" (click)="showTestTrendSearch(ts2)">
                                 <i class="fas fa-search"></i>&nbsp;&nbsp;Program</span></th>
-                            <th class="v-align" (click)="setOrderRelease('SKU')"><span class="sort-by">SKU</span></th>
-                            <th class="v-align" (click)="setOrderRelease('Vendor')"><span class="sort-by" [ngbTooltip]="vendorSearch" placement="top" tooltipClass="custom-tooltip" [autoClose]="false" triggers="manual" #ts3="ngbTooltip" (click)="showTestTrendSearch(ts3)">
+                            <th class="v-align" (click)="setOrderRelease('SKU')"><span class="sort-by" [ngbTooltip]="skuSearch" placement="top" tooltipClass="custom-tooltip" [autoClose]="false" triggers="manual" #ts3="ngbTooltip" (click)="showTestTrendSearch(ts3)">
+                                <i class="fas fa-search"></i>&nbsp;&nbsp;SKU</span></th>
+                            <th class="v-align" (click)="setOrderRelease('Vendor')"><span class="sort-by" [ngbTooltip]="vendorSearch" placement="top" tooltipClass="custom-tooltip" [autoClose]="false" triggers="manual" #ts4="ngbTooltip" (click)="showTestTrendSearch(ts4)">
                                 <i class="fas fa-search"></i>&nbsp;&nbsp;Vendor</span></th>
-                            <th class="v-align" (click)="setOrderRelease('Allocated To')"><span class="sort-by">Allocated To</span></th>
-                            <th class="v-align" (click)="setOrderRelease('From WW')"><span class="sort-by">From WW</span></th>
-                            <th class="v-align" (click)="setOrderRelease('To WW')"><span class="sort-by">To WW</span></th>
-                            <th class="v-align" (click)="setOrderRelease('#Bench')"><span class="sort-by">#Bench</span></th>
+                            <th class="v-align" (click)="setOrderRelease('Allocated To')"><span class="sort-by" [ngbTooltip]="allocatedSearch" placement="top" tooltipClass="custom-tooltip" [autoClose]="false" triggers="manual" #ts5="ngbTooltip" (click)="showTestTrendSearch(ts5)">
+                                <i class="fas fa-search"></i>&nbsp;&nbsp;Allocated To</span></th>
+                            <th class="v-align" (click)="setOrderRelease('From WW')"><span class="sort-by" [ngbTooltip]="fromWWSearch" placement="top" tooltipClass="custom-tooltip" [autoClose]="false" triggers="manual" #ts6="ngbTooltip" (click)="showTestTrendSearch(ts6)">
+                                <i class="fas fa-search"></i>&nbsp;&nbsp;From WW</span></th>
+                            <th class="v-align" (click)="setOrderRelease('To WW')"><span class="sort-by" [ngbTooltip]="toWWSearch" placement="top" tooltipClass="custom-tooltip" [autoClose]="false" triggers="manual" #ts7="ngbTooltip" (click)="showTestTrendSearch(ts7)">
+                                <i class="fas fa-search"></i>&nbsp;&nbsp;To WW</span></th>
+                            <th class="v-align" (click)="setOrderRelease('#Bench')"><span class="sort-by" [ngbTooltip]="benchSearch" placement="top" tooltipClass="custom-tooltip" [autoClose]="false" triggers="manual" #ts8="ngbTooltip" (click)="showTestTrendSearch(ts8)">
+                                <i class="fas fa-search"></i>&nbsp;&nbsp;#Bench</span></th>
                             <th class="v-align">Remarks</th>
                             <!-- <th class="v-align"><input class="form-check-input chcekbox-style" type="checkbox" value="" id="flexCheckChecked"/>Select All</th> -->
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let data of reportsData | searchFilter: searchText | searchFilterLocation: searchLocation | searchFilterProgram: searchProgram |searchFilterVendor : searchVendor let i=index">
+                        <tr *ngFor="let data of reportsData | searchFilter: searchText | searchFilterLocation: searchLocation | searchFilterProgram: searchProgram |  searchFilterSku: searchSku | searchFilterVendor : searchVendor | searchFilterAllocated : searchAllocated | searchFilterFromWW : searchfromWW | searchFilterToWW : searchtoWW | searchFilterBench : searchBench let i=index">
                             <td>{{data.slno}}</td>
                             <td>{{data.LabDetails}}</td>
                             <td>{{data.program}}</td>
@@ -189,6 +194,20 @@
     </div>
 </ng-template>
 
+<ng-template #skuSearch>
+    <div class="search-tooltip">
+        <div class="tooltip-header">
+            <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
+        </div>
+        <div class="form-group search-ctrl">
+            <input name="target" [(ngModel)]="searchSku" placeholder="Search SKU" type="text"
+                class="form-control" />
+            <i class="fas fa-times" (click)="clearInput()" *ngIf="searchSku !== ''"></i>
+            <i class="flaticon-search fas fa-search"></i>
+        </div>
+    </div>
+</ng-template>
+
 <ng-template #vendorSearch>
     <div class="search-tooltip">
         <div class="tooltip-header">
@@ -198,6 +217,62 @@
             <input name="target" [(ngModel)]="searchVendor" placeholder="Search Vendor" type="text"
                 class="form-control" />
             <i class="fas fa-times" (click)="clearInput()" *ngIf="searchVendor !== ''"></i>
+            <i class="flaticon-search fas fa-search"></i>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #allocatedSearch>
+    <div class="search-tooltip">
+        <div class="tooltip-header">
+            <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
+        </div>
+        <div class="form-group search-ctrl">
+            <input name="target" [(ngModel)]="searchAllocated" placeholder="Search Allocated" type="text"
+                class="form-control" />
+            <i class="fas fa-times" (click)="clearInput()" *ngIf="searchAllocated !== ''"></i>
+            <i class="flaticon-search fas fa-search"></i>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #fromWWSearch>
+    <div class="search-tooltip">
+        <div class="tooltip-header">
+            <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
+        </div>
+        <div class="form-group search-ctrl">
+            <input name="target" [(ngModel)]="searchfromWW" placeholder="Search FromWW" type="text"
+                class="form-control" />
+            <i class="fas fa-times" (click)="clearInput()" *ngIf="searchfromWW !== ''"></i>
+            <i class="flaticon-search fas fa-search"></i>
+        </div>
+    </div>
+</ng-template> 
+
+<ng-template #toWWSearch>
+    <div class="search-tooltip">
+        <div class="tooltip-header">
+            <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
+        </div>
+        <div class="form-group search-ctrl">
+            <input name="target" [(ngModel)]="searchtoWW" placeholder="Search ToWW" type="text"
+                class="form-control" />
+            <i class="fas fa-times" (click)="clearInput()" *ngIf="searchtoWW !== ''"></i>
+            <i class="flaticon-search fas fa-search"></i>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #benchSearch>
+    <div class="search-tooltip">
+        <div class="tooltip-header">
+            <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
+        </div>
+        <div class="form-group search-ctrl">
+            <input name="target" [(ngModel)]="searchBench" placeholder="Search Bench" type="text"
+                class="form-control" />
+            <i class="fas fa-times" (click)="clearInput()" *ngIf="searchBench !== ''"></i>
             <i class="flaticon-search fas fa-search"></i>
         </div>
     </div>

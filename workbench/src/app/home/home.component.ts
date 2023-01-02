@@ -10,6 +10,7 @@ import * as am5 from '@amcharts/amcharts5';
 import * as am5xy from '@amcharts/amcharts5/xy';
 import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
 import * as am5percent from "@amcharts/amcharts5/percent";
+import { SummaryService } from '../shared/service';
 
 
 
@@ -18,7 +19,7 @@ import * as am5percent from "@amcharts/amcharts5/percent";
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit,AfterViewInit {
+export class HomeComponent implements OnInit {
 
   orderMappedRelease: string = '';
   reverseMappedRelease: boolean = true;
@@ -27,25 +28,37 @@ export class HomeComponent implements OnInit,AfterViewInit {
   fullScreenFlag = false;
   fullScreenBack: boolean = false;
   smallscreen = true;
+  ChartData:any;
+  ChartLoader = false;
 
 
-  constructor() { }
+  constructor(private service:SummaryService) { }
   
-  ngAfterViewInit(): void {
-    this.getSemiCirclePiechart();
-  }
 
-  summaryData = [
-    { slno: 1, program: "MTL", SKU: "P", vendor: "Vendor 1", AllocateTo: "Srikanth Uppuluri", FromWW:"WW20-2022", ToWW:"WW50-2022",BenchCount:"15",Staus:"Available"},
-    { slno: 2, program: "MTL", SKU: "S", vendor: "Vendor 1", AllocateTo: "Krishna Prasad M", FromWW:"WW33-2022", ToWW:"WW49-2022",BenchCount:"15",Staus:"Booked"},
-    { slno: 3, program: "MTL", SKU: "M", vendor: "Vendor 2", AllocateTo: "Vijay B R", FromWW:"WW25-2022", ToWW:"WW52-2022",BenchCount:"18",Staus:"SIV"},
-    { slno: 4, program: "MTL", SKU: "P", vendor: "Vendor 1", AllocateTo: "Srikanth Uppuluri", FromWW:"WW20-2022", ToWW:"WW50-2022",BenchCount:"15",Staus:"Non-SIV"},
+  // summaryData = [
+  //   { slno: 1, program: "MTL", SKU: "P", vendor: "Vendor 1", AllocateTo: "Srikanth Uppuluri", FromWW:"WW20-2022", ToWW:"WW50-2022",BenchCount:"15",Staus:"Available"},
+  //   { slno: 2, program: "MTL", SKU: "S", vendor: "Vendor 1", AllocateTo: "Krishna Prasad M", FromWW:"WW33-2022", ToWW:"WW49-2022",BenchCount:"15",Staus:"Booked"},
+  //   { slno: 3, program: "MTL", SKU: "M", vendor: "Vendor 2", AllocateTo: "Vijay B R", FromWW:"WW25-2022", ToWW:"WW52-2022",BenchCount:"18",Staus:"SIV"},
+  //   { slno: 4, program: "MTL", SKU: "P", vendor: "Vendor 1", AllocateTo: "Srikanth Uppuluri", FromWW:"WW20-2022", ToWW:"WW50-2022",BenchCount:"15",Staus:"Non-SIV"},
 
-  ]
+  // ]
+
 
   ngOnInit(): void {
-   
- 
+    this.LabOverallSummary();
+  }
+
+  //****Calling API for summary pie chart ***//
+  LabOverallSummary(){
+    this.ChartLoader = false;
+    this.service.LabOverallSummary().subscribe(res => {
+      debugger
+      this.ChartData = res.Data;
+      console.log("stacked chart",this.ChartData)
+      this.ChartLoader = true;
+      this.getSemiCirclePiechart();
+    })
+  }
 // // Themes begin
 // am4core.useTheme(am4themes_animated);
 // // Themes end
@@ -164,7 +177,6 @@ export class HomeComponent implements OnInit,AfterViewInit {
 //       ev.target.dataItem.dataContext.columnDataItem.column.isHover = false;
 //       ev.target.dataItem.dataContext.columnDataItem.column.hideTooltip();
 //     });
- }
 
  //****** Semicircle Pie Chart ******//
   // getSemiCirclePiechart(){
@@ -259,7 +271,7 @@ export class HomeComponent implements OnInit,AfterViewInit {
   // }
 
  
-
+  //**** Chart data ****//
   getSemiCirclePiechart(){
     var root = am5.Root.new("chartdiv");
 
@@ -267,15 +279,7 @@ export class HomeComponent implements OnInit,AfterViewInit {
     root.setThemes([
       am5themes_Animated.new(root)
     ]);
-    
-    // root.defaultTheme.rule("ColorSet").set("colors", [
-    //   am5.color(0x095256),
-    //   am5.color(0x087f8c),
-    //   am5.color(0x5aaa95),
-    //   am5.color(0x86a873),
-    //   am5.color(0xbb9f06)
-    // ]);
-    
+ 
     // Create chart
     // start and end angle must be set both for chart and series
     var chart = root.container.children.push(am5percent.PieChart.new(root, {
@@ -290,8 +294,8 @@ export class HomeComponent implements OnInit,AfterViewInit {
     var series = chart.series.push(am5percent.PieSeries.new(root, {
       startAngle: 180,
       endAngle: 360,
-      valueField: "value",
-      categoryField: "category",
+      valueField: "Value",
+      categoryField: "Category",
       alignLabels: false,
       
     }));
@@ -308,66 +312,57 @@ export class HomeComponent implements OnInit,AfterViewInit {
     });
     
 
-    //   series.get("colors").set("colors", [
-    //   am5.color(0x095256),
-    //   am5.color(0x087f8c),
-    //   am5.color(0x5aaa95),
-    //   // am5.color(0x86a873),
-    //   // am5.color(0xbb9f06)
-    // ]);
-    
-    
     //**** for transperent color(opacity) ***//
-    series.slices.template.adapters.add("fillOpacity", function(fillOpacity, target:any) {
-      if (target.dataItem.get("category") == "SIV UnAllocated") {
-          return 0.1;
-      }
-      else{
-        return
-      }  
-    });
+    // series.slices.template.adapters.add("fillOpacity", function(fillOpacity, target:any) {
+    //   if (target.dataItem.get("Category") == "SIVUnAllocated") {
+    //       return 0.1;
+    //   }
+    //   else{
+    //     return void 0
+    //   }  
+    // });
     
     //**** for dotted border ***//
-    series.slices.template.adapters.add("strokeDasharray", function(strokeDasharray, target:any) {
-      if (target.dataItem.get("category") == "SIV UnAllocated") {
-          return [8,4];
-      }
-      else{
-        return
-      }
-    });
+    // series.slices.template.adapters.add("strokeDasharray", function(strokeDasharray, target:any) {
+    //   if (target.dataItem.get("Category") == "SIVUnAllocated") {
+    //       return [8,4];
+    //   }
+    //   else{
+    //     return void 0
+    //   }
+    // });
 
     //**** custom color for slices****//
-    series.slices.template.adapters.add("fill", function(fill, target:any) {
-      if (target.dataItem.get("category") == "Non-Siv Allocated") {
-          return am5.color('#6794dc'); 
-      }
-      else if(target.dataItem.get("category") == "SIV Allocated") {
-        return am5.color('#67b7dc')
-      }
-      else if(target.dataItem.get("category") == "SIV UnAllocated") {
-        return am5.color('#67b7dc')
-      }
-      else{
-        return
-      }
-    });
+    // series.slices.template.adapters.add("fill", function(fill, target:any) {
+    //   if (target.dataItem.get("Category") == "NonSIVAllocated") {
+    //       return am5.color('#6794dc'); 
+    //   }
+    //   else if(target.dataItem.get("Category") == "SIVAllocated") {
+    //     return am5.color('#67b7dc')
+    //   }
+    //   else if(target.dataItem.get("Category") == "SIVUnAllocated") {
+    //     return am5.color('#67b7dc')
+    //   }
+    //   else{
+    //     return void 0
+    //   }
+    // });
 
     //**** custom color for border(stroke)****//
-    series.slices.template.adapters.add("stroke", function(fill, target:any) {
-      if (target.dataItem.get("category") == "Non-Siv Allocated") {
-        return am5.color('#6794dc'); 
-      }
-      else if(target.dataItem.get("category") == "SIV Allocated") {
-        return am5.color('#67b7dc')
-      }
-      else if(target.dataItem.get("category") == "SIV UnAllocated") {
-        return am5.color('#67b7dc')
-      }
-      else{
-        return
-      }
-    });
+    // series.slices.template.adapters.add("stroke", function(fill, target:any) {
+    //   if (target.dataItem.get("Category") == "NonSIVAllocated") {
+    //     return am5.color('#6794dc'); 
+    //   }
+    //   else if(target.dataItem.get("Category") == "SIVAllocated") {
+    //     return am5.color('#67b7dc')
+    //   }
+    //   else if(target.dataItem.get("Category") == "SIVUnAllocated") {
+    //     return am5.color('#67b7dc')
+    //   }
+    //   else{
+    //     return void 0
+    //   }
+    // });
 
     series.ticks.template.setAll({
       forceHidden: true
@@ -375,21 +370,23 @@ export class HomeComponent implements OnInit,AfterViewInit {
     
     
     //**** for removing % from labels ***//
-    series.labels.template.set("text", "{category}:{value}");
+    series.labels.template.set("text", "{Category}:{Value}");
     
      //**** for removing % from tooltip ***//
-    series.slices.template.set("tooltipText", "{category}:{value}");
+    series.slices.template.set("tooltipText", "{Category}:{Value}");
     
+    //**** chart data ****//
+    series.data.setAll(this.ChartData);
     // Set data
-    series.data.setAll([
-      { value: 50, category: "Non-Siv Allocated"},
-      { value: 30, category: "SIV Allocated" },
-      { value: 20, category: "SIV UnAllocated" }
-    ]);
+    // series.data.setAll([
+    //   { value: 50, category: "Non-Siv Allocated"},
+    //   { value: 30, category: "SIV Allocated" },
+    //   { value: 20, category: "SIV UnAllocated" }
+    // ]);
     
      // **** Add legend ****//
      var legend = chart.children.push(am5.Legend.new(root, {
-      nameField: "category",
+      nameField: "Category",
       centerX: am5.percent(50),
       x: am5.percent(55),
     }));

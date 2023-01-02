@@ -12,7 +12,12 @@ export class ReportComponent implements OnInit {
   searchLocation = '';
   searchProgram = '';
   searchVendor = '';
+  searchSku = '';
+  searchAllocated = '';
+  searchfromWW = '';
   tollTipRef:any;
+  searchtoWW: '';
+  searchBench: '';
 
   constructor() { }
   
@@ -55,6 +60,11 @@ export class ReportComponent implements OnInit {
     this.searchLocation = "";
     this.searchProgram = "";
     this.searchVendor = "";
+    this.searchSku = "";
+    this.searchAllocated = "";
+    this.searchfromWW = "";
+    this.searchtoWW = "";
+    this.searchBench = "";
   }
 
   hideTestTrendSearch(){

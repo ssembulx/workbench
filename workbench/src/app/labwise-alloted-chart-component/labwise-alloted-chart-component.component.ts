@@ -10,29 +10,48 @@ am4core.options.autoSetClassName = true;
 
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { SummaryService } from '../shared/service';
+
 @Component({
   selector: 'app-labwise-alloted-chart-component',
   templateUrl: './labwise-alloted-chart-component.component.html',
   styleUrls: ['./labwise-alloted-chart-component.component.scss']
 })
-export class LabwiseAllotedChartComponentComponent implements OnInit, AfterViewInit {
+export class LabwiseAllotedChartComponentComponent implements OnInit{
   colors: any;
+  ChartData:any;
 
   @ViewChild('bookingmodalHome') bookingmodalHome: ElementRef;
 
-  constructor(private modalService: NgbModal, config: NgbModalConfig, private toastrService: ToastrService) {
+  constructor(private modalService: NgbModal, config: NgbModalConfig, private toastrService: ToastrService, private service:SummaryService) {
     config.backdrop = 'static';
     config.size = 'lg';
   }
-  ngAfterViewInit(): void {
-    this.getLabwiseStackedChart();
-    console.log("ngAfterViewInit", this.bookingmodalHome);
-  }
+  // ngAfterViewInit(): void {
+  //   this.getLabwiseStackedChart();
+  //   console.log("ngAfterViewInit", this.bookingmodalHome);
+  // }
 
   ngOnInit(): void {
     console.log("ngOnInit", this.bookingmodalHome);
+    this.LabwiseSummary();
   }
 
+  //****Calling API for Labwsie summary chart ***//
+  LabwiseSummary(){
+    let req = {"LabName":"VPG Lab",
+    "Program":"MTL-P",
+    "Vendor":"UST"}
+
+    this.service.LabwiseSummary(req).subscribe(res => {
+    debugger
+    this.ChartData = res.Location;
+    console.log("stacked chart",this.ChartData)
+    this.getLabwiseStackedChart();
+   })
+  }
+
+  //****Chart data****/
   getLabwiseStackedChart() {
     am4core.useTheme(am4themes_animated);
     // Themes end
@@ -47,51 +66,15 @@ export class LabwiseAllotedChartComponentComponent implements OnInit, AfterViewI
       am4core.color('#67b7dc'),
     ];
 
-    chart.data = [
-      {
-        category: "CRD1",
-        value1: 50,
-        value2: 45
-      },
-      {
-        category: "CRD2",
-        value1: 45,
-        value2: 50
-      },
-      {
-        category: "CRD3",
-        value1: 50,
-        value2: 50
-      },
-      {
-        category: "CRD4",
-        value1: 50,
-        value2: 30
-      },
-      {
-        category: "CRD5",
-        value1: 50,
-        value2: 40
-      },
-      {
-        category: "CRD6",
-        value1: 50,
-        value2: 30
-      },
-      {
-        category: "CRD7",
-        value1: 50,
-        value2: 20
-      },
-
-    ];
-
+    //****chart data***//
+    chart.data = this.ChartData;
+   
     chart.colors.step = 2;
     // chart.padding(30, 30, 10, 30);
     chart.legend = new am4charts.Legend();
 
     var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-    categoryAxis.dataFields.category = "category";
+    categoryAxis.dataFields.category = "Category";
     categoryAxis.renderer.grid.template.location = 0;
     categoryAxis.renderer.minGridDistance = 30;
 
@@ -109,8 +92,8 @@ export class LabwiseAllotedChartComponentComponent implements OnInit, AfterViewI
     series1.columns.template.tooltipText =
       "{name}: {valueY.formatNumber('#')}";
     series1.name = "Allocated";
-    series1.dataFields.categoryX = "category";
-    series1.dataFields.valueY = "value1";
+    series1.dataFields.categoryX = "Category";
+    series1.dataFields.valueY = "Allocated";
     // series1.dataFields.valueYShow = "totalPercent";
     // series1.dataItems.template.locations.categoryX = 0.5;
     series1.stacked = true;
@@ -132,11 +115,11 @@ export class LabwiseAllotedChartComponentComponent implements OnInit, AfterViewI
     var series2 = chart.series.push(new am4charts.ColumnSeries());
     series2.columns.template.width = am4core.percent(80);
     series2.columns.template.tooltipText =
-      "{name}: {valueY.totalPercent.formatNumber('#')}";
+      "{name}: {valueY.formatNumber('#')}";
 
     series2.name = "UnAllocated";
-    series2.dataFields.categoryX = "category";
-    series2.dataFields.valueY = "value2";
+    series2.dataFields.categoryX = "Category";
+    series2.dataFields.valueY = "Unallocated";
     // series2.dataFields.valueYShow = "totalPercent";
     // series2.dataItems.template.locations.categoryX = 0.5;
     series2.stacked = true;

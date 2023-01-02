@@ -69,6 +69,24 @@ export class SearchProgram implements PipeTransform {
 }
 
 @Pipe({
+    name: 'searchFilterSku',
+    pure: false
+})
+export class SearchSku implements PipeTransform {
+
+    transform(value: any, args?: any): any {
+        if (!args) {
+            return value;
+        }
+        return value.filter((val: any) => {
+            return (
+                val.SKU === null ? val.SKU
+                    : val.SKU.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+        });
+    }
+}
+
+@Pipe({
     name: 'searchFilterVendor',
     pure: false
 })
@@ -86,4 +104,76 @@ export class SearchVendor implements PipeTransform {
     }
 }
 
+@Pipe({
+    name: 'searchFilterAllocated',
+    pure: false
+})
+export class SearchAllocated implements PipeTransform {
+
+    transform(value: any, args?: any): any {
+        if (!args) {
+            return value;
+        }
+        return value.filter((val: any) => {
+            return (
+                val.AllocateTo === null ? val.AllocateTo
+                    : val.AllocateTo.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+        });
+    }
+}
+
+@Pipe({
+    name: 'searchFilterFromWW',
+    pure: false
+})
+export class SearchFromWW implements PipeTransform {
+
+    transform(value: any, args?: any): any {
+        if (!args) {
+            return value;
+        }
+        return value.filter((val: any) => {
+            return (
+                val.FromWW === null ? val.FromWW
+                    : val.FromWW.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+        });
+    }
+}
+
+@Pipe({
+    name: 'searchFilterToWW',
+    pure: false
+})
+export class SearchToWW implements PipeTransform {
+
+    transform(value: any, args?: any): any {
+        if (!args) {
+            return value;
+        }
+        return value.filter((val: any) => {
+            return (
+                val.ToWW === null ? val.ToWW
+                    : val.ToWW.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+        });
+    }
+}
+
+
+@Pipe({
+    name: 'searchFilterBench',
+    pure: false
+})
+export class SearchBench implements PipeTransform {
+
+    transform(value: any, args?: any): any {
+        if (!args) {
+            return value;
+        }
+        return value.filter((val: any) => {
+            return (
+                val.Bench === null ? val.Bench
+                    : val.Bench.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+        });
+    }
+}
 

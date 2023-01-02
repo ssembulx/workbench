@@ -13,84 +13,77 @@ import {SummaryService } from '../shared/service';
 export class StackedChartComponentComponent implements OnInit{
   colors: any;
   ChartData:any;
+  ChartLoader = false;
+  
   constructor(private service:SummaryService) { }
 
   ngOnInit(): void{
-    // debugger
-  //  this.LabProgramVendorSummary();
-  // this.service.LabProgramVendorSummary().subscribe(res => {
-  //   this.ChartData = res.Location;
-  //   console.log("stacked chart",this.ChartData)
-    this.getLocationChartData();
-  // }
-  
-//  )
+   this.LabProgramVendorSummary();
   }
+
+  //****Calling API for location chart ***//
   LabProgramVendorSummary(){
-    debugger
+    this.ChartLoader = false;
+    this.service.LabProgramVendorSummary().subscribe(res => {
+      this.ChartData = res.Location;
+      console.log("stacked chart",this.ChartData)
+      this.ChartLoader = true;
+      this.getLocationChartData();
+     })
    }
 
-
-
-
+   //**** Chart data ****//
   getLocationChartData() {
-    debugger
     am4core.useTheme(am4themes_animated);
-     //  am4core.useTheme(am4themes_animated);
-     am4core.options.autoSetClassName = true;
-     am4core.options.commercialLicense = true;
+    am4core.options.autoSetClassName = true;
+    am4core.options.commercialLicense = true;
   
-    
     var chart = am4core.create("chartdiv1", am4charts.XYChart);
     chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
     // chart.colors.list = this.colors;
 
-    // color list for chart and legend
+    //*** color list for chart and legend ***//
     chart.colors.list = [
       am4core.color('#67b7dc'),
-      // am4core.color('#7bed9f'),
-      // am4core.color('#6c5ce7'),
-      // am4core.color('#e84393'),
-      // am4core.color('#f39c12'),
       am4core.color('#67b7dc')
     ];
     
-    // chart.data = this.ChartData;
-    chart.data = [
-      {
-        category: "SRR1",
-        value1: 50,
-        value2: 45
-      },
-      {
-        category: "SRR2",
-        value1: 45,
-        value2: 50
-      },
-      {
-        category: "SRR3",
-        value1: 50,
-        value2: 50
-      },
-      {
-        category: "SRR4",
-        value1: 50,
-        value2: 30
-      },
-      {
-        category: "SRR5",
-        value1: 50,
-        value2: 20
-      },
+    chart.data = this.ChartData;
+    // chart.data = [
+    //   {
+    //     category: "SRR1",
+    //     value1: 50,
+    //     value2: 45
+    //   },
+    //   {
+    //     category: "SRR2",
+    //     value1: 45,
+    //     value2: 50
+    //   },
+    //   {
+    //     category: "SRR3",
+    //     value1: 50,
+    //     value2: 50
+    //   },
+    //   {
+    //     category: "SRR4",
+    //     value1: 50,
+    //     value2: 30
+    //   },
+    //   {
+    //     category: "SRR5",
+    //     value1: 50,
+    //     value2: 20
+    //   },
     
-    ];
+    // ];
     
     chart.colors.step = 2;
     // chart.padding(30, 30, 10, 30);
     chart.legend = new am4charts.Legend();
     
     var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-    categoryAxis.dataFields.category = "category";
+    categoryAxis.dataFields.category = "Category";
     categoryAxis.renderer.grid.template.location = 0;
     
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
@@ -106,8 +99,8 @@ export class StackedChartComponentComponent implements OnInit{
     series1.columns.template.tooltipText =
       "{name}: {valueY.formatNumber('#')}";
     series1.name = "Allocated";
-    series1.dataFields.categoryX = "category";
-    series1.dataFields.valueY = "value1";
+    series1.dataFields.categoryX = "Category";
+    series1.dataFields.valueY = "Allocated";
     // series1.dataFields.valueYShow = "totalPercent";
     // series1.dataItems.template.locations.categoryX = 0.5;
     series1.stacked = true;
@@ -124,8 +117,8 @@ export class StackedChartComponentComponent implements OnInit{
     series2.columns.template.tooltipText =
       "{name}: {valueY.formatNumber('#')}";
     series2.name = "UnAllocated";
-    series2.dataFields.categoryX = "category";
-    series2.dataFields.valueY = "value2";
+    series2.dataFields.categoryX = "Category";
+    series2.dataFields.valueY = "Unallocated";
     // series2.dataFields.valueYShow = "totalPercent";
     // series2.dataItems.template.locations.categoryX = 0.5;
     series2.stacked = true;
