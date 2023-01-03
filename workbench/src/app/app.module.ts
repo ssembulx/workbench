@@ -73,11 +73,12 @@ import { ToastrModule } from 'ngx-toastr';
       closeButton: true,
       timeOut: 15000, // 15 seconds
       progressBar: true,
-    })
+    }),
   ],
   providers: [
     SummaryService,
-    ],
-  bootstrap: [AppComponent]
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
