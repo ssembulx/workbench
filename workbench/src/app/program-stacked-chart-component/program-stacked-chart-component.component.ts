@@ -32,11 +32,9 @@ export class ProgramStackedChartComponentComponent implements OnInit{
 
    //****Calling API for program chart ***//
   LabProgramSummary(){
-    // this.ChartLoader = false;
     this.service.LabProgramSummary().subscribe(res => {
       this.ChartData = res.Data;
       console.log("stacked chart",this.ChartData)
-      // this.ChartLoader = true;
       this.getProgramColumnChart();
      })
   }

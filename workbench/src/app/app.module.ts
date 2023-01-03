@@ -26,9 +26,10 @@ import { ReportComponent } from './report/report.component';
 import { SearchAllocated, SearchBench, SearchFromWW, SearchLab, SearchPipe, SearchProgram, SearchSku, SearchToWW, SearchVendor } from './search.pipe';
 import { SummaryService } from './shared/service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
+import { NgxSpinnerModule } from "ngx-spinner";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { InterceptService } from './shared/interceptor/intercept.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,7 +65,7 @@ import { ToastrModule } from 'ngx-toastr';
     /*  MatTableModule,
      MatSortModule, */
     NgbModule,
-
+    NgxSpinnerModule,
     OrderModule,
     FormsModule,
     ReactiveFormsModule,
@@ -76,8 +77,10 @@ import { ToastrModule } from 'ngx-toastr';
     }),
   ],
   providers: [
-    SummaryService,
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    SummaryService,   
+    { provide: LocationStrategy, useClass: HashLocationStrategy},
+    InterceptService,  
+    { provide: HTTP_INTERCEPTORS, useClass: InterceptService, multi: true},
   ],
   bootstrap: [AppComponent],
 })

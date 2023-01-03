@@ -44,10 +44,9 @@ export class LabwiseAllotedChartComponentComponent implements OnInit{
     "Vendor":"UST"}
 
     this.service.LabwiseSummary(req).subscribe(res => {
-    debugger
-    this.ChartData = res.Location;
-    console.log("stacked chart",this.ChartData)
-    this.getLabwiseStackedChart();
+      this.ChartData = res.Location;
+      console.log("stacked chart",this.ChartData)
+      this.getLabwiseStackedChart();
    })
   }
 
