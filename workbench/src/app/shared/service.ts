@@ -65,7 +65,7 @@ export class SummaryService {
   // /**
   //  * @method GetPlatfroms -get the favourite filter selected for HSDES
   //  */
-   }
+   
   
   /**
    * @method GetPlatfroms -get the favourite filter selected for HSDES
