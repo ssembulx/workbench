@@ -31,9 +31,10 @@ import {
 } from './search.pipe';
 import { SummaryService } from './shared/service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
+import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+/* import { ToastrService } from 'ngx-toastr'; */
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,7 +60,7 @@ import { ToastrModule } from 'ngx-toastr';
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
+    CommonModule,
     AppRoutingModule,
     /*  MatTableModule,
      MatSortModule, */
@@ -69,11 +70,8 @@ import { ToastrModule } from 'ngx-toastr';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ToastrModule.forRoot({
-      closeButton: true,
-      timeOut: 15000, // 15 seconds
-      progressBar: true,
-    }),
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [
     SummaryService,
@@ -81,4 +79,6 @@ import { ToastrModule } from 'ngx-toastr';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  /* constructor(toastrService: ToastrService) {} */
+}

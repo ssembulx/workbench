@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService } from 'ngx-toastr';
+/* import { ToastrService } from 'ngx-toastr'; */
 import { SummaryService } from '../shared/service';
 @Component({
   selector: 'app-allocation',
@@ -44,17 +44,23 @@ export class AllocationComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     config: NgbModalConfig,
-    private toastrService: ToastrService,
+    /* private toastrService: ToastrService, */
     private dataSvc: SummaryService
   ) {
     config.backdrop = 'static';
     config.size = 'lg';
   }
   locationList: any;
+  defaultValue = 'SRR2-1F CRD-4-BA-SRR2';
+  labDetails: any;
+  parentLabDetailsAdded(eventData: any) {
+    
+    this.labDetails = eventData;
+  }
   ngOnInit(): void {
     this.dataSvc.GetLocations().subscribe((res) => {
       if (res) {
-        debugger;
+        
         this.locationList = res;
       }
     });
@@ -174,10 +180,10 @@ export class AllocationComponent implements OnInit {
     this.modalReference = this.modalService.open(addmodal);
   }
   saveBooking() {
-    this.toastrService.success(
+    /*  this.toastrService.success(
       'The booking has been placed successfully',
       'Success!'
-    );
+    ); */
     this.modalReference.close();
   }
 

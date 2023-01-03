@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService } from 'ngx-toastr';
+/* import { ToastrService } from 'ngx-toastr'; */
 import { SummaryService } from '../shared/service';
 @Component({
   selector: 'app-vpg-lab',
@@ -8,6 +8,7 @@ import { SummaryService } from '../shared/service';
   styleUrls: ['./vpg-lab.component.scss'],
 })
 export class VPGLabComponent implements OnInit {
+  @Input() defaultValue: string;
   public seatConfig: any = null;
 
   public seatmap: any = [];
@@ -38,14 +39,24 @@ export class VPGLabComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     config: NgbModalConfig,
-    private toastrService: ToastrService,
+    /* private toastrService: ToastrService, */
     private dataSvc: SummaryService
   ) {
     config.backdrop = 'static';
     config.size = 'lg';
   }
-  
+  /* parentLabDetails: any = {}; */
+  @Output() parentLabDetailsCreated = new EventEmitter<any>();
   ngOnInit(): void {
+    this.dataSvc
+      .getLabDetails({ LabName: this.defaultValue })
+      .subscribe((res) => {
+        if (res) {
+          let response: any = res;
+          this.parentLabDetailsCreated.emit(response);
+          this.seatmap = response.BenchDetails;
+        }
+      });
     //Process a simple bus layout
     /*  this.seatConfig = [
        {
@@ -216,9 +227,9 @@ export class VPGLabComponent implements OnInit {
         ],
       },
     ];
-    this.processSeatChart(this.seatConfig);
-    this.blockSeats('A_1,C_6,F_7');
-    this.blockSeatsNonSiv('D_4,D_6,G_9');
+    // this.processSeatChart(this.seatConfig);
+    /* this.blockSeats('A_1,C_6,F_7');
+    this.blockSeatsNonSiv('D_4,D_6,G_9'); */
   }
 
   public processSeatChart(map_data: any[]) {
@@ -254,19 +265,23 @@ export class VPGLabComponent implements OnInit {
           seatValArr.forEach((item: any, index: any) => {
             var seatObj: any = {
               key: map_element.seat_label + '_' + totalItemCounter,
+              BenchName: map_element.seat_label + '_' + totalItemCounter,
               /* price: map_data[__counter]["seat_price"], */
               status: 'available',
+              IsAllocated: false,
+              IsRequested: false,
+              AllocationData: null,
             };
 
             if (item != '_') {
               seatObj['seatLabel'] =
                 map_element.seat_label + ' ' + seatNoCounter;
               seatObj['dir'] = seatDirArr[index];
-              if (seatNoCounter < 10) {
+              /*   if (seatNoCounter < 10) {
                 seatObj['seatNo'] = '0' + seatNoCounter;
-              } else {
-                seatObj['seatNo'] = '' + seatNoCounter;
-              }
+              } else { */
+              seatObj['seatNo'] = '' + seatNoCounter;
+              /* } */
 
               seatNoCounter++;
             } else {
@@ -292,13 +307,21 @@ export class VPGLabComponent implements OnInit {
 
   public selectSeat(seatObject: any) {
     console.log('Seat to block: ', seatObject);
-    if (seatObject.status == 'available') {
-      seatObject.status = 'booked';
+    if (
+      seatObject.status != 'selected' &&
+      seatObject.IsAllocated === false &&
+      seatObject.IsRequested === false
+    ) {
+      seatObject.status = 'selected';
       this.cart.selectedSeats.push(seatObject.seatLabel);
       this.cart.selectedSeatsNo.push(seatObject.seatNo);
       this.cart.seatstoStore.push(seatObject.key);
       this.cart.totalamount += seatObject.price;
-    } else if ((seatObject.status = 'booked')) {
+    } else if (
+      seatObject.status == 'selected' &&
+      seatObject.IsAllocated === false &&
+      seatObject.IsRequested === false
+    ) {
       seatObject.status = 'available';
       var seatIndex = this.cart.selectedSeats.indexOf(seatObject.seatLabel);
       if (seatIndex > -1) {
@@ -395,10 +418,10 @@ export class VPGLabComponent implements OnInit {
     this.modalReference = this.modalService.open(addmodal);
   }
   saveBooking() {
-    this.toastrService.success(
+    /*   this.toastrService.success(
       'The booking has been placed successfully',
       'Success!'
-    );
+    ); */
     this.modalReference.close();
   }
 }

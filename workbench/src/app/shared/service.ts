@@ -1,3 +1,4 @@
+import { any } from '@amcharts/amcharts5/.internal/core/util/Array';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -29,5 +30,29 @@ export class SummaryService {
    */
   GetLocations() {
     return this.http.get(this.ServiceURL + 'home/ListAllLocations/');
+  }
+
+  getLabDetails(lab: any) {
+    const serviceUrl = this.ServiceURL + 'home/LabDetails/';
+    return this.http.post(serviceUrl, lab, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+
+  getProgram() {
+    return this.http.get(this.ServiceURL + 'home/GetProgramDetails/');
+  }
+  getSKU(program: any) {
+    const serviceUrl = this.ServiceURL + 'home/GetSkuDetails/ ';
+    return this.http.post(serviceUrl, program, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+  getVendor(lab: any) {
+    return this.http.get(this.ServiceURL + 'home/GetVendorDetails');
   }
 }

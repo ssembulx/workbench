@@ -9,7 +9,6 @@ am4core.options.commercialLicense = true;
 am4core.options.autoSetClassName = true;
 
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-labwise-alloted-chart-component',
   templateUrl: './labwise-alloted-chart-component.component.html',
@@ -20,7 +19,7 @@ export class LabwiseAllotedChartComponentComponent implements OnInit, AfterViewI
 
   @ViewChild('bookingmodalHome') bookingmodalHome: ElementRef;
 
-  constructor(private modalService: NgbModal, config: NgbModalConfig, private toastrService: ToastrService) {
+  constructor(private modalService: NgbModal, config: NgbModalConfig) {
     config.backdrop = 'static';
     config.size = 'lg';
   }
@@ -182,7 +181,6 @@ export class LabwiseAllotedChartComponentComponent implements OnInit, AfterViewI
   }
 
   saveBooking() {
-    this.toastrService.success('The booking has been placed successfully', 'Success!');
     this.modalReference.close();
   }
 

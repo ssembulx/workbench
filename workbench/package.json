@@ -26,9 +26,11 @@
     "@ng-bootstrap/ng-bootstrap": "^13.0.0",
     "@popperjs/core": "^2.10.2",
     "bootstrap": "^5.2.3",
+    "cli-spinners": "^2.7.0",
     "jquery": "^3.6.1",
     "ngx-order-pipe": "^2.2.0",
-    "ngx-toastr": "^14.3.0",
+    "ngx-spinner": "^14.0.0",
+    "ngx-toastr": "^13.0.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
