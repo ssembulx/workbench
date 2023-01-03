@@ -27,9 +27,11 @@ import { SearchAllocated, SearchBench, SearchFromWW, SearchLab, SearchPipe, Sear
 import { SummaryService } from './shared/service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { InterceptService } from './shared/interceptor/intercept.service';
+import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import { InterceptService } from './shared/interceptor/intercept.service';
+/* import { ToastrService } from 'ngx-toastr'; */
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,7 +62,7 @@ import { InterceptService } from './shared/interceptor/intercept.service';
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
+    CommonModule,
     AppRoutingModule,
     /*  MatTableModule,
      MatSortModule, */
@@ -70,11 +72,8 @@ import { InterceptService } from './shared/interceptor/intercept.service';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ToastrModule.forRoot({
-      closeButton: true,
-      timeOut: 15000, // 15 seconds
-      progressBar: true,
-    }),
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [
     SummaryService,   
@@ -84,4 +83,6 @@ import { InterceptService } from './shared/interceptor/intercept.service';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  /* constructor(toastrService: ToastrService) {} */
+}
