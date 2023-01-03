@@ -16,34 +16,44 @@ export class SummaryService {
 
   private ServiceURL = environment.ServiceURL;
 
-  private options = { headers: this.headers }
+  private options = { headers: this.headers };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   //**** Location Chart API  ****//
-  public LabProgramVendorSummary():Observable<any> {
-    return this.http.get(this.ServiceURL + 'home/LabProgramVendorSummary/Location');
+  public LabProgramVendorSummary(): Observable<any> {
+    return this.http.get(
+      this.ServiceURL + 'home/LabProgramVendorSummary/Location'
+    );
   }
 
   //**** Program Chart API  ****//
-  public LabProgramSummary():Observable<any> {
-    return this.http.get(this.ServiceURL + 'home/LabProgramVendorSummary/Program');
+  public LabProgramSummary(): Observable<any> {
+    return this.http.get(
+      this.ServiceURL + 'home/LabProgramVendorSummary/Program'
+    );
   }
 
   //**** Vendor Chart API  ****//
-  public LabVendorSummary():Observable<any> {
-    return this.http.get(this.ServiceURL + 'home/LabProgramVendorSummary/Vendor');
+  public LabVendorSummary(): Observable<any> {
+    return this.http.get(
+      this.ServiceURL + 'home/LabProgramVendorSummary/Vendor'
+    );
   }
 
   // ***** Labwise Chart API ******//
-  public LabwiseSummary(req: any) : Observable<any> {
-    return this.http.post(this.ServiceURL + 'home/LabwiseSummary/', req, this.options);
+  public LabwiseSummary(req: any): Observable<any> {
+    return this.http.post(
+      this.ServiceURL + 'home/LabwiseSummary/',
+      req,
+      this.options
+    );
   }
 
-   // ***** Overallsummary semi circle pie Chart API ******//
-   public  LabOverallSummary():Observable<any> {
+  // ***** Overallsummary semi circle pie Chart API ******//
+  public LabOverallSummary(): Observable<any> {
     return this.http.get(this.ServiceURL + 'home/OverallSummary/');
-   }
+  }
   // constructor(private http: HttpClient) {}
 
   // public LabProgramVendorSummary(): Observable<any> {
@@ -55,7 +65,7 @@ export class SummaryService {
   // /**
   //  * @method GetPlatfroms -get the favourite filter selected for HSDES
   //  */
-  // GetLocations() {
-  //   return this.http.get(this.ServiceURL + 'home/ListAllLocations/');
-  // }
+  GetLocations() {
+    return this.http.get(this.ServiceURL + 'home/ListAllLocations/');
+  }
 }

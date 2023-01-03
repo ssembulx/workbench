@@ -217,8 +217,8 @@ export class VPGLabComponent implements OnInit {
       },
     ];
     this.processSeatChart(this.seatConfig);
-    this.blockSeats('A_1,C_6,F_7');
-    this.blockSeatsNonSiv('D_4,D_6,G_9');
+    /*   this.blockSeats('A_1,C_6,F_7');
+    this.blockSeatsNonSiv('D_4,D_6,G_9'); */
   }
 
   public processSeatChart(map_data: any[]) {
@@ -256,21 +256,29 @@ export class VPGLabComponent implements OnInit {
               key: map_element.seat_label + '_' + totalItemCounter,
               /* price: map_data[__counter]["seat_price"], */
               status: 'available',
+              IsAllocated: false,
+              IsRequested: false,
+              AllocationData: null,
             };
 
             if (item != '_') {
               seatObj['seatLabel'] =
                 map_element.seat_label + ' ' + seatNoCounter;
+              seatObj['BenchName'] =
+                map_element.seat_label + '_' + totalItemCounter;
               seatObj['dir'] = seatDirArr[index];
-              if (seatNoCounter < 10) {
+              /* if (seatNoCounter < 10) {
                 seatObj['seatNo'] = '0' + seatNoCounter;
-              } else {
-                seatObj['seatNo'] = '' + seatNoCounter;
-              }
+              } else { */
+              seatObj['seatNo'] = '' + seatNoCounter;
+              /* } */
 
               seatNoCounter++;
             } else {
               seatObj['seatLabel'] = '';
+              seatObj['BenchName'] = '';
+              seatObj['dir'] = '';
+              seatObj['seatNo'] = '';
             }
             totalItemCounter++;
 
