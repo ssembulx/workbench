@@ -44,7 +44,7 @@ export class VPGLabComponent implements OnInit {
     config.backdrop = 'static';
     config.size = 'lg';
   }
-  locationList: any;
+  
   ngOnInit(): void {
     //Process a simple bus layout
     /*  this.seatConfig = [
@@ -219,13 +219,6 @@ export class VPGLabComponent implements OnInit {
     this.processSeatChart(this.seatConfig);
     this.blockSeats('A_1,C_6,F_7');
     this.blockSeatsNonSiv('D_4,D_6,G_9');
-
-    this.dataSvc.GetLocations().subscribe((res) => {
-      if (res) {
-        debugger;
-        this.locationList = res;
-      }
-    });
   }
 
   public processSeatChart(map_data: any[]) {

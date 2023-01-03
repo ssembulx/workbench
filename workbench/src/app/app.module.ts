@@ -23,7 +23,12 @@ import { SSRCRD4LabComponent } from './ssr-crd4-lab/ssr-crd4-lab.component';
 import { ProgramStackedChartComponentComponent } from './program-stacked-chart-component/program-stacked-chart-component.component';
 import { VendorStackedChartComponentComponent } from './vendor-stacked-chart-component/vendor-stacked-chart-component.component';
 import { ReportComponent } from './report/report.component';
-import { SearchLab, SearchPipe, SearchProgram, SearchVendor } from './search.pipe';
+import {
+  SearchLab,
+  SearchPipe,
+  SearchProgram,
+  SearchVendor,
+} from './search.pipe';
 import { SummaryService } from './shared/service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -51,7 +56,6 @@ import { ToastrModule } from 'ngx-toastr';
     SearchLab,
     SearchProgram,
     SearchVendor,
-    
   ],
   imports: [
     BrowserModule,
@@ -69,11 +73,12 @@ import { ToastrModule } from 'ngx-toastr';
       closeButton: true,
       timeOut: 15000, // 15 seconds
       progressBar: true,
-    })
+    }),
   ],
   providers: [
     SummaryService,
-    ],
-  bootstrap: [AppComponent]
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
