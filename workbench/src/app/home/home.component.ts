@@ -29,8 +29,6 @@ export class HomeComponent implements OnInit {
   fullScreenBack: boolean = false;
   smallscreen = true;
   ChartData:any;
-  ChartLoader = false;
-
 
   constructor(private service:SummaryService) { }
   
@@ -50,12 +48,9 @@ export class HomeComponent implements OnInit {
 
   //****Calling API for summary pie chart ***//
   LabOverallSummary(){
-    this.ChartLoader = false;
     this.service.LabOverallSummary().subscribe(res => {
-      debugger
       this.ChartData = res.Data;
       console.log("stacked chart",this.ChartData)
-      this.ChartLoader = true;
       this.getSemiCirclePiechart();
     })
   }
@@ -311,58 +306,47 @@ export class HomeComponent implements OnInit {
       
     });
     
+  
 
     //**** for transperent color(opacity) ***//
-    // series.slices.template.adapters.add("fillOpacity", function(fillOpacity, target:any) {
-    //   if (target.dataItem.get("Category") == "SIVUnAllocated") {
-    //       return 0.1;
-    //   }
-    //   else{
-    //     return void 0
-    //   }  
-    // });
+    series.slices.template.adapters.add("fillOpacity", function(fillOpacity, target:any) {
+      if (target.dataItem.get("category") == "SIV UnAllocated") {
+          return 0.1;
+      }
+    });
     
     //**** for dotted border ***//
-    // series.slices.template.adapters.add("strokeDasharray", function(strokeDasharray, target:any) {
-    //   if (target.dataItem.get("Category") == "SIVUnAllocated") {
-    //       return [8,4];
-    //   }
-    //   else{
-    //     return void 0
-    //   }
-    // });
+    series.slices.template.adapters.add("strokeDasharray", function(strokeDasharray, target:any) {
+      if (target.dataItem.get("category") == "SIV UnAllocated") {
+          return [8,4];
+      }
+    });
 
     //**** custom color for slices****//
-    // series.slices.template.adapters.add("fill", function(fill, target:any) {
-    //   if (target.dataItem.get("Category") == "NonSIVAllocated") {
-    //       return am5.color('#6794dc'); 
-    //   }
-    //   else if(target.dataItem.get("Category") == "SIVAllocated") {
-    //     return am5.color('#67b7dc')
-    //   }
-    //   else if(target.dataItem.get("Category") == "SIVUnAllocated") {
-    //     return am5.color('#67b7dc')
-    //   }
-    //   else{
-    //     return void 0
-    //   }
-    // });
+    series.slices.template.adapters.add("fill", function(fill, target:any) {
+      if (target.dataItem.get("category") == "Non-SIV Allocated") {
+          return am5.color('#6794dc'); 
+      }
+      else if(target.dataItem.get("category") == "SIV Allocated") {
+        return am5.color('#67b7dc')
+      }
+      else if(target.dataItem.get("category") == "SIV UnAllocated") {
+        return am5.color('#67b7dc')
+      }
+    });
 
     //**** custom color for border(stroke)****//
-    // series.slices.template.adapters.add("stroke", function(fill, target:any) {
-    //   if (target.dataItem.get("Category") == "NonSIVAllocated") {
-    //     return am5.color('#6794dc'); 
-    //   }
-    //   else if(target.dataItem.get("Category") == "SIVAllocated") {
-    //     return am5.color('#67b7dc')
-    //   }
-    //   else if(target.dataItem.get("Category") == "SIVUnAllocated") {
-    //     return am5.color('#67b7dc')
-    //   }
-    //   else{
-    //     return void 0
-    //   }
-    // });
+    series.slices.template.adapters.add("stroke", function(fill, target:any) {
+      if (target.dataItem.get("category") == "Non-SIV Allocated") {
+        return am5.color('#6794dc'); 
+      }
+      else if(target.dataItem.get("category") == "SIV Allocated") {
+        return am5.color('#67b7dc')
+      }
+      else if(target.dataItem.get("category") == "SIV UnAllocated") {
+        return am5.color('#67b7dc')
+      }
+    });
 
     series.ticks.template.setAll({
       forceHidden: true
@@ -375,8 +359,8 @@ export class HomeComponent implements OnInit {
      //**** for removing % from tooltip ***//
     series.slices.template.set("tooltipText", "{Category}:{Value}");
     
-    //**** chart data ****//
-    series.data.setAll(this.ChartData);
+      //**** chart data ****//
+      series.data.setAll(this.ChartData);
     // Set data
     // series.data.setAll([
     //   { value: 50, category: "Non-Siv Allocated"},
@@ -392,6 +376,7 @@ export class HomeComponent implements OnInit {
     }));
 
     legend.data.setAll(series.dataItems);
+    // legend.data.setAll(chart.series.values);
 
     series.appear(1000, 100);
   }

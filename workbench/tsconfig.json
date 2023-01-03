@@ -9,7 +9,7 @@
     "strictNullChecks": false,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
-    "noImplicitReturns": true,
+    // "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "declaration": false,
@@ -19,6 +19,7 @@
     "importHelpers": true,
     "target": "es2020",
     "module": "es2020",
+    "noImplicitReturns": false,
     "lib": [
       "es2020",
       "dom"
@@ -29,5 +30,6 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
+
   }
 }
