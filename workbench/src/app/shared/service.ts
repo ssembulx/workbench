@@ -65,6 +65,11 @@ export class SummaryService {
   // /**
   //  * @method GetPlatfroms -get the favourite filter selected for HSDES
   //  */
+   }
+  
+  /**
+   * @method GetPlatfroms -get the favourite filter selected for HSDES
+   */
   GetLocations() {
     return this.http.get(this.ServiceURL + 'home/ListAllLocations/');
   }
