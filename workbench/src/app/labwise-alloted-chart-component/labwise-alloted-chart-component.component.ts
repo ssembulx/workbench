@@ -162,7 +162,6 @@ export class LabwiseAllotedChartComponentComponent implements OnInit{
   }
 
   saveBooking() {
-    this.toastrService.success('The booking has been placed successfully', 'Success!');
     this.modalReference.close();
   }
 

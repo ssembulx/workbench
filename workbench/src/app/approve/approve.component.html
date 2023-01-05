@@ -1,125 +1,135 @@
 <div class="users">
     <div class="content">
-      <div class="user-content">
-        <div class="Floor-container row">
-        
-            <div class="col-4">
-                <table class="table table-bordered floor-table1">
-                    <thead>
-                        <tr>
-                            <th>SRR1</th>
-                            <th>100/200</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Floor 1</td>
-                            <td>30/40</td>
-                        </tr>
-                        <tr>
-                            <td>Floor 2</td>
-                            <td>35/35</td>
-                        </tr>
-                        <tr>   
-                            <td>Floor 3</td>
-                            <td>20/25</td>
-                        </tr>
-                    </tbody> 
-                </table>
+        <div class="user-content">
+            <div class="Floor-container row">
+
+                <div class="col-4">
+                    <table class="table table-bordered floor-table1">
+                        <thead>
+                            <tr>
+                                <th>SRR1</th>
+                                <th>100/200</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Floor 1</td>
+                                <td>30/40</td>
+                            </tr>
+                            <tr>
+                                <td>Floor 2</td>
+                                <td>35/35</td>
+                            </tr>
+                            <tr>
+                                <td>Floor 3</td>
+                                <td>20/25</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <div class="col-3">
+                    <table class="table table-bordered floor-table2">
+                        <thead>
+                            <tr>
+                                <th>SRR2</th>
+                                <th>100/200</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Floor 1</td>
+                                <td>30/40</td>
+                            </tr>
+                            <tr>
+                                <td>Floor 2</td>
+                                <td>35/35</td>
+                            </tr>
+                            <tr>
+                                <td>Floor 3</td>
+                                <td>20/25</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
+                <div class="col-4">
+                    <table class="table table-bordered floor-table3">
+                        <thead>
+                            <tr>
+                                <th>SRR2</th>
+                                <th>100/200</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Floor 1</td>
+                                <td>30/40</td>
+                            </tr>
+                            <tr>
+                                <td>Floor 2</td>
+                                <td>35/35</td>
+                            </tr>
+                            <tr>
+                                <td>Floor 3</td>
+                                <td>20/25</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
             </div>
-           
-        
-            <div class="col-3">
-                <table class="table table-bordered floor-table2">
+            <div class="table-container">
+                <div class="btn-add-user">
+                    <button class="btn add-btn">Reject</button>
+                    <button class="btn add-btn">Approve</button>
+                </div>
+                <table class="table table-bordered user-table">
                     <thead>
                         <tr>
-                            <th>SRR2</th>
-                            <th>100/200</th>
+                            <th class="v-align">#</th>
+                            <th class="v-align" (click)="setOrderRelease('Lab Details')"><span class="sort-by">Lab
+                                    Details</span></th>
+                            <th class="v-align" (click)="setOrderRelease('Program')"><span
+                                    class="sort-by">Program</span></th>
+                            <th class="v-align" (click)="setOrderRelease('SKU')"><span class="sort-by">SKU</span></th>
+                            <th class="v-align" (click)="setOrderRelease('Vendor')"><span class="sort-by">Vendor</span>
+                            </th>
+                            <th class="v-align" (click)="setOrderRelease('Allocated To')"><span
+                                    class="sort-by">Allocated To</span></th>
+                            <th class="v-align" (click)="setOrderRelease('From WW')"><span class="sort-by">From
+                                    WW</span></th>
+                            <th class="v-align" (click)="setOrderRelease('To WW')"><span class="sort-by">To WW</span>
+                            </th>
+                            <th class="v-align" (click)="setOrderRelease('#Bench')"><span class="sort-by">#Bench</span>
+                            </th>
+                            <th class="v-align">Remarks</th>
+                            <th class="v-align"><!-- <input class="form-check-input chcekbox-style" type="checkbox" value=""
+                                    id="flexCheckChecked" />Select All --></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Floor 1</td>
-                            <td>30/40</td>
-                        </tr>
-                        <tr>
-                            <td>Floor 2</td>
-                            <td>35/35</td>
-                        </tr>
-                        <tr>   
-                            <td>Floor 3</td>
-                            <td>20/25</td>
+                        <tr
+                            *ngFor="let data of approvallist | orderBy: orderMappedRelease:reverseMappedRelease: true ;let i=index">
+                            <td>{{i+1}}</td>
+                            <td>{{data.Location__Name}}</td>
+                            <td>{{data.Program}}</td>
+                            <td>{{data.Sku}}</td>
+                            <td>{{data.Vendor}}</td>
+                            <td>{{data.AllocatedTo}}</td>
+                            <td>{{data.FromWW}}</td>
+                            <td>{{data.ToWW}}</td>
+                            <td>{{data.BenchData}}</td>
+                            <td>{{data.Remarks}}</td>
+                            <td><input class="form-check-input chcekbox-style" type="checkbox" value=""
+                                    id="flexCheckChecked" /></td>
                         </tr>
                     </tbody>
-                   
-                </table> 
-            </div>    
-          
-            <div class="col-4">
-                <table class="table table-bordered floor-table3">
-                    <thead>
-                        <tr>
-                            <th>SRR2</th>
-                            <th>100/200</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Floor 1</td>
-                            <td>30/40</td>
-                        </tr>
-                        <tr>
-                            <td>Floor 2</td>
-                            <td>35/35</td>
-                        </tr>
-                        <tr>   
-                            <td>Floor 3</td>
-                            <td>20/25</td>
-                        </tr>
-                    </tbody>
-                   
                 </table>
             </div>
-           
         </div>
-        <div class="table-container">
-            <div class="btn-add-user">
-                <button class="btn add-btn">Reject</button>
-                <button class="btn add-btn">Approve</button>
-            </div>
-            <table class="table table-bordered user-table">
-                <thead>
-                    <tr>
-                        <th class="v-align">#</th>
-                        <th class="v-align" (click)="setOrderRelease('Lab Details')"><span class="sort-by">Lab Details</span></th>
-                        <th class="v-align" (click)="setOrderRelease('Program')"><span class="sort-by">Program</span></th>
-                        <th class="v-align" (click)="setOrderRelease('SKU')"><span class="sort-by">SKU</span></th>
-                        <th class="v-align" (click)="setOrderRelease('Vendor')"><span class="sort-by">Vendor</span></th>
-                        <th class="v-align" (click)="setOrderRelease('Allocated To')"><span class="sort-by">Allocated To</span></th>
-                        <th class="v-align" (click)="setOrderRelease('From WW')"><span class="sort-by">From WW</span></th>
-                        <th class="v-align" (click)="setOrderRelease('To WW')"><span class="sort-by">To WW</span></th>
-                        <th class="v-align" (click)="setOrderRelease('#Bench')"><span class="sort-by">#Bench</span></th>
-                        <th class="v-align">Remarks</th>
-                        <th class="v-align"><input class="form-check-input chcekbox-style" type="checkbox" value="" id="flexCheckChecked"/>Select All</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let data of aproveData | orderBy: orderMappedRelease:reverseMappedRelease: true ;">
-                        <td>{{data.slno}}</td>
-                        <td>{{data.LabDetails}}</td>
-                        <td>{{data.program}}</td>
-                        <td>{{data.SKU}}</td>
-                        <td>{{data.vendor}}</td>
-                        <td>{{data.AllocateTo}}</td>
-                        <td>{{data.FromWW}}</td>
-                        <td>{{data.ToWW}}</td>
-                        <td>{{data.Bench}}</td>
-                        <td>{{data.Remarks}}</td>
-                        <td><input class="form-check-input chcekbox-style" type="checkbox" value="" id="flexCheckChecked"/></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-      </div>
     </div>
 </div>

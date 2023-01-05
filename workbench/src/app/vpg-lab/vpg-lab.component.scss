@@ -57,6 +57,7 @@ $seat-unavailable-color: white;
     background-color: $seat-available-bg;
     font-weight: bolder;
     border: 1.5px solid $seat-available-color;
+    cursor: pointer;
 }
 
 .seat-available h4 {
@@ -89,6 +90,18 @@ $seat-unavailable-color: white;
 }
 
 .seat-booked h4 {
+    margin-bottom: 0;
+}
+
+.seat-requested {
+    color: #727272;
+    font-weight: bolder;
+    /* background-color: $seat-booked-bg; */
+    border: 1px solid #e6c472;
+
+}
+
+.seat-requested h4 {
     margin-bottom: 0;
 }
 
@@ -270,9 +283,9 @@ $seat-unavailable-color: white;
 
 .wall-legend {
     position: absolute;
-    top: 6rem;
+    top: 7rem;
     text-align: center;
-    left: 57rem;
+    left: 43rem;
     display: flex;
 
     img {

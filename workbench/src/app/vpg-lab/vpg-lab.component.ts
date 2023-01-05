@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { any } from '@amcharts/amcharts5/.internal/core/util/Array';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { SummaryService } from '../shared/service';
@@ -8,6 +9,7 @@ import { SummaryService } from '../shared/service';
   styleUrls: ['./vpg-lab.component.scss'],
 })
 export class VPGLabComponent implements OnInit {
+  @Input() defaultValue: string;
   public seatConfig: any = null;
 
   public seatmap: any = [];
@@ -44,8 +46,52 @@ export class VPGLabComponent implements OnInit {
     config.backdrop = 'static';
     config.size = 'lg';
   }
-  
+  /* parentLabDetails: any = {}; */
+  @Output() parentLabDetailsCreated = new EventEmitter<any>();
+  programList: any;
+  skuList: any;
+  vendorList: any;
+  programName: any = '';
+  skuName: any = '';
+  vendorName: any = '';
+  allocatitedTo = '';
+  fromWW = '';
+  toWW = '';
+  remarks = '';
+  onChangeProgram(value: any) {
+    debugger;
+    this.dataSvc.getSKU({ ProgramName: value }).subscribe((res) => {
+      if (res) {
+        debugger;
+        this.skuList = res;
+      }
+    });
+  }
+  getLabDetails() {
+    this.dataSvc
+      .getLabDetails({ LabName: this.defaultValue })
+      .subscribe((res) => {
+        if (res) {
+          let response: any = res;
+          this.parentLabDetailsCreated.emit(response);
+          this.seatmap = response.BenchDetails;
+        }
+      });
+  }
   ngOnInit(): void {
+    this.getLabDetails();
+    this.dataSvc.getProgram().subscribe((res) => {
+      if (res) {
+        debugger;
+        this.programList = res;
+      }
+    });
+    this.dataSvc.getVendor().subscribe((res) => {
+      if (res) {
+        debugger;
+        this.vendorList = res;
+      }
+    });
     //Process a simple bus layout
     /*  this.seatConfig = [
        {
@@ -216,8 +262,8 @@ export class VPGLabComponent implements OnInit {
         ],
       },
     ];
-    this.processSeatChart(this.seatConfig);
-    /*   this.blockSeats('A_1,C_6,F_7');
+    // this.processSeatChart(this.seatConfig);
+    /* this.blockSeats('A_1,C_6,F_7');
     this.blockSeatsNonSiv('D_4,D_6,G_9'); */
   }
 
@@ -254,6 +300,7 @@ export class VPGLabComponent implements OnInit {
           seatValArr.forEach((item: any, index: any) => {
             var seatObj: any = {
               key: map_element.seat_label + '_' + totalItemCounter,
+              BenchName: map_element.seat_label + '_' + totalItemCounter,
               /* price: map_data[__counter]["seat_price"], */
               status: 'available',
               IsAllocated: false,
@@ -267,7 +314,7 @@ export class VPGLabComponent implements OnInit {
               seatObj['BenchName'] =
                 map_element.seat_label + '_' + totalItemCounter;
               seatObj['dir'] = seatDirArr[index];
-              /* if (seatNoCounter < 10) {
+              /*   if (seatNoCounter < 10) {
                 seatObj['seatNo'] = '0' + seatNoCounter;
               } else { */
               seatObj['seatNo'] = '' + seatNoCounter;
@@ -299,14 +346,23 @@ export class VPGLabComponent implements OnInit {
   }
 
   public selectSeat(seatObject: any) {
+    debugger;
     console.log('Seat to block: ', seatObject);
-    if (seatObject.status == 'available') {
-      seatObject.status = 'booked';
+    if (
+      seatObject.status != 'selected' &&
+      seatObject.IsAllocated === false &&
+      seatObject.IsRequested === false
+    ) {
+      seatObject.status = 'selected';
       this.cart.selectedSeats.push(seatObject.seatLabel);
       this.cart.selectedSeatsNo.push(seatObject.seatNo);
       this.cart.seatstoStore.push(seatObject.key);
       this.cart.totalamount += seatObject.price;
-    } else if ((seatObject.status = 'booked')) {
+    } else if (
+      seatObject.status == 'selected' &&
+      seatObject.IsAllocated === false &&
+      seatObject.IsRequested === false
+    ) {
       seatObject.status = 'available';
       var seatIndex = this.cart.selectedSeats.indexOf(seatObject.seatLabel);
       if (seatIndex > -1) {
@@ -400,13 +456,75 @@ export class VPGLabComponent implements OnInit {
 
   modalReference: any;
   processBooking(addmodal: any) {
+    this.programName = '';
+    this.skuName = '';
+    this.vendorName = '';
+    this.allocatitedTo = '';
+    this.fromWW = '';
+    this.toWW = '';
+    this.remarks = '';
     this.modalReference = this.modalService.open(addmodal);
   }
   saveBooking() {
-    this.toastrService.success(
-      'The booking has been placed successfully',
-      'Success!'
-    );
+    let bookingData = {
+      Program: this.programName,
+
+      LabName: this.defaultValue,
+
+      Sku: this.skuName,
+
+      Vendor: this.vendorName,
+
+      AllocatedTo: this.allocatitedTo,
+
+      FromWW: this.fromWW,
+
+      ToWW: this.toWW,
+
+      Remarks: this.remarks,
+
+      IsAllocated: false,
+
+      IsRequested: true,
+
+      NumberOfBenches: this.cart?.selectedSeats?.length,
+
+      BenchData: this.cart.seatstoStore,
+    };
+    this.dataSvc.saveBooking(bookingData).subscribe((res) => {
+      if (res) {
+        debugger;
+        this.skuList = res;
+        this.modalReference.close();
+        this.toastrService.success(
+          'Allocation Request Added Successfully',
+          'Success!'
+        );
+        this.getLabDetails();
+        this.cart = {
+          selectedSeatsNo: [],
+
+          selectedSeats: [],
+
+          seatstoStore: [],
+
+          totalamount: 0,
+
+          cartId: '',
+
+          eventId: 0,
+        };
+      }
+    });
+  }
+  closePopup() {
     this.modalReference.close();
+    this.programName = '';
+    this.skuName = '';
+    this.vendorName = '';
+    this.allocatitedTo = '';
+    this.fromWW = '';
+    this.toWW = '';
+    this.remarks = '';
   }
 }

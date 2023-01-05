@@ -1,3 +1,4 @@
+import { any } from '@amcharts/amcharts5/.internal/core/util/Array';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -65,12 +66,46 @@ export class SummaryService {
   // /**
   //  * @method GetPlatfroms -get the favourite filter selected for HSDES
   //  */
-   
-  
+
   /**
    * @method GetPlatfroms -get the favourite filter selected for HSDES
    */
   GetLocations() {
     return this.http.get(this.ServiceURL + 'home/ListAllLocations/');
+  }
+
+  getLabDetails(lab: any) {
+    const serviceUrl = this.ServiceURL + 'home/LabDetails/';
+    return this.http.post(serviceUrl, lab, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+
+  getProgram() {
+    return this.http.get(this.ServiceURL + 'home/GetProgramDetails/');
+  }
+  getSKU(program: any) {
+    const serviceUrl = this.ServiceURL + 'home/GetSkuDetails/ ';
+    return this.http.post(serviceUrl, program, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+  getVendor() {
+    return this.http.get(this.ServiceURL + 'home/GetVendorDetails');
+  }
+  saveBooking(data: any) {
+    const serviceUrl = this.ServiceURL + 'home/BookBench/';
+    return this.http.post(serviceUrl, data, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+  viewApprovalRequests() {
+    return this.http.get(this.ServiceURL + 'home/ViewApprovalRequests/ ');
   }
 }
