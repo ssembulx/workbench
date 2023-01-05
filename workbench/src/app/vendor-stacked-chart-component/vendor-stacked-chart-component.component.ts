@@ -42,6 +42,7 @@ export class VendorStackedChartComponentComponent implements OnInit {
   //**** Chart data ****//
   getVendorColumnChart(){ 
     var root = am5.Root.new("chartdiv4");
+    root._logo.dispose();
     // this.root = am5.Root.new('chartdiv4');
     //  this.root._logo.dispose();
     // Set themes

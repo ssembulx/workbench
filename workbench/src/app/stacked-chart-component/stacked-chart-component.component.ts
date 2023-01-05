@@ -116,7 +116,7 @@ export class StackedChartComponentComponent implements OnInit{
     series2.columns.template.width = am4core.percent(80);
     series2.columns.template.tooltipText =
       "{name}: {valueY.formatNumber('#')}";
-    series2.name = "UnAllocated";
+    series2.name = "Free";
     series2.dataFields.categoryX = "Category";
     series2.dataFields.valueY = "Unallocated";
     // series2.dataFields.valueYShow = "totalPercent";

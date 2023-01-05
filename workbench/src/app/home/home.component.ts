@@ -29,17 +29,26 @@ export class HomeComponent implements OnInit {
   fullScreenBack: boolean = false;
   smallscreen = true;
   ChartData:any;
+  changestatus: any;
+  type = "pie chart";
+  Labtype = "Lab chart"
 
   constructor(private service:SummaryService) { }
   
 
-  // summaryData = [
-  //   { slno: 1, program: "MTL", SKU: "P", vendor: "Vendor 1", AllocateTo: "Srikanth Uppuluri", FromWW:"WW20-2022", ToWW:"WW50-2022",BenchCount:"15",Staus:"Available"},
-  //   { slno: 2, program: "MTL", SKU: "S", vendor: "Vendor 1", AllocateTo: "Krishna Prasad M", FromWW:"WW33-2022", ToWW:"WW49-2022",BenchCount:"15",Staus:"Booked"},
-  //   { slno: 3, program: "MTL", SKU: "M", vendor: "Vendor 2", AllocateTo: "Vijay B R", FromWW:"WW25-2022", ToWW:"WW52-2022",BenchCount:"18",Staus:"SIV"},
-  //   { slno: 4, program: "MTL", SKU: "P", vendor: "Vendor 1", AllocateTo: "Srikanth Uppuluri", FromWW:"WW20-2022", ToWW:"WW50-2022",BenchCount:"15",Staus:"Non-SIV"},
+  chartData = [
+    { slno: 1, data: "Non-SIV Allocated", value: "50"},
+    { slno: 2, data: "SIV Allocated", value: "30"},
+    { slno: 3, data: "SIV UnAllocated", value: "20"},
+  ]
 
-  // ]
+  LabchartData = [
+    { slno: 1, labName: "CRD1", allocated: "45",unallocated:"55"},
+    { slno: 2, labName: "CRD2", allocated: "20",unallocated:"30"},
+    { slno: 3, labName: "CRD3", allocated: "15",unallocated:"10"},
+    { slno: 4, labName: "CRD4", allocated: "30",unallocated:"15"},
+    { slno: 5, labName: "CRD5", allocated: "12",unallocated:"32"},
+  ]
 
 
   ngOnInit(): void {
@@ -269,7 +278,7 @@ export class HomeComponent implements OnInit {
   //**** Chart data ****//
   getSemiCirclePiechart(){
     var root = am5.Root.new("chartdiv");
-
+    root._logo.dispose();
     // Set themes
     root.setThemes([
       am5themes_Animated.new(root)
@@ -401,6 +410,29 @@ export class HomeComponent implements OnInit {
     this.typeChart = "Vendor chart"
   }
  }
+
+ // *** chart and table options according to click *** //
+ ToggleOptions(changestatus:any) {
+  if(changestatus == 'chart'){
+    debugger
+    this.type = "pie chart"
+    this.LabOverallSummary();
+  }
+  else if(changestatus == 'table'){
+    this.type = "pie table"
+  }
+ }
+
+ChangeOption(Status:any){
+   if(Status == 'Labchart'){
+    debugger
+    this.Labtype = "Lab chart"
+  }
+  else if(Status == 'Labtable'){
+    this.Labtype = "Lab table"
+  }
+}
+
  toggleFullScreen(){
     this.fullScreenFlag = !this.fullScreenFlag;
  }
