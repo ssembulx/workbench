@@ -10,7 +10,9 @@
                 <img src="./assets/image/Booked.png">
                 <h5>Allocated</h5>
                 <img src="./assets/image/Available.png">
-                <h5>Un Allocated</h5>
+                <h5>Free</h5>
+                <img src="./assets/image/Requested.png">
+                <h5>Approval pending</h5>
             </div>
             <div class="wall">
                 <div *ngFor="let seatrow of seatmap; let i = index ">
@@ -41,14 +43,14 @@
                                 </div>
                                 <!-- Desk not available" -->
                                 <div ngbTooltip="Desk not available" placement="top" class="seat-item seat-unavailable"
-                                    *ngIf="seatobj.IsAllocated == true  && seatobj.IsRequested == true && seatobj.seatLabel != ''">
+                                    *ngIf="seatobj.IsAllocated == true && seatobj.seatLabel != ''">
                                     <h4>{{seatobj.seatLabel}}</h4>
                                     <img src="./assets/image/Booked.png">
                                 </div>
                                 <!-- Desk Requested -->
                                 <div placement="top" ngbTooltip="Desk : {{seatobj.seatNo}} Approval pending"
                                     class="seat-item seat-requested"
-                                    *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested ==true && seatobj.seatLabel != ''">
+                                    *ngIf="seatobj.IsRequested ==true && seatobj.seatLabel != ''">
                                     <h4>{{seatobj.seatLabel}}</h4>
                                     <img src="./assets/image/Requested.png">
                                 </div>
@@ -191,44 +193,51 @@
                     <tr>
                         <td>Program </td>
                         <td style="padding: 0px;">
-                            <select class="form-select location_select" aria-label="Default select example">
-                                <option>ADL</option>
-                                <option>MTL</option>
-                                <option>RPL</option>
+                            <select class="form-select location_select" aria-label="Default select example"
+                                [(ngModel)]="programName" (change)="onChangeProgram(programName)">
+                                <option selected value="">Select Program</option>
+                                <option *ngFor="let locat of programList" [ngValue]="locat.ProgramName">
+                                    {{locat.ProgramName}}
+                                </option>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <td>SKU </td>
                         <td style="padding: 0px;">
-                            <select class="form-select location_select" aria-label="Default select example">
-                                <option>P</option>
-                                <option>R</option>
-                                <option>S</option>
+                            <select class="form-select location_select" aria-label="Default select example"
+                                [(ngModel)]="skuName">
+                                <option selected value="">Select SKU</option>
+                                <option *ngFor="let locat of skuList?.Sku" [ngValue]="locat">
+                                    {{locat}}
+                                </option>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <td>Vendor </td>
                         <td style="padding: 0px;">
-                            <select class="form-select location_select" aria-label="Default select example">
-                                <option> UST</option>
-                                <option>Wipro</option>
-                                <option>Infosys</option>
+                            <select class="form-select location_select" aria-label="Default select example"
+                                [(ngModel)]="vendorName">
+                                <option selected value="">Select Vendor</option>
+                                <option *ngFor="let locat of vendorList[0].Vendors" [ngValue]="locat">
+                                    {{locat}}
+                                </option>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <td>Allocated To </td>
-                        <td><input type="text" class="text-box" value="Srikanth Uppuluri"></td>
+                        <td><input type="text" class="text-box" placeholder="Srikanth Uppuluri"
+                                [(ngModel)]="allocatitedTo"></td>
                     </tr>
                     <tr>
                         <td>From WW </td>
-                        <td><input type="text" class="text-box" value="WW20-2022"></td>
+                        <td><input type="text" class="text-box" placeholder="202022" [(ngModel)]="fromWW"></td>
                     </tr>
                     <tr>
                         <td>To WW </td>
-                        <td><input type="text" class="text-box" value="WW50-2022"></td>
+                        <td><input type="text" class="text-box" placeholder="502022" [(ngModel)]="toWW"></td>
                     </tr>
                     <tr>
                         <td>#. Bench </td>
@@ -236,7 +245,7 @@
                     </tr>
                     <tr>
                         <td>Remarks </td>
-                        <td><input type="text" class="text-box"></td>
+                        <td><input type="text" class="text-box" [(ngModel)]="remarks"></td>
                     </tr>
                     <tr>
                         <td>Bench </td>
@@ -247,8 +256,7 @@
             </table>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn back-btn close" aria-label="Close"
-                (click)="d('Cross click')">Cancel</button>
+            <button type="button" class="btn back-btn close" aria-label="Close" (click)="closePopup()">Cancel</button>
             <button type="button" class="btn back-btn" (click)="saveBooking()">Save</button>
         </div>
     </div>

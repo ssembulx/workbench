@@ -67,8 +67,6 @@ export class SummaryService {
   //  * @method GetPlatfroms -get the favourite filter selected for HSDES
   //  */
 
-   
-  
   /**
    * @method GetPlatfroms -get the favourite filter selected for HSDES
    */
@@ -96,7 +94,18 @@ export class SummaryService {
       },
     });
   }
-  getVendor(lab: any) {
+  getVendor() {
     return this.http.get(this.ServiceURL + 'home/GetVendorDetails');
+  }
+  saveBooking(data: any) {
+    const serviceUrl = this.ServiceURL + 'home/BookBench/';
+    return this.http.post(serviceUrl, data, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+  viewApprovalRequests() {
+    return this.http.get(this.ServiceURL + 'home/ViewApprovalRequests/ ');
   }
 }

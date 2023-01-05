@@ -1,6 +1,7 @@
+import { any } from '@amcharts/amcharts5/.internal/core/util/Array';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
-/* import { ToastrService } from 'ngx-toastr'; */
+import { ToastrService } from 'ngx-toastr';
 import { SummaryService } from '../shared/service';
 @Component({
   selector: 'app-vpg-lab',
@@ -39,7 +40,7 @@ export class VPGLabComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     config: NgbModalConfig,
-    /* private toastrService: ToastrService, */
+    private toastrService: ToastrService,
     private dataSvc: SummaryService
   ) {
     config.backdrop = 'static';
@@ -47,7 +48,26 @@ export class VPGLabComponent implements OnInit {
   }
   /* parentLabDetails: any = {}; */
   @Output() parentLabDetailsCreated = new EventEmitter<any>();
-  ngOnInit(): void {
+  programList: any;
+  skuList: any;
+  vendorList: any;
+  programName: any = '';
+  skuName: any = '';
+  vendorName: any = '';
+  allocatitedTo = '';
+  fromWW = '';
+  toWW = '';
+  remarks = '';
+  onChangeProgram(value: any) {
+    debugger;
+    this.dataSvc.getSKU({ ProgramName: value }).subscribe((res) => {
+      if (res) {
+        debugger;
+        this.skuList = res;
+      }
+    });
+  }
+  getLabDetails() {
     this.dataSvc
       .getLabDetails({ LabName: this.defaultValue })
       .subscribe((res) => {
@@ -57,6 +77,21 @@ export class VPGLabComponent implements OnInit {
           this.seatmap = response.BenchDetails;
         }
       });
+  }
+  ngOnInit(): void {
+    this.getLabDetails();
+    this.dataSvc.getProgram().subscribe((res) => {
+      if (res) {
+        debugger;
+        this.programList = res;
+      }
+    });
+    this.dataSvc.getVendor().subscribe((res) => {
+      if (res) {
+        debugger;
+        this.vendorList = res;
+      }
+    });
     //Process a simple bus layout
     /*  this.seatConfig = [
        {
@@ -311,6 +346,7 @@ export class VPGLabComponent implements OnInit {
   }
 
   public selectSeat(seatObject: any) {
+    debugger;
     console.log('Seat to block: ', seatObject);
     if (
       seatObject.status != 'selected' &&
@@ -420,13 +456,75 @@ export class VPGLabComponent implements OnInit {
 
   modalReference: any;
   processBooking(addmodal: any) {
+    this.programName = '';
+    this.skuName = '';
+    this.vendorName = '';
+    this.allocatitedTo = '';
+    this.fromWW = '';
+    this.toWW = '';
+    this.remarks = '';
     this.modalReference = this.modalService.open(addmodal);
   }
   saveBooking() {
-    /*   this.toastrService.success(
-      'The booking has been placed successfully',
-      'Success!'
-    ); */
+    let bookingData = {
+      Program: this.programName,
+
+      LabName: this.defaultValue,
+
+      Sku: this.skuName,
+
+      Vendor: this.vendorName,
+
+      AllocatedTo: this.allocatitedTo,
+
+      FromWW: this.fromWW,
+
+      ToWW: this.toWW,
+
+      Remarks: this.remarks,
+
+      IsAllocated: false,
+
+      IsRequested: true,
+
+      NumberOfBenches: this.cart?.selectedSeats?.length,
+
+      BenchData: this.cart.seatstoStore,
+    };
+    this.dataSvc.saveBooking(bookingData).subscribe((res) => {
+      if (res) {
+        debugger;
+        this.skuList = res;
+        this.modalReference.close();
+        this.toastrService.success(
+          'Allocation Request Added Successfully',
+          'Success!'
+        );
+        this.getLabDetails();
+        this.cart = {
+          selectedSeatsNo: [],
+
+          selectedSeats: [],
+
+          seatstoStore: [],
+
+          totalamount: 0,
+
+          cartId: '',
+
+          eventId: 0,
+        };
+      }
+    });
+  }
+  closePopup() {
     this.modalReference.close();
+    this.programName = '';
+    this.skuName = '';
+    this.vendorName = '';
+    this.allocatitedTo = '';
+    this.fromWW = '';
+    this.toWW = '';
+    this.remarks = '';
   }
 }

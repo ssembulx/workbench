@@ -13,115 +13,121 @@ import { SummaryService } from '../shared/service';
 @Component({
   selector: 'app-vendor-stacked-chart-component',
   templateUrl: './vendor-stacked-chart-component.component.html',
-  styleUrls: ['./vendor-stacked-chart-component.component.scss']
+  styleUrls: ['./vendor-stacked-chart-component.component.scss'],
 })
 export class VendorStackedChartComponentComponent implements OnInit {
-
   // colors:any;
   // root:any
-  ChartData:any;
+  ChartData: any;
   ChartLoader = false;
 
-  constructor(private service:SummaryService) { }
+  constructor(private service: SummaryService) {}
 
   ngOnInit(): void {
     this.LabVendorSummary();
   }
 
-   //****Calling API for program chart ***//
-   LabVendorSummary(){
+  //****Calling API for program chart ***//
+  LabVendorSummary() {
     // this.ChartLoader = false;
-    this.service.LabVendorSummary().subscribe(res => {
+    this.service.LabVendorSummary().subscribe((res) => {
       this.ChartData = res.Data;
-      console.log("stacked chart",this.ChartData)
+      console.log('stacked chart', this.ChartData);
       // this.ChartLoader = true;
       this.getVendorColumnChart();
-     })
+    });
   }
 
   //**** Chart data ****//
-  getVendorColumnChart(){ 
-    var root = am5.Root.new("chartdiv4");
+  getVendorColumnChart() {
+    var root = am5.Root.new('chartdiv4');
+    root._logo.dispose();
     // this.root = am5.Root.new('chartdiv4');
     //  this.root._logo.dispose();
     // Set themes
-    root.setThemes([
-      am5themes_Animated.new(root)
-    ]);
+    root.setThemes([am5themes_Animated.new(root)]);
 
-    var chart:any = root.container.children.push( 
+    var chart: any = root.container.children.push(
       am5xy.XYChart.new(root, {
         panY: false,
-        wheelY: "zoomX",
+        wheelY: 'zoomX',
         panX: true,
-        wheelX: "panX",
-        pinchZoomX:true,
+        wheelX: 'panX',
+        pinchZoomX: true,
         //for leged position bottom
-        layout: root.verticalLayout
-      }) 
+        layout: root.verticalLayout,
+      })
     );
     // Add cursor
-    var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
-    cursor.lineY.set("visible", false);
-
+    var cursor = chart.set('cursor', am5xy.XYCursor.new(root, {}));
+    cursor.lineY.set('visible', false);
 
     // Create axes
     var xRenderer = am5xy.AxisRendererX.new(root, { minGridDistance: 30 });
-    xRenderer.labels.template.setAll({
-    });
+    xRenderer.labels.template.setAll({});
 
-    var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-      maxDeviation: 0.3,
-      categoryField: "Vendor",
-      renderer: xRenderer,
-      tooltip: am5.Tooltip.new(root, {})
-    }));
+    var xAxis = chart.xAxes.push(
+      am5xy.CategoryAxis.new(root, {
+        maxDeviation: 0.3,
+        categoryField: 'Vendor',
+        renderer: xRenderer,
+        tooltip: am5.Tooltip.new(root, {}),
+      })
+    );
 
-    var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-      maxDeviation: 0.3,
-      renderer: am5xy.AxisRendererY.new(root, {})
-    }));
-
+    var yAxis = chart.yAxes.push(
+      am5xy.ValueAxis.new(root, {
+        maxDeviation: 0.3,
+        renderer: am5xy.AxisRendererY.new(root, {}),
+      })
+    );
 
     // Create series
     // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-    var series = chart.series.push(am5xy.ColumnSeries.new(root, {
-      name: "Series 1",
-      xAxis: xAxis,
-      yAxis: yAxis,
-      valueYField: "Value",
-      sequencedInterpolation: true,
-      categoryXField: "Vendor",
-      tooltip: am5.Tooltip.new(root, {
-        labelText:"{valueY}"
+    var series = chart.series.push(
+      am5xy.ColumnSeries.new(root, {
+        name: 'Series 1',
+        xAxis: xAxis,
+        yAxis: yAxis,
+        valueYField: 'Value',
+        sequencedInterpolation: true,
+        categoryXField: 'Vendor',
+        tooltip: am5.Tooltip.new(root, {
+          labelText: '{valueY}',
+        }),
       })
-    }));
+    );
 
     series.columns.template.setAll({ cornerRadiusTL: 5, cornerRadiusTR: 5 });
 
     // *** color for columns ***//
-    series.columns.template.adapters.add("fill", function (fill:any, target:any) {
-      return chart.get("colors").getIndex(series.columns.indexOf(target));
-    });
+    series.columns.template.adapters.add(
+      'fill',
+      function (fill: any, target: any) {
+        return chart.get('colors').getIndex(series.columns.indexOf(target));
+      }
+    );
 
-    series.columns.template.adapters.add("stroke", function(stroke:any, target:any) {
-      return chart.get("colors").getIndex(series.columns.indexOf(target));
-    });
-
+    series.columns.template.adapters.add(
+      'stroke',
+      function (stroke: any, target: any) {
+        return chart.get('colors').getIndex(series.columns.indexOf(target));
+      }
+    );
 
     var data = this.ChartData;
-  //   // Set data
-  //   var data = [{
-  //     vendor: "UST",
-  //     value: 80
-  //   }, {
-  //     vendor: "Wipro",
-  //     value: 70
-  //   }, {
-  //     vendor: "Infosys",
-  //     value: 20
-  //   }
-  // ];
+    //   // Set data
+    //   var data = [{
+    //     vendor: "UST",
+    //     value: 80
+    //   }, {
+    //     vendor: "Wipro",
+    //     value: 70
+    //   }, {
+    //     vendor: "Infosys",
+    //     value: 20
+    //   }
+    // ];
 
     xAxis.data.setAll(data);
     series.data.setAll(data);
@@ -144,21 +150,22 @@ export class VendorStackedChartComponentComponent implements OnInit {
     // }]);
 
     // **** Add legend ****//
-    var legend = chart.children.push(am5.Legend.new(root, {
-      nameField: "categoryX",
-      centerX: am5.percent(50),
-      x: am5.percent(55)
-
-    }));
+    var legend = chart.children.push(
+      am5.Legend.new(root, {
+        nameField: 'categoryX',
+        centerX: am5.percent(50),
+        x: am5.percent(55),
+      })
+    );
 
     legend.data.setAll(series.dataItems);
 
     // **** Add scroll bar **** //
     var scrollbarX = am5.Scrollbar.new(root, {
-      orientation: "horizontal"
+      orientation: 'horizontal',
     });
 
-    chart.set("scrollbarX", scrollbarX);
+    chart.set('scrollbarX', scrollbarX);
     chart.bottomAxesContainer.children.push(scrollbarX);
     // chart.set("scrollbarX", am5.Scrollbar.new(root, { orientation: "horizontal"}));
   }
