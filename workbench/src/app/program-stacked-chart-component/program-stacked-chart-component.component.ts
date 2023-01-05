@@ -42,6 +42,8 @@ export class ProgramStackedChartComponentComponent implements OnInit{
   //**** Chart data ****//
   getProgramColumnChart(){
     var root = am5.Root.new("chartdiv3");
+    root._logo.dispose();
+    
     // Set themes
     root.setThemes([
       am5themes_Animated.new(root)

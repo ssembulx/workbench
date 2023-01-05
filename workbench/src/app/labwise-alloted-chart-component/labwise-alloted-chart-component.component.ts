@@ -116,7 +116,7 @@ export class LabwiseAllotedChartComponentComponent implements OnInit{
     series2.columns.template.tooltipText =
       "{name}: {valueY.formatNumber('#')}";
 
-    series2.name = "UnAllocated";
+    series2.name = "Free";
     series2.dataFields.categoryX = "Category";
     series2.dataFields.valueY = "Unallocated";
     // series2.dataFields.valueYShow = "totalPercent";
@@ -154,8 +154,6 @@ export class LabwiseAllotedChartComponentComponent implements OnInit{
     chart.scrollbarX.startGrip.background.fill = am4core.color("#d9d9d9");
     chart.scrollbarX.endGrip.background.fill = am4core.color("#d9d9d9");
     chart.scrollbarX.stroke = am4core.color("#d9d9d9");
-
-
   }
 
   modalReference: any;
