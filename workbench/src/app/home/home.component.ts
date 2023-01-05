@@ -307,44 +307,44 @@ export class HomeComponent implements OnInit {
     });
 
     //**** for transperent color(opacity) ***//
-    series.slices.template.adapters.add(
-      'fillOpacity',
-      function (fillOpacity, target: any) {
-        if (target.dataItem.get('category') == 'SIV UnAllocated') {
+    series.slices.template.adapters.add("fillOpacity", function(fillOpacity, target:any) {
+      if (target.dataItem.get("category") == "SIV Free") {
           return 0.1;
         }
       }
     );
 
     //**** for dotted border ***//
-    series.slices.template.adapters.add(
-      'strokeDasharray',
-      function (strokeDasharray, target: any) {
-        if (target.dataItem.get('category') == 'SIV UnAllocated') {
-          return [8, 4];
-        }
+    series.slices.template.adapters.add("strokeDasharray", function(strokeDasharray, target:any) {
+      if (target.dataItem.get("category") == "SIV Free") {
+          return [8,4];
       }
+     }
     );
 
     //**** custom color for slices****//
-    series.slices.template.adapters.add('fill', function (fill, target: any) {
-      if (target.dataItem.get('category') == 'Non-SIV Allocated') {
-        return am5.color('#6794dc');
-      } else if (target.dataItem.get('category') == 'SIV Allocated') {
-        return am5.color('#67b7dc');
-      } else if (target.dataItem.get('category') == 'SIV UnAllocated') {
-        return am5.color('#67b7dc');
+    series.slices.template.adapters.add("fill", function(fill, target:any) {
+      if (target.dataItem.get("category") == "Non-SIV") {
+          return am5.color('#6794dc'); 
+      }
+      else if(target.dataItem.get("category") == "SIV Allocated") {
+        return am5.color('#67b7dc')
+      }
+      else if(target.dataItem.get("category") == "SIV Free") {
+        return am5.color('#67b7dc')
       }
     });
 
     //**** custom color for border(stroke)****//
-    series.slices.template.adapters.add('stroke', function (fill, target: any) {
-      if (target.dataItem.get('category') == 'Non-SIV Allocated') {
-        return am5.color('#6794dc');
-      } else if (target.dataItem.get('category') == 'SIV Allocated') {
-        return am5.color('#67b7dc');
-      } else if (target.dataItem.get('category') == 'SIV UnAllocated') {
-        return am5.color('#67b7dc');
+    series.slices.template.adapters.add("stroke", function(fill, target:any) {
+      if (target.dataItem.get("category") == "Non-SIV") {
+        return am5.color('#6794dc'); 
+      }
+      else if(target.dataItem.get("category") == "SIV Allocated") {
+        return am5.color('#67b7dc')
+      }
+      else if(target.dataItem.get("category") == "SIV Free") {
+        return am5.color('#67b7dc')
       }
     });
 
