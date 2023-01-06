@@ -19,7 +19,7 @@ export class VendorStackedChartComponentComponent implements OnInit {
   // colors:any;
   // root:any
   ChartData: any;
-  ChartLoader = false;
+  vendorChartLoader = false;
 
   constructor(private service: SummaryService) {}
 
@@ -29,12 +29,12 @@ export class VendorStackedChartComponentComponent implements OnInit {
 
   //****Calling API for program chart ***//
   LabVendorSummary() {
-    // this.ChartLoader = false;
+    this.vendorChartLoader = false;
     this.service.LabVendorSummary().subscribe((res) => {
       this.ChartData = res.Data;
       console.log('stacked chart', this.ChartData);
-      // this.ChartLoader = true;
       this.getVendorColumnChart();
+      this.vendorChartLoader = true;
     });
   }
 

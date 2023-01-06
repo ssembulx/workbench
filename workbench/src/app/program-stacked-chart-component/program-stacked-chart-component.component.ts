@@ -22,7 +22,7 @@ export class ProgramStackedChartComponentComponent implements OnInit{
   // colors: any;
   ChartData:any;
   ChartLoader = false;
-
+  programChartLoader = false;
   constructor(private service:SummaryService) { }
  
 
@@ -32,10 +32,12 @@ export class ProgramStackedChartComponentComponent implements OnInit{
 
    //****Calling API for program chart ***//
   LabProgramSummary(){
+    this.programChartLoader = false;
     this.service.LabProgramSummary().subscribe(res => {
       this.ChartData = res.Data;
       console.log("stacked chart",this.ChartData)
       this.getProgramColumnChart();
+      this.programChartLoader = true;
      })
   }
 

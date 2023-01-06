@@ -20,6 +20,7 @@ import { SummaryService } from '../shared/service';
 export class LabwiseAllotedChartComponentComponent implements OnInit{
   colors: any;
   ChartData:any;
+  labwiseChartLoader = false;
 
   @ViewChild('bookingmodalHome') bookingmodalHome: ElementRef;
 
@@ -39,14 +40,16 @@ export class LabwiseAllotedChartComponentComponent implements OnInit{
 
   //****Calling API for Labwsie summary chart ***//
   LabwiseSummary(){
+    this.labwiseChartLoader = false;
     let req = {"LabName":"VPG Lab",
     "Program":"MTL-P",
     "Vendor":"UST"}
-
+    debugger
     this.service.LabwiseSummary(req).subscribe(res => {
       this.ChartData = res.Location;
       console.log("stacked chart",this.ChartData)
       this.getLabwiseStackedChart();
+      this.labwiseChartLoader = true;
    })
   }
 
