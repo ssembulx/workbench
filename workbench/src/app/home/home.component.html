@@ -47,8 +47,8 @@
                 </div>
             </div>
             <div class="stacked-chart" #fullscreenStacked [ngClass]="fullScreenFlag ? 'col-12': 'col-6'">
-                <div class="row">
-                    <div class="col-12">
+                <div>
+                    <div class="chart-style">
                         <div class="caption">
                             <i class="fa fa-chart-bar fa-2x chart-icon"></i>
                             <span class="chart-heading" *ngIf="typeChart == 'Location chart'">Location Summary</span>
@@ -66,22 +66,102 @@
                                 Vendor
                             </div>
                         </div>
-                        <div class="col-4 float_left-info">
-                            <i class="fas fa-info-circle info-icon" matTooltip="info"></i>
+                        <div class="btn-row-loc mr-2" *ngIf="typeChart == 'Location chart'">
+                            <div class="btn-dv2" [ngClass]="Loctype == 'Loc chart' ? 'active-btn-loc' : ''" (click)="LocationOptions('LocChart')">
+                                <i class="fa fa-chart-bar fa-2x chart-icon"></i>
+                            </div>
+                            <div class="btn-dv" [ngClass]="Loctype == 'Loc table' ? 'active-btn-loc' : ''" (click)="LocationOptions('LocTable')">
+                                <i class="fas fa-table chart-icon"></i>
+                            </div>
+                        </div>
+                        <div class="btn-row-loc mr-2" *ngIf="typeChart == 'Program chart'">
+                            <div class="btn-dv2" [ngClass]="Prgtype == 'Prg chart' ? 'active-btn-loc' : ''" (click)="ProgramOptions('PrgChart')">
+                                <i class="fa fa-chart-bar fa-2x chart-icon"></i>
+                            </div>
+                            <div class="btn-dv" [ngClass]="Prgtype == 'Prg table' ? 'active-btn-loc' : ''" (click)="ProgramOptions('PrgTable')">
+                                <i class="fas fa-table chart-icon"></i>
+                            </div>
+                        </div>
+                        <div class="btn-row-loc mr-2" *ngIf="typeChart == 'Vendor chart'">
+                            <div class="btn-dv2" [ngClass]="Ventype == 'Ven chart' ? 'active-btn-loc' : ''" (click)="VendorOptions('VenChart')">
+                                <i class="fa fa-chart-bar fa-2x chart-icon"></i>
+                            </div>
+                            <div class="btn-dv" [ngClass]="Ventype == 'Ven table' ? 'active-btn-loc' : ''" (click)="VendorOptions('VenTable')">
+                                <i class="fas fa-table chart-icon"></i>
+                            </div>
+                        </div>
+                        <div class="float_left-info">
+                            <!-- <i class="fas fa-info-circle info-icon" matTooltip="info"></i> -->
                             <i class="fas fa-expand expand-display fullscreen-icon" matTooltip="Fullscreen" (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreenStacked"></i>
                             <i class="fas fa-compress remove-display" (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreenStacked"></i>
                         </div>
                     </div>
                 </div>
                 <hr class="box-hr">
-                <div  *ngIf="typeChart == 'Location chart'">
+                <div  *ngIf="typeChart == 'Location chart' && Loctype == 'Loc chart'">
                     <app-stacked-chart-component></app-stacked-chart-component>
                 </div>
-                <div *ngIf="typeChart == 'Program chart'">
+                <div class="table-container">
+                    <table class="table table-bordered locchart-table" *ngIf="Loctype == 'Loc table' && typeChart == 'Location chart'">
+                        <thead>
+                            <tr>
+                                <th class="v-align">#</th>
+                                <th class="v-align" (click)="setOrderRelease('Data')"><span class="sort-by">Location</span></th>
+                                <th class="v-align" (click)="setOrderRelease('Value')"><span class="sort-by">Allocated</span></th>
+                                <th class="v-align" (click)="setOrderRelease('Value')"><span class="sort-by">UnAllocated</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let ele of LocationchartData | orderBy: orderMappedRelease:reverseMappedRelease: true ;">
+                                <td>{{ele.slno}}</td>
+                                <td>{{ele.location}}</td>
+                                <td>{{ele.allocated}}</td>
+                                <td>{{ele.unallocated}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div *ngIf="typeChart == 'Program chart' && Prgtype == 'Prg chart'">
                     <app-program-stacked-chart-component></app-program-stacked-chart-component>
                 </div>
-                <div *ngIf="typeChart == 'Vendor chart'">
+                <div class="table-container">
+                    <table class="table table-bordered prgchart-table" *ngIf="Prgtype == 'Prg table' && typeChart == 'Program chart'">
+                        <thead>
+                            <tr>
+                                <th class="v-align">#</th>
+                                <th class="v-align" (click)="setOrderRelease('Data')"><span class="sort-by">Program</span></th>
+                                <th class="v-align" (click)="setOrderRelease('Value')"><span class="sort-by">Value</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let ele of ProgramchartData | orderBy: orderMappedRelease:reverseMappedRelease: true ;">
+                                <td>{{ele.slno}}</td>
+                                <td>{{ele.program}}</td>
+                                <td>{{ele.value}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div *ngIf="typeChart == 'Vendor chart' && Ventype == 'Ven chart'">
                     <app-vendor-stacked-chart-component></app-vendor-stacked-chart-component>
+                </div>
+                <div class="table-container">
+                    <table class="table table-bordered venchart-table" *ngIf="Ventype == 'Ven table' && typeChart == 'Vendor chart'">
+                        <thead>
+                            <tr>
+                                <th class="v-align">#</th>
+                                <th class="v-align" (click)="setOrderRelease('Data')"><span class="sort-by">Vendor</span></th>
+                                <th class="v-align" (click)="setOrderRelease('Value')"><span class="sort-by">Value</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let ele of VendorchartData | orderBy: orderMappedRelease:reverseMappedRelease: true ;">
+                                <td>{{ele.slno}}</td>
+                                <td>{{ele.vendor}}</td>
+                                <td>{{ele.value}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -201,3 +281,21 @@
         </div> -->
     </div>
 
+<!-- ****** loader ****** -->
+    <div class="overlay-main" *ngIf="!pieChartLoader">
+        <div class="spinner-container">
+
+            <div class="spinner">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+                <div class="rect3"></div>
+                <div class="rect4"></div>
+                <div class="rect5"></div>
+                <div class="rect6"></div>
+                <div class="rect7"></div>
+                <div class="rect8"></div>
+                <div class="rect9"></div>
+            </div>
+            <div class="proccessing-text">Loading ...</div>
+        </div>
+    </div>

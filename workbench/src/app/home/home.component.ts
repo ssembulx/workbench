@@ -28,7 +28,11 @@ export class HomeComponent implements OnInit {
   ChartData:any;
   changestatus: any;
   type = "pie chart";
-  Labtype = "Lab chart"
+  Labtype = "Lab chart";
+  Loctype = "Loc chart";
+  Prgtype = "Prg chart";
+  Ventype = "Ven chart";
+  pieChartLoader = false;
 
   constructor(private service: SummaryService) {}
 
@@ -46,16 +50,45 @@ export class HomeComponent implements OnInit {
     { slno: 5, labName: "CRD5", allocated: "12",unallocated:"32"},
   ]
 
+  LocationchartData = [
+    { slno: 1, location: "SRR1", allocated: "45",unallocated:"55"},
+    { slno: 2, location: "SRR2", allocated: "30",unallocated:"70"},
+    { slno: 3, location: "SRR3", allocated: "20",unallocated:"80"},
+    { slno: 4, location: "SRR4", allocated: "85",unallocated:"15"},
+    { slno: 5, location: "SRR5", allocated: "12",unallocated:"88"},
+  ]
+
+  ProgramchartData = [
+    { slno: 1, program: "ADL-P", value: "100"},
+    { slno: 2, program: "MTL_P", value: "90"},
+    { slno: 3, program: "RKL-S", value: "80"},
+    { slno: 4, program: "GLK-S", value: "70"},
+    { slno: 5, program: "RPL-T", value: "60"},
+    { slno: 6, program: "MTL-S", value: "50"},
+    { slno: 7, program: "RTL-S", value: "40"},
+    { slno: 8, program: "TGL-R", value: "30"},
+    { slno: 9, program: "CFL-H", value: "20"},
+    { slno: 10, program: "WHL-U", value: "10"},
+  ]
+
+  VendorchartData = [
+    { slno: 1, vendor: "UST", value: "45"},
+    { slno: 2, vendor: "Wipro", value: "55"},
+    { slno: 3, vendor: "Infosys", value: "50"},
+  ]
+
   ngOnInit(): void {
     this.LabOverallSummary();
   }
 
   //****Calling API for summary pie chart ***//
   LabOverallSummary() {
+    this.pieChartLoader = false;
     this.service.LabOverallSummary().subscribe((res) => {
       this.ChartData = res.Data;
       console.log('stacked chart', this.ChartData);
       this.getSemiCirclePiechart();
+      this.pieChartLoader = true;
     });
   }
   // // Themes begin
@@ -423,6 +456,35 @@ ChangeOption(Status:any){
   }
 }
 
+LocationOptions(LocStatus:any){
+  if(LocStatus == 'LocChart'){
+   debugger
+   this.Loctype = "Loc chart"
+ }
+ else if(LocStatus == 'LocTable'){
+   this.Loctype = "Loc table"
+ }
+}
+
+ProgramOptions(PrgStatus:any){
+  if(PrgStatus == 'PrgChart'){
+   debugger
+   this.Prgtype = "Prg chart"
+ }
+ else if(PrgStatus == 'PrgTable'){
+   this.Prgtype = "Prg table"
+ }
+}
+
+VendorOptions(VenStatus:any){
+  if(VenStatus == 'VenChart'){
+   debugger
+   this.Ventype = "Ven chart"
+ }
+ else if(VenStatus == 'VenTable'){
+   this.Ventype = "Ven table"
+ }
+}
  toggleFullScreen(){
     this.fullScreenFlag = !this.fullScreenFlag;
   }

@@ -13,7 +13,7 @@ import {SummaryService } from '../shared/service';
 export class StackedChartComponentComponent implements OnInit{
   colors: any;
   ChartData:any;
-  ChartLoader = false;
+  locationChartLoader = false;
   
   constructor(private service:SummaryService) { }
 
@@ -23,12 +23,12 @@ export class StackedChartComponentComponent implements OnInit{
 
   //****Calling API for location chart ***//
   LabProgramVendorSummary(){
-    this.ChartLoader = false;
+    this.locationChartLoader = false;
     this.service.LabProgramVendorSummary().subscribe(res => {
       this.ChartData = res.Location;
       console.log("stacked chart",this.ChartData)
-      this.ChartLoader = true;
       this.getLocationChartData();
+      this.locationChartLoader = true;
      })
    }
 
