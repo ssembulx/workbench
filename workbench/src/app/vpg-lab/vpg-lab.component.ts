@@ -59,10 +59,8 @@ export class VPGLabComponent implements OnInit {
   toWW = '';
   remarks = '';
   onChangeProgram(value: any) {
-    debugger;
     this.dataSvc.getSKU({ ProgramName: value }).subscribe((res) => {
       if (res) {
-        debugger;
         this.skuList = res;
       }
     });
@@ -82,13 +80,11 @@ export class VPGLabComponent implements OnInit {
     this.getLabDetails();
     this.dataSvc.getProgram().subscribe((res) => {
       if (res) {
-        debugger;
         this.programList = res;
       }
     });
     this.dataSvc.getVendor().subscribe((res) => {
       if (res) {
-        debugger;
         this.vendorList = res;
       }
     });
@@ -346,7 +342,6 @@ export class VPGLabComponent implements OnInit {
   }
 
   public selectSeat(seatObject: any) {
-    debugger;
     console.log('Seat to block: ', seatObject);
     if (
       seatObject.status != 'selected' &&
@@ -493,7 +488,6 @@ export class VPGLabComponent implements OnInit {
     };
     this.dataSvc.saveBooking(bookingData).subscribe((res) => {
       if (res) {
-        debugger;
         this.skuList = res;
         this.modalReference.close();
         this.toastrService.success(

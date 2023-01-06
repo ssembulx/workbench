@@ -1,7 +1,7 @@
 <div class="users">
     <div class="content">
         <div class="user-content">
-            <div class="Floor-container row">
+            <!--             <div class="Floor-container row">
 
                 <div class="col-4">
                     <table class="table table-bordered floor-table1">
@@ -81,11 +81,11 @@
                     </table>
                 </div>
 
-            </div>
+            </div> -->
             <div class="table-container">
                 <div class="btn-add-user">
-                    <button class="btn add-btn">Reject</button>
-                    <button class="btn add-btn">Approve</button>
+                    <button class="btn add-btn" (click)="rejectBench()">Reject</button>
+                    <button class="btn add-btn" (click)="approveBench()">Approve</button>
                 </div>
                 <table class="table table-bordered user-table">
                     <thead>
@@ -122,10 +122,10 @@
                             <td>{{data.AllocatedTo}}</td>
                             <td>{{data.FromWW}}</td>
                             <td>{{data.ToWW}}</td>
-                            <td>{{data.BenchData}}</td>
+                            <td>{{data.NumberOfbenches}}</td>
                             <td>{{data.Remarks}}</td>
-                            <td><input class="form-check-input chcekbox-style" type="checkbox" value=""
-                                    id="flexCheckChecked" /></td>
+                            <td><input class="form-check-input chcekbox-style" type="checkbox"
+                                    (click)="checkRow(data,data.id)" id="flexCheckChecked" /></td>
                         </tr>
                     </tbody>
                 </table>

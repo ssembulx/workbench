@@ -108,4 +108,20 @@ export class SummaryService {
   viewApprovalRequests() {
     return this.http.get(this.ServiceURL + 'home/ViewApprovalRequests/ ');
   }
+  approveBenchList(data: any) {
+    const serviceUrl = this.ServiceURL + 'home/ViewApprovalRequests/';
+    return this.http.post(serviceUrl, data, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+  rejectBenchList(data: any) {
+    const serviceUrl = this.ServiceURL + 'home/RejectApprovalRequests/';
+    return this.http.post(serviceUrl, data, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
 }
