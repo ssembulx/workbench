@@ -67,7 +67,6 @@ export class VPGLabComponent implements OnInit {
   }
 
   getLabDetails() {
-    debugger;
     this.labViewLoader = false;
     this.dataSvc
       .getLabDetails({ LabName: this.defaultValue })
@@ -616,7 +615,6 @@ export class VPGLabComponent implements OnInit {
         date.getMonth(),
         date.getDate()
       );
-      debugger;
       let week = moment(selDate).week();
       let month = moment(selDate).month();
       let year = moment(selDate).year();
