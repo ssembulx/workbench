@@ -562,6 +562,8 @@ export class VPGLabComponent implements OnInit {
     this.fromWW = '';
     this.toWW = '';
     this.remarks = '';
+    this.toworkweek = '';
+    this.fromworkweek = '';
   }
   trackByIds(index: number, item: any) {
     return item.id;
