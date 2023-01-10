@@ -44,7 +44,7 @@ export class LabwiseAllotedChartComponentComponent implements OnInit{
     let req = {"LabName":"VPG Lab",
     "Program":"MTL-P",
     "Vendor":"UST"}
-    debugger
+   
     this.service.LabwiseSummary(req).subscribe(res => {
       this.ChartData = res.Location;
       console.log("stacked chart",this.ChartData)

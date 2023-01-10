@@ -11,22 +11,22 @@ export class SearchPipe implements PipeTransform {
         }
         return value.filter((val: any) => {
             return (
-                val.LabDetails === null ? val.LabDetails
-                    : val.LabDetails.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
-                || (val.program === null ? val.program
-                    : val.program.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
-                ||  (val.SKU === null ? val.SKU
-                    : val.SKU.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
-                ||  (val.vendor === null ? val.vendor
-                    : val.vendor.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
-                ||  (val.AllocateTo === null ? val.AllocateTo
-                    : val.AllocateTo.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+                val.Location__Name === null ? val.Location__Name
+                    : val.Location__Name.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+                || (val.Program === null ? val.Program
+                    : val.Program.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+                ||  (val.Sku === null ? val.Sku
+                    : val.Sku.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+                ||  (val.Vendor === null ? val.Vendor
+                    : val.Vendor.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+                ||  (val.AllocatedTo === null ? val.AllocatedTo
+                    : val.AllocatedTo.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
                 ||  (val.FromWW === null ? val.FromWW
                     : val.FromWW.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
                 ||  (val.ToWW === null ? val.ToWW
                     : val.ToWW.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
-                ||  (val.Bench === null ? val.Bench
-                    : val.Bench.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()));
+                ||  (val.BenchData === null ? val.BenchData
+                    : val.BenchData.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()));
                      
         });
     }
@@ -44,8 +44,8 @@ export class SearchLab implements PipeTransform {
         }
         return value.filter((val: any) => {
             return (
-                val.LabDetails === null ? val.LabDetails
-                    : val.LabDetails.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+                val.Location__Name === null ? val.Location__Name
+                    : val.Location__Name.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
         });
     }
 }
@@ -62,8 +62,8 @@ export class SearchProgram implements PipeTransform {
         }
         return value.filter((val: any) => {
             return (
-                val.program === null ? val.program
-                    : val.program.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+                val.Program === null ? val.Program
+                    : val.Program.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
         });
     }
 }
@@ -80,8 +80,8 @@ export class SearchSku implements PipeTransform {
         }
         return value.filter((val: any) => {
             return (
-                val.SKU === null ? val.SKU
-                    : val.SKU.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+                val.Sku === null ? val.Sku
+                    : val.Sku.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
         });
     }
 }
@@ -98,8 +98,8 @@ export class SearchVendor implements PipeTransform {
         }
         return value.filter((val: any) => {
             return (
-                val.vendor === null ? val.vendor
-                    : val.vendor.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+                val.Vendor === null ? val.Vendor
+                    : val.Vendor.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
         });
     }
 }
@@ -116,8 +116,8 @@ export class SearchAllocated implements PipeTransform {
         }
         return value.filter((val: any) => {
             return (
-                val.AllocateTo === null ? val.AllocateTo
-                    : val.AllocateTo.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+                val.AllocatedTo === null ? val.AllocatedTo
+                    : val.AllocatedTo.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
         });
     }
 }
@@ -171,8 +171,8 @@ export class SearchBench implements PipeTransform {
         }
         return value.filter((val: any) => {
             return (
-                val.Bench === null ? val.Bench
-                    : val.Bench.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+                val.BenchData === null ? val.BenchData
+                    : val.BenchData.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
         });
     }
 }

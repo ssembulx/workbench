@@ -31,6 +31,7 @@ import { InterceptService } from './shared/interceptor/intercept.service';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { SemicirclePieChartComponent } from './semicircle-pie-chart/semicircle-pie-chart.component';
 /* import { ToastrService } from 'ngx-toastr'; */
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { ToastrModule } from 'ngx-toastr';
     SearchAllocated,
     SearchFromWW,
     SearchToWW,
-    SearchBench
+    SearchBench,
+    SemicirclePieChartComponent,
   ],
   imports: [
     BrowserModule,
