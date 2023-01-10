@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
   Ventype = "Ven chart";
   semiType = "Semi chart"
   pieChartLoader = false;
-  semicircle :any=true;
+  semicircle :any=false;
   constructor(private service: SummaryService) {}
 
   chartData = [
@@ -518,7 +518,7 @@ export class HomeComponent implements OnInit {
   // *** checkbox click functionality *** //
   getCheckbox(){
     console.log("checked",this.semicircle)
-    if(this.semicircle){
+    if(!this.semicircle){
       // this.getSemiPiechart()
       setTimeout(() => {
         this.OverallAvailability();
