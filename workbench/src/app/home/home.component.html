@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="checkbox" class="sivcheckbox" [(ngModel)]="semicircle" (change)="getCheckbox();">
+                    <input type="checkbox" class="sivcheckbox" [(ngModel)]="semicircle" unchecked (change)="getCheckbox();">
                     <label>SIV</label>
                 </div>
                 <hr class="box-hr">
@@ -46,12 +46,12 @@
                 </div>
                 
                  <!-- ******* Semi circle pie chart view  ******* -->
-                <div *ngIf="semicircle">
+                <div *ngIf="!semicircle">
                     <div id="chartdiv"></div>
                 </div>
 
                 <!-- ******* Semi circle pie chart view Initial load ******* -->
-                <div class="pie-block after-fullscreen-pie" *ngIf="!semicircle && type == 'pie chart'">
+                <div class="pie-block after-fullscreen-pie" *ngIf="semicircle && type == 'pie chart'">
                     <app-semicircle-pie-chart></app-semicircle-pie-chart>
                 </div>
 
