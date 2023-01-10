@@ -97,6 +97,9 @@ export class SummaryService {
   getVendor() {
     return this.http.get(this.ServiceURL + 'home/GetVendorDetails');
   }
+  getTeam() {
+    return this.http.get(this.ServiceURL + 'home/GetTeamNames/');
+  }
   saveBooking(data: any) {
     const serviceUrl = this.ServiceURL + 'home/BookBench/';
     return this.http.post(serviceUrl, data, {

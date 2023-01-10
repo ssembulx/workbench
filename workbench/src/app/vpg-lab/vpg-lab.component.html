@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" *ngIf="seatmap?.length>0">
     <div class="col-12 seat-container">
         <div class="lab_block">
             <div class="wall-heading">
@@ -15,7 +15,7 @@
                 <h5>Approval pending</h5>
             </div>
             <div class="wall">
-                <div *ngFor="let seatrow of seatmap; let i = index ">
+                <div *ngFor="let seatrow of seatmap; let i = index;trackBy: trackByIds ">
                     <div class="col-12 pricing-label"
                         *ngIf="seatChartConfig?.showRowWisePricing && seatrow.seatPricingInformation != ''">
                         {{seatrow.seatPricingInformation}}</div>
@@ -34,8 +34,8 @@
                                 <!-- [ngClass]="{ 'seat-item' : true , 'seat-available' : seatobj.status == 'available' ,'seat-booked' : seatobj.status == 'booked' ,'seat-unavailable' : seatobj.status == 'unavailable' }" -->
                                 <div placement="top" ngbTooltip="Desk : {{seatobj.seatNo}}"
                                     class=" seat-item seat-available" (click)="selectSeat(seatobj)"
-                                    *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested ==false && seatobj.seatLabel != ''">
-                                    <h4>{{seatobj.seatLabel}}</h4>
+                                    *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested ==false && seatobj.seatLabel != ''  && seatobj.team == 'SIV'">
+                                    <h4>{{seatobj.labelNo}}</h4>
                                     <img *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested == false  && seatobj.status != 'selected'"
                                         src="./assets/image/Available.png">
                                     <img *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested == false  && seatobj.status == 'selected'"
@@ -43,22 +43,22 @@
                                 </div>
                                 <!-- Desk not available" -->
                                 <div ngbTooltip="Desk not available" placement="top" class="seat-item seat-unavailable"
-                                    *ngIf="seatobj.IsAllocated == true && seatobj.seatLabel != ''">
-                                    <h4>{{seatobj.seatLabel}}</h4>
+                                    *ngIf="seatobj.IsAllocated == true && seatobj.seatLabel != '' && seatobj.team == 'SIV'">
+                                    <h4>{{seatobj.labelNo}}</h4>
                                     <img src="./assets/image/Booked.png">
                                 </div>
                                 <!-- Desk Requested -->
                                 <div placement="top" ngbTooltip="Desk : {{seatobj.seatNo}} Approval pending"
                                     class="seat-item seat-requested"
-                                    *ngIf="seatobj.IsRequested ==true && seatobj.seatLabel != ''">
-                                    <h4>{{seatobj.seatLabel}}</h4>
+                                    *ngIf="seatobj.IsRequested ==true && seatobj.seatLabel != '' && seatobj.team == 'SIV'">
+                                    <h4>{{seatobj.labelNo}}</h4>
                                     <img src="./assets/image/Requested.png">
                                 </div>
                                 <!-- Non - SIV -->
                                 <div ngbTooltip="Non SIV" placement="top"
                                     [ngClass]="{ 'seat-item' : true , 'seat-unavailable' : true }"
-                                    *ngIf="seatobj.status == 'non-siv' && seatobj.seatLabel != ''">
-                                    <h4>{{seatobj.seatLabel}}</h4>
+                                    *ngIf="seatobj.team == 'Non-SIV' && seatobj.seatLabel != ''">
+                                    <h4>{{seatobj.labelNo}}</h4>
                                     <img src="./assets/image/non_siv.png">
                                     <!-- [ngClass]="{ 'rotate_90' : seatobj.dir=='l' , 'rotate_180' : seatobj.dir=='u', 'rotate_270' : seatobj.dir=='r'}" -->
                                     <!--  <img *ngIf="seatobj.dir=='u'" src="../../assets/image/Table_Unavailable.png">
@@ -75,30 +75,154 @@
             <div class="row booknow_div">
                 <div class="col-lg-12 summary-bar">
                     <div class="col-lg-12 selected-seats">
-                        <div class="col-lg-6 float_left no-padding">
+                        <!--  <div class="col-lg-6 float_left no-padding">
                             <h5>Total Selected Desk</h5>
-                            <!-- <h5>Total Selected Desk :<span> {{ cart?.selectedSeats?.length }}</span></h5> -->
+                            <h5>Total Selected Desk :<span> {{ cart?.selectedSeats?.length }}</span></h5>
                             <h5> {{ cart?.selectedSeats?.length }}</h5>
                         </div>
                         <div class="col-lg-6 float_left no-padding">
                             <h5>Selected Desk</h5>
-                            <!--  <h5>Selected Desk : <span *ngFor="let seatLabel of cart.selectedSeats"
-                                    class="badge badge-primary">{{seatLabel}}</span></h5> -->
+                            <h5>Selected Desk : <span *ngFor="let seatLabel of cart.selectedSeats"
+                                    class="badge badge-primary">{{seatLabel}}</span></h5>
                             <span *ngFor="let seatLabel of cart.selectedSeats"
                                 class="badge badge-primary">{{seatLabel}}</span>
-                        </div>
+                        </div> -->
+                        <table class="table table-bordered user-table">
+                            <tbody>
+                                <tr>
+                                    <td>Location </td>
+                                    <td>
+                                        {{defaultValue}}
+                                        <!-- <select class="form-select location_select" aria-label="Default select example">
+                                            <option selected>SRR2-1F CRD-4-BA-SRR2</option>
+                                        </select> -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Program </td>
+                                    <td style="padding: 0px;">
+                                        <select class="form-select location_select" aria-label="Default select example"
+                                            [(ngModel)]="programName" (change)="onChangeProgram(programName)">
+                                            <option selected value="">Select Program</option>
+                                            <option *ngFor="let locat of programList" [ngValue]="locat.ProgramName">
+                                                {{locat.ProgramName}}
+                                            </option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>SKU </td>
+                                    <td style="padding: 0px;">
+                                        <select class="form-select location_select" aria-label="Default select example"
+                                            [(ngModel)]="skuName">
+                                            <option selected value="">Select SKU</option>
+                                            <option *ngFor="let locat of skuList?.Sku" [ngValue]="locat">
+                                                {{locat}}
+                                            </option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Vendor </td>
+                                    <td style="padding: 0px;">
+                                        <select class="form-select location_select" aria-label="Default select example"
+                                            [(ngModel)]="vendorName">
+                                            <option selected value="">Select Vendor</option>
+                                            <option *ngFor="let locat of vendorList[0].Vendors" [ngValue]="locat">
+                                                {{locat}}
+                                            </option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Team </td>
+                                    <td style="padding: 0px;">
+                                        <select class="form-select location_select" aria-label="Default select example"
+                                            [(ngModel)]="teamName">
+                                            <option selected value="">Select Team</option>
+                                            <option *ngFor="let loca of teamList[0].TeamName" [ngValue]="loca">
+                                                {{loca}}
+                                            </option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Allocated To </td>
+                                    <td style="padding: 0px;"><input style="width: 100%;" type="text" class="text-box"
+                                            placeholder="Srikanth Uppuluri" [(ngModel)]="allocatitedTo"></td>
+                                </tr>
+                                <tr>
+                                    <td>From WW </td>
+                                    <td style="padding: 0px;">
+                                        <div class="fields-two">
+                                            <div class="form-group cal">
+                                                <input class="form-control ip1" name="dp" [(bsValue)]="fromworkweek"
+                                                    #d="bsDatepicker" bsDatepicker
+                                                    (bsValueChange)="onDateSelectFrom($event)">
+                                                <input type="text" placeholder="WW'YYYY" class="form-control cal-input"
+                                                    [(ngModel)]="fromworkweek" />
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary datepicker_btn"
+                                                        (click)="d.toggle()" type="button">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>To WW </td>
+                                    <td style="padding: 0px;">
+                                        <!--  <input style="width: 100%;" type="text" class="text-box"
+                                            placeholder="502022" [(ngModel)]="toWW"> -->
+                                        <div class="fields-two">
+                                            <div class="form-group cal">
+                                                <input class="form-control ip1" name="dp" [(bsValue)]="toworkweek"
+                                                    #d1="bsDatepicker" bsDatepicker
+                                                    (bsValueChange)="onDateSelectTo($event)">
+                                                <input type="text" placeholder="WW'YYYY" class="form-control cal-input"
+                                                    [(ngModel)]="toworkweek" />
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary datepicker_btn"
+                                                        (click)="d1.toggle()" type="button">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#. Bench </td>
+                                    <td style="padding: 0px;">{{ cart?.seatsLabelNo?.length }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Remarks </td>
+                                    <td style="padding: 0px;"><input style="width: 100%;" type="text" class="text-box"
+                                            [(ngModel)]="remarks">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Bench </td>
+                                    <td style="padding: 0px;height: 28vh;"><span *ngFor="let seatLabel of cart.seatsLabelNo"
+                                            class="badge badge-primary">{{seatLabel}}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <div class="col-lg-12 selected-seats">
                         <div class="col-lg-12 float_left no-padding">
-                            <button [disabled]="cart?.selectedSeats?.length == 0" type="button"
-                                (click)="processBooking(bookingmodal)" class="btn btn-primary" mdbWavesEffect>Book
+                            <button
+                                [disabled]="cart?.selectedSeats?.length == 0 || programName =='' || skuName=='' || vendorName=='' || teamName =='' || allocatitedTo =='' || fromworkweek =='' || toworkweek ==''"
+                                type="button" (click)="saveBooking()" class="btn btn-primary" mdbWavesEffect>Book
                                 Now</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
+        <!-- {{seatmap | json}} -->
     </div>
 </div>
 <!-- <div>
@@ -261,3 +385,22 @@
         </div>
     </div>
 </ng-template>
+
+<!-- ****** loader ****** -->
+<div class="overlay-main" *ngIf="!labViewLoader">
+    <div class="spinner-container">
+
+        <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+            <div class="rect6"></div>
+            <div class="rect7"></div>
+            <div class="rect8"></div>
+            <div class="rect9"></div>
+        </div>
+        <div class="proccessing-text">Loading ...</div>
+    </div>
+</div>

@@ -3,6 +3,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { SummaryService } from '../shared/service';
+import moment from 'moment';
 @Component({
   selector: 'app-vpg-lab',
   templateUrl: './vpg-lab.component.html',
@@ -24,18 +25,14 @@ export class VPGLabComponent implements OnInit {
 
   public cart: any = {
     selectedSeatsNo: [],
-
     selectedSeats: [],
-
     seatstoStore: [],
-
+    seatsLabelNo: [],
     totalamount: 0,
-
     cartId: '',
-
     eventId: 0,
   };
-
+  labViewLoader = false;
   title = 'seat-chart-generator';
   constructor(
     private modalService: NgbModal,
@@ -43,6 +40,7 @@ export class VPGLabComponent implements OnInit {
     private toastrService: ToastrService,
     private dataSvc: SummaryService
   ) {
+    this.labViewLoader = false;
     config.backdrop = 'static';
     config.size = 'lg';
   }
@@ -51,9 +49,11 @@ export class VPGLabComponent implements OnInit {
   programList: any;
   skuList: any;
   vendorList: any;
+  teamList: any;
   programName: any = '';
   skuName: any = '';
   vendorName: any = '';
+  teamName: any = '';
   allocatitedTo = '';
   fromWW = '';
   toWW = '';
@@ -65,11 +65,15 @@ export class VPGLabComponent implements OnInit {
       }
     });
   }
+
   getLabDetails() {
+    debugger;
+    this.labViewLoader = false;
     this.dataSvc
       .getLabDetails({ LabName: this.defaultValue })
       .subscribe((res) => {
         if (res) {
+          this.labViewLoader = true;
           let response: any = res;
           this.parentLabDetailsCreated.emit(response);
           this.seatmap = response.BenchDetails;
@@ -88,177 +92,199 @@ export class VPGLabComponent implements OnInit {
         this.vendorList = res;
       }
     });
-    //Process a simple bus layout
+    this.dataSvc.getTeam().subscribe((res) => {
+      if (res) {
+        this.teamList = res;
+      }
+    });
     /*  this.seatConfig = [
-       {
-         seat_price: 250,
-         seat_map: [
-           {
-             seat_label: "1",
-             layout: "___g__",
-             direction: "___u__"
-           },
-           {
-             seat_label: "2",
-             layout: "ggg__g",
-             direction: "uuu__r"
-           },
-           {
-             seat_label: "3",
-             layout: "gggg_g",
-             direction: "dddd_r"
-           }
-         ]
-       }
-     ]; */
-    this.seatConfig = [
       {
         seat_price: 250,
         seat_map: [
           {
             seat_label: 'A',
-            layout: 'g___________',
-            direction: 'l___________',
+            layout: 'gggggggg___',
+            direction: 'dddddddd___',
+            labelNo: 'A8,A7,A6,A5,A4,A3,A2,A1,_,_,_',
+            Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,_,_',
           },
           {
             seat_label: 'B',
-            layout: 'g___________',
-            direction: 'l___________',
+            layout: 'gggggggg___',
+            direction: 'uuuuuuuu___',
+            labelNo: 'A9,A10,A11,A12,A13,A14,A15,A16,_,_,_',
+            Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,_,_',
           },
           {
             seat_label: 'C',
-            layout: '_gggggggg___',
-            direction: '_dddddddd___',
+            layout: '___________',
+            direction: '___________',
+            labelNo: '_,_,_,_,_,_,_,_,_,_,_',
+            Team: '_,_,_,_,_,_,_,_,_,_,_',
           },
           {
             seat_label: 'D',
-            layout: '_gggggggg___',
-            direction: '_uuuuuuuu___',
+            layout: 'ggggggggg__',
+            direction: 'uuuuuuuuu__',
+            labelNo: 'B9,B8,B7,B6,B5,B4,B3,B2,B1,_,_',
+            Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,_',
           },
           {
             seat_label: 'E',
-            layout: '____________',
-            direction: '____________',
+            layout: 'ggggggggggg',
+            direction: 'ddddddddddd',
+            labelNo: 'B10,B11,B12,B13,B14,B15,B16,B17,B18,B19,B20',
+            Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
           },
           {
             seat_label: 'F',
-            layout: '_ggggggggg__',
-            direction: '_ddddddddd__',
+            layout: '___________',
+            direction: '___________',
+            labelNo: '_,_,_,_,_,_,_,_,_,_,_',
+            Team: '_,_,_,_,_,_,_,_,_,_,_',
           },
           {
             seat_label: 'G',
-            layout: '_ggggggggggg',
-            direction: '_uuuuuuuuuuu',
+            layout: 'ggggg_ggggg',
+            direction: 'uuuuu_uuuuu',
+            labelNo: 'C9,C8,C7,C6,C5,_,C4,C3,C2,C1,C0',
+            Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
           },
           {
             seat_label: 'H',
-            layout: '____________',
-            direction: '____________',
+            layout: 'ggggggggggg',
+            direction: 'ddddddddddd',
+            labelNo: 'C10,C11,C12,C13,C14,C15,C16,C17,C18,C19,C20',
+            Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,SIV,SIV,SIV,SIV,SIV,SIV',
           },
           {
             seat_label: 'I',
-            layout: '_ggggg_ggggg',
-            direction: '_ddddd_ddddd',
+            layout: '___________',
+            direction: '___________',
+            labelNo: '_,_,_,_,_,_,_,_,_,_,_',
+            Team: '_,_,_,_,_,_,_,_,_,_,_',
           },
           {
             seat_label: 'J',
-            layout: '_ggggggggggg',
-            direction: '_uuuuuuuuuuu',
+            layout: 'ggggggggggg',
+            direction: 'ddddddddddd',
+            labelNo: 'D10,D9,D8,D7,D6,D5,D4,D3,D2,D1,D0',
+            Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
           },
           {
             seat_label: 'K',
-            layout: '____________',
-            direction: '____________',
+            layout: 'ggggggggggg',
+            direction: 'uuuuuuuuuuu',
+            labelNo: 'D11,D12,D13,D14,D15,D16,D17,D18,D19,D20,D21',
+            Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
           },
           {
             seat_label: 'L',
-            layout: '_ggggggggggg',
-            direction: '_ddddddddddd',
+            layout: '___________',
+            direction: '___________',
+            labelNo: '_,_,_,_,_,_,_,_,_,_,_',
+            Team: '_,_,_,_,_,_,_,_,_,_,_',
           },
           {
             seat_label: 'M',
-            layout: '_ggggggggggg',
-            direction: '_uuuuuuuuuuu',
+            layout: 'ggggg______',
+            direction: 'uuuuu______',
+            labelNo: 'D22,D23,D24,D25,D26,_,_,_,_,_,_',
+            Team: 'SIV,SIV,SIV,SIV,SIV,_,_,_,_,_,_',
           },
           {
             seat_label: 'N',
-            layout: '____________',
-            direction: '____________',
+            layout: '___________',
+            direction: '___________',
+            labelNo: '_,_,_,_,_,_,_,_,_,_,_',
+            Team: '_,_,_,_,_,_,_,_,_,_,_',
           },
           {
             seat_label: 'O',
-            layout: '________gggg',
-            direction: '________uuuu',
+            layout: 'gggg_gggggg',
+            direction: 'dddd_dddddd',
+            labelNo: 'E11,E10,E9,E8,_,E6,E5,E4,E3,E2,E1',
+            Team: 'SIV,SIV,SIV,SIV,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
           },
           {
             seat_label: 'P',
-            layout: '_ggggg______',
-            direction: '_uuuuu______',
+            layout: 'ggggggggggg',
+            direction: 'ddddddddddd',
+            labelNo: 'E12,E13,E14,E15,E16,E17,E18,E19,E20,E21,E22',
+            Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
           },
           {
             seat_label: 'Q',
-            layout: '____________',
-            direction: '____________',
+            layout: '___________',
+            direction: '___________',
+            labelNo: '_,_,_,_,_,_,_,_,_,_,_',
+            Team: '_,_,_,_,_,_,_,_,_,_,_',
           },
           {
             seat_label: 'R',
-            layout: '_ggggggggggg',
-            direction: '_ddddddddddd',
+            layout: 'ggggggggggg',
+            direction: 'ddddddddddd',
+            labelNo: 'F11,F10,F9,F8,F7,F6,F5,F4,F3,F2,F1',
+            Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
           },
           {
             seat_label: 'S',
-            layout: '_ggggggggggg',
-            direction: '_uuuuuuuuuuu',
+            layout: 'ggggg_ggggg',
+            direction: 'ddddd_ddddd',
+            labelNo: 'F12,F13,F14,F15,F16,_,F17,F18,F19,F20,F21',
+            Team: 'SIV,SIV,SIV,SIV,SIV,_,SIV,SIV,SIV,SIV,SIV',
           },
+
           {
             seat_label: 'T',
-            layout: '____________',
-            direction: '____________',
+            layout: '___________',
+            direction: '___________',
+            labelNo: '_,_,_,_,_,_,_,_,_,_,_',
+            Team: '_,_,_,_,_,_,_,_,_,_,_',
           },
+
           {
             seat_label: 'U',
-            layout: '_ggggggggggg',
-            direction: '_ddddddddddd',
+            layout: 'ggggggggggg',
+            direction: 'ddddddddddd',
+            labelNo: 'G11,G10,G9,G8,G7,G6,G5,G4,G3,G2,G1',
+            Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
           },
+
           {
             seat_label: 'V',
-            layout: '_ggggg_ggggg',
-            direction: '_uuuuu_uuuuu',
+            layout: 'ggggggggggg',
+            direction: 'ddddddddddd',
+            labelNo: 'G12,G13,G14,G15,G16,G17,G18,G19,G20,G21,G22',
+            Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
           },
           {
             seat_label: 'W',
-            layout: '____________',
-            direction: '____________',
+            layout: '___________',
+            direction: '___________',
+            labelNo: '_,_,_,_,_,_,_,_,_,_,_',
+            Team: '_,_,_,_,_,_,_,_,_,_,_',
           },
+
           {
             seat_label: 'X',
-            layout: '_ggggggggggg',
-            direction: '_ddddddddddd',
+            layout: 'ggggggggggg',
+            direction: 'ddddddddddd',
+            labelNo: 'H11,H10,H9,H8,H7,H6,H5,H4,H3,H2,H1',
+            Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
           },
+
           {
             seat_label: 'Y',
-            layout: '_ggggggggggg',
-            direction: '_uuuuuuuuuuu',
-          },
-          {
-            seat_label: 'Z',
-            layout: '____________',
-            direction: '____________',
-          },
-          {
-            seat_label: 'AA',
-            layout: '_ggggggggggg',
-            direction: '_ddddddddddd',
-          },
-          {
-            seat_label: 'AB',
-            layout: '_ggggggggggg',
-            direction: '_uuuuuuuuuuu',
+            layout: 'ggggggggggg',
+            direction: 'ddddddddddd',
+            labelNo: 'H12,H13,H14,H15,H16,H17,H18,H19,H20,H21,H22',
+            Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
           },
         ],
       },
     ];
-    // this.processSeatChart(this.seatConfig);
+    this.processSeatChart(this.seatConfig); */
     /* this.blockSeats('A_1,C_6,F_7');
     this.blockSeatsNonSiv('D_4,D_6,G_9'); */
   }
@@ -289,6 +315,9 @@ export class VPGLabComponent implements OnInit {
 
           var seatDirArr = map_element.direction.split('');
 
+          var labelNoArr = map_element.labelNo.split(',');
+          var teamArr = map_element.Team.split(',');
+
           if (this.seatChartConfig.newSeatNoForRow) {
             seatNoCounter = 1; //Reset the seat label counter for new row
           }
@@ -302,6 +331,8 @@ export class VPGLabComponent implements OnInit {
               IsAllocated: false,
               IsRequested: false,
               AllocationData: null,
+              /*  labelNo: '',
+              team: '', */
             };
 
             if (item != '_') {
@@ -316,12 +347,17 @@ export class VPGLabComponent implements OnInit {
               seatObj['seatNo'] = '' + seatNoCounter;
               /* } */
 
+              seatObj['labelNo'] = labelNoArr[index];
+              seatObj['team'] = teamArr[index];
+
               seatNoCounter++;
             } else {
               seatObj['seatLabel'] = '';
               seatObj['BenchName'] = '';
               seatObj['dir'] = '';
               seatObj['seatNo'] = '';
+              seatObj['labelNo'] = '';
+              seatObj['team'] = '';
             }
             totalItemCounter++;
 
@@ -338,7 +374,7 @@ export class VPGLabComponent implements OnInit {
         });
       }
     }
-    console.log('total', this.seatmap);
+    console.log('total1', this.seatmap);
   }
 
   public selectSeat(seatObject: any) {
@@ -352,6 +388,7 @@ export class VPGLabComponent implements OnInit {
       this.cart.selectedSeats.push(seatObject.seatLabel);
       this.cart.selectedSeatsNo.push(seatObject.seatNo);
       this.cart.seatstoStore.push(seatObject.key);
+      this.cart.seatsLabelNo.push(seatObject.labelNo);
       this.cart.totalamount += seatObject.price;
     } else if (
       seatObject.status == 'selected' &&
@@ -364,6 +401,7 @@ export class VPGLabComponent implements OnInit {
         this.cart.selectedSeats.splice(seatIndex, 1);
         this.cart.selectedSeatsNo.splice(seatIndex, 1);
         this.cart.seatstoStore.splice(seatIndex, 1);
+        this.cart.seatsLabelNo.splice(seatIndex, 1);
         this.cart.totalamount -= seatObject.price;
       }
     }
@@ -472,9 +510,9 @@ export class VPGLabComponent implements OnInit {
 
       AllocatedTo: this.allocatitedTo,
 
-      FromWW: this.fromWW,
+      FromWW: this.fromformatWW,
 
-      ToWW: this.toWW,
+      ToWW: this.toformatWW,
 
       Remarks: this.remarks,
 
@@ -485,11 +523,13 @@ export class VPGLabComponent implements OnInit {
       NumberOfBenches: this.cart?.selectedSeats?.length,
 
       BenchData: this.cart.seatstoStore,
+
+      Team: this.teamName,
     };
     this.dataSvc.saveBooking(bookingData).subscribe((res) => {
       if (res) {
-        this.skuList = res;
-        this.modalReference.close();
+        //  this.skuList = res;
+        //  this.modalReference.close();
         this.toastrService.success(
           'Allocation Request Added Successfully',
           'Success!'
@@ -502,17 +542,20 @@ export class VPGLabComponent implements OnInit {
 
           seatstoStore: [],
 
+          seatsLabelNo: [],
+
           totalamount: 0,
 
           cartId: '',
 
           eventId: 0,
         };
+        this.closePopup();
       }
     });
   }
   closePopup() {
-    this.modalReference.close();
+    //  this.modalReference.close();
     this.programName = '';
     this.skuName = '';
     this.vendorName = '';
@@ -520,5 +563,78 @@ export class VPGLabComponent implements OnInit {
     this.fromWW = '';
     this.toWW = '';
     this.remarks = '';
+  }
+  trackByIds(index: number, item: any) {
+    return item.id;
+  }
+  /* work week calendar */
+  fromworkweek: any = '';
+  fromformatWW: any = '';
+
+  selectedFromWorkWeek: Date;
+
+  toworkweek: any = '';
+  toformatWW: any = '';
+
+  selectedToWorkWeek: Date;
+
+  bsValueFrom = new Date();
+  bsRangeValueFrom: Date[];
+  bsValueTo = new Date();
+  bsRangeValueTo: Date[];
+  onDateSelectFrom(date: any) {
+    if (date !== undefined && date !== null) {
+      var selDate = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate()
+      );
+      let week = moment(selDate).week();
+      let month = moment(selDate).month();
+      let year = moment(selDate).year();
+      let selWeek;
+      if (week < 10) {
+        selWeek = ('0' + week).slice(-2);
+      } else {
+        selWeek = week;
+      }
+      if (month === 11 && week === 1) {
+        year = year + 1;
+      }
+      this.fromworkweek = selWeek + "'" + year.toString();
+      this.fromformatWW = (selWeek + "'" + year)
+        .toString()
+        .split("'")
+        .join()
+        .replace(',', '');
+    }
+  }
+  onDateSelectTo(date: any) {
+    if (date !== undefined && date !== null) {
+      var selDate = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate()
+      );
+      debugger;
+      let week = moment(selDate).week();
+      let month = moment(selDate).month();
+      let year = moment(selDate).year();
+      let selWeek;
+      if (week < 10) {
+        selWeek = ('0' + week).slice(-2);
+      } else {
+        selWeek = week;
+      }
+      if (month === 11 && week === 1) {
+        year = year + 1;
+      }
+      this.toworkweek = selWeek + "'" + year.toString();
+      this.toformatWW = (selWeek + "'" + year)
+        .toString()
+        .split("'")
+        .join()
+        .replace(',', '');
+    }
   }
 }

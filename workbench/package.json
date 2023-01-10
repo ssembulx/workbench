@@ -28,6 +28,8 @@
     "bootstrap": "^5.2.3",
     "cli-spinners": "^2.7.0",
     "jquery": "^3.6.1",
+    "moment": "^2.29.4",
+    "ngx-bootstrap": "^9.0.0",
     "ngx-order-pipe": "^2.2.0",
     "ngx-spinner": "^14.0.0",
     "ngx-toastr": "^14.3.0",
