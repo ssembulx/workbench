@@ -1,6 +1,8 @@
 
     <div class="content">
         <div class="row charts-content">
+
+            <!-- ******* Semi circle pie chart ******* -->
             <div class="semi-pie-chart" #fullscreenPie [ngClass]="fullScreenFlag ? 'col-12': 'col-6'">
                 <div class="row">
                     <div class="col-12">
@@ -8,6 +10,8 @@
                             <i class="fa fa-chart-bar fa-2x chart-icon"></i>
                             <span class="chart-heading">Summary</span>
                         </div>
+
+                        <!-- ******* Semi circle pie chart and table view options ******* -->
                         <div class="btn-row mr-2">
                             <div class="btn-dv2" [ngClass]="type == 'pie chart' ? 'active-btn' : ''" (click)="ToggleOptions('chart')">
                                 <i class="fa fa-chart-bar fa-2x chart-icon"></i>
@@ -16,17 +20,42 @@
                                 <i class="fas fa-table chart-icon"></i>
                             </div>
                         </div>
+
+
+
+                        <!-- ******* Semi circle pie chart and table view options ******* -->
+                        <div>
+                          
+                            <!-- <div class="btn-dv" [ngClass]="type == 'pie table' ? 'active-btn' : ''" (click)="ToggleOptions('table')">
+                                <i class="fas fa-table chart-icon"></i>
+                            </div> -->
+                        </div>
                     </div>  
                 </div>
+
+                <div class="form-group">
+                    <input type="checkbox" class="sivcheckbox" [(ngModel)]="semicircle" (change)="getCheckbox();">
+                    <label>SIV</label>
+                </div>
                 <hr class="box-hr">
+
+                <!-- ******* Fullscreen options ******* -->
                 <div class="col-4 float_left-info">
-                    <!-- <i class="fas fa-info-circle info-icon" matTooltip="info"></i> -->
                     <i class="fas fa-expand expand-display fullscreen-icon" matTooltip="Fullscreen" (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreenPie"></i>
                     <i class="fas fa-compress remove-display" (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreenPie"></i>
                 </div>
-                <div class="pie-block after-fullscreen-pie" *ngIf="type == 'pie chart'">
+                
+                 <!-- ******* Semi circle pie chart view  ******* -->
+                <div *ngIf="semicircle">
                     <div id="chartdiv"></div>
                 </div>
+
+                <!-- ******* Semi circle pie chart view Initial load ******* -->
+                <div class="pie-block after-fullscreen-pie" *ngIf="!semicircle && type == 'pie chart'">
+                    <app-semicircle-pie-chart></app-semicircle-pie-chart>
+                </div>
+
+                <!-- ******* Semi circle pie chart table view ******* -->
                 <div class="table-container">
                     <table class="table table-bordered piechart-table" *ngIf="type == 'pie table'">
                         <thead>
@@ -46,6 +75,8 @@
                     </table>
                 </div>
             </div>
+
+            <!-- ******* Location chart ******* -->
             <div class="stacked-chart" #fullscreenStacked [ngClass]="fullScreenFlag ? 'col-12': 'col-6'">
                 <div>
                     <div class="chart-style">
@@ -66,6 +97,8 @@
                                 Vendor
                             </div>
                         </div>
+
+                        <!-- ******* Location chart and table view options ******* -->
                         <div class="btn-row-loc mr-2" *ngIf="typeChart == 'Location chart'">
                             <div class="btn-dv2" [ngClass]="Loctype == 'Loc chart' ? 'active-btn-loc' : ''" (click)="LocationOptions('LocChart')">
                                 <i class="fa fa-chart-bar fa-2x chart-icon"></i>
@@ -74,6 +107,8 @@
                                 <i class="fas fa-table chart-icon"></i>
                             </div>
                         </div>
+
+                        <!-- ******* Program chart and table view options ******* -->
                         <div class="btn-row-loc mr-2" *ngIf="typeChart == 'Program chart'">
                             <div class="btn-dv2" [ngClass]="Prgtype == 'Prg chart' ? 'active-btn-loc' : ''" (click)="ProgramOptions('PrgChart')">
                                 <i class="fa fa-chart-bar fa-2x chart-icon"></i>
@@ -82,6 +117,8 @@
                                 <i class="fas fa-table chart-icon"></i>
                             </div>
                         </div>
+
+                        <!-- ******* Vendor chart and table view options ******* -->
                         <div class="btn-row-loc mr-2" *ngIf="typeChart == 'Vendor chart'">
                             <div class="btn-dv2" [ngClass]="Ventype == 'Ven chart' ? 'active-btn-loc' : ''" (click)="VendorOptions('VenChart')">
                                 <i class="fa fa-chart-bar fa-2x chart-icon"></i>
@@ -90,17 +127,22 @@
                                 <i class="fas fa-table chart-icon"></i>
                             </div>
                         </div>
+
+                        <!-- ******* Fullscreen options ******* -->
                         <div class="float_left-info">
-                            <!-- <i class="fas fa-info-circle info-icon" matTooltip="info"></i> -->
                             <i class="fas fa-expand expand-display fullscreen-icon" matTooltip="Fullscreen" (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreenStacked"></i>
                             <i class="fas fa-compress remove-display" (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreenStacked"></i>
                         </div>
                     </div>
                 </div>
                 <hr class="box-hr">
+
+                <!-- ******* Location chart view ******* -->
                 <div  *ngIf="typeChart == 'Location chart' && Loctype == 'Loc chart'">
                     <app-stacked-chart-component></app-stacked-chart-component>
                 </div>
+
+                <!-- ******* Location chart table view ******* -->
                 <div class="table-container">
                     <table class="table table-bordered locchart-table" *ngIf="Loctype == 'Loc table' && typeChart == 'Location chart'">
                         <thead>
@@ -121,9 +163,13 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- ******* Program chart view  ******* -->
                 <div *ngIf="typeChart == 'Program chart' && Prgtype == 'Prg chart'">
                     <app-program-stacked-chart-component></app-program-stacked-chart-component>
                 </div>
+
+                <!-- ******* Program chart table view ******* -->
                 <div class="table-container">
                     <table class="table table-bordered prgchart-table" *ngIf="Prgtype == 'Prg table' && typeChart == 'Program chart'">
                         <thead>
@@ -142,9 +188,13 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- ******* Vendor chart view ******* -->
                 <div *ngIf="typeChart == 'Vendor chart' && Ventype == 'Ven chart'">
                     <app-vendor-stacked-chart-component></app-vendor-stacked-chart-component>
                 </div>
+
+                <!-- ******* Vendor chart table view ******* -->
                 <div class="table-container">
                     <table class="table table-bordered venchart-table" *ngIf="Ventype == 'Ven table' && typeChart == 'Vendor chart'">
                         <thead>
@@ -165,6 +215,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- ******* Labwise chart  ******* -->
         <div class="chart-block-title">
            <div class="row" #fullscreen>
              <div class="col-2">
@@ -175,7 +227,6 @@
              </div>
              <div class="col-2 float_left">
                 <select class="form-select location_select" aria-label="Default select example">
-                    <!-- <option>-- All --</option> -->
                     <option>SRR1</option>
                     <option>SRR2</option>
                     <option>SRR3</option>
@@ -197,6 +248,8 @@
                     <option>Infosys</option>
                 </select>  
              </div>
+
+             <!-- ******* Labwise chart and table view options ******* -->
              <div class="btn-row mr-2 col-2">
                 <div class="btn-dv2" [ngClass]="Labtype == 'Lab chart' ? 'active-btn' : ''" (click)="ChangeOption('Labchart')">
                     <i class="fa fa-chart-bar fa-2x chart-icon"></i>
@@ -205,15 +258,20 @@
                     <i class="fas fa-table chart-icon"></i>
                 </div>
             </div>
+
+            <!-- ******* Fullscreen options ******* -->
              <div class="col-2 float_left-info">
-                <!-- <i class="fas fa-info-circle info-icon" matTooltip="info"></i> -->
                 <i class="fas fa-expand expand-display fullscreen-icon" matTooltip="Fullscreen" (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreen"></i>
                 <i class="fas fa-compress remove-display" (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreen"></i>
              </div>
              <hr class="box-hr">
+
+             <!-- ******* Labwise chart view  ******* -->
              <div class="chart-item after-fullscreen" *ngIf="Labtype == 'Lab chart'">
                 <app-labwise-alloted-chart-component></app-labwise-alloted-chart-component>  
              </div> 
+
+             <!-- ******* Labwise chart table view ******* -->
              <div class="table-container">
                 <table class="table table-bordered piechart-table" *ngIf="Labtype == 'Lab table'">
                     <thead>
@@ -237,65 +295,23 @@
            </div>
         </div>
         <br/>
-        <!-- <div class="table-view">
-            <div class="row">
-                <div class="col-4">
-                    <div class="table-caption">
-                        <i class="fas fa-table fa-2x table-icon"></i>
-                        <span class="table-heading">Summary</span>
-                    </div>
-                 </div>
-            </div>
-            <hr class="box-hr">
-            <div class="table-container">
-                <table class="table table-bordered summary-table">
-                    <thead>
-                        <tr>
-                            <th class="v-align">#</th>
-                            <th class="v-align" (click)="setOrderRelease('Program')"><span class="sort-by">Program</span></th>
-                            <th class="v-align" (click)="setOrderRelease('SKU')"><span class="sort-by">SKU</span></th>
-                            <th class="v-align" (click)="setOrderRelease('Vendor')"><span class="sort-by">Vendor</span></th>
-                            <th class="v-align" (click)="setOrderRelease('Allocated To')"><span class="sort-by">Allocated To</span></th>
-                            <th class="v-align" (click)="setOrderRelease('From WW')"><span class="sort-by">From WW</span></th>
-                            <th class="v-align" (click)="setOrderRelease('To WW')"><span class="sort-by">To WW</span></th>
-                            <th class="v-align" (click)="setOrderRelease('#Bench')"><span class="sort-by">Bench Count</span></th>
-                            <th class="v-align">Status</th>
-                            
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let data of summaryData | orderBy: orderMappedRelease:reverseMappedRelease: true ;">
-                            <td>{{data.slno}}</td>
-                            <td>{{data.program}}</td>
-                            <td>{{data.SKU}}</td>
-                            <td>{{data.vendor}}</td>
-                            <td>{{data.AllocateTo}}</td>
-                            <td>{{data.FromWW}}</td>
-                            <td>{{data.ToWW}}</td>
-                            <td>{{data.BenchCount}}</td>
-                            <td>{{data.Status}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div> -->
     </div>
 
-<!-- ****** loader ****** -->
-    <div class="overlay-main" *ngIf="!pieChartLoader">
-        <div class="spinner-container">
+<!-- ****** loader option ****** -->
+<!-- <div class="overlay-main" *ngIf="!pieChartLoader">
+    <div class="spinner-container">
 
-            <div class="spinner">
-                <div class="rect1"></div>
-                <div class="rect2"></div>
-                <div class="rect3"></div>
-                <div class="rect4"></div>
-                <div class="rect5"></div>
-                <div class="rect6"></div>
-                <div class="rect7"></div>
-                <div class="rect8"></div>
-                <div class="rect9"></div>
-            </div>
-            <div class="proccessing-text">Loading ...</div>
+        <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+            <div class="rect6"></div>
+            <div class="rect7"></div>
+            <div class="rect8"></div>
+            <div class="rect9"></div>
         </div>
+        <div class="proccessing-text">Loading ...</div>
     </div>
+</div> -->

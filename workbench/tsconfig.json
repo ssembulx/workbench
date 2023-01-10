@@ -20,9 +20,17 @@
     "target": "es2020",
     "module": "es2020",
     "noImplicitReturns": false,
-    "esModuleInterop": true,
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "allowSyntheticDefaultImports": true,
-    "lib": ["es2020", "dom"]
+    "types": ["node"],
+    "paths": {
+      "exceljs": [
+        "node_modules/exceljs/dist/exceljs.min"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

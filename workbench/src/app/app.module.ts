@@ -42,6 +42,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { SemicirclePieChartComponent } from './semicircle-pie-chart/semicircle-pie-chart.component';
 /* import { ToastrService } from 'ngx-toastr'; */
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     SearchFromWW,
     SearchToWW,
     SearchBench,
+    SemicirclePieChartComponent,
   ],
   imports: [
     BrowserModule,

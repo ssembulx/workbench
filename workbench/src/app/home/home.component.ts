@@ -32,8 +32,9 @@ export class HomeComponent implements OnInit {
   Loctype = "Loc chart";
   Prgtype = "Prg chart";
   Ventype = "Ven chart";
+  semiType = "Semi chart"
   pieChartLoader = false;
-
+  semicircle :any=true;
   constructor(private service: SummaryService) {}
 
   chartData = [
@@ -59,16 +60,16 @@ export class HomeComponent implements OnInit {
   ]
 
   ProgramchartData = [
-    { slno: 1, program: "ADL-P", value: "100"},
-    { slno: 2, program: "MTL_P", value: "90"},
-    { slno: 3, program: "RKL-S", value: "80"},
-    { slno: 4, program: "GLK-S", value: "70"},
-    { slno: 5, program: "RPL-T", value: "60"},
-    { slno: 6, program: "MTL-S", value: "50"},
-    { slno: 7, program: "RTL-S", value: "40"},
-    { slno: 8, program: "TGL-R", value: "30"},
-    { slno: 9, program: "CFL-H", value: "20"},
-    { slno: 10, program: "WHL-U", value: "10"},
+    { slno: 1, program: "ADL-P", value: "45"},
+    { slno: 2, program: "MTL_P", value: "65"},
+    { slno: 3, program: "RKL-S", value: "70"},
+    { slno: 4, program: "GLK-S", value: "65"},
+    { slno: 5, program: "RPL-T", value: "75"},
+    { slno: 6, program: "MTL-S", value: "70"},
+    { slno: 7, program: "RTL-S", value: "80"},
+    { slno: 8, program: "TGL-R", value: "60"},
+    { slno: 9, program: "CFL-H", value: "60"},
+    { slno: 10, program: "WHL-U", value: "50"},
   ]
 
   VendorchartData = [
@@ -77,20 +78,214 @@ export class HomeComponent implements OnInit {
     { slno: 3, vendor: "Infosys", value: "50"},
   ]
 
-  ngOnInit(): void {
-    this.LabOverallSummary();
+  ngOnInit() {
+    // this.LabOverallSummary();
+    this.getCheckbox()
+    // this.getSemiPiechart();
   }
 
-  //****Calling API for summary pie chart ***//
-  LabOverallSummary() {
-    this.pieChartLoader = false;
-    this.service.LabOverallSummary().subscribe((res) => {
-      this.ChartData = res.Data;
-      console.log('stacked chart', this.ChartData);
-      this.getSemiCirclePiechart();
-      this.pieChartLoader = true;
+    //****Calling API for summary pie chart ***//
+    OverallAvailability() {
+      this.pieChartLoader = false;
+      this.service.OverallAvailability().subscribe((res) => {
+        this.ChartData = res.Data;
+        console.log('pie chart', this.ChartData);
+        this.getSemiPiechart();
+        this.pieChartLoader = true;
+      });
+    }
+
+   //**** Chart data ****//
+   getSemiPiechart() {
+    var root = am5.Root.new('chartdiv');
+    //****** removing chart logo *****//
+    root._logo.dispose();
+    // Set themes
+    root.setThemes([am5themes_Animated.new(root)]);
+
+    // Create chart
+    // start and end angle must be set both for chart and series
+    var chart = root.container.children.push(
+      am5percent.PieChart.new(root, {
+        startAngle: 180,
+        endAngle: 360,
+        layout: root.verticalLayout,
+        innerRadius: am5.percent(50),
+      })
+    );
+
+    // Create series
+    // start and end angle must be set both for chart and series
+    var series = chart.series.push(
+      am5percent.PieSeries.new(root, {
+        startAngle: 180,
+        endAngle: 360,
+        valueField: 'values',
+        categoryField: 'Category',
+        alignLabels: false,
+      })
+    );
+
+    series.states.create('hidden', {
+      startAngle: 180,
+      endAngle: 180,
     });
+
+    series.slices.template.setAll({
+      cornerRadius: 5,
+      strokeWidth: 2,
+    });
+
+    //**** for transperent color(opacity) ***//
+    series.slices.template.adapters.add("fillOpacity", function(fillOpacity, target:any) {
+      if (target.dataItem.get("category") == "Free") {
+          return 0.1;
+        }
+      }
+    );
+
+    //**** for dotted border ***//
+    series.slices.template.adapters.add("strokeDasharray", function(strokeDasharray, target:any) {
+      if (target.dataItem.get("category") == "Free") {
+          return [8,4];
+      }
+     }
+    );
+
+    //**** custom color for slices****//
+    series.slices.template.adapters.add("fill", function(fill, target:any) {
+      // if (target.dataItem.get("category") == "Non-SIV") {
+      //     return am5.color('#6794dc'); 
+      // }
+       if(target.dataItem.get("category") == "Allocated") {
+        return am5.color('#67b7dc')
+      }
+      else if(target.dataItem.get("category") == "Free") {
+        return am5.color('#67b7dc')
+      }
+    });
+
+    //**** custom color for border(stroke)****//
+    series.slices.template.adapters.add("stroke", function(fill, target:any) {
+      // if (target.dataItem.get("category") == "Non-SIV") {
+      //   return am5.color('#6794dc'); 
+      // }
+      if(target.dataItem.get("category") == "Allocated") {
+        return am5.color('#67b7dc')
+      }
+      else if(target.dataItem.get("category") == "Free") {
+        return am5.color('#67b7dc')
+      }
+    });
+
+    series.ticks.template.setAll({
+      forceHidden: true,
+    });
+
+    //**** for removing % from labels ***//
+    series.labels.template.set('text', '{Category}:{values}');
+
+    //**** for removing % from tooltip ***//
+    series.slices.template.set('tooltipText', '{Category}:{values}');
+
+    //**** chart data ****//
+    series.data.setAll(this.ChartData);
+    // Set data
+    // series.data.setAll([
+    //   // { Value: 50, Category: "Non-Siv"},
+    //   { Value: 30, Category: "Allocated" },
+    //   { Value: 20, Category: "Free" }
+    // ]);
+
+    // **** Add legend ****//
+    var legend = chart.children.push(
+      am5.Legend.new(root, {
+        nameField: 'Category',
+        centerX: am5.percent(50),
+        x: am5.percent(55),
+      })
+    );
+
+    legend.data.setAll(series.dataItems);
+    // legend.data.setAll(chart.series.values);
+   
+    series.appear(1000, 100);
   }
+//   getSemiPiechart(){
+//     debugger
+//     var root = am5.Root.new("chartdiv6");
+//  //****** removing chart logo *****//
+//     root._logo.dispose();
+
+// // Set themes
+// // https://www.amcharts.com/docs/v5/concepts/themes/
+// root.setThemes([
+//   am5themes_Animated.new(root)
+// ]);
+
+// // Create chart
+// // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/
+// // start and end angle must be set both for chart and series
+// var chart = root.container.children.push(am5percent.PieChart.new(root, {
+//   startAngle: 180,
+//   endAngle: 360,
+//   layout: root.verticalLayout,
+//   innerRadius: am5.percent(50)
+// }));
+
+// // Create series
+// // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Series
+// // start and end angle must be set both for chart and series
+// var series = chart.series.push(am5percent.PieSeries.new(root, {
+//   startAngle: 180,
+//   endAngle: 360,
+//   valueField: "value",
+//   categoryField: "category",
+//   alignLabels: false
+// }));
+
+// series.states.create("hidden", {
+//   startAngle: 180,
+//   endAngle: 180
+// });
+
+// series.slices.template.setAll({
+//   cornerRadius: 5
+// });   
+
+// series.ticks.template.setAll({
+//   forceHidden: true
+// });
+
+//  //**** for removing % from labels ***//
+//     series.labels.template.set('text', '{category}:{value}');
+
+//     //**** for removing % from tooltip ***//
+//     series.slices.template.set('tooltipText', '{category}:{value}');
+
+// // Set data
+// // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Setting_data
+// series.data.setAll([
+//  { value: 30, category: "SIV Allocated"},
+//  { value: 20, category: "SIV Free" }
+// ]);
+
+
+//     // **** Add legend ****//
+//     var legend = chart.children.push(
+//       am5.Legend.new(root, {
+//         nameField: 'category',
+//         centerX: am5.percent(50),
+//         x: am5.percent(55),
+//       })
+//     );
+
+//     legend.data.setAll(series.dataItems);
+
+// series.appear(1000, 100);
+//   }
+
+
   // // Themes begin
   // am4core.useTheme(am4themes_animated);
   // // Themes end
@@ -299,121 +494,7 @@ export class HomeComponent implements OnInit {
   //   // });
   // }
 
-  //**** Chart data ****//
-  getSemiCirclePiechart() {
-    var root = am5.Root.new('chartdiv');
-    root._logo.dispose();
-    // Set themes
-    root.setThemes([am5themes_Animated.new(root)]);
-
-    // Create chart
-    // start and end angle must be set both for chart and series
-    var chart = root.container.children.push(
-      am5percent.PieChart.new(root, {
-        startAngle: 180,
-        endAngle: 360,
-        layout: root.verticalLayout,
-        innerRadius: am5.percent(50),
-      })
-    );
-
-    // Create series
-    // start and end angle must be set both for chart and series
-    var series = chart.series.push(
-      am5percent.PieSeries.new(root, {
-        startAngle: 180,
-        endAngle: 360,
-        valueField: 'Value',
-        categoryField: 'Category',
-        alignLabels: false,
-      })
-    );
-
-    series.states.create('hidden', {
-      startAngle: 180,
-      endAngle: 180,
-    });
-
-    series.slices.template.setAll({
-      cornerRadius: 5,
-      strokeWidth: 2,
-    });
-
-    //**** for transperent color(opacity) ***//
-    series.slices.template.adapters.add("fillOpacity", function(fillOpacity, target:any) {
-      if (target.dataItem.get("category") == "SIV Free") {
-          return 0.1;
-        }
-      }
-    );
-
-    //**** for dotted border ***//
-    series.slices.template.adapters.add("strokeDasharray", function(strokeDasharray, target:any) {
-      if (target.dataItem.get("category") == "SIV Free") {
-          return [8,4];
-      }
-     }
-    );
-
-    //**** custom color for slices****//
-    series.slices.template.adapters.add("fill", function(fill, target:any) {
-      if (target.dataItem.get("category") == "Non-SIV") {
-          return am5.color('#6794dc'); 
-      }
-      else if(target.dataItem.get("category") == "SIV Allocated") {
-        return am5.color('#67b7dc')
-      }
-      else if(target.dataItem.get("category") == "SIV Free") {
-        return am5.color('#67b7dc')
-      }
-    });
-
-    //**** custom color for border(stroke)****//
-    series.slices.template.adapters.add("stroke", function(fill, target:any) {
-      if (target.dataItem.get("category") == "Non-SIV") {
-        return am5.color('#6794dc'); 
-      }
-      else if(target.dataItem.get("category") == "SIV Allocated") {
-        return am5.color('#67b7dc')
-      }
-      else if(target.dataItem.get("category") == "SIV Free") {
-        return am5.color('#67b7dc')
-      }
-    });
-
-    series.ticks.template.setAll({
-      forceHidden: true,
-    });
-
-    //**** for removing % from labels ***//
-    series.labels.template.set('text', '{Category}:{Value}');
-
-    //**** for removing % from tooltip ***//
-    series.slices.template.set('tooltipText', '{Category}:{Value}');
-
-    //**** chart data ****//
-    series.data.setAll(this.ChartData);
-    // Set data
-    // series.data.setAll([
-    //   { value: 50, category: "Non-Siv Allocated"},
-    //   { value: 30, category: "SIV Allocated" },
-    //   { value: 20, category: "SIV UnAllocated" }
-    // ]);
-
-    // **** Add legend ****//
-    var legend = chart.children.push(
-      am5.Legend.new(root, {
-        nameField: 'Category',
-        centerX: am5.percent(50),
-        x: am5.percent(55),
-      })
-    );
-
-    legend.data.setAll(series.dataItems);
-    // legend.data.setAll(chart.series.values);
-
-    series.appear(1000, 100);
-  }
+ 
 
   //**** Sorting functionality in table(ascending descending order) ****//
   setOrderRelease(value: string) {
@@ -434,58 +515,76 @@ export class HomeComponent implements OnInit {
     }
   }
  
+  // *** checkbox click functionality *** //
+  getCheckbox(){
+    console.log("checked",this.semicircle)
+    if(this.semicircle){
+      // this.getSemiPiechart()
+      setTimeout(() => {
+        this.OverallAvailability();
+
+      }, 100);
+    }
+    else{
+      this.ToggleOptions(this.changestatus);
+     }
+  }
+
  // *** chart and table options according to click *** //
  ToggleOptions(changestatus:any) {
   if(changestatus == 'chart'){
-    debugger
     this.type = "pie chart"
-    this.LabOverallSummary();
   }
   else if(changestatus == 'table'){
     this.type = "pie table"
   }
  }
 
-ChangeOption(Status:any){
-   if(Status == 'Labchart'){
-    debugger
-    this.Labtype = "Lab chart"
+  // *** chart and table options according to click *** //
+  ChangeOption(Status:any){
+    if(Status == 'Labchart'){
+      debugger
+      this.Labtype = "Lab chart"
+    }
+    else if(Status == 'Labtable'){
+      this.Labtype = "Lab table"
+    }
   }
-  else if(Status == 'Labtable'){
-    this.Labtype = "Lab table"
+
+  // *** Location chart and table options according to click *** //
+  LocationOptions(LocStatus:any){
+    if(LocStatus == 'LocChart'){
+      debugger
+      this.Loctype = "Loc chart"
+    }
+    else if(LocStatus == 'LocTable'){
+      this.Loctype = "Loc table"
+    }
   }
-}
 
-LocationOptions(LocStatus:any){
-  if(LocStatus == 'LocChart'){
-   debugger
-   this.Loctype = "Loc chart"
- }
- else if(LocStatus == 'LocTable'){
-   this.Loctype = "Loc table"
- }
-}
-
-ProgramOptions(PrgStatus:any){
-  if(PrgStatus == 'PrgChart'){
-   debugger
-   this.Prgtype = "Prg chart"
- }
- else if(PrgStatus == 'PrgTable'){
-   this.Prgtype = "Prg table"
- }
-}
-
-VendorOptions(VenStatus:any){
-  if(VenStatus == 'VenChart'){
-   debugger
-   this.Ventype = "Ven chart"
- }
- else if(VenStatus == 'VenTable'){
-   this.Ventype = "Ven table"
- }
-}
- toggleFullScreen(){
-    this.fullScreenFlag = !this.fullScreenFlag;
+  // ***Program  chart and table options according to click *** //
+  ProgramOptions(PrgStatus:any){
+    if(PrgStatus == 'PrgChart'){
+      debugger
+      this.Prgtype = "Prg chart"
+    }
+    else if(PrgStatus == 'PrgTable'){
+      this.Prgtype = "Prg table"
+    }
   }
+
+  // ***Vendor chart and table options according to click *** //
+  VendorOptions(VenStatus:any){
+    if(VenStatus == 'VenChart'){
+      debugger
+      this.Ventype = "Ven chart"
+    }
+    else if(VenStatus == 'VenTable'){
+      this.Ventype = "Ven table"
+    }
+  }
+  
+  toggleFullScreen(){
+      this.fullScreenFlag = !this.fullScreenFlag;
+    }
 }

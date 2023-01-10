@@ -55,8 +55,18 @@ export class SummaryService {
   public LabOverallSummary(): Observable<any> {
     return this.http.get(this.ServiceURL + 'home/OverallSummary/');
   }
-  // constructor(private http: HttpClient) {}
 
+   // ***** OverallAvailability semi circle pie Chart API ******//
+   public OverallAvailability(): Observable<any> {
+    return this.http.get(this.ServiceURL + 'home/OverallAvailability/');
+  }
+
+  // ***** Report view data API ******//
+  public getReportData(): Observable<any>{
+    return this.http.get(this.ServiceURL + 'home/ReportView/')
+  }
+  // constructor(private http: HttpClient) {}
+ 
   // public LabProgramVendorSummary(): Observable<any> {
   //   return this.http.get(
   //     this.ServiceURL + 'home/LabProgramVendorSummary/Location'
