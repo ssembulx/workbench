@@ -5,7 +5,7 @@ import { SummaryService } from '../shared/service';
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
-  styleUrls: ['./report.component.scss']
+  styleUrls: ['./report.component.scss'],
 })
 export class ReportComponent implements OnInit {
   orderMappedRelease: string = '';
@@ -17,14 +17,17 @@ export class ReportComponent implements OnInit {
   searchSku = '';
   searchAllocated = '';
   searchfromWW = '';
-  tollTipRef:any;
+  tollTipRef: any;
   searchtoWW: '';
   searchBench: '';
   reportData: any;
   reportdataLoader = false;
 
-  constructor(private service:SummaryService, private exportService: ExportService) { }
-  
+  constructor(
+    private service: SummaryService,
+    private exportService: ExportService
+  ) {}
+
   //**** Static data for table ****//
   // reportsData = [
   //     { slno: 1, LabDetails: "SRR1-GF C Wing CRD 7 Lab", program: "MTL", SKU: "P", vendor: "Vendor 1", AllocateTo: "Srikanth Uppuluri", FromWW:"WW20-2022", ToWW:"WW50-2022",Bench:"15",Remarks:""},
@@ -40,28 +43,29 @@ export class ReportComponent implements OnInit {
   //     { slno: 11, LabDetails: "SRR1-1-M15 CRD2 - CSLP Lab2", program: "MTL", SKU: "S", vendor: "Vendor 3", AllocateTo: "Krishna Prasad M", FromWW:"WW33-2022", ToWW:"WW49-2022",Bench:"15",Remarks:""},
   //     { slno: 12, LabDetails: "SRR1-1F B Wing ADL-N PO Lab", program: "MTL", SKU: "M", vendor: "Vendor 4", AllocateTo: "Vijay B R", FromWW:"WW25-2022", ToWW:"WW52-2022",Bench:"18",Remarks:""}
   //   ]
-  
+
   ngOnInit(): void {
     this.getReportData();
   }
 
   //***** Calling Report Data API****//
-  getReportData(){
+  getReportData() {
     this.reportdataLoader = false;
     this.service.getReportData().subscribe((res) => {
+      debugger;
       this.reportData = res;
       this.reportdataLoader = true;
     });
   }
-   //**** Sorting functionality in table(ascending descending order) ****//
-   setOrderRelease(value: string) {
+  //**** Sorting functionality in table(ascending descending order) ****//
+  setOrderRelease(value: string) {
     if (this.orderMappedRelease === value) {
       this.reverseMappedRelease = !this.reverseMappedRelease;
     }
     this.orderMappedRelease = value;
   }
 
-  showTestTrendSearch(tollTip:any){
+  showTestTrendSearch(tollTip: any) {
     this.tollTipRef = tollTip;
     tollTip.open();
   }
@@ -69,23 +73,22 @@ export class ReportComponent implements OnInit {
   //   this.tollTipRef = tollTip;
   //   tollTip.open();
   // }
-  clearInput(){
-    this.searchLocation = "";
-    this.searchProgram = "";
-    this.searchVendor = "";
-    this.searchSku = "";
-    this.searchAllocated = "";
-    this.searchfromWW = "";
-    this.searchtoWW = "";
-    this.searchBench = "";
+  clearInput() {
+    this.searchLocation = '';
+    this.searchProgram = '';
+    this.searchVendor = '';
+    this.searchSku = '';
+    this.searchAllocated = '';
+    this.searchfromWW = '';
+    this.searchtoWW = '';
+    this.searchBench = '';
   }
 
-  hideTestTrendSearch(){
+  hideTestTrendSearch() {
     this.tollTipRef.close();
-
   }
 
   exportFile() {
-    this.exportService.exportExcel(this.reportData,'ReportData');
+    this.exportService.exportExcel(this.reportData, 'ReportData');
   }
 }

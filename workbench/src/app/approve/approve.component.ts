@@ -49,6 +49,7 @@ export class ApproveComponent implements OnInit {
       finalResult['IsRequested'] = true;
       finalResult['LabName'] = element.Location__Name;
       finalResult['BenchData'] = element.BenchData;
+      finalResult['Duration'] = element.Duration;
       finalResult['id'] = element.id;
       // delete element['id'];
       this.finalResultList.push(finalResult);
@@ -82,6 +83,7 @@ export class ApproveComponent implements OnInit {
       finalResult['IsRequested'] = false;
       finalResult['LabName'] = element.Location__Name;
       finalResult['BenchData'] = element.BenchData;
+      finalResult['Duration'] = element.Duration;
       finalResult['id'] = element.id;
       // delete element['id'];
       this.finalResultList.push(finalResult);

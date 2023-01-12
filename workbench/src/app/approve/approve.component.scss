@@ -9,126 +9,202 @@
         width: 98%;
         margin: 7px 12px 7px 17px;
         border-radius: 10px;
-        .user-content{
-            .Floor-container{
-                .floor-table1{
+
+        .user-content {
+            .Floor-container {
+                .floor-table1 {
                     max-width: 44%;
                     margin-top: 8px;
                     margin-left: 239px;
+
                     thead {
                         background-color: #d5cbd7;
+
                         th {
                             text-align: center;
+
                             &:first-child {
                                 width: 50%;
                             }
-                            &:nth-child(2){
+
+                            &:nth-child(2) {
                                 width: 50%;
                             }
                         }
                     }
+
                     tbody {
                         border-top: none;
+
                         td {
                             text-align: center;
+
                             &:first-child {
                                 width: 50%;
                                 text-align: left;
                             }
-                            &:nth-child(2){
+
+                            &:nth-child(2) {
                                 width: 50%;
                                 text-align: right;
                             }
-                        }  
+                        }
                     }
                 }
-                .floor-table2{
+
+                .floor-table2 {
                     max-width: 63%;
                     margin-top: 8px;
                     margin-left: 38px;
+
                     thead {
                         background-color: #d5cbd7;
+
                         th {
                             text-align: center;
+
                             &:first-child {
                                 width: 50%;
                             }
-                            &:nth-child(2){
+
+                            &:nth-child(2) {
                                 width: 50%;
                             }
                         }
                     }
+
                     tbody {
                         border-top: none;
+
                         td {
                             text-align: center;
+
                             &:first-child {
                                 width: 50%;
                                 text-align: left;
                             }
-                            &:nth-child(2){
+
+                            &:nth-child(2) {
                                 width: 50%;
                                 text-align: right;
                             }
-                        }  
+                        }
                     }
                 }
-                .floor-table3{
+
+                .floor-table3 {
                     max-width: 44%;
                     margin-top: 8px;
                     margin-left: -23px;
+
                     thead {
                         background-color: #d5cbd7;
+
                         th {
                             text-align: center;
+
                             &:first-child {
                                 width: 50%;
                             }
-                            &:nth-child(2){
+
+                            &:nth-child(2) {
                                 width: 50%;
                             }
                         }
                     }
+
                     tbody {
                         border-top: none;
+
                         td {
                             &:first-child {
                                 width: 50%;
                                 text-align: left;
                             }
-                            &:nth-child(2){
+
+                            &:nth-child(2) {
                                 width: 50%;
                                 text-align: right;
                             }
-                        }  
+                        }
                     }
                 }
             }
+
             .table-container {
                 width: 98%;
                 overflow: auto;
                 margin: 0px 15px 0px 15px;
+
                 .user-table {
                     max-width: 150%;
                     margin-top: 8px;
+
                     thead {
                         background-color: #d5cbd7;
                         display: table;
                         width: 100%;
                         table-layout: fixed;
-                        tr{
+
+                        tr {
                             th {
                                 text-align: center;
+
                                 &:first-child {
                                     width: 5%;
                                 }
-                                &:nth-child(2){
-                                    width: 20.9%;
+
+                                &:nth-child(2) {
+                                    width: 11.6%;
                                 }
-                                &:nth-child(11){
-                                    width: 7%;
+
+                                &:nth-child(3) {
+                                    width: 8.3%;
                                 }
-                                .chcekbox-style{
+
+                                &:nth-child(4) {
+                                    width: 5.3%;
+                                }
+
+                                &:nth-child(5) {
+                                    width: 8.3%;
+                                }
+
+                                &:nth-child(6) {
+                                    width: 8.3%;
+                                }
+
+
+                                &:nth-child(7) {
+                                    width: 8.3%;
+                                }
+
+
+                                &:nth-child(8) {
+                                    width: 8.3%;
+                                }
+
+                                &:nth-child(9) {
+                                    width: 8.3%;
+                                }
+
+                                &:nth-child(10) {
+                                    width: 8.3%;
+                                }
+
+                                &:nth-child(11) {
+                                    width: 8.3%;
+                                }
+
+                                &:nth-child(12) {
+                                    width: 8.3%;
+                                }
+
+                                &:nth-child(13) {
+                                    width: 3%;
+                                }
+
+                                .chcekbox-style {
                                     width: 14px;
                                     margin-top: 4px;
                                     height: 14px;
@@ -136,35 +212,79 @@
                                 }
                             }
                         }
-                     
+
                     }
+
                     tbody {
                         display: block;
                         max-height: 48.5vh;
-                        overflow-y: scroll;
-                       tr{
-                        display: table;
-                        width: 100%;
-                        table-layout: fixed;
+                        overflow-y: auto;
+
+                        tr {
+                            display: table;
+                            width: 100%;
+                            table-layout: fixed;
+
                             td {
                                 text-align: center;
+
                                 &:first-child {
                                     width: 5%;
                                 }
-                                &:nth-child(2){
-                                    width: 21.1%;
-                                    text-align: left;
+
+                                &:nth-child(2) {
+                                    width: 11.6%;
                                 }
-                                &:nth-child(6){
-                                    text-align: left;
+
+                                &:nth-child(3) {
+                                    width: 8.3%;
                                 }
-                                &:nth-child(11){
-                                    width: 6%;
+
+                                &:nth-child(4) {
+                                    width: 5.3%;
+                                }
+
+                                &:nth-child(5) {
+                                    width: 8.3%;
+                                }
+
+                                &:nth-child(6) {
+                                    width: 8.3%;
+                                }
+
+
+                                &:nth-child(7) {
+                                    width: 8.3%;
+                                }
+
+
+                                &:nth-child(8) {
+                                    width: 8.3%;
+                                }
+
+                                &:nth-child(9) {
+                                    width: 8.3%;
+                                }
+
+                                &:nth-child(10) {
+                                    width: 8.3%;
+                                }
+
+                                &:nth-child(11) {
+                                    width: 8.3%;
+                                }
+
+                                &:nth-child(12) {
+                                    width: 8.3%;
+                                }
+
+                                &:nth-child(13) {
+                                    width: 3%;
                                 }
                             }
-                       }
+                        }
                     }
-                  
+
                 }
             }
         }
@@ -172,52 +292,55 @@
         .btn-add-user {
             text-align: right;
             margin-top: 3px;
-             
-                button {
-                    border: none;
-                    padding: 2px 7px 2px 6px;
-                    border-top-right-radius: 4px;
-                    border-bottom-right-radius: 4px;
-                } 
-                .add-btn {
-                    font-family: "IntelOne Display AR Medium";
-                    background-color: #0071c5;
-                    padding: 4px;
-                    color: white;
-                    font-size: 13px;
-                    border-radius: 0px;
-                    box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
-                    width: 105px;
-                    text-align: center;
-                    margin-top: 6px;
-                    margin-left: 7px;
-                }             
+
+            button {
+                border: none;
+                padding: 2px 7px 2px 6px;
+                border-top-right-radius: 4px;
+                border-bottom-right-radius: 4px;
+            }
+
+            .add-btn {
+                font-family: "IntelOne Display AR Medium";
+                background-color: #0071c5;
+                padding: 4px;
+                color: white;
+                font-size: 13px;
+                border-radius: 0px;
+                box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
+                width: 105px;
+                text-align: center;
+                margin-top: 6px;
+                margin-left: 7px;
+            }
         }
     }
 }
 
 th span.sort-by {
-    cursor: pointer; 
-      padding-right: 18px;
-      position: relative;
-  }
-  span.sort-by:before,
-  span.sort-by:after {
-      border: 4px solid transparent;
-      content: "";
-      display: block;
-      height: 0;
-      right: 5px;
-      top: 50%;
-      position: absolute;
-      width: 0;
-  }
-  span.sort-by:before {
-      border-bottom-color: #0071c5;
-      margin-top: -9px;
-  }
-  span.sort-by:after {
-      border-top-color: #0071c5;
-      margin-top: 1px;
-  }
-  
+    cursor: pointer;
+    padding-right: 18px;
+    position: relative;
+}
+
+span.sort-by:before,
+span.sort-by:after {
+    border: 4px solid transparent;
+    content: "";
+    display: block;
+    height: 0;
+    right: 5px;
+    top: 50%;
+    position: absolute;
+    width: 0;
+}
+
+span.sort-by:before {
+    border-bottom-color: #0071c5;
+    margin-top: -9px;
+}
+
+span.sort-by:after {
+    border-top-color: #0071c5;
+    margin-top: 1px;
+}

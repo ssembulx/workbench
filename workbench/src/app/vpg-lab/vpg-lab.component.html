@@ -99,6 +99,22 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td>Team </td>
+                                    <td style="padding: 0px;">
+                                        <select class="form-select location_select" aria-label="Default select example"
+                                            [(ngModel)]="teamName">
+                                            <option selected value="">Select Team</option>
+                                            <option *ngFor="let loca of teamList[0].TeamName" [ngValue]="loca">
+                                                {{loca}}
+                                            </option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#. Bench </td>
+                                    <td style="padding: 0px;">{{ cart?.seatsLabelNo?.length }}</td>
+                                </tr>
+                                <tr>
                                     <td>Program </td>
                                     <td style="padding: 0px;">
                                         <select class="form-select location_select" aria-label="Default select example"
@@ -134,23 +150,7 @@
                                         </select>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>Team </td>
-                                    <td style="padding: 0px;">
-                                        <select class="form-select location_select" aria-label="Default select example"
-                                            [(ngModel)]="teamName">
-                                            <option selected value="">Select Team</option>
-                                            <option *ngFor="let loca of teamList[0].TeamName" [ngValue]="loca">
-                                                {{loca}}
-                                            </option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Allocated To </td>
-                                    <td style="padding: 0px;"><input style="width: 100%;" type="text" class="text-box"
-                                            placeholder="Srikanth Uppuluri" [(ngModel)]="allocatitedTo"></td>
-                                </tr>
+
                                 <tr>
                                     <td>From WW </td>
                                     <td style="padding: 0px;">
@@ -193,9 +193,23 @@
                                         </div>
                                     </td>
                                 </tr>
+
                                 <tr>
-                                    <td>#. Bench </td>
-                                    <td style="padding: 0px;">{{ cart?.seatsLabelNo?.length }}</td>
+                                    <td>Duration</td>
+                                    <td style="padding: 0px;">{{duration}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Allocated To </td>
+                                    <td style="padding: 0px;">
+                                        <div class="field-ctrl">
+                                            <input name="user" style="width: 88%;display: inline-block;height: 34px;"
+                                                [(ngModel)]="allocatitedTo" type="text" class="form-control"
+                                                placeholder="Search with WWID/Email/Username" />
+                                            <i class="fa fa-search" (click)="getUserDetails()"></i>
+                                        </div>
+                                        <!--  <input style="width: 100%;" type="text" class="text-box"
+                                            placeholder="Srikanth Uppuluri" [(ngModel)]="allocatitedTo"> -->
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Remarks </td>
@@ -205,7 +219,8 @@
                                 </tr>
                                 <tr>
                                     <td>Bench </td>
-                                    <td style="padding: 0px;height: 28vh;"><span *ngFor="let seatLabel of cart.seatsLabelNo"
+                                    <td style="padding: 0px;height: 23vh;"><span
+                                            *ngFor="let seatLabel of cart.seatsLabelNo"
                                             class="badge badge-primary">{{seatLabel}}</span></td>
                                 </tr>
                             </tbody>

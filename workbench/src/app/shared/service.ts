@@ -56,17 +56,17 @@ export class SummaryService {
     return this.http.get(this.ServiceURL + 'home/OverallSummary/');
   }
 
-   // ***** OverallAvailability semi circle pie Chart API ******//
-   public OverallAvailability(): Observable<any> {
+  // ***** OverallAvailability semi circle pie Chart API ******//
+  public OverallAvailability(): Observable<any> {
     return this.http.get(this.ServiceURL + 'home/OverallAvailability/');
   }
 
   // ***** Report view data API ******//
-  public getReportData(): Observable<any>{
-    return this.http.get(this.ServiceURL + 'home/ReportView/')
+  public getReportData(): Observable<any> {
+    return this.http.get(this.ServiceURL + 'home/ReportView/');
   }
   // constructor(private http: HttpClient) {}
- 
+
   // public LabProgramVendorSummary(): Observable<any> {
   //   return this.http.get(
   //     this.ServiceURL + 'home/LabProgramVendorSummary/Location'
@@ -136,5 +136,15 @@ export class SummaryService {
         'Content-type': 'application/json',
       },
     });
+  }
+
+  public getUserDetails(obj: any): Observable<any> {
+    return this.http.post(
+      'https://cppo.apps1-bg-int.icloud.intel.com/api/Account/GetUserDetails',
+      obj,
+      {
+        withCredentials: true,
+      }
+    );
   }
 }

@@ -543,3 +543,19 @@ $seat-unavailable-color: white;
         z-index: 0;
     }
 }
+
+.field-ctrl i {
+    /* position: absolute; */
+    right: -10px;
+    bottom: -1px;
+    height: 34px;
+    text-align: center;
+    width: 35px;
+    border-radius: 3px;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 36px;
+    color: #fff;
+    cursor: pointer;
+    background: #0071c5;
+}

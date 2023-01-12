@@ -524,6 +524,8 @@ export class VPGLabComponent implements OnInit {
       BenchData: this.cart.seatstoStore,
 
       Team: this.teamName,
+
+      Duration: this.duration,
     };
     this.dataSvc.saveBooking(bookingData).subscribe((res) => {
       if (res) {
@@ -583,7 +585,9 @@ export class VPGLabComponent implements OnInit {
   bsRangeValueFrom: Date[];
   bsValueTo = new Date();
   bsRangeValueTo: Date[];
+  fromselWeek: any;
   onDateSelectFrom(date: any) {
+    this.fromselWeek = '';
     if (date !== undefined && date !== null) {
       var selDate = new Date(
         date.getFullYear(),
@@ -593,24 +597,28 @@ export class VPGLabComponent implements OnInit {
       let week = moment(selDate).week();
       let month = moment(selDate).month();
       let year = moment(selDate).year();
-      let selWeek;
+      /* let selWeek; */
       if (week < 10) {
-        selWeek = ('0' + week).slice(-2);
+        this.fromselWeek = ('0' + week).slice(-2);
       } else {
-        selWeek = week;
+        this.fromselWeek = week;
       }
       if (month === 11 && week === 1) {
         year = year + 1;
       }
-      this.fromworkweek = selWeek + "'" + year.toString();
-      this.fromformatWW = (selWeek + "'" + year)
+      this.fromworkweek = this.fromselWeek + "'" + year.toString();
+      this.fromformatWW = (this.fromselWeek + "'" + year)
         .toString()
         .split("'")
         .join()
         .replace(',', '');
     }
   }
+  duration: any;
+  toselWeek: any;
   onDateSelectTo(date: any) {
+    debugger;
+    this.toselWeek = '';
     if (date !== undefined && date !== null) {
       var selDate = new Date(
         date.getFullYear(),
@@ -620,21 +628,95 @@ export class VPGLabComponent implements OnInit {
       let week = moment(selDate).week();
       let month = moment(selDate).month();
       let year = moment(selDate).year();
-      let selWeek;
+      /* let selWeek; */
       if (week < 10) {
-        selWeek = ('0' + week).slice(-2);
+        this.toselWeek = ('0' + week).slice(-2);
       } else {
-        selWeek = week;
+        this.toselWeek = week;
       }
       if (month === 11 && week === 1) {
         year = year + 1;
       }
-      this.toworkweek = selWeek + "'" + year.toString();
-      this.toformatWW = (selWeek + "'" + year)
+      this.toworkweek = this.toselWeek + "'" + year.toString();
+      this.toformatWW = (this.toselWeek + "'" + year)
         .toString()
         .split("'")
         .join()
         .replace(',', '');
     }
+    this.duration = this.toselWeek - this.fromselWeek + ' Week';
+  }
+  modal: any = {
+    flag: '',
+    userId: '',
+    fk_RoleId: '',
+    emailId: '',
+    name: '',
+    idsid: '',
+    employeeBadgeType: '',
+    wwid: '',
+    createdBy: '',
+  };
+  /*   checkUserExists() {
+    let flag = true;
+    this.userList.forEach(el => {
+      if (this.modal.user.trim() === el.wwid.toString() || this.modal.user.trim() === el.idsid || this.modal.user.trim() === el.emailId) {
+        flag = false;
+      }
+    });
+    return flag;
+  } */
+  getUserDetails() {
+    /*     let flag = this.checkUserExists();
+    if (this.modal.user === '' || this.modal.user === undefined) {
+      this.alertService.showWarning(
+        'Kindly enter WWID/Email/Username to search.'
+      );
+    } else { */
+    /* if (flag) { */
+    if (!/^\d+$/.test(this.allocatitedTo.trim())) {
+      var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+      if (format.test(this.allocatitedTo.trim())) {
+        var obj = {
+          type: 'CorporateEmailTxt',
+          values: this.allocatitedTo.trim(),
+        };
+      } else {
+        var obj = {
+          type: 'FullNm',
+          values: this.allocatitedTo.trim(),
+        };
+      }
+    }
+    if (/^\d+$/.test(this.allocatitedTo.trim())) {
+      var obj = {
+        type: 'Wwid',
+        values: this.allocatitedTo.trim(),
+      };
+    }
+
+    /*    console.log('datatype', isNaN(this.allocatitedTo.trim()) === false);
+    console.log('datatype', /^\d+$/.test(this.allocatitedTo.trim()));
+    console.log('datatype', obj); */
+    // let obj = {
+    //   indentifier: this.modal.user.trim()
+    // };
+
+    this.dataSvc.getUserDetails(obj).subscribe((res) => {
+      debugger;
+
+      if (res['name'] === null || res['name'] === undefined) {
+        this.toastrService.success(
+          'No users found with entered details, Kindly enter correct details!',
+          'Success!'
+        );
+        /*  this.alertService.showWarning(
+          'No users found with entered details, Kindly enter correct details!'
+        ); */
+      } else {
+        this.allocatitedTo = res['name'];
+      }
+      //  this.loadRoles();
+    });
   }
 }
