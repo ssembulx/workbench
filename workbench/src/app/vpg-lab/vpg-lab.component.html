@@ -202,8 +202,8 @@
                                     <td>Allocated To </td>
                                     <td style="padding: 0px;">
                                         <div class="field-ctrl">
-                                            <input name="user" style="width: 88%;display: inline-block;height: 34px;"
-                                                [(ngModel)]="allocatitedTo" type="text" class="form-control"
+                                            <input name="user" [(ngModel)]="allocatitedTo" type="text"
+                                                class="form-control ww-input"
                                                 placeholder="Search with WWID/Email/Username" />
                                             <i class="fa fa-search" (click)="getUserDetails()"></i>
                                         </div>
@@ -219,8 +219,7 @@
                                 </tr>
                                 <tr>
                                     <td>Bench </td>
-                                    <td style="padding: 0px;height: 23vh;"><span
-                                            *ngFor="let seatLabel of cart.seatsLabelNo"
+                                    <td class="bench_list_div"><span *ngFor="let seatLabel of cart.seatsLabelNo"
                                             class="badge badge-primary">{{seatLabel}}</span></td>
                                 </tr>
                             </tbody>

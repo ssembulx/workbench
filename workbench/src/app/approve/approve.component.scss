@@ -5,9 +5,9 @@
 
     .content {
         // width: 100%;
-        background-color: #ffff;
-        width: 98%;
-        margin: 7px 12px 7px 17px;
+        background-color: white;
+        width: 100%;
+        margin: 5px;
         border-radius: 10px;
 
         .user-content {
@@ -132,9 +132,9 @@
             }
 
             .table-container {
-                width: 98%;
+                width: 100%;
                 overflow: auto;
-                margin: 0px 15px 0px 15px;
+                margin: 0px;
 
                 .user-table {
                     max-width: 150%;
@@ -343,4 +343,11 @@ span.sort-by:before {
 span.sort-by:after {
     border-top-color: #0071c5;
     margin-top: 1px;
+}
+
+/* media query */
+@media (min-width: 1025px) and (max-width:1300px) {
+    .user-table {
+        font-size: 0.7rem;
+    }
 }

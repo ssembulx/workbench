@@ -27,8 +27,8 @@ $seat-unavailable-color: white;
 }
 
 .seat-item {
-    height: 90px;
-    width: 90px;
+    height: 12vh;
+    width: 12vh;
     line-height: 25px;
     margin: 1px;
     border-radius: 7px;
@@ -37,8 +37,8 @@ $seat-unavailable-color: white;
 }
 
 .seat-item img {
-    height: 55px;
-    width: 75px;
+    height: 6.8vh;
+    width: 7vh;
     vertical-align: middle;
 }
 
@@ -558,4 +558,302 @@ $seat-unavailable-color: white;
     color: #fff;
     cursor: pointer;
     background: #0071c5;
+}
+
+.ww-input {
+    width: 88%;
+    display: inline-block;
+    height: 34px;
+}
+
+.bench_list_div {
+    padding: 0px;
+    height: 23vh;
+}
+
+/* media query */
+@media (min-width: 1025px) and (max-width:1300px) {
+    .wall {
+        width: 850px !important;
+    }
+
+    .wall-heading {
+        left: 24rem !important;
+    }
+
+    .wall-legend {
+        left: 27rem !important;
+    }
+
+    .ww-input {
+        width: 84% !important;
+    }
+
+    .booknow_div {
+        height: 78vh !important;
+        overflow: auto !important;
+    }
+
+    .bench_list_div {
+        height: 23vh !important;
+    }
+}
+
+@media (min-width: 1301px) and (max-width:1400px) {
+    .wall {
+        width: 950px !important;
+    }
+
+    .wall-heading {
+        left: 27rem !important;
+    }
+
+    .wall-legend {
+        left: 34rem !important;
+    }
+
+    .ww-input {
+        width: 84% !important;
+    }
+
+    .booknow_div {
+        height: 82vh !important;
+        overflow: auto !important;
+    }
+
+    .bench_list_div {
+        height: 23vh !important;
+    }
+
+    .seat-item img {
+        height: 6.4vh !important;
+        width: 6.5vh !important;
+    }
+
+    .seat-item {
+        height: 10.3vh !important;
+        width: 10.3vh !important;
+    }
+}
+
+@media (min-width: 1401px) and (max-width:1500px) {
+    .wall {
+        width: 1000px !important;
+    }
+
+    .wall-heading {
+        left: 27rem !important;
+    }
+
+    .wall-legend {
+        left: 34rem !important;
+    }
+
+    .ww-input {
+        width: 84% !important;
+    }
+
+    .booknow_div {
+        height: 82vh !important;
+        overflow: auto !important;
+    }
+
+    .bench_list_div {
+        height: 23vh !important;
+    }
+
+    .seat-item img {
+        height: 6.7vh !important;
+        width: 6.6vh !important;
+    }
+
+    .seat-item {
+        height: 10.8vh !important;
+        width: 10.8vh !important;
+    }
+}
+
+@media (min-width: 1501px) and (max-width:1600px) {
+    .wall {
+        width: 1030px !important;
+    }
+
+    .wall-heading {
+        left: 31rem !important;
+    }
+
+    .wall-legend {
+        left: 41rem !important;
+    }
+
+    .ww-input {
+        width: 84% !important;
+    }
+
+    .booknow_div {
+        height: 82vh !important;
+        overflow: auto !important;
+    }
+
+    .bench_list_div {
+        height: 23vh !important;
+    }
+
+    .seat-item img {
+        height: 7vh !important;
+        width: 6.9vh !important;
+    }
+
+    .seat-item {
+        height: 11.5vh !important;
+        width: 11.5vh !important;
+    }
+}
+
+@media (min-width: 1601px) and (max-width:1700px) {
+    .wall {
+        width: 1140px !important;
+    }
+
+    .wall-heading {
+        left: 33rem !important;
+    }
+
+    .wall-legend {
+        left: 47rem !important;
+    }
+
+    .ww-input {
+        width: 84% !important;
+    }
+
+    .booknow_div {
+        height: 82vh !important;
+        overflow: auto !important;
+    }
+
+    .bench_list_div {
+        height: 23vh !important;
+    }
+
+    .seat-item img {
+        height: 7.3vh !important;
+        width: 7.3vh !important;
+    }
+
+    .seat-item {
+        height: 12.2vh !important;
+        width: 12.2vh !important;
+    }
+}
+
+@media (min-width: 1701px) and (max-width:1800px) {
+    .wall {
+        width: 1140px !important;
+    }
+
+    .wall-heading {
+        left: 33rem !important;
+    }
+
+    .wall-legend {
+        left: 47rem !important;
+    }
+
+    .ww-input {
+        width: 84% !important;
+    }
+
+    .booknow_div {
+        height: 82vh !important;
+        overflow: auto !important;
+    }
+
+    .bench_list_div {
+        height: 23vh !important;
+    }
+
+    .seat-item img {
+        height: 7.3vh !important;
+        width: 7.3vh !important;
+    }
+
+    .seat-item {
+        height: 12.2vh !important;
+        width: 12.2vh !important;
+    }
+}
+
+@media (min-width: 1801px) and (max-width:1900px) {
+    .wall {
+        width: 1280px !important;
+    }
+
+    .wall-heading {
+        left: 39rem !important;
+    }
+
+    .wall-legend {
+        left: 58rem !important;
+    }
+
+    .ww-input {
+        width: 84% !important;
+    }
+
+    .booknow_div {
+        height: 82vh !important;
+        overflow: auto !important;
+    }
+
+    .bench_list_div {
+        height: 23vh !important;
+    }
+
+    .seat-item img {
+        height: 8.9vh !important;
+        width: 8.9vh !important;
+    }
+
+    .seat-item {
+        height: 13.5vh !important;
+        width: 13.5vh !important;
+    }
+}
+
+@media (min-width: 1901px) and (max-width:2000px) {
+    .wall {
+        width: 1280px !important;
+    }
+
+    .wall-heading {
+        left: 40rem !important;
+    }
+
+    .wall-legend {
+        left: 62rem !important;
+    }
+
+    .ww-input {
+        width: 84% !important;
+    }
+
+    .booknow_div {
+        height: 82vh !important;
+        overflow: auto !important;
+    }
+
+    .bench_list_div {
+        height: 23vh !important;
+    }
+
+    .seat-item img {
+        height: 9.9vh !important;
+        width: 9.9vh !important;
+    }
+
+    .seat-item {
+        height: 14.5vh !important;
+        width: 14.5vh !important;
+    }
 }

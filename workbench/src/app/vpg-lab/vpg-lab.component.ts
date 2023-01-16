@@ -617,7 +617,6 @@ export class VPGLabComponent implements OnInit {
   duration: any;
   toselWeek: any;
   onDateSelectTo(date: any) {
-    debugger;
     this.toselWeek = '';
     if (date !== undefined && date !== null) {
       var selDate = new Date(
@@ -703,7 +702,6 @@ export class VPGLabComponent implements OnInit {
     // };
 
     this.dataSvc.getUserDetails(obj).subscribe((res) => {
-      debugger;
 
       if (res['name'] === null || res['name'] === undefined) {
         this.toastrService.success(
