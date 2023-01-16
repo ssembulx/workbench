@@ -82,7 +82,7 @@ export class LabwiseAllotedChartComponentComponent implements OnInit{
 
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
     valueAxis.min = 0;
-    valueAxis.max = 100;
+    // valueAxis.max = 100;
     valueAxis.strictMinMax = true;
     valueAxis.calculateTotals = true;
     valueAxis.renderer.minWidth = 50;
