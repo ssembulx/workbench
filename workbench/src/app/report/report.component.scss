@@ -452,3 +452,43 @@ th span.sort-by {
     }
   } 
   
+  @media only screen and (max-width: 1280px){
+    .reports{
+        .content{
+            .user-content{
+                .table-container{
+                    .user-table{
+                        thead{
+                            tr{
+                                th:nth-child(2) {
+                                    width: 10.9% !important;
+                                }  
+                            } 
+                        } 
+                    }
+                    .search-bar{
+                        .input-group {
+                            width: 19%;
+                            margin-left: 71% !important;
+                        }
+                    } 
+                    .downloadbtn{
+                        .download-btn{
+                            font-family: "IntelOne Display AR Medium";
+                            background-color: #0071c5;
+                            color: white;
+                            font-size: 13px;
+                            border-radius: 0px;
+                            box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
+                            width: 105px;
+                            text-align: center;
+                            margin-left: 91% !important;
+                            margin-top: -58px;
+                            border-radius: 4px;
+                        }
+                    } 
+                } 
+            } 
+        } 
+    }
+  }

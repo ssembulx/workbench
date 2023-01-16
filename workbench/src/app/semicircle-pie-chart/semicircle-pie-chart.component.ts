@@ -76,7 +76,7 @@ export class SemicirclePieChartComponent implements OnInit {
 
     //**** for transperent color(opacity) ***//
     series.slices.template.adapters.add("fillOpacity", function(fillOpacity, target:any) {
-      if (target.dataItem.get("category") == "SIV Free") {
+      if (target.dataItem.get("category") == "Free") {
           return 0.1;
         }
       }
@@ -84,7 +84,7 @@ export class SemicirclePieChartComponent implements OnInit {
 
     //**** for dotted border ***//
     series.slices.template.adapters.add("strokeDasharray", function(strokeDasharray, target:any) {
-      if (target.dataItem.get("category") == "SIV Free") {
+      if (target.dataItem.get("category") == "Free") {
           return [8,4];
       }
      }
@@ -95,10 +95,10 @@ export class SemicirclePieChartComponent implements OnInit {
       if (target.dataItem.get("category") == "Non-SIV") {
           return am5.color('#6794dc'); 
       }
-      else if(target.dataItem.get("category") == "SIV Allocated") {
+      else if(target.dataItem.get("category") == "Allocated") {
         return am5.color('#67b7dc')
       }
-      else if(target.dataItem.get("category") == "SIV Free") {
+      else if(target.dataItem.get("category") == "Free") {
         return am5.color('#67b7dc')
       }
     });
@@ -108,10 +108,10 @@ export class SemicirclePieChartComponent implements OnInit {
       if (target.dataItem.get("category") == "Non-SIV") {
         return am5.color('#6794dc'); 
       }
-      else if(target.dataItem.get("category") == "SIV Allocated") {
+      else if(target.dataItem.get("category") == "Allocated") {
         return am5.color('#67b7dc')
       }
-      else if(target.dataItem.get("category") == "SIV Free") {
+      else if(target.dataItem.get("category") == "Free") {
         return am5.color('#67b7dc')
       }
     });

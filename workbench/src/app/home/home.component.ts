@@ -521,8 +521,8 @@ export class HomeComponent implements OnInit {
     if(!this.semicircle){
       // this.getSemiPiechart()
       setTimeout(() => {
+        debugger
         this.OverallAvailability();
-
       }, 100);
     }
     else{
