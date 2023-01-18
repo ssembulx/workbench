@@ -13,7 +13,8 @@ $seat-unavailable-color: white;
 }
 
 .seatrow {
-    display: inline-flex;
+    /* display: inline-flex; */
+    display: flex;
     /* width: 670px; */
 }
 
@@ -27,22 +28,23 @@ $seat-unavailable-color: white;
 }
 
 .seat-item {
-    height: 12vh;
-    width: 12vh;
+    height: 50px;
+    width: 50px;
     line-height: 25px;
     margin: 1px;
     border-radius: 7px;
     font-size: 14px;
-    padding: 5px;
+    padding: 0px;
 }
 
 .seat-item img {
-    height: 6.8vh;
-    width: 7vh;
+    height: 30px;
+    width: 30px;
     vertical-align: middle;
 }
 
-.seat-item h5 {
+.seat-item h4 {
+    font-size: 14px;
     color: #727272;
 }
 
@@ -183,12 +185,12 @@ $seat-unavailable-color: white;
     border: 5px solid #a0a0a0;
     /* margin-bottom: 6rem;
     margin-top: 3rem; */
-    width: 1035px;
+    /* width: 1035px; */
     padding: 5px;
     margin-bottom: 2rem;
     margin-top: 3rem;
     overflow-x: auto;
-    padding-top: 7rem;
+    /* padding-top: 7rem; */
 }
 
 .img_cus {
@@ -245,16 +247,16 @@ $seat-unavailable-color: white;
 }
 
 .lab_block {
-    width: 70%;
+    /* width: 70%; */
     float: left;
     position: relative;
 }
 
 .booknow_block {
-    width: 30%;
+    /* width: 30%; */
     float: left;
     margin-top: 3rem;
-    position: fixed;
+    /* position: fixed; */
     right: 10px;
 
 }
@@ -272,7 +274,7 @@ $seat-unavailable-color: white;
 }
 
 .wall-heading {
-    position: absolute;
+    /* position: absolute; */
     top: 4rem;
     /* margin-left: 20px; */
     text-align: center;
@@ -283,21 +285,22 @@ $seat-unavailable-color: white;
 }
 
 .wall-legend {
-    position: absolute;
+    /* position: absolute; */
     top: 7rem;
     text-align: center;
     left: 41rem;
     display: flex;
 
     img {
-        height: 40px;
-        width: 40px;
+        height: 30px;
+        width: 30px;
         margin-right: 5px;
     }
 
     h5 {
         line-height: 3;
         margin-right: 5px;
+        font-size: 12px;
     }
 }
 
@@ -572,7 +575,7 @@ $seat-unavailable-color: white;
 }
 
 /* media query */
-@media (min-width: 1025px) and (max-width:1300px) {
+/* @media (min-width: 1025px) and (max-width:1300px) {
     .wall {
         width: 850px !important;
     }
@@ -856,4 +859,4 @@ $seat-unavailable-color: white;
         height: 14.5vh !important;
         width: 14.5vh !important;
     }
-}
+} */
