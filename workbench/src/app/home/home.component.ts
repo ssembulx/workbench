@@ -35,28 +35,35 @@ export class HomeComponent implements OnInit {
   semiType = "Semi chart"
   pieChartLoader = false;
   semicircle :any=false;
+  setIconPossition: boolean = true;
+
   constructor(private service: SummaryService) {}
 
   chartData = [
     { slno: 1, data: "Non-SIV Allocated", value: "50"},
-    { slno: 2, data: "SIV Allocated", value: "30"},
-    { slno: 3, data: "SIV UnAllocated", value: "20"},
+    { slno: 2, data: "Allocated", value: "30"},
+    { slno: 3, data: "Free", value: "20"},
+  ]
+
+  semiChartData = [
+    { slno: 2, data: "Allocated", value: "30"},
+    { slno: 3, data: "Free", value: "20"},
   ]
 
   LabchartData = [
-    { slno: 1, labName: "CRD1", allocated: "45",unallocated:"55"},
-    { slno: 2, labName: "CRD2", allocated: "20",unallocated:"30"},
-    { slno: 3, labName: "CRD3", allocated: "15",unallocated:"10"},
-    { slno: 4, labName: "CRD4", allocated: "30",unallocated:"15"},
-    { slno: 5, labName: "CRD5", allocated: "12",unallocated:"32"},
+    { slno: 1, labName: "CRD1", allocated: "45",Free:"55"},
+    { slno: 2, labName: "CRD2", allocated: "20",Free:"30"},
+    { slno: 3, labName: "CRD3", allocated: "15",Free:"10"},
+    { slno: 4, labName: "CRD4", allocated: "30",Free:"15"},
+    { slno: 5, labName: "CRD5", allocated: "12",Free:"32"},
   ]
 
   LocationchartData = [
-    { slno: 1, location: "SRR1", allocated: "45",unallocated:"55"},
-    { slno: 2, location: "SRR2", allocated: "30",unallocated:"70"},
-    { slno: 3, location: "SRR3", allocated: "20",unallocated:"80"},
-    { slno: 4, location: "SRR4", allocated: "85",unallocated:"15"},
-    { slno: 5, location: "SRR5", allocated: "12",unallocated:"88"},
+    { slno: 1, location: "SRR1", allocated: "45",Free:"55"},
+    { slno: 2, location: "SRR2", allocated: "30",Free:"70"},
+    { slno: 3, location: "SRR3", allocated: "20",Free:"80"},
+    { slno: 4, location: "SRR4", allocated: "85",Free:"15"},
+    { slno: 5, location: "SRR5", allocated: "12",Free:"88"},
   ]
 
   ProgramchartData = [
@@ -209,6 +216,26 @@ export class HomeComponent implements OnInit {
     legend.data.setAll(series.dataItems);
     // legend.data.setAll(chart.series.values);
    
+    // let legend = chart.children.push(am5.Legend.new(root, {}));
+    // let legend = chart.children.push(am5.Legend.new(root, {
+    //   nameField: "name",
+    //   fillField: "color",
+    //   strokeField: "color",
+    //   centerX: am5.percent(50),
+    //   x: am5.percent(50)
+    // }));
+    
+    // legend.data.setAll([{
+    //   name: "Allocated",
+    //   color: am5.color('#67b7dc')
+    // }, {
+    //   name: "Free",
+    //   color: am5.color('#67b7dc'),
+    //   fillOpacity: 0.7,
+    //   strokeWidth: 3,
+    //   strokeDasharray: [10, 5, 2, 5],
+    // }]);
+
     series.appear(1000, 100);
   }
 //   getSemiPiechart(){
@@ -530,7 +557,7 @@ export class HomeComponent implements OnInit {
      }
   }
 
- // *** chart and table options according to click *** //
+ // *** Pie chart and table options according to click *** //
  ToggleOptions(changestatus:any) {
   if(changestatus == 'chart'){
     this.type = "pie chart"
@@ -538,9 +565,12 @@ export class HomeComponent implements OnInit {
   else if(changestatus == 'table'){
     this.type = "pie table"
   }
+  else if(changestatus == 'pietable'){
+    this.type = "semipie table"
+  }
  }
 
-  // *** chart and table options according to click *** //
+  // *** Labwise chart and table options according to click *** //
   ChangeOption(Status:any){
     if(Status == 'Labchart'){
       debugger
@@ -586,5 +616,6 @@ export class HomeComponent implements OnInit {
   
   toggleFullScreen(){
       this.fullScreenFlag = !this.fullScreenFlag;
+      this.setIconPossition = !this.setIconPossition;
     }
 }

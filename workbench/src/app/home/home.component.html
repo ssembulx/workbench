@@ -13,7 +13,7 @@
 
 
                     <!-- ******* Semi circle pie chart and table view options ******* -->
-                    <div class="btn-row mr-2">
+                    <div class="btn-row mr-2" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                         <div class="btn-dv2" [ngClass]="type == 'pie chart' ? 'active-btn' : ''"
                             (click)="ToggleOptions('chart')">
                             <i class="fa fa-chart-bar fa-2x chart-icon"></i>
@@ -25,7 +25,7 @@
                     </div>
 
                     <!-- ******* SIV checkbox option ******* -->
-                    <div class="form-group">
+                    <div class="form-group" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                         <label class="switch">
                             <input type="checkbox" class="sivcheckbox" [(ngModel)]="semicircle" unchecked
                                 (change)="getCheckbox()">
@@ -62,7 +62,7 @@
 
             <!-- ******* Semi circle pie chart table view ******* -->
             <div class="table-container">
-                <table class="table table-bordered piechart-table" *ngIf="type == 'pie table'">
+                <table class="table table-bordered piechart-table" *ngIf="semicircle && type == 'pie table'">
                     <thead>
                         <tr>
                             <th class="v-align">#</th>
@@ -92,7 +92,7 @@
                         <span class="chart-heading" *ngIf="typeChart == 'Program chart'">Program Summary</span>
                         <span class="chart-heading" *ngIf="typeChart == 'Vendor chart'">Vendor Summary</span>
                     </div>
-                    <div class="btn-row mr-2">
+                    <div class="btn-row mr-2" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                         <div class="btn-dv2" [ngClass]="typeChart == 'Location chart' ? 'active-btn' : ''"
                             (click)="Options('location')">
                             Location
@@ -108,7 +108,7 @@
                     </div>
 
                     <!-- ******* Location chart and table view options ******* -->
-                    <div class="btn-row-loc mr-2" *ngIf="typeChart == 'Location chart'">
+                    <div class="btn-row-loc mr-2" *ngIf="typeChart == 'Location chart'" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                         <div class="btn-dv2" [ngClass]="Loctype == 'Loc chart' ? 'active-btn-loc' : ''"
                             (click)="LocationOptions('LocChart')">
                             <i class="fa fa-chart-bar fa-2x chart-icon"></i>
@@ -120,7 +120,7 @@
                     </div>
 
                     <!-- ******* Program chart and table view options ******* -->
-                    <div class="btn-row-loc mr-2" *ngIf="typeChart == 'Program chart'">
+                    <div class="btn-row-loc mr-2" *ngIf="typeChart == 'Program chart'" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                         <div class="btn-dv2" [ngClass]="Prgtype == 'Prg chart' ? 'active-btn-loc' : ''"
                             (click)="ProgramOptions('PrgChart')">
                             <i class="fa fa-chart-bar fa-2x chart-icon"></i>
@@ -132,7 +132,7 @@
                     </div>
 
                     <!-- ******* Vendor chart and table view options ******* -->
-                    <div class="btn-row-loc mr-2" *ngIf="typeChart == 'Vendor chart'">
+                    <div class="btn-row-loc mr-2" *ngIf="typeChart == 'Vendor chart'" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                         <div class="btn-dv2" [ngClass]="Ventype == 'Ven chart' ? 'active-btn-loc' : ''"
                             (click)="VendorOptions('VenChart')">
                             <i class="fa fa-chart-bar fa-2x chart-icon"></i>
@@ -257,14 +257,14 @@
                     <span class="chart-heading">Labwise Allocated</span>
                 </div>
             </div>
-            <div class="col-2 float_left">
+            <div class="col-2 float_left" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                 <select class="form-select location_select" aria-label="Default select example">
                     <option>SRR1</option>
                     <option>SRR2</option>
                     <option>SRR3</option>
                 </select>
             </div>
-            <div class="col-2 float-program">
+            <div class="col-2 float-program" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                 <select class="form-select location_select" aria-label="Default select example">
                     <option>-- All Program --</option>
                     <option>ADL-P</option>
@@ -272,7 +272,7 @@
                     <option>RPL-S</option>
                 </select>
             </div>
-            <div class="col-2 float-vendor">
+            <div class="col-2 float-vendor" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                 <select class="form-select location_select" aria-label="Default select example">
                     <option>-- All Vendor --</option>
                     <option> UST</option>
@@ -282,7 +282,7 @@
             </div>
 
             <!-- ******* Labwise chart and table view options ******* -->
-            <div class="btn-row mr-2 col-2">
+            <div class="btn-row mr-2 col-2" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                 <div class="btn-dv2" [ngClass]="Labtype == 'Lab chart' ? 'active-btn' : ''"
                     (click)="ChangeOption('Labchart')">
                     <i class="fa fa-chart-bar fa-2x chart-icon"></i>
