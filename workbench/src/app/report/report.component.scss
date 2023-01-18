@@ -557,6 +557,7 @@ span.sort-by:after {
     }
   } 
   
+// *****  150% screen width **** //
   @media only screen and (max-width: 1280px){
     .reports{
         .content{
@@ -564,6 +565,12 @@ span.sort-by:after {
                 .table-container{
                     .user-table{
                         thead{
+                            background-color: #d5cbd7;
+                            display: table;
+                            width: 100%;
+                            table-layout: fixed;
+                            white-space: nowrap;
+                            font-size: 12px;
                             tr{
                                 th:nth-child(2) {
                                     width: 10.9% !important;
@@ -595,5 +602,88 @@ span.sort-by:after {
                 } 
             } 
         } 
+    }
+    .overlay-main {
+        position: absolute;
+        width: 98%;
+        height: 74vh;
+        margin-left: 1%;
+        background: none no-repeat scroll 0 0 white;
+        opacity: 0.85;
+        margin-top: -430px;
+    }
+  }
+
+  // *****  175% screen width **** //
+  @media only screen and (max-width: 1099px){
+    .reports{
+        .content{
+            .user-content{
+                .table-container{
+                    .user-table{
+                        thead{
+                            background-color: #d5cbd7;
+                            display: table;
+                            width: 100%;
+                            table-layout: fixed;
+                            font-size: 8px;
+                            tr{
+                               &:first-child,
+                               th:nth-child(3),
+                               th:nth-child(4),
+                               th:nth-child(5),
+                               th:nth-child(6),
+                               th:nth-child(7){
+                                white-space: nowrap;
+                               }
+                                th:nth-child(2) {
+                                    width: 10.9% !important;
+                                    white-space: nowrap;
+                                }
+                                th:nth-child(3) {
+                                  width: 7%;
+                                }
+                                th:nth-child(4){
+                                    width: 8.7%;
+                                }  
+                                th:nth-child(6){
+                                  width: 6.3%;
+                                }
+                            } 
+                        } 
+                    }
+                    .search-bar{
+                        .input-group {
+                            width: 19%;
+                            margin-left: 67% !important;
+                        }
+                    } 
+                    .downloadbtn{
+                        .download-btn{
+                            font-family: "IntelOne Display AR Medium";
+                            background-color: #0071c5;
+                            color: white;
+                            font-size: 13px;
+                            border-radius: 0px;
+                            box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
+                            width: 105px;
+                            text-align: center;
+                            margin-left: 87% !important;
+                            margin-top: -58px;
+                            border-radius: 4px;
+                        }
+                    } 
+                } 
+            } 
+        } 
+    }
+    .overlay-main {
+        position: absolute;
+        width: 98%;
+        height: 71vh;
+        margin-left: 1%;
+        background: none no-repeat scroll 0 0 white;
+        opacity: 0.85;
+        margin-top: -336px;
     }
   }

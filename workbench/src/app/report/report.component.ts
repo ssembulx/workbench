@@ -50,6 +50,7 @@ export class ReportComponent implements OnInit {
 
   //***** Calling Report Data API****//
   getReportData() {
+    debugger
     this.reportdataLoader = false;
     this.service.getReportData().subscribe((res) => {
       debugger;
