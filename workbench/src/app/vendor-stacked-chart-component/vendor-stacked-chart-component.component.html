@@ -1,5 +1,10 @@
 <div id="chartdiv4"></div> 
 
+ <!-- No data available display -->
+ <div class="no_data_block_display" *ngIf='ChartData?.length == 0'>
+    <h2 class="mt-2">No Data Available</h2>
+</div>
+
 <div class="overlay-main" *ngIf="!vendorChartLoader">
     <div class="spinner-container">
 
