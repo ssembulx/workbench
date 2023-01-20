@@ -1,5 +1,13 @@
 import { any } from '@amcharts/amcharts5/.internal/core/util/Array';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { SummaryService } from '../shared/service';
@@ -9,7 +17,7 @@ import moment from 'moment';
   templateUrl: './vpg-lab.component.html',
   styleUrls: ['./vpg-lab.component.scss'],
 })
-export class VPGLabComponent implements OnInit {
+export class VPGLabComponent implements OnInit, OnChanges {
   @Input() defaultValue: string;
   public seatConfig: any = null;
 
@@ -78,6 +86,96 @@ export class VPGLabComponent implements OnInit {
           this.seatmap = response.BenchDetails;
         }
       });
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    debugger;
+    let lab = changes?.['defaultValue']?.['currentValue'];
+    if (lab.toString() == 'SRR-2-CRD16') {
+      this.seatmap = [];
+      this.seatConfig = [
+        {
+          seat_price: 250,
+          seat_map: [
+            {
+              seat_label: 'A',
+              layout: 'gggg_ggggg',
+              direction: 'dddddddddd',
+              labelNo: 'C9,C8,C7,C6,_,C5,C4,C3,C2,C1',
+              Team: 'SIV,SIV,SIV,SIV,_,SIV,SIV,SIV,SIV,SIV',
+            },
+            {
+              seat_label: 'B',
+              layout: '__________',
+              direction: '__________',
+              labelNo: '_,_,_,_,_,_,_,_,_,_',
+              Team: '_,_,_,_,_,_,_,_,_,_',
+            },
+            {
+              seat_label: 'C',
+              layout: 'gggggggggg',
+              direction: 'dddddddddd',
+              labelNo: 'B20,B19,B18,B17,B16,B15,B14,B13,B12,B11',
+              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+            },
+            {
+              seat_label: 'D',
+              layout: 'gggggggggg',
+              direction: 'dddddddddd',
+              labelNo: 'B10,B9,B8,B7,B6,B5,B4,B3,B2,B1',
+              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+            },
+            {
+              seat_label: 'E',
+              layout: '__________',
+              direction: '__________',
+              labelNo: '_,_,_,_,_,_,_,_,_,_',
+              Team: '_,_,_,_,_,_,_,_,_,_',
+            },
+            {
+              seat_label: 'F',
+              layout: 'gggggggggg',
+              direction: 'dddddddddd',
+              labelNo: 'A10,A9,A8,A7,A6,A5,A4,A3,A2,A1',
+              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+            },
+          ],
+        },
+      ];
+      this.processSeatChart(this.seatConfig);
+    } else if (lab.toString() == 'SRR-2-CRD 5') {
+      this.seatmap = [];
+      this.seatConfig = [
+        {
+          seat_price: 250,
+          seat_map: [
+            {
+              seat_label: 'A',
+              layout: 'gggggggg',
+              direction: 'dddddddd',
+              labelNo: 'A8,A7,A6,A5,A4,A3,A2,A1',
+              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+            },
+            {
+              seat_label: 'B',
+              layout: '________',
+              direction: '________',
+              labelNo: '_,_,_,_,_,_,_,_',
+              Team: '_,_,_,_,_,_,_,_',
+            },
+            {
+              seat_label: 'C',
+              layout: 'gggggggg',
+              direction: 'dddddddd',
+              labelNo: 'A9,A10,A11,A12,A13,A14,A15,A16',
+              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+            },
+          ],
+        },
+      ];
+      this.processSeatChart(this.seatConfig);
+    } else if (lab.toString() == 'SRR2-1F CRD-4-BA-SRR2') {
+      this.getLabDetails();
+    }
   }
   ngOnInit(): void {
     this.getLabDetails();
@@ -702,7 +800,6 @@ export class VPGLabComponent implements OnInit {
     // };
 
     this.dataSvc.getUserDetails(obj).subscribe((res) => {
-
       if (res['name'] === null || res['name'] === undefined) {
         this.toastrService.success(
           'No users found with entered details, Kindly enter correct details!',

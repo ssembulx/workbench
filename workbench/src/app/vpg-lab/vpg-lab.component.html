@@ -1,77 +1,87 @@
 <div class="row" *ngIf="seatmap?.length>0">
     <div class="col-12 seat-container">
-        <div class="lab_block">
-            <div class="wall-heading">
-                <h4>SRR2-1F CRD-4-BA-SRR2</h4>
-            </div>
-            <div class="wall-legend">
-                <img src="./assets/image/non_siv.png">
-                <h5>Non SIV</h5>
-                <img src="./assets/image/Booked.png">
-                <h5>Allocated</h5>
-                <img src="./assets/image/Available.png">
-                <h5>Free</h5>
-                <img src="./assets/image/Requested.png">
-                <h5>Approval pending</h5>
-            </div>
+        <div class="lab_block col-8">
             <div class="wall">
-                <div *ngFor="let seatrow of seatmap; let i = index;trackBy: trackByIds ">
-                    <div class="col-12 pricing-label"
-                        *ngIf="seatChartConfig?.showRowWisePricing && seatrow.seatPricingInformation != ''">
-                        {{seatrow.seatPricingInformation}}</div>
-                    <div class="seatrow container padding_l_r_0">
-                        <!-- [ngClass]="{  'full_bottom' : i == 2 , 'double_side': i==1 , 'single_right': i==0 }"> -->
-                        <div *ngIf="seatChartConfig?.showRowsLabel">
-                            <div class="row-label"> {{seatrow.seatRowLabel}} </div>
+                <ng-container>
+                    <div class="col-12 float_left">
+                        <div class="wall-heading col-5 float_left">
+                            <h4>{{defaultValue}}</h4>
                         </div>
-                        <ng-container *ngFor="let seatobj of seatrow.seats; let j = index">
-                            <div>
-                                <!--  [ngClass]="{  'single_top' : callSingleTop(i,j),'single_left' : callSingleLeft(i,j) ,'single_top_dashed':callSingleTopDashed(i,j)}"> -->
-                                <!-- Empty space -->
-                                <div class="seat-item seat-space" style="color:white ; background-color:white"
-                                    *ngIf="seatobj.seatLabel == ''"> &nbsp; </div>
-                                <!-- Desk not Unavailable -->
-                                <!-- [ngClass]="{ 'seat-item' : true , 'seat-available' : seatobj.status == 'available' ,'seat-booked' : seatobj.status == 'booked' ,'seat-unavailable' : seatobj.status == 'unavailable' }" -->
-                                <div placement="top" ngbTooltip="Desk : {{seatobj.seatNo}}"
-                                    class=" seat-item seat-available" (click)="selectSeat(seatobj)"
-                                    *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested ==false && seatobj.seatLabel != ''  && seatobj.team == 'SIV'">
-                                    <h4>{{seatobj.labelNo}}</h4>
-                                    <img *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested == false  && seatobj.status != 'selected'"
-                                        src="./assets/image/Available.png">
-                                    <img *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested == false  && seatobj.status == 'selected'"
-                                        src="./assets/image/Selected.png">
+                        <div class="wall-legend col-7 float_left">
+                            <img src="./assets/image/non_siv.png">
+                            <h5>Non SIV</h5>
+                            <img src="./assets/image/Booked.png">
+                            <h5>Allocated</h5>
+                            <img src="./assets/image/Available.png">
+                            <h5>Free</h5>
+                            <img src="./assets/image/Requested.png">
+                            <h5>Approval pending</h5>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container>
+                    <div class="col-12 float_left">
+                        <ng-container *ngFor="let seatrow of seatmap; let i = index;trackBy: trackByIds"
+                            class="seat-list">
+                            <div class="col-12 pricing-label"
+                                *ngIf="seatChartConfig?.showRowWisePricing && seatrow.seatPricingInformation != ''">
+                                {{seatrow.seatPricingInformation}}</div>
+                            <div class="seatrow padding_l_r_0">
+                                <!-- [ngClass]="{  'full_bottom' : i == 2 , 'double_side': i==1 , 'single_right': i==0 }"> -->
+                                <div *ngIf="seatChartConfig?.showRowsLabel">
+                                    <div class="row-label"> {{seatrow.seatRowLabel}} </div>
                                 </div>
-                                <!-- Desk not available" -->
-                                <div ngbTooltip="Desk not available" placement="top" class="seat-item seat-unavailable"
-                                    *ngIf="seatobj.IsAllocated == true && seatobj.seatLabel != '' && seatobj.team == 'SIV'">
-                                    <h4>{{seatobj.labelNo}}</h4>
-                                    <img src="./assets/image/Booked.png">
-                                </div>
-                                <!-- Desk Requested -->
-                                <div placement="top" ngbTooltip="Desk : {{seatobj.seatNo}} Approval pending"
-                                    class="seat-item seat-requested"
-                                    *ngIf="seatobj.IsRequested ==true && seatobj.seatLabel != '' && seatobj.team == 'SIV'">
-                                    <h4>{{seatobj.labelNo}}</h4>
-                                    <img src="./assets/image/Requested.png">
-                                </div>
-                                <!-- Non - SIV -->
-                                <div ngbTooltip="Non SIV" placement="top"
-                                    [ngClass]="{ 'seat-item' : true , 'seat-unavailable' : true }"
-                                    *ngIf="seatobj.team == 'Non-SIV' && seatobj.seatLabel != ''">
-                                    <h4>{{seatobj.labelNo}}</h4>
-                                    <img src="./assets/image/non_siv.png">
-                                    <!-- [ngClass]="{ 'rotate_90' : seatobj.dir=='l' , 'rotate_180' : seatobj.dir=='u', 'rotate_270' : seatobj.dir=='r'}" -->
-                                    <!--  <img *ngIf="seatobj.dir=='u'" src="../../assets/image/Table_Unavailable.png">
-                            <img *ngIf="seatobj.dir=='r'" src="../../assets/image/Table_Unavailable.png">
-                            <img *ngIf="seatobj.dir=='l'" src="../../assets/image/Table_Unavailable.png"> -->
-                                </div>
+                                <ng-container *ngFor="let seatobj of seatrow.seats; let j = index">
+                                    <div>
+                                        <!--  [ngClass]="{  'single_top' : callSingleTop(i,j),'single_left' : callSingleLeft(i,j) ,'single_top_dashed':callSingleTopDashed(i,j)}"> -->
+                                        <!-- Empty space -->
+                                        <div class="seat-item seat-space" style="color:white ; background-color:white"
+                                            *ngIf="seatobj.seatLabel == ''"> &nbsp; </div>
+                                        <!-- Desk not Unavailable -->
+                                        <!-- [ngClass]="{ 'seat-item' : true , 'seat-available' : seatobj.status == 'available' ,'seat-booked' : seatobj.status == 'booked' ,'seat-unavailable' : seatobj.status == 'unavailable' }" -->
+                                        <div placement="top" ngbTooltip="Desk : {{seatobj.seatNo}}"
+                                            class=" seat-item seat-available" (click)="selectSeat(seatobj)"
+                                            *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested ==false && seatobj.seatLabel != ''  && seatobj.team == 'SIV'">
+                                            <h4>{{seatobj.labelNo}}</h4>
+                                            <img *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested == false  && seatobj.status != 'selected'"
+                                                src="./assets/image/Available.png">
+                                            <img *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested == false  && seatobj.status == 'selected'"
+                                                src="./assets/image/Selected.png">
+                                        </div>
+                                        <!-- Desk not available" -->
+                                        <div ngbTooltip="Desk not available" placement="top"
+                                            class="seat-item seat-unavailable"
+                                            *ngIf="seatobj.IsAllocated == true && seatobj.seatLabel != '' && seatobj.team == 'SIV'">
+                                            <h4>{{seatobj.labelNo}}</h4>
+                                            <img src="./assets/image/Booked.png">
+                                        </div>
+                                        <!-- Desk Requested -->
+                                        <div placement="top" ngbTooltip="Desk : {{seatobj.seatNo}} Approval pending"
+                                            class="seat-item seat-requested"
+                                            *ngIf="seatobj.IsRequested ==true && seatobj.seatLabel != '' && seatobj.team == 'SIV'">
+                                            <h4>{{seatobj.labelNo}}</h4>
+                                            <img src="./assets/image/Requested.png">
+                                        </div>
+                                        <!-- Non - SIV -->
+                                        <div ngbTooltip="Non SIV" placement="top"
+                                            [ngClass]="{ 'seat-item' : true , 'seat-unavailable' : true }"
+                                            *ngIf="seatobj.team == 'Non-SIV' && seatobj.seatLabel != ''">
+                                            <h4>{{seatobj.labelNo}}</h4>
+                                            <img src="./assets/image/non_siv.png">
+                                            <!-- [ngClass]="{ 'rotate_90' : seatobj.dir=='l' , 'rotate_180' : seatobj.dir=='u', 'rotate_270' : seatobj.dir=='r'}" -->
+                                            <!--  <img *ngIf="seatobj.dir=='u'" src="../../assets/image/Table_Unavailable.png">
+                                <img *ngIf="seatobj.dir=='r'" src="../../assets/image/Table_Unavailable.png">
+                                <img *ngIf="seatobj.dir=='l'" src="../../assets/image/Table_Unavailable.png"> -->
+                                        </div>
+                                    </div>
+                                </ng-container>
                             </div>
                         </ng-container>
                     </div>
-                </div>
+                </ng-container>
             </div>
         </div>
-        <div class="booknow_block">
+        <div class="booknow_block col-4">
             <div class="row booknow_div">
                 <div class="col-lg-12 summary-bar">
                     <div class="col-lg-12 selected-seats">
