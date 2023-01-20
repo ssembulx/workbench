@@ -78,7 +78,7 @@
                     </table>
                 </div>              
             </div> -->
-            <div class="table-container">
+            <div class="table-container" *ngIf="reportData?.length">
                 <div class="search-bar col-12">
                     <div class="input-group">
                         <input type="search" name="search" placeholder="Search any field"
@@ -102,7 +102,7 @@
                                     (click)="showTestTrendSearch(ts1)">
                                     <i class="fas fa-search"></i>&nbsp;&nbsp;Lab Details</span></th>
                             <th class="v-align" (click)="setOrderRelease('Team')"><span class="sort-by"
-                                    [ngbTooltip]="programSearch" placement="top" tooltipClass="custom-tooltip"
+                                    [ngbTooltip]="teamSearch" placement="top" tooltipClass="custom-tooltip"
                                     [autoClose]="false" triggers="manual" #ts10="ngbTooltip"
                                     (click)="showTestTrendSearch(ts10)">
                                     <i class="fas fa-search"></i>&nbsp;&nbsp;Team</span></th>
@@ -142,7 +142,7 @@
                                     (click)="showTestTrendSearch(ts7)">
                                     <i class="fas fa-search"></i>&nbsp;&nbsp;To WW</span></th>
                             <th class="v-align" (click)="setOrderRelease('Duration')"><span class="sort-by"
-                                    [ngbTooltip]="toWWSearch" placement="top" tooltipClass="custom-tooltip"
+                                    [ngbTooltip]="durationSearch" placement="top" tooltipClass="custom-tooltip"
                                     [autoClose]="false" triggers="manual" #ts9="ngbTooltip"
                                     (click)="showTestTrendSearch(ts9)">
                                     <i class="fas fa-search"></i>&nbsp;&nbsp;Duration</span></th>
@@ -152,7 +152,7 @@
                     </thead>
                     <tbody>
                         <tr
-                            *ngFor="let data of reportData | searchFilter: searchText | searchFilterLocation: searchLocation | searchFilterProgram: searchProgram |  searchFilterSku: searchSku | searchFilterVendor : searchVendor | searchFilterAllocated : searchAllocated | searchFilterFromWW : searchfromWW | searchFilterToWW : searchtoWW | searchFilterBench : searchBench let i=index">
+                            *ngFor="let data of reportData | searchFilter: searchText | searchFilterLocation: searchLocation | searchFilterTeam: searchTeam | searchFilterProgram: searchProgram |  searchFilterSku: searchSku | searchFilterVendor : searchVendor | searchFilterAllocated : searchAllocated | searchFilterFromWW : searchfromWW | searchFilterToWW : searchtoWW | searchFilterBench : searchBench | searchFilterDuration : searchDuration  let i=index">
                             <td>{{i+1}}</td>
                             <td>{{data.Location__Name}}</td>
                             <td>{{data.Team}}</td>
@@ -160,7 +160,8 @@
                             <td>{{data.Program}}</td>
                             <td>{{data.Sku}}</td>
                             <td>{{data.Vendor}}</td>
-                            <td>{{data.AllocatedTo}}</td>
+                            <td>{{data.AllocatedTo[0].Name }}</td>
+                            <!-- <td *ngIf="data.AllocatedTo.length > 0">{{ data.AllocatedTo[0].Name }}</td> -->
                             <td>{{data.FromWW}}</td>
                             <td>{{data.ToWW}}</td>
                             <td>{{data.Duration}}</td>
@@ -170,40 +171,11 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-        <!-- <div class="user-content">
-        <div class="table-container">
-            <div class="search-bar col-12">
-                <div class="input-group">
-                    <input type="search" name="search" placeholder="Search any field" class="form-control shadow-none"
-                        aria-label="search" [(ngModel)]="searchText">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn save-btn"><i class="fas fa-search"></i></button>
-                    </div>
-                </div>
+             <!-- No data available display -->
+            <div class="no_data_block_display" *ngIf="reportData?.length == 0">
+                <h2 class="mt-2">No Data Available</h2>
             </div>
-            <table class="table table-bordered user-table">
-                <thead>
-                    <tr>
-                        <th class="v-align">SL NO.</th>
-                        <th class="v-align" (click)="setOrderRelease('LOCATION')"><span class="sort-by" [ngbTooltip]="testTrendSearch" placement="right" tooltipClass="custom-tooltip" [autoClose]="false" triggers="manual" #ts1="ngbTooltip" (click)="showTestTrendSearch(ts1)">
-                            <i class="fas fa-search"></i>&nbsp;&nbsp;Location</span>
-                           </th>
-                        <th class="v-align" (click)="setOrderRelease('PROGRAM')"><span class="sort-by">Program</span></th>
-                        <th class="v-align" (click)="setOrderRelease('VENDOR')"><span class="sort-by">Vendor</span></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let data of reportsData | searchFilter: searchText | searchFilterLocation: searchLocation |  orderBy: orderMappedRelease:reverseMappedRelease: true ; let i=index">
-                        <td>{{(i+1)}}</td>
-                        <td>{{data.location}}</td>
-                        <td>{{data.program}}</td>
-                        <td>{{data.vendor}}</td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
-      </div> -->
     </div>
 </div>
 
@@ -216,6 +188,20 @@
             <input name="target" [(ngModel)]="searchLocation" placeholder="Search Location" type="text"
                 class="form-control" />
             <i class="fas fa-times" (click)="clearInput()" *ngIf="searchLocation !== ''"></i>
+            <i class="flaticon-search fas fa-search"></i>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #teamSearch>
+    <div class="search-tooltip">
+        <div class="tooltip-header">
+            <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
+        </div>
+        <div class="form-group search-ctrl">
+            <input name="target" [(ngModel)]="searchTeam" placeholder="Search Team" type="text"
+                class="form-control" />
+            <i class="fas fa-times" (click)="clearInput()" *ngIf="searchTeam !== ''"></i>
             <i class="flaticon-search fas fa-search"></i>
         </div>
     </div>
@@ -317,6 +303,19 @@
     </div>
 </ng-template>
 
+<ng-template #durationSearch>
+    <div class="search-tooltip">
+        <div class="tooltip-header">
+            <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
+        </div>
+        <div class="form-group search-ctrl">
+            <input name="target" [(ngModel)]="searchDuration" placeholder="Search Duration" type="text"
+                class="form-control" />
+            <i class="fas fa-times" (click)="clearInput()" *ngIf="searchDuration !== ''"></i>
+            <i class="flaticon-search fas fa-search"></i>
+        </div>
+    </div>
+</ng-template>
 
 <!-- ****** loader option ****** -->
 <div class="overlay-main" *ngIf="!reportdataLoader">

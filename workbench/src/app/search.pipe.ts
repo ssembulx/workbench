@@ -13,6 +13,8 @@ export class SearchPipe implements PipeTransform {
             return (
                 val.Location__Name === null ? val.Location__Name
                     : val.Location__Name.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+                || (val.Team === null ? val.Team
+                    : val.Team.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
                 || (val.Program === null ? val.Program
                     : val.Program.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
                 ||  (val.Sku === null ? val.Sku
@@ -26,7 +28,9 @@ export class SearchPipe implements PipeTransform {
                 ||  (val.ToWW === null ? val.ToWW
                     : val.ToWW.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
                 ||  (val.BenchData === null ? val.BenchData
-                    : val.BenchData.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()));
+                    : val.BenchData.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+                ||  (val.Duration === null ? val.Duration
+                    : val.Duration.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()));
                      
         });
     }
@@ -46,6 +50,24 @@ export class SearchLab implements PipeTransform {
             return (
                 val.Location__Name === null ? val.Location__Name
                     : val.Location__Name.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+        });
+    }
+}
+
+@Pipe({
+    name: 'searchFilterTeam',
+    pure: false
+})
+export class SearchTeam implements PipeTransform {
+
+    transform(value: any, args?: any): any {
+        if (!args) {
+            return value;
+        }
+        return value.filter((val: any) => {
+            return (
+                val.Team === null ? val.Team
+                    : val.Team.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
         });
     }
 }
@@ -177,3 +199,21 @@ export class SearchBench implements PipeTransform {
     }
 }
 
+
+@Pipe({
+    name: 'searchFilterDuration',
+    pure: false
+})
+export class SearchDuration implements PipeTransform {
+
+    transform(value: any, args?: any): any {
+        if (!args) {
+            return value;
+        }
+        return value.filter((val: any) => {
+            return (
+                val.Duration === null ? val.Duration
+                    : val.Duration.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+        });
+    }
+}
