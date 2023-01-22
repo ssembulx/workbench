@@ -20,6 +20,8 @@ export class ReportComponent implements OnInit {
   tollTipRef: any;
   searchtoWW: '';
   searchBench: '';
+  searchTeam: '';
+  searchDuration: '';
   reportData: any;
   reportdataLoader = false;
 
@@ -55,6 +57,7 @@ export class ReportComponent implements OnInit {
     this.service.getReportData().subscribe((res) => {
       debugger;
       this.reportData = res;
+      console.log(this.reportData)
       this.reportdataLoader = true;
     });
   }
@@ -83,6 +86,8 @@ export class ReportComponent implements OnInit {
     this.searchfromWW = '';
     this.searchtoWW = '';
     this.searchBench = '';
+    this.searchTeam = '';
+    this.searchDuration = '';
   }
 
   hideTestTrendSearch() {

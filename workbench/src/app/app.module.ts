@@ -33,6 +33,8 @@ import {
   SearchSku,
   SearchToWW,
   SearchVendor,
+  SearchTeam,
+  SearchDuration
 } from './search.pipe';
 import { SummaryService } from './shared/service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -43,6 +45,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { SemicirclePieChartComponent } from './semicircle-pie-chart/semicircle-pie-chart.component';
+import { PublishComponent } from './publish/publish.component';
 /* import { ToastrService } from 'ngx-toastr'; */
 @NgModule({
   declarations: [
@@ -64,6 +67,7 @@ import { SemicirclePieChartComponent } from './semicircle-pie-chart/semicircle-p
     ReportComponent,
     SearchPipe,
     SearchLab,
+    SearchTeam,
     SearchProgram,
     SearchVendor,
     SearchSku,
@@ -71,7 +75,9 @@ import { SemicirclePieChartComponent } from './semicircle-pie-chart/semicircle-p
     SearchFromWW,
     SearchToWW,
     SearchBench,
+    SearchDuration,
     SemicirclePieChartComponent,
+    PublishComponent,
   ],
   imports: [
     BrowserModule,

@@ -55,6 +55,11 @@
                 <div id="chartdiv"></div>
             </div>
 
+            <!-- No data available display -->
+            <div class="no_data_block_display" *ngIf='ChartData?.length == 0'>
+                <h2 class="mt-2">No Data Available</h2>
+            </div>
+
             <!-- ******* Semi circle pie chart view ******* -->
             <div class="pie-block after-fullscreen-pie" *ngIf="semicircle && type == 'pie chart'">
                 <app-semicircle-pie-chart></app-semicircle-pie-chart>
@@ -171,7 +176,7 @@
                             <th class="v-align" (click)="setOrderRelease('Value')"><span
                                     class="sort-by">Allocated</span></th>
                             <th class="v-align" (click)="setOrderRelease('Value')"><span
-                                    class="sort-by">UnAllocated</span></th>
+                                    class="sort-by">Free</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -180,7 +185,7 @@
                             <td>{{ele.slno}}</td>
                             <td>{{ele.location}}</td>
                             <td>{{ele.allocated}}</td>
-                            <td>{{ele.unallocated}}</td>
+                            <td>{{ele.Free}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -318,7 +323,7 @@
                             <th class="v-align" (click)="setOrderRelease('Value')"><span
                                     class="sort-by">Allocated</span></th>
                             <th class="v-align" (click)="setOrderRelease('Value')"><span
-                                    class="sort-by">UnAllocated</span></th>
+                                    class="sort-by">Free</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -326,7 +331,7 @@
                             <td>{{ele.slno}}</td>
                             <td>{{ele.labName}}</td>
                             <td>{{ele.allocated}}</td>
-                            <td>{{ele.unallocated}}</td>
+                            <td>{{ele.Free}}</td>
                         </tr>
                     </tbody>
                 </table>

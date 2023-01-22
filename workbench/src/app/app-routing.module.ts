@@ -4,6 +4,7 @@ import { AllocationComponent } from './allocation/allocation.component';
 import { ApproveComponent } from './approve/approve.component';
 import { HomeComponent } from './home/home.component';
 import { MasterComponent } from './master/master.component';
+import { PublishComponent } from './publish/publish.component';
 import { ReportComponent } from './report/report.component';
 import { UserComponent } from './user/user.component';
 const routes: Routes = [{
@@ -23,8 +24,11 @@ const routes: Routes = [{
 {
   path: 'report', component: ReportComponent
 },
+// {
+//   path: 'user', component: UserComponent
+// },
 {
-  path: 'user', component: UserComponent
+  path: 'publish', component: PublishComponent
 }];
 
 @NgModule({

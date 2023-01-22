@@ -82,7 +82,7 @@
                 </div>
 
             </div> -->
-            <div class="table-container">
+            <div class="table-container" *ngIf='approvallist?.length'>
                 <div class="btn-add-user">
                     <button class="btn add-btn" (click)="rejectBench()">Reject</button>
                     <button class="btn add-btn" (click)="approveBench()">Approve</button>
@@ -136,6 +136,11 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+
+             <!-- No data available display -->
+            <div class="no_data_block_display" *ngIf='approvallist?.length == 0'>
+                <h2 class="mt-2">No Data Available</h2>
             </div>
         </div>
     </div>
