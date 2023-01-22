@@ -89,6 +89,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges) {
     debugger;
+    this.labViewLoader = true;
     let lab = changes?.['defaultValue']?.['currentValue'];
     if (lab.toString() == 'SRR-2-CRD16') {
       this.seatmap = [];
@@ -105,34 +106,20 @@ export class VPGLabComponent implements OnInit, OnChanges {
             },
             {
               seat_label: 'B',
-              layout: '__________',
-              direction: '__________',
-              labelNo: '_,_,_,_,_,_,_,_,_,_',
-              Team: '_,_,_,_,_,_,_,_,_,_',
-            },
-            {
-              seat_label: 'C',
               layout: 'gggggggggg',
               direction: 'dddddddddd',
               labelNo: 'B20,B19,B18,B17,B16,B15,B14,B13,B12,B11',
               Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
             },
             {
-              seat_label: 'D',
+              seat_label: 'C',
               layout: 'gggggggggg',
               direction: 'dddddddddd',
               labelNo: 'B10,B9,B8,B7,B6,B5,B4,B3,B2,B1',
               Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
             },
             {
-              seat_label: 'E',
-              layout: '__________',
-              direction: '__________',
-              labelNo: '_,_,_,_,_,_,_,_,_,_',
-              Team: '_,_,_,_,_,_,_,_,_,_',
-            },
-            {
-              seat_label: 'F',
+              seat_label: 'D',
               layout: 'gggggggggg',
               direction: 'dddddddddd',
               labelNo: 'A10,A9,A8,A7,A6,A5,A4,A3,A2,A1',
@@ -157,13 +144,6 @@ export class VPGLabComponent implements OnInit, OnChanges {
             },
             {
               seat_label: 'B',
-              layout: '________',
-              direction: '________',
-              labelNo: '_,_,_,_,_,_,_,_',
-              Team: '_,_,_,_,_,_,_,_',
-            },
-            {
-              seat_label: 'C',
               layout: 'gggggggg',
               direction: 'dddddddd',
               labelNo: 'A9,A10,A11,A12,A13,A14,A15,A16',
@@ -174,11 +154,35 @@ export class VPGLabComponent implements OnInit, OnChanges {
       ];
       this.processSeatChart(this.seatConfig);
     } else if (lab.toString() == 'SRR2-1F CRD-4-BA-SRR2') {
-      this.getLabDetails();
+      // this.getLabDetails();
+    } else if (lab.toString() == 'SRR-1-CRD15_ VPG LINUX') {
+      this.seatmap = [];
+      this.seatConfig = [
+        {
+          seat_price: 250,
+          seat_map: [
+            {
+              seat_label: 'A',
+              layout: 'gggg_g',
+              direction: 'dddddd',
+              labelNo: 'A4,A3,A2,A1,_,A10',
+              Team: 'SIV,SIV,SIV,SIV,_,SIV',
+            },
+            {
+              seat_label: 'B',
+              layout: 'gggg_g',
+              direction: 'dddddd',
+              labelNo: 'A5,A6,A7,A8,_,A9',
+              Team: 'SIV,SIV,SIV,SIV,_,SIV',
+            },
+          ],
+        },
+      ];
+      this.processSeatChart(this.seatConfig);
     }
   }
   ngOnInit(): void {
-    this.getLabDetails();
+    // this.getLabDetails();
     this.dataSvc.getProgram().subscribe((res) => {
       if (res) {
         this.programList = res;
@@ -194,7 +198,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
         this.teamList = res;
       }
     });
-    /*  this.seatConfig = [
+    this.seatConfig = [
       {
         seat_price: 250,
         seat_map: [
@@ -214,134 +218,83 @@ export class VPGLabComponent implements OnInit, OnChanges {
           },
           {
             seat_label: 'C',
-            layout: '___________',
-            direction: '___________',
-            labelNo: '_,_,_,_,_,_,_,_,_,_,_',
-            Team: '_,_,_,_,_,_,_,_,_,_,_',
-          },
-          {
-            seat_label: 'D',
             layout: 'ggggggggg__',
             direction: 'uuuuuuuuu__',
             labelNo: 'B9,B8,B7,B6,B5,B4,B3,B2,B1,_,_',
             Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,_',
           },
           {
-            seat_label: 'E',
+            seat_label: 'D',
             layout: 'ggggggggggg',
             direction: 'ddddddddddd',
             labelNo: 'B10,B11,B12,B13,B14,B15,B16,B17,B18,B19,B20',
             Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
           },
           {
-            seat_label: 'F',
-            layout: '___________',
-            direction: '___________',
-            labelNo: '_,_,_,_,_,_,_,_,_,_,_',
-            Team: '_,_,_,_,_,_,_,_,_,_,_',
-          },
-          {
-            seat_label: 'G',
+            seat_label: 'E',
             layout: 'ggggg_ggggg',
             direction: 'uuuuu_uuuuu',
             labelNo: 'C9,C8,C7,C6,C5,_,C4,C3,C2,C1,C0',
             Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
           },
           {
-            seat_label: 'H',
+            seat_label: 'F',
             layout: 'ggggggggggg',
             direction: 'ddddddddddd',
             labelNo: 'C10,C11,C12,C13,C14,C15,C16,C17,C18,C19,C20',
             Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,SIV,SIV,SIV,SIV,SIV,SIV',
           },
           {
-            seat_label: 'I',
-            layout: '___________',
-            direction: '___________',
-            labelNo: '_,_,_,_,_,_,_,_,_,_,_',
-            Team: '_,_,_,_,_,_,_,_,_,_,_',
-          },
-          {
-            seat_label: 'J',
+            seat_label: 'G',
             layout: 'ggggggggggg',
             direction: 'ddddddddddd',
             labelNo: 'D10,D9,D8,D7,D6,D5,D4,D3,D2,D1,D0',
             Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
           },
           {
-            seat_label: 'K',
+            seat_label: 'H',
             layout: 'ggggggggggg',
             direction: 'uuuuuuuuuuu',
             labelNo: 'D11,D12,D13,D14,D15,D16,D17,D18,D19,D20,D21',
             Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
           },
           {
-            seat_label: 'L',
-            layout: '___________',
-            direction: '___________',
-            labelNo: '_,_,_,_,_,_,_,_,_,_,_',
-            Team: '_,_,_,_,_,_,_,_,_,_,_',
-          },
-          {
-            seat_label: 'M',
+            seat_label: 'I',
             layout: 'ggggg______',
             direction: 'uuuuu______',
             labelNo: 'D22,D23,D24,D25,D26,_,_,_,_,_,_',
             Team: 'SIV,SIV,SIV,SIV,SIV,_,_,_,_,_,_',
           },
           {
-            seat_label: 'N',
-            layout: '___________',
-            direction: '___________',
-            labelNo: '_,_,_,_,_,_,_,_,_,_,_',
-            Team: '_,_,_,_,_,_,_,_,_,_,_',
-          },
-          {
-            seat_label: 'O',
+            seat_label: 'J',
             layout: 'gggg_gggggg',
             direction: 'dddd_dddddd',
             labelNo: 'E11,E10,E9,E8,_,E6,E5,E4,E3,E2,E1',
             Team: 'SIV,SIV,SIV,SIV,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
           },
           {
-            seat_label: 'P',
+            seat_label: 'K',
             layout: 'ggggggggggg',
             direction: 'ddddddddddd',
             labelNo: 'E12,E13,E14,E15,E16,E17,E18,E19,E20,E21,E22',
             Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
           },
           {
-            seat_label: 'Q',
-            layout: '___________',
-            direction: '___________',
-            labelNo: '_,_,_,_,_,_,_,_,_,_,_',
-            Team: '_,_,_,_,_,_,_,_,_,_,_',
-          },
-          {
-            seat_label: 'R',
+            seat_label: 'L',
             layout: 'ggggggggggg',
             direction: 'ddddddddddd',
             labelNo: 'F11,F10,F9,F8,F7,F6,F5,F4,F3,F2,F1',
             Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
           },
           {
-            seat_label: 'S',
+            seat_label: 'M',
             layout: 'ggggg_ggggg',
             direction: 'ddddd_ddddd',
             labelNo: 'F12,F13,F14,F15,F16,_,F17,F18,F19,F20,F21',
             Team: 'SIV,SIV,SIV,SIV,SIV,_,SIV,SIV,SIV,SIV,SIV',
           },
-
           {
-            seat_label: 'T',
-            layout: '___________',
-            direction: '___________',
-            labelNo: '_,_,_,_,_,_,_,_,_,_,_',
-            Team: '_,_,_,_,_,_,_,_,_,_,_',
-          },
-
-          {
-            seat_label: 'U',
+            seat_label: 'N',
             layout: 'ggggggggggg',
             direction: 'ddddddddddd',
             labelNo: 'G11,G10,G9,G8,G7,G6,G5,G4,G3,G2,G1',
@@ -349,30 +302,21 @@ export class VPGLabComponent implements OnInit, OnChanges {
           },
 
           {
-            seat_label: 'V',
+            seat_label: 'O',
             layout: 'ggggggggggg',
             direction: 'ddddddddddd',
             labelNo: 'G12,G13,G14,G15,G16,G17,G18,G19,G20,G21,G22',
             Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
           },
           {
-            seat_label: 'W',
-            layout: '___________',
-            direction: '___________',
-            labelNo: '_,_,_,_,_,_,_,_,_,_,_',
-            Team: '_,_,_,_,_,_,_,_,_,_,_',
-          },
-
-          {
-            seat_label: 'X',
+            seat_label: 'P',
             layout: 'ggggggggggg',
             direction: 'ddddddddddd',
             labelNo: 'H11,H10,H9,H8,H7,H6,H5,H4,H3,H2,H1',
             Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
           },
-
           {
-            seat_label: 'Y',
+            seat_label: 'Q',
             layout: 'ggggggggggg',
             direction: 'ddddddddddd',
             labelNo: 'H12,H13,H14,H15,H16,H17,H18,H19,H20,H21,H22',
@@ -381,7 +325,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
         ],
       },
     ];
-    this.processSeatChart(this.seatConfig); */
+    this.processSeatChart(this.seatConfig);
     /* this.blockSeats('A_1,C_6,F_7');
     this.blockSeatsNonSiv('D_4,D_6,G_9'); */
   }
@@ -605,7 +549,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
 
       Vendor: this.vendorName,
 
-      AllocatedTo: this.allocatitedTo,
+      AllocatedTo: this.userDetails,
 
       FromWW: this.fromformatWW,
 
@@ -763,6 +707,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
     });
     return flag;
   } */
+  userDetails:any;
   getUserDetails() {
     /*     let flag = this.checkUserExists();
     if (this.modal.user === '' || this.modal.user === undefined) {
@@ -809,6 +754,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
           'No users found with entered details, Kindly enter correct details!'
         ); */
       } else {
+        this.userDetails = res;
         this.allocatitedTo = res['name'];
       }
       //  this.loadRoles();
