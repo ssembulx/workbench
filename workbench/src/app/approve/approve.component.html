@@ -129,7 +129,7 @@
                             <td>{{data.FromWW}}</td>
                             <td>{{data.ToWW}}</td>
                             <td>{{data.Duration}}</td>
-                            <td>{{data.AllocatedTo}}</td>
+                            <td>{{data.AllocatedTo[0]?.Name}}</td>
                             <td>{{data.Remarks}}</td>
                             <td><input class="form-check-input chcekbox-style" type="checkbox"
                                     (click)="checkRow(data,data.id)" id="flexCheckChecked" /></td>

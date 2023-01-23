@@ -89,7 +89,12 @@ export class VPGLabComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges) {
     debugger;
-    this.labViewLoader = true;
+
+    //  let lab = changes?.['defaultValue']?.['currentValue'];
+    if (changes?.['defaultValue']?.['currentValue']) {
+      this.getLabDetails();
+    }
+    /* this.labViewLoader = true;
     let lab = changes?.['defaultValue']?.['currentValue'];
     if (lab.toString() == 'SRR-2-CRD16') {
       this.seatmap = [];
@@ -129,7 +134,8 @@ export class VPGLabComponent implements OnInit, OnChanges {
         },
       ];
       this.processSeatChart(this.seatConfig);
-    } else if (lab.toString() == 'SRR-2-CRD 5') {
+    }  */
+    /* else if (lab.toString() == 'SRR-2-CRD 5') {
       this.seatmap = [];
       this.seatConfig = [
         {
@@ -153,9 +159,11 @@ export class VPGLabComponent implements OnInit, OnChanges {
         },
       ];
       this.processSeatChart(this.seatConfig);
-    } else if (lab.toString() == 'SRR2-1F CRD-4-BA-SRR2') {
-      // this.getLabDetails();
-    } else if (lab.toString() == 'SRR-1-CRD15_ VPG LINUX') {
+    } */
+    /*   else if (lab.toString() == 'SRR-2-CRD-4') {
+       this.getLabDetails();
+    } */
+    /*  if (lab.toString() == 'SRR-1-CRD-2') {
       this.seatmap = [];
       this.seatConfig = [
         {
@@ -163,26 +171,89 @@ export class VPGLabComponent implements OnInit, OnChanges {
           seat_map: [
             {
               seat_label: 'A',
-              layout: 'gggg_g',
-              direction: 'dddddd',
-              labelNo: 'A4,A3,A2,A1,_,A10',
-              Team: 'SIV,SIV,SIV,SIV,_,SIV',
+              layout: 'ggg_gggggggg',
+              direction: 'dddddddddddd',
+              labelNo: 'A11,A10,A9,_,A8,A7,A6,A5,A4,A3,A2,A1',
+              Team: 'SIV,SIV,SIV,_,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
             },
             {
               seat_label: 'B',
-              layout: 'gggg_g',
-              direction: 'dddddd',
-              labelNo: 'A5,A6,A7,A8,_,A9',
-              Team: 'SIV,SIV,SIV,SIV,_,SIV',
+              layout: '_ggggggggggg',
+              direction: 'dddddddddddd',
+              labelNo: '_,B11,B10,B9,B8,B7,B6,B5,B4,B3,B2,B1',
+              Team: '_,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+            },
+            {
+              seat_label: 'C',
+              layout: '_ggggggggggg',
+              direction: 'dddddddddddd',
+              labelNo: '_,B22,B21,B20,B19,B18,B17,B16,B15,B14,B13,B12',
+              Team: '_,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+            },
+            {
+              seat_label: 'D',
+              layout: '_ggggggggggg',
+              direction: 'dddddddddddd',
+              labelNo: '_,C11,C10,C9,C8,C7,C6,C5,C4,C3,C2,C1',
+              Team: '_,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+            },
+            {
+              seat_label: 'E',
+              layout: '_ggggggggggg',
+              direction: 'dddddddddddd',
+              labelNo: '_,C22,C21,C20,C19,C18,C17,C16,C15,C14,C13,C12',
+              Team: '_,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+            },
+            {
+              seat_label: 'F',
+              layout: '_ggggggggggg',
+              direction: 'dddddddddddd',
+              labelNo: '_,D11,D10,D9,D8,D7,D6,D5,D4,D3,D2,D1',
+              Team: '_,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+            },
+            {
+              seat_label: 'G',
+              layout: '_gg_gggggggg',
+              direction: 'dddddddddddd',
+              labelNo: '_,D20,D19,_,Robo,D18,D17,D16,D15,D14,D13,D12',
+              Team: '_,SIV,SIV,_,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+            },
+            {
+              seat_label: 'H',
+              layout: '_ggggggggggg',
+              direction: 'dddddddddddd',
+              labelNo: '_,E11,E10,E9,E8,E7,E6,E5,E4,E3,E2,E1',
+              Team: '_,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+            },
+            {
+              seat_label: 'I',
+              layout: '_ggggggggggg',
+              direction: 'dddddddddddd',
+              labelNo: '_,E22,E21,E20,E19,E18,E17,E16,E15,E14,E13,E12',
+              Team: '_,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+            },
+            {
+              seat_label: 'J',
+              layout: '_ggggggggggg',
+              direction: 'dddddddddddd',
+              labelNo: '_,F11,F10,F9,F8,F7,F6,F5,F4,F3,F2,F1',
+              Team: '_,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+            },
+            {
+              seat_label: 'K',
+              layout: '_ggggggggggg',
+              direction: 'dddddddddddd',
+              labelNo: '_,F22,F21,F20,F19,F18,F17,F16,F15,F14,F13,F12',
+              Team: '_,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
             },
           ],
         },
       ];
       this.processSeatChart(this.seatConfig);
-    }
+    } */
   }
   ngOnInit(): void {
-    // this.getLabDetails();
+    this.getLabDetails();
     this.dataSvc.getProgram().subscribe((res) => {
       if (res) {
         this.programList = res;
@@ -549,7 +620,13 @@ export class VPGLabComponent implements OnInit, OnChanges {
 
       Vendor: this.vendorName,
 
-      AllocatedTo: this.userDetails,
+      AllocatedTo: [
+        {
+          WWID: this.userDetails?.wwid,
+          Name: this.userDetails?.name,
+          Email: this.userDetails?.emailId,
+        },
+      ],
 
       FromWW: this.fromformatWW,
 
@@ -707,7 +784,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
     });
     return flag;
   } */
-  userDetails:any;
+  userDetails: any;
   getUserDetails() {
     /*     let flag = this.checkUserExists();
     if (this.modal.user === '' || this.modal.user === undefined) {
