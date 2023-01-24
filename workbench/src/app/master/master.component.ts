@@ -1,5 +1,7 @@
+import { any } from '@amcharts/amcharts5/.internal/core/util/Array';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { SummaryService } from '../shared/service';
 
 @Component({
   selector: 'app-master',
@@ -13,13 +15,20 @@ export class MasterComponent implements OnInit {
   modalReference:any;
   rowValue:any;
   modal:any={
+    id:'',
     program:'',
     sku:'',
     vendor:'',
     team:''
   };
-
-  constructor(private modalService:NgbModal,config: NgbModalConfig) { 
+  programdataLoader = false;
+  programskuData: any;
+  vendordataLoader = false;
+  vendorData: any;
+  teamdataLoader = false;
+  teamData:any;
+  
+  constructor(private modalService:NgbModal,config: NgbModalConfig, private service: SummaryService,) { 
     config.backdrop = 'static';
     config.size = 'md';
   }
@@ -45,59 +54,165 @@ export class MasterComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.getProgramSkuData();
+    this.getVendorData();
+    this.getTeamData();
   }
 
-   //**** Sorting functionality in table(ascending descending order) ****//
-   setOrderRelease(value: string) {
-    if (this.orderMappedRelease === value) {
-      this.reverseMappedRelease = !this.reverseMappedRelease;
-    }
-    this.orderMappedRelease = value;
+  //***** Calling program SKU Data API****//
+  getProgramSkuData(){
+    this.programdataLoader = false;
+    this.service.getProgramSkuData().subscribe((res) => {
+      debugger;
+      this.programskuData = res;
+      console.log(this.programskuData)
+      this.programdataLoader = true;
+    });
   }
 
-
+  // ***** open modal popup for platform and sku ****** //
   AddRow(addmodal:any){
     this.modalReference=this.modalService.open(addmodal)  
   }
+
+  // ***** Add functionality for platform and sku ****** //
   AddPlatform(){
-    this.masterPlatformData.push({
-      slno:this.modal.slno,
-      program:this.modal.program,
-      sku:this.modal.sku
-    })
+    debugger;
+    let req = {"ProgramName":this.modal.program,"Sku":[this.modal.sku]}
+
+    this.service.getProgramSkuAddData(req).subscribe((res) => {
+      this.programskuData.push({
+        ProgramName:this.modal.program,
+        Sku:this.modal.sku
+      })
+      console.log(this.programskuData,"fdghj")
+    });
+    
     this.modalReference.close();
     // **** to clearing the values *** //
-    this.modal.program = '';
-    this.modal.sku = '';
+    // this.modal.program = '';
+    // this.modal.sku = '';
+  }
+   
+  //***** Calling Vendor Data API****//
+  getVendorData(){
+    this.vendordataLoader = false;
+    this.service.getVendorData().subscribe((res) => {
+      debugger;
+      this.vendorData = res;
+      this.vendordataLoader = true;
+    });
   }
 
+  // ***** open modal popup for Vendor ****** //
   AddVendorRow(addvendormodal:any){
     this.modalReference=this.modalService.open(addvendormodal)  
   }
   
+  // ***** Add functionality for vendor****** //
   AddVendor(){
-    this.masterVendorData.push({
-      slno:this.modal.slno,
-      vendor:this.modal.vendor
-    })
+    let req = {"VendorName":this.modal.vendor}
+
+    this.service.getVendorAddData(req).subscribe((res) => {
+      this.vendorData.push({
+        VendorName:this.modal.vendor
+      })
+    });
+   
     this.modalReference.close();
     // **** to clearing the values *** //
-    this.modal.vendor = '';
+    // this.modal.vendor = '';
   }
 
+  //**** Edit Row functionality for vendor ****//
+  EditVendorRow(editmodal:any,id:any){
+    this.vendorData.forEach((ele:any) => {
+      if(ele.id == id){
+        this.modal.id = ele.id,
+       this.modal.vendor=ele.VendorName
+      }
+    });
+     this.modalReference=this.modalService.open(editmodal)  
+   }
+ 
+   //**** Update Row functionality vendor ****//
+   UpdateVendorTable(){
+    let req = {"id":this.modal.id,"VendorName":this.modal.vendor}
+
+    this.service.getVendorUpdateData(req).subscribe((res) => {
+      // // this.AddVendor();
+      // this.vendorData.forEach((ele: any)=>{
+      //   if(this.modal.id==ele.id){
+      //     ele.id = this.modal.id,
+      //     ele.VendorName = this.modal.vendor
+      //   }
+      // })
+      this.getVendorData();
+    });
+     this.modalReference.close();
+     // **** to clearing the values *** //
+    //  this.modal.vendor = '';
+   }
+
+    //***** Calling Vendor Data API****//
+    getTeamData(){
+      this.teamdataLoader = false;
+      this.service.getTeamData().subscribe((res) => {
+        debugger;
+        this.teamData = res;
+        this.teamdataLoader = true;
+      });
+    }
+
+  // ***** open modal popup for Team ****** //
   AddTeamRow(addteammodal:any){
     this.modalReference=this.modalService.open(addteammodal)  
   }
  
+  // ***** Add functionality for team****** //
   AddTeam(){
-    this.masterTeamData.push({
-      slno:this.modal.slno,
-      team:this.modal.team
+    let req = {"TeamName":this.modal.team}
+
+    this.service.getTeamAddData(req).subscribe((res) => {
+      this.teamData.push({
+        TeamName:this.modal.team
+      })
     })
+    
     this.modalReference.close();
     // **** to clearing the values *** //
-    this.modal.team = '';
+    // this.modal.team = '';
   }
+
+    
+   //**** Edit Row functionality for team table ****//
+   EditTeamRow(editmodal:any,id:any){
+    this.teamData.forEach((ele: any) => {
+      if(ele.id == id){
+       this.modal.id = ele.id,
+       this.modal.team=ele.TeamName
+      }
+    });
+     this.modalReference=this.modalService.open(editmodal)  
+   }
+ 
+   //**** Update Row functionality for team table ****//
+   UpdateTeamTable(){
+    let req = {"id":this.modal.id,"TeamName":this.modal.team}
+
+    this.service.getTeamUpdateData(req).subscribe((res) => {
+      this.getTeamData();
+    })
+    //  this.masterTeamData.forEach(ele=>{
+    //    if(this.modal.slno==ele.slno){
+    //      ele.team = this.modal.team
+    //    }
+    //  })
+     this.modalReference.close();
+       // **** to clearing the values *** //
+      //  this.modal.team = '';
+   }
+
 
   //**** Delete Row functionality platform and  sku table ****//
   DeleteRow(deletemodal:any,index:any) {
@@ -159,49 +274,17 @@ export class MasterComponent implements OnInit {
       }
     })
     this.modalReference.close();
+    // **** to clearing the values *** //
+    this.modal.program = '';
+    this.modal.sku = '';
   }
 
-
-  //**** Edit Row functionality in table ****//
-  EditVendorRow(editmodal:any,slno:any){
-    this.masterVendorData.forEach(element => {
-      if(element.slno == slno){
-       this.modal['vendor']=element.vendor
-      }
-    });
-     this.modalReference=this.modalService.open(editmodal)  
-   }
- 
-   //**** Update Row functionality in table ****//
-   UpdateVendorTable(){
-     this.masterVendorData.forEach(ele=>{
-       if(this.modal.slno==ele.slno){
-         ele.vendor = this.modal.vendor
-       }
-     })
-     this.modalReference.close();
-   }
-
-   
-   //**** Edit Row functionality in table ****//
-  EditTeamRow(editmodal:any,slno:any){
-    this.masterTeamData.forEach(element => {
-      if(element.slno == slno){
-       this.modal['team']=element.team
-      }
-    });
-     this.modalReference=this.modalService.open(editmodal)  
-   }
- 
-   //**** Update Row functionality in table ****//
-   UpdateTeamTable(){
-     this.masterTeamData.forEach(ele=>{
-       if(this.modal.slno==ele.slno){
-         ele.team = this.modal.team
-       }
-     })
-     this.modalReference.close();
-   }
- 
+  //**** Sorting functionality in table(ascending descending order) ****//
+   setOrderRelease(value: string) {
+    if (this.orderMappedRelease === value) {
+      this.reverseMappedRelease = !this.reverseMappedRelease;
+    }
+    this.orderMappedRelease = value;
+  }
 
 }

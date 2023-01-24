@@ -2,11 +2,11 @@
     <div class="content">
       <div class="row user-content">
         <div class="col-4">
-            <div class="table-container">
+            <div class="table-container" *ngIf="programskuData?.length">
                 <div class="btn-add-user">
                     <button class="btn add-btn" (click)="AddRow(addmodal)">Add</button>
                 </div>
-                <table class="table table-bordered user-table">
+                <table class="table table-bordered user-table" *ngIf="programdataLoader">
                     <thead>
                         <tr>
                             <th class="v-align">SL NO.</th>
@@ -18,10 +18,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let data of masterPlatformData | orderBy: orderMappedRelease:reverseMappedRelease: true ; let i=index">
+                        <tr *ngFor="let data of programskuData | orderBy: orderMappedRelease:reverseMappedRelease: true ; let i=index">
                             <td>{{(i+1)}}</td>
-                            <td>{{data.program}}</td>
-                            <td>{{data.sku}}</td>
+                            <td>{{data.ProgramName}}</td>
+                            <td>{{data.Sku}}</td>
                             <!-- <td>{{data.vendor}}</td>
                             <td>{{data.team}}</td> -->
                             <td>
@@ -36,30 +36,24 @@
        
 
         <div class="col-4">
-            <div class="table-container">
+            <div class="table-vendor-container" *ngIf="vendorData?.length">
                 <div class="btn-add-user">
                     <button class="btn add-btn" (click)="AddVendorRow(addvendormodal)">Add</button>
                 </div>
-                <table class="table table-bordered user-table">
+                <table class="table table-bordered user-table" *ngIf="vendordataLoader">
                     <thead>
                         <tr>
                             <th class="v-align">SL NO.</th>
-                            <!-- <th class="v-align" (click)="setOrderRelease('Program')"><span class="sort-by">Program</span></th>
-                            <th class="v-align" (click)="setOrderRelease('SKU')"><span class="sort-by">SKU</span></th> -->
                             <th class="v-align" (click)="setOrderRelease('Vendor')"><span class="sort-by">Vendor</span></th>
-                            <!-- <th class="v-align" (click)="setOrderRelease('TEAM')"><span class="sort-by">Team</span></th> --> 
                             <th class="v-align">ACTION</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let data of masterVendorData | orderBy: orderMappedRelease:reverseMappedRelease: true ; let i=index">
+                        <tr *ngFor="let data of vendorData | orderBy: orderMappedRelease:reverseMappedRelease: true ; let i=index">
                             <td>{{(i+1)}}</td>
-                            <!-- <td>{{data.program}}</td>
-                            <td>{{data.sku}}</td> -->
-                            <td>{{data.vendor}}</td>
-                            <!--<td>{{data.team}}</td> -->
+                            <td>{{data.VendorName}}</td>
                             <td>
-                                <a (click)="EditVendorRow(editvendormodal,data.slno)">Edit</a> |
+                                <a (click)="EditVendorRow(editvendormodal,data.id)">Edit</a> |
                                 <a (click)="DeleteVendorRow(deletevendormodal,i)">Delete</a>
                             </td>
                         </tr>
@@ -70,30 +64,24 @@
         
 
         <div class="col-4">
-            <div class="table-container">
+            <div class="table-vendor-container"  *ngIf="teamData?.length">
                 <div class="btn-add-user">
                     <button class="btn add-btn" (click)="AddTeamRow(addteammodal)">Add</button>
                 </div>
-                <table class="table table-bordered user-table">
+                <table class="table table-bordered user-table" *ngIf="teamdataLoader">
                     <thead>
                         <tr>
                             <th class="v-align">SL NO.</th>
-                            <!-- <th class="v-align" (click)="setOrderRelease('Program')"><span class="sort-by">Program</span></th>
-                            <th class="v-align" (click)="setOrderRelease('SKU')"><span class="sort-by">SKU</span></th> -->
-                            <!--<th class="v-align" (click)="setOrderRelease('Vendor')"><span class="sort-by">Vendor</span></th>--> 
                              <th class="v-align" (click)="setOrderRelease('TEAM')"><span class="sort-by">Team</span></th> 
                             <th class="v-align">ACTION</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let data of masterTeamData | orderBy: orderMappedRelease:reverseMappedRelease: true ; let i=index">
+                        <tr *ngFor="let data of teamData | orderBy: orderMappedRelease:reverseMappedRelease: true ; let i=index">
                             <td>{{(i+1)}}</td>
-                            <!-- <td>{{data.program}}</td>
-                            <td>{{data.sku}}</td> -->
-                            <!-- <td>{{data.vendor}}</td> -->
-                            <td>{{data.team}}</td>
+                            <td>{{data.TeamName}}</td>
                             <td>
-                                <a (click)="EditTeamRow(editteammodal,data.slno)">Edit</a> |
+                                <a (click)="EditTeamRow(editteammodal,data.id)">Edit</a> |
                                 <a (click)="DeleteTeamRow(deleteteammodal,i)">Delete</a>
                             </td>
                         </tr>
@@ -116,7 +104,20 @@
                 <i class='fas fa-times'></i></button>
         </div>
         <div class="modal-body">
-           <div class="float-program">
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">Platform :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.program" class="col-8 form-control shadow-none i-field" required>
+                </div>
+            </div>
+
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">SKU :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.sku" class="col-8 form-control shadow-none i-field" required>
+                </div>
+            </div>
+           <!-- <div class="float-program">
             <label>Program</label>
             <select class="form-select prgm-select" aria-label="Default select example" [(ngModel)]="modal.program">
                 <option>ADL-M</option>
@@ -134,7 +135,7 @@
                 <option>T</option>
                 <option>P</option>
             </select>
-           </div>
+           </div> -->
         </div>
         <div class="modal-footer">
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
@@ -152,15 +153,21 @@
                 <i class='fas fa-times'></i></button>
         </div>
         <div class="modal-body">
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">Vendor :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.vendor" class="col-8 form-control shadow-none i-field" required>
+                </div>
+            </div>
           
-           <div class="float-vendor">
+           <!-- <div class="float-vendor">
             <label>Vendor</label>
             <select class="form-select vendor-select" aria-label="Default select example" [(ngModel)]="modal.vendor">
                 <option>UST</option>
                 <option> Wipro</option>
                 <option>Infosys</option>
             </select>
-           </div>
+           </div> -->
         </div>
         <div class="modal-footer">
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
@@ -178,7 +185,13 @@
                 <i class='fas fa-times'></i></button>
         </div>
         <div class="modal-body">
-           <div class="float-team">
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">Team :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.team" class="col-8 form-control shadow-none i-field" required>
+                </div>
+            </div>
+           <!-- <div class="float-team">
             <label>Team</label>
             <select class="form-select team-select" aria-label="Default select example" [(ngModel)]="modal.team">
                 <option>Domain</option>
@@ -189,7 +202,7 @@
                 <option>Validation</option>
                 <option>Automation/POC/Misc</option>
             </select>
-           </div>
+           </div> -->
         </div>
         <div class="modal-footer">
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
@@ -207,7 +220,20 @@
                 <i class='fas fa-times'></i></button>
         </div>
         <div class="modal-body">
-            <div class="float-program">
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">Platform :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.program" class="col-8 form-control shadow-none i-field" required>
+                </div>
+            </div>
+
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">SKU :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.sku" class="col-8 form-control shadow-none i-field" required>
+                </div>
+            </div>
+            <!-- <div class="float-program">
                 <label>Program</label>
                 <select class="form-select prgm-select" aria-label="Default select example" [(ngModel)]="modal.program">
                     <option>ADL-M</option>
@@ -225,7 +251,7 @@
                     <option>T</option>
                     <option>P</option>
                 </select>
-               </div>
+               </div> -->
         </div>
         <div class="modal-footer">
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Close</button>
@@ -243,14 +269,27 @@
                 <i class='fas fa-times'></i></button>
         </div>
         <div class="modal-body">
-           <div class="float-vendor">
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">Id :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.id" class="col-8 form-control shadow-none i-field" required>
+                </div>
+            </div>
+
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">Vendor :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.vendor" class="col-8 form-control shadow-none i-field" required>
+                </div>
+            </div>
+           <!-- <div class="float-vendor">
             <label>Vendor</label>
             <select class="form-select vendor-select" aria-label="Default select example" [(ngModel)]="modal.vendor">
                 <option>UST</option>
                 <option> Wipro</option>
                 <option>Infosys</option>
             </select>
-           </div>
+           </div> -->
         </div>
         <div class="modal-footer">
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Close</button>
@@ -268,7 +307,20 @@
                 <i class='fas fa-times'></i></button>
         </div>
         <div class="modal-body">
-            <div class="float-team">
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">ID :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.id" class="col-8 form-control shadow-none i-field" required>
+                </div>
+            </div>
+
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">Team :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.team" class="col-8 form-control shadow-none i-field" required>
+                </div>
+            </div>
+            <!-- <div class="float-team">
                 <label>Team</label>
                 <select class="form-select team-select" aria-label="Default select example" [(ngModel)]="modal.team">
                     <option>Domain</option>
@@ -279,7 +331,7 @@
                     <option>Validation</option>
                     <option>Automation/POC/Misc</option>
                 </select>
-            </div>
+            </div> -->
         </div>
         <div class="modal-footer">
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Close</button>
@@ -360,4 +412,60 @@
     </div>
  </ng-template>
  
-    
+<!-- ****** program sku loader option ****** -->
+<div class="overlay-main" *ngIf="!programdataLoader">
+    <div class="spinner-container">
+
+        <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+            <div class="rect6"></div>
+            <div class="rect7"></div>
+            <div class="rect8"></div>
+            <div class="rect9"></div>
+        </div>
+        <div class="proccessing-text">Loading ...</div>
+    </div>
+</div>
+
+<!-- ****** vendor table loader option ****** -->
+<div class="overlay-vendormain" *ngIf="!vendordataLoader">
+    <div class="spinner-container">
+
+        <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+            <div class="rect6"></div>
+            <div class="rect7"></div>
+            <div class="rect8"></div>
+            <div class="rect9"></div>
+        </div>
+        <div class="proccessing-text">Loading ...</div>
+    </div>
+</div>
+
+
+<!-- ****** team table loader option ****** -->
+<div class="overlay-teammain" *ngIf="!teamdataLoader">
+    <div class="spinner-container">
+
+        <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+            <div class="rect6"></div>
+            <div class="rect7"></div>
+            <div class="rect8"></div>
+            <div class="rect9"></div>
+        </div>
+        <div class="proccessing-text">Loading ...</div>
+    </div>
+</div>

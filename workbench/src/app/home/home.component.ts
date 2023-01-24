@@ -565,9 +565,6 @@ export class HomeComponent implements OnInit {
   else if(changestatus == 'table'){
     this.type = "pie table"
   }
-  else if(changestatus == 'pietable'){
-    this.type = "semipie table"
-  }
  }
 
   // *** Labwise chart and table options according to click *** //

@@ -35,6 +35,8 @@ export class StackedChartComponentComponent implements OnInit{
    //**** Chart data ****//
   getLocationChartData() {
     am4core.useTheme(am4themes_animated);
+
+    // **** removing chart logo ***** //
     am4core.options.autoSetClassName = true;
     am4core.options.commercialLicense = true;
   
@@ -49,6 +51,7 @@ export class StackedChartComponentComponent implements OnInit{
     ];
     
     chart.data = this.ChartData;
+    // chart.data=[{}]
     // chart.data = [
     //   {
     //     category: "SRR1",
@@ -152,7 +155,10 @@ export class StackedChartComponentComponent implements OnInit{
      chart.scrollbarX.startGrip.background.fill = am4core.color("#d9d9d9");
      chart.scrollbarX.endGrip.background.fill = am4core.color("#d9d9d9");
      chart.scrollbarX.stroke = am4core.color("#d9d9d9");
-   
+     
+     if (chart.data.length == 0) {
+      chart.scrollbarX.dispose();
+    }
 
   }
 
