@@ -114,7 +114,7 @@
                                         <select class="form-select location_select" aria-label="Default select example"
                                             [(ngModel)]="teamName">
                                             <option selected value="">Select Team</option>
-                                            <option *ngFor="let loca of teamList[0].TeamName" [ngValue]="loca">
+                                            <option *ngFor="let loca of teamList?.TeamName" [ngValue]="loca">
                                                 {{loca}}
                                             </option>
                                         </select>
@@ -154,7 +154,7 @@
                                         <select class="form-select location_select" aria-label="Default select example"
                                             [(ngModel)]="vendorName">
                                             <option selected value="">Select Vendor</option>
-                                            <option *ngFor="let locat of vendorList[0].Vendors" [ngValue]="locat">
+                                            <option *ngFor="let locat of vendorList?.Vendors" [ngValue]="locat">
                                                 {{locat}}
                                             </option>
                                         </select>
