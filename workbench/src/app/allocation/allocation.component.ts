@@ -51,16 +51,14 @@ export class AllocationComponent implements OnInit {
     config.size = 'lg';
   }
   locationList: any;
-  defaultValue = 'SRR2-1F CRD-4-BA-SRR2';
+  defaultValue = 'SRR-2-CRD-4';
   labDetails: any;
   parentLabDetailsAdded(eventData: any) {
-    
     this.labDetails = eventData;
   }
   ngOnInit(): void {
     this.dataSvc.GetLocations().subscribe((res) => {
       if (res) {
-        
         this.locationList = res;
       }
     });

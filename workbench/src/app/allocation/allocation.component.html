@@ -13,8 +13,7 @@
                     <select class="form-select cus_select" aria-label="Default select example"
                         [(ngModel)]="defaultValue">
                         <option *ngFor="let locat of locationList?.LabLocations" [ngValue]="locat">{{locat}}</option>
-                        <option value="SRR-2-CRD16">SRR-2-CRD16</option>
-                        <option value="SRR-2-CRD 5">SRR-2-CRD 5</option>
+                        <!--   <option value="SRR-2-CRD 5">SRR-2-CRD 5</option> -->
                     </select>
                 </div>
                 <!--  <div class="col-1 float_left">
@@ -47,7 +46,5 @@
             </div>
         </div>
     </ng-container>
-    <app-vpg-lab
-        *ngIf="defaultValue == 'SRR2-1F CRD-4-BA-SRR2' || defaultValue == 'SRR-2-CRD16'|| defaultValue =='SRR-2-CRD 5'"
-        [defaultValue]="defaultValue" (parentLabDetailsCreated)=parentLabDetailsAdded($event)></app-vpg-lab>
+    <app-vpg-lab [defaultValue]="defaultValue" (parentLabDetailsCreated)=parentLabDetailsAdded($event)></app-vpg-lab>
 </div>
