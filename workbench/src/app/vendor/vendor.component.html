@@ -1,0 +1,133 @@
+<div class="master">
+    <div class="content">
+        <div class="table-vendor-container" *ngIf="vendorData?.length">
+            <div class="btn-add-user">
+                <button class="btn add-btn" (click)="AddVendorRow(addvendormodal)">Add</button>
+            </div>
+            <table class="table table-bordered user-table" *ngIf="vendordataLoader">
+                <thead>
+                    <tr>
+                        <th class="v-align">SL NO.</th>
+                        <th class="v-align" (click)="setOrderRelease('Vendor')"><span class="sort-by">Vendor</span></th>
+                        <th class="v-align">ACTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of vendorData | orderBy: orderMappedRelease:reverseMappedRelease: true ; let i=index">
+                        <td>{{(i+1)}}</td>
+                        <td>{{data.VendorName}}</td>
+                        <td>
+                            <a (click)="EditVendorRow(editvendormodal,data.id)">Edit</a> |
+                            <a (click)="DeleteVendorRow(deletevendormodal,i)">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- =========***** Modal popup for Add row for vendor*****=============-->
+<ng-template #addvendormodal let-c="close" let-d="dismiss">
+    <div class="modal-add">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="testModalLabel">&nbsp; Add Details
+            </h1>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <i class='fas fa-times'></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">Vendor :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.vendor" class="col-8 form-control shadow-none i-field" required>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
+            <button type="button" class="btn back-btn" (click)="AddVendor()">Save</button>
+        </div>
+     </div>
+</ng-template>
+
+ <!-- =========***** Modal popup for Edit row for vendor*****=============-->
+ <ng-template #editvendormodal let-c="close" let-d="dismiss">
+    <div class="modal-edit">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="testModalLabel">Update Table</h1>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <i class='fas fa-times'></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">Id :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.id" class="col-8 form-control shadow-none i-field" required>
+                </div>
+            </div>
+
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">Vendor :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.vendor" class="col-8 form-control shadow-none i-field" required>
+                </div>
+            </div>
+           <!-- <div class="float-vendor">
+            <label>Vendor</label>
+            <select class="form-select vendor-select" aria-label="Default select example" [(ngModel)]="modal.vendor">
+                <option>UST</option>
+                <option> Wipro</option>
+                <option>Infosys</option>
+            </select>
+           </div> -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Close</button>
+            <button type="button" class="btn back-btn" (click)="UpdateVendorTable()">Update</button>
+        </div>
+    </div>
+</ng-template>
+
+ <!-- =========***** Modal popup for Delete row*****=============-->
+ <ng-template #deletevendormodal let-c="close" let-d="dismiss">
+    <div class="modal-delete">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5">Delete Row</h1>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+        <form>
+            <div class="container">
+            
+                <p class="para-style">Are you sure you want to delete?</p>
+            </div>
+        </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
+            <button type="button" (click)="ConfirmVendorDelete()" class="btn delete-btn btn-danger">Delete</button>
+        </div>
+    </div>
+ </ng-template>
+
+ <!-- ****** vendor table loader option ****** -->
+<div class="overlay-main" *ngIf="!vendordataLoader">
+    <div class="spinner-container">
+
+        <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+            <div class="rect6"></div>
+            <div class="rect7"></div>
+            <div class="rect8"></div>
+            <div class="rect9"></div>
+        </div>
+        <div class="proccessing-text">Loading ...</div>
+    </div>
+</div>

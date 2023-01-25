@@ -6,9 +6,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
+  changeText: boolean;
+  
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  changeView() {
+    this.changeText = false;
   }
 
 }

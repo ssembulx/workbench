@@ -38,7 +38,19 @@
             <a routerLink="/allocation">Allocation</a>
             <a routerLink="/approve">Approve</a>
             <a routerLink="/report">Report</a>
-            <a routerLink="/master">Master</a>
+            <div class="dropdown d-flex">
+                <button class="dropdown_btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Master <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuButton" style="margin-top: 28px;">
+                  <a [routerLink]="['/program']" (click)="changeView()" class="dropdown-item">Platform</a>
+                  <a [routerLink]="['/sku']" (click)="changeView()" class="dropdown-item">SKU</a>
+                  <a [routerLink]="['/vendor']" (click)="changeView()" class="dropdown-item">Vendor</a>
+                  <a [routerLink]="['/team']" (click)="changeView()" class="dropdown-item">Team</a>
+                  <!-- <a [routerLink]="['/NicAnalyze']" (click)="changeView()" class="dropdown-item">NIC Trends</a> -->
+                </div>
+              </div>
+            <!-- <a routerLink="/master">Master</a> -->
             <!-- <a routerLink="/user">User</a> -->
             <a routerLink="/publish">Publish</a>
             <!--  <ng-container *ngFor="let item of SideNavMenu; let i = index">
