@@ -1037,6 +1037,7 @@ span.sort-by:after {
     font-weight: bolder;
     font-size: 15px;
     font-family: Intel Clear, tahoma, Helvetica, Arial, sans-serif;
+    margin-left: -43px;
 }
 
 .spinner {
@@ -1116,11 +1117,11 @@ span.sort-by:after {
 .overlay-main {
     position: absolute;
     width: 49%;
-    height: 59vh;
+    height: 63vh;
     margin-left: 1%;
     background: none no-repeat scroll 0 0 white;
     opacity: 0.85;
-    margin-top: -928px;
+    margin-top: -935px;
 }
 
 @-webkit-keyframes sk-stretchdelay {

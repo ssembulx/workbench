@@ -65,6 +65,48 @@ export class SummaryService {
   public getReportData(): Observable<any> {
     return this.http.get(this.ServiceURL + 'home/ReportView/');
   }
+
+  // ***** Master view program sku data API ******//
+  public getProgramSkuData(): Observable<any> {
+    return this.http.get(this.ServiceURL + 'home/ProgramSkuData/');
+  }
+
+  // ***** Master view add program sku data API ******//
+  public getProgramSkuAddData(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/ProgramSkuData/',req);
+  }
+
+  // ***** Master view vendor data API ******//
+  public getVendorData(): Observable<any> {
+    return this.http.get(this.ServiceURL + 'home/VendorData/');
+  }
+
+  // ***** Master view add vendor data API ******//
+  public getVendorAddData(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/VendorData/',req);
+  }
+
+  // ***** Master view update vendor data API ******//
+  public  getVendorUpdateData(req: any): Observable<any> {
+    return this.http.put(this.ServiceURL + 'home/VendorData/',req);
+  }
+
+  // ***** Master view add team data API ******//
+  public getTeamData(): Observable<any> {
+    return this.http.get(this.ServiceURL + 'home/TeamData/');
+  }
+
+  // ***** Master view add team data API ******//
+  public getTeamAddData(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/TeamData/',req);
+  }
+
+  // ***** Master view add team data API ******//
+  public getTeamUpdateData(req: any): Observable<any> {
+    return this.http.put(this.ServiceURL + 'home/TeamData/',req);
+  }
+  
+  
   // constructor(private http: HttpClient) {}
 
   // public LabProgramVendorSummary(): Observable<any> {
