@@ -91,6 +91,11 @@ export class SummaryService {
     return this.http.put(this.ServiceURL + 'home/VendorData/',req);
   }
 
+  // ***** Master view delete vendor data API ******//
+  public  getVendordelete(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/DeleteVendor/',req);
+  }
+
   // ***** Master view add team data API ******//
   public getTeamData(): Observable<any> {
     return this.http.get(this.ServiceURL + 'home/TeamData/');
@@ -104,6 +109,11 @@ export class SummaryService {
   // ***** Master view add team data API ******//
   public getTeamUpdateData(req: any): Observable<any> {
     return this.http.put(this.ServiceURL + 'home/TeamData/',req);
+  }
+  
+   // ***** Master view add team data API ******//
+   public getTeamDelete(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/DeleteTeam/',req);
   }
   
   

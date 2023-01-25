@@ -96,15 +96,21 @@ AddTeam(){
  }
 
    //**** Delete Row functionality in table ****//
-   DeleteTeamRow(deleteteammodal:any,index:any) {
-    this.rowValue = index;
+   DeleteTeamRow(deleteteammodal:any,id:any) {
+    this.rowValue = id;
     this.modalReference=this.modalService.open(deleteteammodal)
   }
 
   //**** Confirm Delete Row functionality for team table ****//
   ConfirmTeamDelete()
   {
-    this.teamData.splice(this.rowValue, 1);
+    debugger
+    let req = {"id":this.rowValue}
+
+    this.service.getTeamDelete(req).subscribe((res) =>{
+      this.getTeamData();
+    })
+    // this.teamData.splice(this.rowValue);
     this.modalReference.close();
   }
 

@@ -30,12 +30,12 @@ export class PlatformComponent implements OnInit {
   }
 
   //**** Static data for table ****//
-  masterPlatformData = [
-    { slno: 1, programName: "Alder Lake", platform:"ADL", createdBy:"Sembulingam, SakthirajanX"},
-    { slno: 2, programName: "Meteor", platform:"MTL", createdBy:"Govindaiah, ManoharX"},
-    { slno: 3, programName: "Rocket Lake", platform:"RKL", createdBy:"Manjunath, ArundathiX"},
-    { slno: 3, programName: "Raptor Lake", platform:"RPL", createdBy:"Rajagopal, SaravananX"},
-  ]
+  // masterPlatformData = [
+  //   { slno: 1, programName: "Alder Lake", platform:"ADL", createdBy:"Sembulingam, SakthirajanX"},
+  //   { slno: 2, programName: "Meteor", platform:"MTL", createdBy:"Govindaiah, ManoharX"},
+  //   { slno: 3, programName: "Rocket Lake", platform:"RKL", createdBy:"Manjunath, ArundathiX"},
+  //   { slno: 3, programName: "Raptor Lake", platform:"RPL", createdBy:"Rajagopal, SaravananX"},
+  // ]
 
   ngOnInit(): void {
     this.getProgramSkuData();
@@ -60,15 +60,14 @@ export class PlatformComponent implements OnInit {
   // ***** Add functionality for platform and sku ****** //
   AddPlatform(){
     debugger;
-    // let req = {"ProgramName":this.modal.program,"Sku":[this.modal.sku]}
+    let req = {"ProgramName":this.modal.program,"Sku":[this.modal.sku]}
 
-    // this.service.getProgramSkuAddData(req).subscribe((res) => {
-      this.masterPlatformData.push({
-        slno:this.modal.slno,
-        programName:this.modal.programName,
-        platform:this.modal.platform,
-        createdBy:this.modal.createdBy
-      // console.log(this.programskuData,"fdghj")
+    this.service.getProgramSkuAddData(req).subscribe((res) => {
+      this.programskuData.push({
+        ProgramName:this.modal.program,
+        Sku:this.modal.sku
+      })
+      console.log(this.programskuData,"fdghj")
     });
     
     this.modalReference.close();
@@ -77,9 +76,10 @@ export class PlatformComponent implements OnInit {
     // this.modal.sku = '';
   }
 
+
    //**** Edit Row functionality in table ****//
    EditRow(editmodal:any,slno:any){
-    this.masterPlatformData.forEach(element => {
+    this.programskuData.forEach((element:any) => {
       if(element.slno == slno){
        this.modal['programName']=element.programName
        this.modal['platform']=element.platform
@@ -91,7 +91,7 @@ export class PlatformComponent implements OnInit {
    //**** Update Row functionality in table ****//
    UpdateTable(){
      debugger
-     this.masterPlatformData.forEach(ele=>{
+     this.programskuData.forEach((ele:any)=>{
        if(this.modal.slno==ele.slno){
          ele.programName = this.modal.programName
          ele.platform = this.modal.platform
@@ -113,7 +113,7 @@ export class PlatformComponent implements OnInit {
   //**** Confirm Delete Row functionality for platform annd sku table ****//
   ConfirmDelete()
   {
-    this.masterPlatformData.splice(this.rowValue, 1);
+    this.programskuData.splice(this.rowValue, 1);
     this.modalReference.close();
   }
 

@@ -98,15 +98,21 @@ export class VendorComponent implements OnInit {
    }
 
     //**** Delete Row functionality for vendor table ****//
-    DeleteVendorRow(deletevendormodal:any,index:any) {
-      this.rowValue = index;
+    DeleteVendorRow(deletevendormodal:any,id:any) {
+      this.rowValue = id;
       this.modalReference=this.modalService.open(deletevendormodal)
     }
   
     //**** Confirm Delete Row functionality for vendor table ****//
     ConfirmVendorDelete()
     {
-      this.vendorData.splice(this.rowValue, 1);
+      debugger
+      let req = {"id":this.rowValue}
+      this.service.getVendordelete(req).subscribe((res)=> {
+        // this.vendorData.splice(this.rowValue);
+        this.getVendorData();
+      })
+     
       this.modalReference.close();
     }
 

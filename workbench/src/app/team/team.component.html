@@ -2,7 +2,7 @@
     <div class="content">
         <div class="table-vendor-container"  *ngIf="teamData?.length">
             <div class="btn-add-user">
-                <button class="btn add-btn" (click)="AddTeamRow(addteammodal)">Add</button>
+                <button class="btn add-btn" (click)="AddTeamRow(addteammodal)"><i class="fa fa-plus" aria-hidden="true"></i>Add</button>
             </div>
             <table class="table table-bordered user-table" *ngIf="teamdataLoader">
                 <thead>
@@ -18,7 +18,7 @@
                         <td>{{data.TeamName}}</td>
                         <td>
                             <a (click)="EditTeamRow(editteammodal,data.id)">Edit</a> |
-                            <a (click)="DeleteTeamRow(deleteteammodal,i)">Delete</a>
+                            <a (click)="DeleteTeamRow(deleteteammodal,data.id)">Delete</a>
                         </td>
                     </tr>
                 </tbody>
@@ -27,7 +27,7 @@
     </div>
 </div>
 
-
+<!-- =========***** Modal popup for add row for team*****=============-->
 <ng-template #addteammodal let-c="close" let-d="dismiss">
     <div class="modal-add">
         <div class="modal-header">
@@ -43,18 +43,6 @@
                     <input type="text" [(ngModel)]="modal.team" class="col-8 form-control shadow-none i-field" required>
                 </div>
             </div>
-           <!-- <div class="float-team">
-            <label>Team</label>
-            <select class="form-select team-select" aria-label="Default select example" [(ngModel)]="modal.team">
-                <option>Domain</option>
-                <option> Debug</option>
-                <option>Execution</option>
-                <option>Pnp</option>
-                <option>Integration</option>
-                <option>Validation</option>
-                <option>Automation/POC/Misc</option>
-            </select>
-           </div> -->
         </div>
         <div class="modal-footer">
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
@@ -85,18 +73,6 @@
                     <input type="text" [(ngModel)]="modal.team" class="col-8 form-control shadow-none i-field" required>
                 </div>
             </div>
-            <!-- <div class="float-team">
-                <label>Team</label>
-                <select class="form-select team-select" aria-label="Default select example" [(ngModel)]="modal.team">
-                    <option>Domain</option>
-                    <option> Debug</option>
-                    <option>Execution</option>
-                    <option>Pnp</option>
-                    <option>Integration</option>
-                    <option>Validation</option>
-                    <option>Automation/POC/Misc</option>
-                </select>
-            </div> -->
         </div>
         <div class="modal-footer">
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Close</button>

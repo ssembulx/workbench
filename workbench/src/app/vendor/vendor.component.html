@@ -18,7 +18,7 @@
                         <td>{{data.VendorName}}</td>
                         <td>
                             <a (click)="EditVendorRow(editvendormodal,data.id)">Edit</a> |
-                            <a (click)="DeleteVendorRow(deletevendormodal,i)">Delete</a>
+                            <a (click)="DeleteVendorRow(deletevendormodal,data.id)">Delete</a>
                         </td>
                     </tr>
                 </tbody>
@@ -73,14 +73,6 @@
                     <input type="text" [(ngModel)]="modal.vendor" class="col-8 form-control shadow-none i-field" required>
                 </div>
             </div>
-           <!-- <div class="float-vendor">
-            <label>Vendor</label>
-            <select class="form-select vendor-select" aria-label="Default select example" [(ngModel)]="modal.vendor">
-                <option>UST</option>
-                <option> Wipro</option>
-                <option>Infosys</option>
-            </select>
-           </div> -->
         </div>
         <div class="modal-footer">
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Close</button>
@@ -101,8 +93,8 @@
         <div class="modal-body">
         <form>
             <div class="container">
-            
-                <p class="para-style">Are you sure you want to delete?</p>
+                  
+                <p class="para-style">Are you sure you want to delete idno {{this.rowValue}} </p>
             </div>
         </form>
         </div>
@@ -113,7 +105,7 @@
     </div>
  </ng-template>
 
- <!-- ****** vendor table loader option ****** -->
+<!-- ****** vendor table loader option ****** -->
 <div class="overlay-main" *ngIf="!vendordataLoader">
     <div class="spinner-container">
 
