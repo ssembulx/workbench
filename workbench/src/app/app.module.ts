@@ -46,6 +46,10 @@ import { ToastrModule } from 'ngx-toastr';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { SemicirclePieChartComponent } from './semicircle-pie-chart/semicircle-pie-chart.component';
 import { PublishComponent } from './publish/publish.component';
+import { PlatformComponent } from './platform/platform.component';
+import { SkuComponent } from './sku/sku.component';
+import { VendorComponent } from './vendor/vendor.component';
+import { TeamComponent } from './team/team.component';
 /* import { ToastrService } from 'ngx-toastr'; */
 @NgModule({
   declarations: [
@@ -78,6 +82,10 @@ import { PublishComponent } from './publish/publish.component';
     SearchDuration,
     SemicirclePieChartComponent,
     PublishComponent,
+    PlatformComponent,
+    SkuComponent,
+    VendorComponent,
+    TeamComponent,
   ],
   imports: [
     BrowserModule,

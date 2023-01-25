@@ -221,3 +221,48 @@ h3 {
 .spark {
     fill: #00c7fd;
 }
+
+.dropdown:hover .dropdown-menu, button:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    transition: all 0.3s;
+    -webkit-box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.75);
+  
+  }
+  .dropdown_btn{
+     background-color: #000;
+     color: #ffffff;
+     outline: none;
+     border: none;
+     margin: 4px 7px;
+     cursor: pointer !important;
+     /* z-index: 500; */
+  }
+  .dropdown-item{
+    padding: 0.25rem 0.8rem !important;
+    background-color: #0071c5;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+  }
+  .dropdown-item:hover{
+    background-color: #989898;
+    color: #ffffff !important;
+  }
+  .dropdown-toggle::after{
+    display: none !important;
+  }
+  .fa-angle-down{
+    font-size: 15px;
+    margin-left: 2px;
+    vertical-align: middle;
+  }
+  .dropdown-menu a{
+    color: #ffffff;
+    cursor: pointer;
+  }
+::ng-deep .dropdown-menu{
+    margin-top: 28px;
+}
+  
