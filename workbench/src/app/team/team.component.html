@@ -1,9 +1,13 @@
 <div class="master">
     <div class="content">
         <div class="table-vendor-container"  *ngIf="teamData?.length">
-            <div class="btn-add-user">
-                <button class="btn add-btn" (click)="AddTeamRow(addteammodal)"><i class="fa fa-plus" aria-hidden="true"></i>Add</button>
+            <div class="title">
+                <h4>Team Details</h4>
+                <div class="btn-add-user">
+                    <button class="btn add-btn" (click)="AddTeamRow(addteammodal)">Add</button>
+                </div>
             </div>
+           
             <table class="table table-bordered user-table" *ngIf="teamdataLoader">
                 <thead>
                     <tr>
@@ -93,7 +97,6 @@
         <div class="modal-body">
         <form>
             <div class="container">
-            
                 <p class="para-style">Are you sure you want to delete?</p>
             </div>
         </form>

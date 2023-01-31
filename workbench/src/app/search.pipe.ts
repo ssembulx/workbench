@@ -21,8 +21,8 @@ export class SearchPipe implements PipeTransform {
                     : val.Sku.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
                 ||  (val.Vendor === null ? val.Vendor
                     : val.Vendor.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
-                ||  (val.AllocatedTo === null ? val.AllocatedTo
-                    : val.AllocatedTo.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+                ||  (val.AllocatedTo[0].Name === null ? val.AllocatedTo[0].Name
+                    : val.AllocatedTo[0].Name.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
                 ||  (val.FromWW === null ? val.FromWW
                     : val.FromWW.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
                 ||  (val.ToWW === null ? val.ToWW
@@ -138,8 +138,8 @@ export class SearchAllocated implements PipeTransform {
         }
         return value.filter((val: any) => {
             return (
-                val.AllocatedTo === null ? val.AllocatedTo
-                    : val.AllocatedTo.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+                val.AllocatedTo[0].Name === null ? val.AllocatedTo[0].Name
+                    : val.AllocatedTo[0].Name.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
         });
     }
 }
@@ -214,6 +214,24 @@ export class SearchDuration implements PipeTransform {
             return (
                 val.Duration === null ? val.Duration
                     : val.Duration.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+        });
+    }
+}
+
+@Pipe({
+    name: 'searchFilterDetails',
+    pure: false
+})
+export class SearchBenchdetails implements PipeTransform {
+
+    transform(value: any, args?: any): any {
+        if (!args) {
+            return value;
+        }
+        return value.filter((val: any) => {
+            return (
+                val.BenchData === null ? val.BenchData
+                    : val.BenchData.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
         });
     }
 }

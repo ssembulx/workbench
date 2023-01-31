@@ -66,15 +66,45 @@ export class SummaryService {
     return this.http.get(this.ServiceURL + 'home/ReportView/');
   }
 
-  // ***** Master view program sku data API ******//
-  public getProgramSkuData(): Observable<any> {
-    return this.http.get(this.ServiceURL + 'home/ProgramSkuData/');
+  // ***** Master view program data API ******//
+  public getProgramData(): Observable<any> {
+    return this.http.get(this.ServiceURL + 'home/AddProgram/');
   }
 
-  // ***** Master view add program sku data API ******//
-  public getProgramSkuAddData(req: any): Observable<any> {
-    return this.http.post(this.ServiceURL + 'home/ProgramSkuData/',req);
+  // ***** Master view add program data API ******//
+  public getProgramAddData(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/AddProgram/',req);
   }
+
+   // ***** Master view update program data API ******//
+   public  getProgramUpdateData(req: any): Observable<any> {
+    return this.http.put(this.ServiceURL + 'home/EditDeleteProgram/',req);
+  }
+
+   // ***** Master view delete program data API ******//
+   public  getProgramDeleteData(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/EditDeleteProgram/',req);
+  }
+
+   // ***** Master view Sku data API ******//
+   public getSkuData(): Observable<any> {
+    return this.http.get(this.ServiceURL + 'home/AddSku/');
+  }
+
+    // ***** Master view add sku data API ******//
+    public getSkuAddData(req: any): Observable<any> {
+      return this.http.post(this.ServiceURL + 'home/AddSku/',req);
+    }
+
+    // ***** Master view update sku data API ******//
+   public  getSkuUpdateData(req: any): Observable<any> {
+    return this.http.put(this.ServiceURL + 'home/EditDeleteSku/',req);
+  }
+
+     // ***** Master view delete sku data API ******//
+     public  getSkuDeleteData(req: any): Observable<any> {
+      return this.http.post(this.ServiceURL + 'home/EditDeleteSku/',req);
+    }
 
   // ***** Master view vendor data API ******//
   public getVendorData(): Observable<any> {

@@ -22,6 +22,7 @@ export class ReportComponent implements OnInit {
   searchBench: '';
   searchTeam: '';
   searchDuration: '';
+  searchBenchDetails: '';
   reportData: any;
   reportdataLoader = false;
 
@@ -86,6 +87,7 @@ export class ReportComponent implements OnInit {
     this.searchfromWW = '';
     this.searchtoWW = '';
     this.searchBench = '';
+    this.searchBenchDetails = '';
     this.searchTeam = '';
     this.searchDuration = '';
   }

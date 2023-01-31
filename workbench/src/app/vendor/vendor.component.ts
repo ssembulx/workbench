@@ -15,18 +15,10 @@ export class VendorComponent implements OnInit {
   rowValue:any;
   modal:any={
     id:'',
-    program:'',
-    sku:'',
     vendor:'',
-    team:''
   };
-  programdataLoader = false;
-  programskuData: any;
   vendordataLoader = false;
   vendorData: any;
-  teamdataLoader = false;
-  teamData:any;
-  
 
   constructor(private modalService:NgbModal,config: NgbModalConfig, private service: SummaryService,) { 
     config.backdrop = 'static';
@@ -56,6 +48,7 @@ export class VendorComponent implements OnInit {
   AddVendor(){
     let req = {"VendorName":this.modal.vendor}
 
+    // **** Calling Add row API***** //
     this.service.getVendorAddData(req).subscribe((res) => {
       this.vendorData.push({
         VendorName:this.modal.vendor
@@ -64,11 +57,13 @@ export class VendorComponent implements OnInit {
    
     this.modalReference.close();
     // **** to clearing the values *** //
-    // this.modal.vendor = '';
+    this.modal.vendor = '';
   }
+  buttonClicked: boolean = false;
 
   //**** Edit Row functionality for vendor ****//
-  EditVendorRow(editmodal:any,id:any){
+  EditVendorRow(editmodal:any,id:any){  
+    // window.location.reload(); 
     this.vendorData.forEach((ele:any) => {
       if(ele.id == id){
         this.modal.id = ele.id,
@@ -82,19 +77,13 @@ export class VendorComponent implements OnInit {
    UpdateVendorTable(){
     let req = {"id":this.modal.id,"VendorName":this.modal.vendor}
 
+    // **** Calling Update row API***** //
     this.service.getVendorUpdateData(req).subscribe((res) => {
-      // // this.AddVendor();
-      // this.vendorData.forEach((ele: any)=>{
-      //   if(this.modal.id==ele.id){
-      //     ele.id = this.modal.id,
-      //     ele.VendorName = this.modal.vendor
-      //   }
-      // })
       this.getVendorData();
     });
      this.modalReference.close();
      // **** to clearing the values *** //
-    //  this.modal.vendor = '';
+     this.modal.vendor = '';
    }
 
     //**** Delete Row functionality for vendor table ****//
@@ -108,6 +97,7 @@ export class VendorComponent implements OnInit {
     {
       debugger
       let req = {"id":this.rowValue}
+      // **** Calling Delete row API***** //
       this.service.getVendordelete(req).subscribe((res)=> {
         // this.vendorData.splice(this.rowValue);
         this.getVendorData();

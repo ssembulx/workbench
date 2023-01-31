@@ -1,9 +1,13 @@
 <div class="master">
     <div class="content">
         <div class="table-vendor-container" *ngIf="vendorData?.length">
-            <div class="btn-add-user">
-                <button class="btn add-btn" (click)="AddVendorRow(addvendormodal)">Add</button>
+            <div class="title">
+                <h4>Vendor Details</h4>
+                <div class="btn-add-user">
+                    <button class="btn add-btn" (click)="AddVendorRow(addvendormodal)">Add</button>
+                </div>
             </div>
+           
             <table class="table table-bordered user-table" *ngIf="vendordataLoader">
                 <thead>
                     <tr>
@@ -92,9 +96,8 @@
         </div>
         <div class="modal-body">
         <form>
-            <div class="container">
-                  
-                <p class="para-style">Are you sure you want to delete idno {{this.rowValue}} </p>
+            <div class="container">           
+                <p class="para-style">Are you sure you want to delete? </p>
             </div>
         </form>
         </div>

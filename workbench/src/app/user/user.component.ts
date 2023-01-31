@@ -24,7 +24,7 @@ export class UserComponent implements OnInit {
 
   constructor(private modalService:NgbModal,config: NgbModalConfig) { 
     config.backdrop = 'static';
-    config.size = 'lg';
+    config.size = 'md';
   }
 
   //**** Static data for table ****//

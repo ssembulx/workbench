@@ -14,15 +14,16 @@ export class PlatformComponent implements OnInit {
   modalReference:any;
   rowValue:any;
   modal:any={
+    id:'',
     programName:'',
-    platform:''
+    programShortName:'',
+    platformShortName:'',
+    skuName:''
   };
   programdataLoader = false;
-  programskuData: any;
-  vendordataLoader = false;
-  vendorData: any;
-  teamdataLoader = false;
-  teamData:any;
+  programData: any;
+  skudataLoader = false;
+  skuData: any;
 
   constructor(private modalService:NgbModal,config: NgbModalConfig, private service: SummaryService,) { 
     config.backdrop = 'static';
@@ -38,16 +39,16 @@ export class PlatformComponent implements OnInit {
   // ]
 
   ngOnInit(): void {
-    this.getProgramSkuData();
+    this.getProgramData();
+    this.getSkuData();
   }
 
-   //***** Calling program SKU Data API****//
-   getProgramSkuData(){
+   //***** Calling program Data API****//
+   getProgramData(){
     this.programdataLoader = false;
-    this.service.getProgramSkuData().subscribe((res) => {
-      debugger;
-      this.programskuData = res;
-      console.log(this.programskuData)
+    this.service.getProgramData().subscribe((res:any) => {
+      this.programData = res;
+      console.log(this.programData)
       this.programdataLoader = true;
     });
   }
@@ -59,63 +60,142 @@ export class PlatformComponent implements OnInit {
 
   // ***** Add functionality for platform and sku ****** //
   AddPlatform(){
-    debugger;
-    let req = {"ProgramName":this.modal.program,"Sku":[this.modal.sku]}
+    let req = {"ProgramShortName":this.modal.programShortName,"ProgramName":this.modal.programName}
 
-    this.service.getProgramSkuAddData(req).subscribe((res) => {
-      this.programskuData.push({
-        ProgramName:this.modal.program,
-        Sku:this.modal.sku
+    // **** Calling Add row API***** //
+    this.service.getProgramAddData(req).subscribe((res:any) => {
+      this.programData.push({
+        ProgramShortName:this.modal.programShortName,
+        ProgramName:this.modal.programName,
       })
-      console.log(this.programskuData,"fdghj")
+      console.log(this.programData,"fdghj")
     });
     
     this.modalReference.close();
     // **** to clearing the values *** //
-    // this.modal.program = '';
-    // this.modal.sku = '';
+    // this.modal.programName = '';
+    // this.modal.programShortName = '';
   }
 
 
-   //**** Edit Row functionality in table ****//
-   EditRow(editmodal:any,slno:any){
-    this.programskuData.forEach((element:any) => {
-      if(element.slno == slno){
-       this.modal['programName']=element.programName
-       this.modal['platform']=element.platform
+   //**** Edit Row functionality in platform table ****//
+   EditPlatformRow(editmodal:any,id:any){
+    this.programData.forEach((element:any) => {
+      if(element.id == id){
+        this.modal.id = element.id,
+        this.modal.programShortName=element.ProgramShortName,
+       this.modal.programName=element.ProgramName
       }
     });
      this.modalReference=this.modalService.open(editmodal)  
    }
  
-   //**** Update Row functionality in table ****//
-   UpdateTable(){
-     debugger
-     this.programskuData.forEach((ele:any)=>{
-       if(this.modal.slno==ele.slno){
-         ele.programName = this.modal.programName
-         ele.platform = this.modal.platform
-       }
-     })
+   //**** Update Row functionality in platform table ****//
+   UpdatePlatformTable(){
+     let req = {"id":this.modal.id,"ProgramName":this.modal.programName,"ProgramShortName":this.modal.programShortName}
+
+     // **** Calling Update row API***** //
+     this.service.getProgramUpdateData(req).subscribe((res:any)=>{
+        this.getProgramData();
+     });
      this.modalReference.close();
      // **** to clearing the values *** //
      this.modal.programName = '';
-     this.modal.platform = '';
+    this.modal.programShortName = '';
    }
 
    
-  //**** Delete Row functionality platform and  sku table ****//
-  DeleteRow(deletemodal:any,index:any) {
-    this.rowValue = index;
+  //**** Delete Row functionality platform table ****//
+  DeletePlatformRow(deletemodal:any,id:any) {
+    this.rowValue = id;
     this.modalReference=this.modalService.open(deletemodal)
   }
 
   //**** Confirm Delete Row functionality for platform annd sku table ****//
-  ConfirmDelete()
+  ConfirmPlatformDelete()
   {
-    this.programskuData.splice(this.rowValue, 1);
+    let req = {"id":this.rowValue}
+
+    // **** Calling Delete row API***** //
+    this.service.getProgramDeleteData(req).subscribe((res:any)=>{
+       this.getProgramData();
+    });
     this.modalReference.close();
   }
+
+  // *********Sku Data******** // 
+  getSkuData(){
+    this.skudataLoader = false;
+    this.service.getSkuData().subscribe((res:any) => {
+      this.skuData = res;
+      console.log(this.skuData)
+      this.skudataLoader = true;
+    });
+  }
+  // ***** open modal popup for sku****** //
+  AddSkuRow(addskumodal:any){
+    this.modalReference=this.modalService.open(addskumodal)  
+  }
+
+  // ***** Add functionality for sku ****** //
+  AddSku(){
+    let req = {"ProgramShortName":this.modal.platformShortName,"SkuName":this.modal.skuName}
+
+    this.service.getSkuAddData(req).subscribe((res:any) => {
+      this.getSkuData();
+      console.log(this.skuData,"fdghj")
+    });
+    
+    this.modalReference.close();
+    // **** to clearing the values *** //
+    this.modal.platformShortName = '';
+    this.modal.skuName = '';
+  }
+
+  //**** Edit Row functionality sku table ****//
+  EditSkuRow(editskumodal:any,id:any){
+    this.skuData.forEach((element:any) => {
+      if(element.id == id){
+        this.modal.id = element.id,
+        this.modal.platformShortName=element.ProgramName__ProgramShortName,
+        this.modal.skuName=element.SkuName
+      }
+    });
+     this.modalReference=this.modalService.open(editskumodal)  
+   }
+ 
+   //**** Update Row functionality for sku table ****//
+   UpdateSkuTable(){
+     let req = {"id":this.modal.id,"SkuName":this.modal.skuName,"ProgramShortName":this.modal.platformShortName}
+     // **** Calling Update row API***** //
+     this.service.getSkuUpdateData(req).subscribe((res:any)=>{
+        this.getSkuData();
+     });
+     this.modalReference.close();
+     // **** to clearing the values *** //
+     this.modal.platformShortName = '';
+     this.modal.skuName = '';
+   }
+
+   
+  //**** Delete Row functionality  sku table ****//
+  DeleteSkuRow(deleteskumodal:any,id:any) {
+    this.rowValue = id;
+    this.modalReference=this.modalService.open(deleteskumodal)
+  }
+
+  //**** Confirm Delete Row functionality for sku table ****//
+  ConfirmSkuDelete()
+  {
+    let req = {"id":this.rowValue}
+
+    // **** Calling Delete row API***** //
+    this.service.getSkuDeleteData(req).subscribe((res:any)=>{
+       this.getSkuData();
+    });
+    this.modalReference.close();
+  }
+
 
    //**** Sorting functionality in table(ascending descending order) ****//
    setOrderRelease(value: string) {
