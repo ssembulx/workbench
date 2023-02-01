@@ -50,9 +50,10 @@ export class VendorComponent implements OnInit {
 
     // **** Calling Add row API***** //
     this.service.getVendorAddData(req).subscribe((res) => {
-      this.vendorData.push({
-        VendorName:this.modal.vendor
-      })
+      this.getVendorData();
+      // this.vendorData.push({
+      //   VendorName:this.modal.vendor
+      // })
     });
    
     this.modalReference.close();

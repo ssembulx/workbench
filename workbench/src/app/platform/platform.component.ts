@@ -64,17 +64,18 @@ export class PlatformComponent implements OnInit {
 
     // **** Calling Add row API***** //
     this.service.getProgramAddData(req).subscribe((res:any) => {
-      this.programData.push({
-        ProgramShortName:this.modal.programShortName,
-        ProgramName:this.modal.programName,
-      })
+      this.getProgramData();
+      // this.programData.push({
+      //   ProgramShortName:this.modal.programShortName,
+      //   ProgramName:this.modal.programName,
+      // })
       console.log(this.programData,"fdghj")
     });
     
     this.modalReference.close();
     // **** to clearing the values *** //
-    // this.modal.programName = '';
-    // this.modal.programShortName = '';
+    this.modal.programName = '';
+    this.modal.programShortName = '';
   }
 
 

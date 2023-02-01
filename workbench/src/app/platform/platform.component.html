@@ -3,7 +3,7 @@
         <div class="col-6">
             <div class="table-container" *ngIf="programData?.length">
                 <div class="title">
-                    <h4>Platform Details</h4>
+                    <h4>Program Details</h4>
                     <div class="btn-add-user">
                         <button class="btn add-btn" (click)="AddRow(addmodal)">Add</button>
                     </div>
@@ -14,7 +14,7 @@
                         <tr>
                             <th class="v-align">SL NO.</th>
                             <th class="v-align" (click)="setOrderRelease('Program')"><span class="sort-by">Program</span></th>
-                            <th class="v-align" (click)="setOrderRelease('Platform')"><span class="sort-by">Platform</span></th>
+                            <th class="v-align" (click)="setOrderRelease('Platform')"><span class="sort-by">Program ShortName</span></th>
                             <th class="v-align">ACTION</th>
                         </tr>
                     </thead>
@@ -47,7 +47,7 @@
                     <thead>
                         <tr>
                             <th class="v-align">SL NO.</th>
-                            <th class="v-align" (click)="setOrderRelease('Program')"><span class="sort-by">Platform</span></th>
+                            <th class="v-align" (click)="setOrderRelease('Program')"><span class="sort-by">Program ShortName</span></th>
                             <th class="v-align" (click)="setOrderRelease('SKU')"><span class="sort-by">SKU</span></th>
                             <th class="v-align">ACTION</th>
                         </tr>
@@ -73,7 +73,7 @@
   <ng-template #addmodal let-c="close" let-d="dismiss">
     <div class="modal-add">
         <div class="modal-header">
-            <h1 class="modal-title fs-5" id="testModalLabel">&nbsp; Add Platform Details
+            <h1 class="modal-title fs-5" id="testModalLabel">&nbsp; Add Program Details
             </h1>
             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <i class='fas fa-times'></i></button>
@@ -87,7 +87,7 @@
             </div>
 
             <div class="form-group row label-style">
-                <label for="testId" class="col-4 col-form-label">Platform :</label>
+                <label for="testId" class="col-4 col-form-label">Program ShortName :</label>
                 <div class="col-8">
                     <input type="text" [(ngModel)]="modal.programShortName" class="col-8 form-control shadow-none i-field" required>
                 </div>
@@ -124,7 +124,7 @@
             </div>
 
             <div class="form-group row label-style">
-                <label for="testId" class="col-4 col-form-label">Platform :</label>
+                <label for="testId" class="col-4 col-form-label">Program ShortName :</label>
                 <div class="col-8">
                     <input type="text" [(ngModel)]="modal.programShortName" class="col-8 form-control shadow-none i-field" required>
                 </div>
@@ -171,12 +171,21 @@
                 <i class='fas fa-times'></i></button>
         </div>
         <div class="modal-body">
-            <div class="form-group row label-style">
-                <label for="testId" class="col-4 col-form-label">Platform :</label>
+            <div class="float-sku">
+                <label>Program ShortName</label>
+                <select class="form-select" aria-label="Default select example" [(ngModel)]="modal.platformShortName">
+                    <option selected value="">Select Program</option>
+                    <option *ngFor="let data of programData" [ngValue]="data.ProgramShortName">
+                        {{data.ProgramShortName}}
+                    </option>
+                </select>
+            </div> 
+            <!-- <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">Program :</label>
                 <div class="col-8">
                     <input type="text" [(ngModel)]="modal.platformShortName" class="col-8 form-control shadow-none i-field" required>
                 </div>
-            </div>
+            </div> -->
 
             <div class="form-group row label-style">
                 <label for="testId" class="col-4 col-form-label">SKU :</label>
