@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SummaryService } from '../shared/service';
 import { ToastrService } from 'ngx-toastr';
+import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-approve',
   templateUrl: './approve.component.html',
@@ -12,8 +13,13 @@ export class ApproveComponent implements OnInit {
 
   constructor(
     private dataSvc: SummaryService,
-    private toastrService: ToastrService
-  ) {}
+    private toastrService: ToastrService,
+    private modalService: NgbModal,
+    config: NgbModalConfig
+  ) {
+    config.backdrop = 'static';
+    config.size = 'md';
+  }
   approvallist: any;
   viewApprovalRequests() {
     this.dataSvc.viewApprovalRequests().subscribe((res) => {
@@ -32,10 +38,11 @@ export class ApproveComponent implements OnInit {
     }
     this.orderMappedRelease = value;
   }
+  reason = '';
   rejectBench() {
+    let finalResult: any = {};
+    this.finalResultList = [];
     this.approveBenchList.forEach((element: any, index: any) => {
-      let finalResult: any = {};
-      this.finalResultList = [];
       finalResult['Program'] = element.Program;
       finalResult['Sku'] = element.Sku;
       finalResult['Vendor'] = element.Vendor;
@@ -51,11 +58,13 @@ export class ApproveComponent implements OnInit {
       finalResult['BenchData'] = element.BenchData;
       finalResult['Duration'] = element.Duration;
       finalResult['id'] = element.id;
+      finalResult['Reason'] = this.reason;
       // delete element['id'];
       this.finalResultList.push(finalResult);
     });
     this.dataSvc.rejectBenchList(this.finalResultList).subscribe((res) => {
       if (res) {
+        this.closeReject();
         this.viewApprovalRequests();
         this.toastrService.success(
           'Allocation Rejected Successfully',
@@ -67,9 +76,9 @@ export class ApproveComponent implements OnInit {
   finalResultList: any = [];
 
   approveBench() {
+    let finalResult: any = {};
+    this.finalResultList = [];
     this.approveBenchList.forEach((element: any, index: any) => {
-      let finalResult: any = {};
-      this.finalResultList = [];
       finalResult['Program'] = element.Program;
       finalResult['Sku'] = element.Sku;
       finalResult['Vendor'] = element.Vendor;
@@ -88,6 +97,7 @@ export class ApproveComponent implements OnInit {
       // delete element['id'];
       this.finalResultList.push(finalResult);
     });
+    debugger;
     this.dataSvc.approveBenchList(this.finalResultList).subscribe((res) => {
       if (res) {
         this.viewApprovalRequests();
@@ -112,5 +122,16 @@ export class ApproveComponent implements OnInit {
       });
     }
     console.log(this.approveBenchList);
+  }
+
+  @ViewChild('rejectModel') rejectModel: ElementRef;
+  modalReference: any;
+  openReject() {
+    this.modalReference = this.modalService.open(this.rejectModel);
+  }
+
+  closeReject() {
+    this.reason = '';
+    this.modalReference.close();
   }
 }
