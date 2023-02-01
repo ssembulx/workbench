@@ -100,63 +100,90 @@
                                     [ngbTooltip]="testTrendSearch" placement="top" tooltipClass="custom-tooltip"
                                     [autoClose]="false" triggers="manual" #ts1="ngbTooltip"
                                     (click)="showTestTrendSearch(ts1)">
-                                    <i class="fas fa-search"></i>&nbsp;&nbsp;Lab Details</span></th>
+                                    <i class="fas fa-search"></i>&nbsp;&nbsp;Lab Details</span>
+                            </th>
+
                             <th class="v-align" (click)="setOrderRelease('Team')"><span class="sort-by"
                                     [ngbTooltip]="teamSearch" placement="top" tooltipClass="custom-tooltip"
                                     [autoClose]="false" triggers="manual" #ts10="ngbTooltip"
                                     (click)="showTestTrendSearch(ts10)">
-                                    <i class="fas fa-search"></i>&nbsp;&nbsp;Team</span></th>
+                                    <i class="fas fa-search"></i>&nbsp;&nbsp;Team</span>
+                            </th>
+
                             <th class="v-align" (click)="setOrderRelease('#Bench')"><span class="sort-by"
                                     [ngbTooltip]="benchSearch" placement="top" tooltipClass="custom-tooltip"
                                     [autoClose]="false" triggers="manual" #ts8="ngbTooltip"
                                     (click)="showTestTrendSearch(ts8)">
-                                    <i class="fas fa-search"></i>&nbsp;&nbsp;#Bench</span></th>
-                            <th class="v-align" (click)="setOrderRelease('Program')"><span class="sort-by"
-                                    [ngbTooltip]="programSearch" placement="top" tooltipClass="custom-tooltip"
+                                    <i class="fas fa-search"></i>&nbsp;&nbsp;#Bench</span>
+                            </th>
+
+                            <th class="v-align" (click)="setOrderRelease('Benchdetails')"><span class="sort-by"
+                                [ngbTooltip]="detailsSearch" placement="top" tooltipClass="custom-tooltip"
+                                [autoClose]="false" triggers="manual" #ts11="ngbTooltip"
+                                (click)="showTestTrendSearch(ts11)">
+                                <i class="fas fa-search"></i>&nbsp;&nbsp;Bench Details</span>
+                            </th>
+
+                            <th class="v-align" (click)="setOrderRelease('program')"><span class="sort-by"
+                                    [ngbTooltip]="searchProgram" placement="top" tooltipClass="custom-tooltip"
                                     [autoClose]="false" triggers="manual" #ts2="ngbTooltip"
                                     (click)="showTestTrendSearch(ts2)">
-                                    <i class="fas fa-search"></i>&nbsp;&nbsp;Program</span></th>
+                                    <i class="fas fa-search"></i>&nbsp;&nbsp;Program</span>
+                            </th>
+                                      
                             <th class="v-align" (click)="setOrderRelease('SKU')"><span class="sort-by"
                                     [ngbTooltip]="skuSearch" placement="top" tooltipClass="custom-tooltip"
                                     [autoClose]="false" triggers="manual" #ts3="ngbTooltip"
                                     (click)="showTestTrendSearch(ts3)">
-                                    <i class="fas fa-search"></i>&nbsp;&nbsp;SKU</span></th>
+                                    <i class="fas fa-search"></i>&nbsp;&nbsp;SKU</span>
+                            </th>
+
                             <th class="v-align" (click)="setOrderRelease('Vendor')"><span class="sort-by"
                                     [ngbTooltip]="vendorSearch" placement="top" tooltipClass="custom-tooltip"
                                     [autoClose]="false" triggers="manual" #ts4="ngbTooltip"
                                     (click)="showTestTrendSearch(ts4)">
-                                    <i class="fas fa-search"></i>&nbsp;&nbsp;Vendor</span></th>
+                                    <i class="fas fa-search"></i>&nbsp;&nbsp;Vendor</span>
+                            </th>
+
                             <th class="v-align" (click)="setOrderRelease('Allocated To')"><span class="sort-by"
                                     [ngbTooltip]="allocatedSearch" placement="top" tooltipClass="custom-tooltip"
                                     [autoClose]="false" triggers="manual" #ts5="ngbTooltip"
                                     (click)="showTestTrendSearch(ts5)">
-                                    <i class="fas fa-search"></i>&nbsp;&nbsp;Allocated To</span></th>
+                                    <i class="fas fa-search"></i>&nbsp;&nbsp;Allocated To</span>
+                            </th>
+
                             <th class="v-align" (click)="setOrderRelease('From WW')"><span class="sort-by"
                                     [ngbTooltip]="fromWWSearch" placement="top" tooltipClass="custom-tooltip"
                                     [autoClose]="false" triggers="manual" #ts6="ngbTooltip"
                                     (click)="showTestTrendSearch(ts6)">
-                                    <i class="fas fa-search"></i>&nbsp;&nbsp;From WW</span></th>
+                                    <i class="fas fa-search"></i>&nbsp;&nbsp;From WW</span>
+                            </th>
+
                             <th class="v-align" (click)="setOrderRelease('To WW')"><span class="sort-by"
                                     [ngbTooltip]="toWWSearch" placement="top" tooltipClass="custom-tooltip"
                                     [autoClose]="false" triggers="manual" #ts7="ngbTooltip"
                                     (click)="showTestTrendSearch(ts7)">
-                                    <i class="fas fa-search"></i>&nbsp;&nbsp;To WW</span></th>
+                                    <i class="fas fa-search"></i>&nbsp;&nbsp;To WW</span>
+                            </th>
+
                             <th class="v-align" (click)="setOrderRelease('Duration')"><span class="sort-by"
                                     [ngbTooltip]="durationSearch" placement="top" tooltipClass="custom-tooltip"
                                     [autoClose]="false" triggers="manual" #ts9="ngbTooltip"
                                     (click)="showTestTrendSearch(ts9)">
-                                    <i class="fas fa-search"></i>&nbsp;&nbsp;Duration</span></th>
+                                    <i class="fas fa-search"></i>&nbsp;&nbsp;Duration</span>
+                            </th>
                             <th class="v-align">Remarks</th>
                             <!-- <th class="v-align"><input class="form-check-input chcekbox-style" type="checkbox" value="" id="flexCheckChecked"/>Select All</th> -->
                         </tr>
                     </thead>
                     <tbody>
                         <tr
-                            *ngFor="let data of reportData | searchFilter: searchText | searchFilterLocation: searchLocation | searchFilterTeam: searchTeam | searchFilterProgram: searchProgram |  searchFilterSku: searchSku | searchFilterVendor : searchVendor | searchFilterAllocated : searchAllocated | searchFilterFromWW : searchfromWW | searchFilterToWW : searchtoWW | searchFilterBench : searchBench | searchFilterDuration : searchDuration  let i=index">
+                            *ngFor="let data of reportData | searchFilter: searchText | searchFilterLocation: searchLocation | searchFilterTeam: searchTeam | searchFilterProgram: searchProgram |  searchFilterSku: searchSku | searchFilterVendor : searchVendor | searchFilterAllocated : searchAllocated | searchFilterFromWW : searchfromWW | searchFilterToWW : searchtoWW | searchFilterBench : searchBench | searchFilterDetails : searchBenchDetails | searchFilterDuration : searchDuration  let i=index">
                             <td>{{i+1}}</td>
                             <td>{{data.Location__Name}}</td>
                             <td>{{data.Team}}</td>
                             <td>{{data.BenchData?.length}}</td>
+                            <td>{{data.BenchData}}</td>
                             <td>{{data.Program}}</td>
                             <td>{{data.Sku}}</td>
                             <td>{{data.Vendor}}</td>
@@ -298,6 +325,20 @@
             <input name="target" [(ngModel)]="searchBench" placeholder="Search Bench" type="text"
                 class="form-control" />
             <i class="fas fa-times" (click)="clearInput()" *ngIf="searchBench !== ''"></i>
+            <i class="flaticon-search fas fa-search"></i>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #detailsSearch>
+    <div class="search-tooltip">
+        <div class="tooltip-header">
+            <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
+        </div>
+        <div class="form-group search-ctrl">
+            <input name="target" [(ngModel)]="searchBenchDetails" placeholder="Search BenchDetails" type="text"
+                class="form-control" />
+            <i class="fas fa-times" (click)="clearInput()" *ngIf="searchBenchDetails !== ''"></i>
             <i class="flaticon-search fas fa-search"></i>
         </div>
     </div>

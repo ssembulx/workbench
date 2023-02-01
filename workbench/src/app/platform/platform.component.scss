@@ -14,8 +14,43 @@
                 width: 100%;
                 overflow: auto;
                 margin: 0px;
+                .title{
+                    display: flex;
+                    h4{
+                        font-weight: 600;
+                        font-size: 16px;
+                        margin-top: 11px;
+                        margin-left: 5px;
+                        text-decoration: underline;
+                    }
+                    
+                    .btn-add-user {
+                        margin-top: 3px;
+                        margin-left: 73.1%;
+                    
+                        
+                            button {
+                                border: none;
+                                padding: 2px 7px 2px 6px;
+                                border-top-right-radius: 4px;
+                                border-bottom-right-radius: 4px;
+                            } 
+                            .add-btn {
+                                font-family: "IntelOne Display AR Medium";
+                                background-color: #0071c5;
+                                padding: 4px;
+                                color: white;
+                                font-size: 13px;
+                                border-radius: 0px;
+                                box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
+                                width: 66px;
+                                text-align: center;
+                                margin-top: 6px;
+                            }             
+                    }
+                }
                 .user-table {
-                    max-width: 95%;
+                    max-width: 99%;
                     margin-top: 8px;
                     thead {
                         background-color: #d5cbd7;
@@ -45,17 +80,17 @@
                             td {
                             
                                 &:first-child {
-                                    width: 12%;
+                                    width: 9.8%;
                                     text-align: center;
                                 }
                                 &:nth-child(2),
                                 &:nth-child(3){
-                                    width: 22.4%;
+                                    width: 24%;
                                     text-align: left;
                                 }
                                 &:nth-child(4){
                                     width: 22.1%;
-                                    text-align: left;
+                                    text-align: center;
                                 }
                                 &:nth-child(5){
                                     // width: 22.1%;
@@ -71,31 +106,103 @@
                   
                 }
         }
+        .table-skucontainer {
+            width: 100%;
+            overflow: auto;
+            margin: 0px;
+            .title{
+                display: flex;
+                h4{
+                    font-weight: 600;
+                    font-size: 16px;
+                    margin-top: 11px;
+                    margin-left: 5px;
+                    text-decoration: underline;
+                }
+                
+                .btn-add-user {
+                    margin-top: 3px;
+                    margin-left: 77.2%;
+                
+                    
+                        button {
+                            border: none;
+                            padding: 2px 7px 2px 6px;
+                            border-top-right-radius: 4px;
+                            border-bottom-right-radius: 4px;
+                        } 
+                        .add-btn {
+                            font-family: "IntelOne Display AR Medium";
+                            background-color: #0071c5;
+                            padding: 4px;
+                            color: white;
+                            font-size: 13px;
+                            border-radius: 0px;
+                            box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
+                            width: 66px;
+                            text-align: center;
+                            margin-top: 6px;
+                        }             
+                }
+            }
+            .user-table {
+                max-width: 99%;
+                margin-top: 8px;
+                thead {
+                    background-color: #d5cbd7;
+                    display: table;
+                    width: 100%;
+                    table-layout: fixed;
+                    tr{
+                        th {
+                            text-align: center;
+                            &:first-child {
+                                width:12%;
+                            }
+                       
+                        }
+                    }
+                   
+                }
+                tbody {
+                    // border-top: none;
+                    display: block;
+                    max-height: 72vh;
+                    overflow-y: scroll;
+                    tr{
+                        display: table;
+                        width: 100%;
+                        table-layout: fixed;
+                        td {
+                        
+                            &:first-child {
+                                width: 9.5%;
+                                text-align: center;
+                            }
+                            &:nth-child(2),
+                            &:nth-child(3){
+                                width: 23%;
+                                text-align: left;
+                            }
+                            &:nth-child(4){
+                                width: 22.1%;
+                                text-align: center;
+                            }
+                            &:nth-child(5){
+                                // width: 22.1%;
+                                text-align: center;
+                            }
+                           a{
+                            cursor: pointer;
+                           }
+                        }
+                    }
+                   
+                }
+              
+            }
+    }
 
-        .btn-add-user {
-            margin-top: 3px;
-            margin-left: 90.4%;
-        
-             
-                button {
-                    border: none;
-                    padding: 2px 7px 2px 6px;
-                    border-top-right-radius: 4px;
-                    border-bottom-right-radius: 4px;
-                } 
-                .add-btn {
-                    font-family: "IntelOne Display AR Medium";
-                    background-color: #0071c5;
-                    padding: 4px;
-                    color: white;
-                    font-size: 13px;
-                    border-radius: 0px;
-                    box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
-                    width: 66px;
-                    text-align: center;
-                    margin-top: 6px;
-                }             
-        }
     }
 }
 // =========== add user modal popup =============== //
@@ -143,175 +250,175 @@
 .modal-delete {
 border: none;
 
-.modal-header {
-background-color: #0071c5;
-font-weight: 600;
-color: white;
-padding: 10px 18px;
-}
-
-.modal-body {
-padding-bottom: 7px;
-
-.container{
-    .para-style{
-        font-size: 18px;
+    .modal-header {
+        background-color: #0071c5;
+        font-weight: 600;
+        color: white;
+        padding: 10px 18px;
     }
-}
-}
 
-.modal-footer {
-padding: 7px;
+    .modal-body {
+        padding-bottom: 7px;
 
-.back-btn {
-    font-family: "IntelOne Display AR Medium";
-    background-color: #0071c5;
-    padding: 4px 10px;
-    color: white;
-    font-size: 14px;
-    border-radius: 0px;
-    box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
-    width: 87px;
-    text-align: center;
-}
+        .container{
+            .para-style{
+                font-size: 18px;
+            }
+        }
+    }
 
-.back-btn:hover {
-    font-family: "IntelOne Display AR Medium";
-    background-color: #0071c5;
-    color: white;
-}
-.delete-btn{
-    font-family: "IntelOne Display AR Medium";
-    padding: 4px 10px;
-    color: white;
-    font-size: 14px;
-    border-radius: 0px;
-    box-shadow: #842029 3px 3px 6px 0px inset, #842029 -3px -3px 6px 1px inset;
-    width: 87px;
-    text-align: center;
-}
-.delete-btn:hover {
-    font-family: "IntelOne Display AR Medium";
-    color: white;
-}
+    .modal-footer {
+        padding: 7px;
 
-}
+    .back-btn {
+        font-family: "IntelOne Display AR Medium";
+        background-color: #0071c5;
+        padding: 4px 10px;
+        color: white;
+        font-size: 14px;
+        border-radius: 0px;
+        box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
+        width: 87px;
+        text-align: center;
+    }
+
+    .back-btn:hover {
+        font-family: "IntelOne Display AR Medium";
+        background-color: #0071c5;
+        color: white;
+    }
+    .delete-btn{
+        font-family: "IntelOne Display AR Medium";
+        padding: 4px 10px;
+        color: white;
+        font-size: 14px;
+        border-radius: 0px;
+        box-shadow: #842029 3px 3px 6px 0px inset, #842029 -3px -3px 6px 1px inset;
+        width: 87px;
+        text-align: center;
+    }
+    .delete-btn:hover {
+        font-family: "IntelOne Display AR Medium";
+        color: white;
+    }
+
+    }
 }
 
 // =========== edit modal popup =============== //
 .modal-edit{
-border: none;
+    border: none;
 
-.modal-header {
-background-color: #0071c5;
-font-weight: 600;
-color: white;
-padding: 10px 18px;
-}
+    .modal-header {
+        background-color: #0071c5;
+        font-weight: 600;
+        color: white;
+        padding: 10px 18px;
+    }
 
-.modal-body {
-padding-bottom: 7px;
+    .modal-body {
+        padding-bottom: 7px;
 
-.label-style{
-    margin-bottom: 10px;
-}
+    .label-style{
+        margin-bottom: 10px;
+    }
 
-}
+    }
 
-.modal-footer {
-padding: 7px;
+    .modal-footer {
+        padding: 7px;
 
-.back-btn {
-    font-family: "IntelOne Display AR Medium";
-    background-color: #0071c5;
-    padding: 4px 10px;
-    color: white;
-    font-size: 14px;
-    border-radius: 0px;
-    box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
-    width: 87px;
-    text-align: center;
-}
+    .back-btn {
+        font-family: "IntelOne Display AR Medium";
+        background-color: #0071c5;
+        padding: 4px 10px;
+        color: white;
+        font-size: 14px;
+        border-radius: 0px;
+        box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
+        width: 87px;
+        text-align: center;
+    }
 
-.back-btn:hover {
-    font-family: "IntelOne Display AR Medium";
-    background-color: #0071c5;
-    color: white;
-}
-}
+    .back-btn:hover {
+        font-family: "IntelOne Display AR Medium";
+        background-color: #0071c5;
+        color: white;
+    }
+    }
 }
 
 
 ::ng-deep .modal-content{
-margin-top:150px;
+    margin-top:150px;
 }
 
 
 th span.sort-by {
-cursor: pointer; 
-padding-right: 18px;
-position: relative;
+    cursor: pointer; 
+    padding-right: 18px;
+    position: relative;
 }
 span.sort-by:before,
 span.sort-by:after {
-border: 4px solid transparent;
-content: "";
-display: block;
-height: 0;
-right: 5px;
-top: 50%;
-position: absolute;
-width: 0;
+    border: 4px solid transparent;
+    content: "";
+    display: block;
+    height: 0;
+    right: 5px;
+    top: 50%;
+    position: absolute;
+    width: 0;
 }
 span.sort-by:before {
-border-bottom-color: #0071c5;
-margin-top: -9px;
+    border-bottom-color: #0071c5;
+    margin-top: -9px;
 }
 span.sort-by:after {
-border-top-color: #0071c5;
-margin-top: 1px;
+    border-top-color: #0071c5;
+    margin-top: 1px;
 }
 
 /* Spinner */
 .chart-loader {
-position: relative;
+    position: relative;
 }
 
 .spinner-container {
-display: flex;
-flex-direction: column;
-height: 11vh;
-justify-content: center;
-align-items: center;
-margin-top: 12%;
+    display: flex;
+    flex-direction: column;
+    height: 11vh;
+    justify-content: center;
+    align-items: center;
+    margin-top: 12%;
 }
 
 .proccessing-text {
-margin-top: 13px;
-color: #0070c0;
-font-weight: bolder;
-font-size: 15px;
-font-family: Intel Clear, tahoma, Helvetica, Arial, sans-serif;
-margin-left: -32px;
+    margin-top: 13px;
+    color: #0070c0;
+    font-weight: bolder;
+    font-size: 15px;
+    font-family: Intel Clear, tahoma, Helvetica, Arial, sans-serif;
+    margin-left: -32px;
 }
 
 .spinner {
-width: 100px;
-height: 55px;
-/* text-align: center; */
-font-size: inherit;
-margin-left: -3%;
+    width: 100px;
+    height: 55px;
+    /* text-align: center; */
+    font-size: inherit;
+    margin-left: -3%;
 }
 
 .spinner>div {
-background-color: #0070c0;
-height: 100%;
-width: 7px;
-margin-right: 3px;
-display: inline-block;
+    background-color: #0070c0;
+    height: 100%;
+    width: 7px;
+    margin-right: 3px;
+    display: inline-block;
 
--webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+    -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+    animation: sk-stretchdelay 1.2s infinite ease-in-out;
 }
 
 .spinner .rect2 {
@@ -370,13 +477,13 @@ animation-delay: -0.1s;
 }
 
 .overlay-main {
-position: absolute;
-width: 98%;
-height: 59vh;
-margin-left: 1%;
-background: none no-repeat scroll 0 0 white;
-opacity: 0.85;
-margin-top: -559px;
+    position: absolute;
+    width: 98%;
+    height: 59vh;
+    margin-left: 1%;
+    background: none no-repeat scroll 0 0 white;
+    opacity: 0.85;
+    margin-top: -559px;
 }
 
 @-webkit-keyframes sk-stretchdelay {

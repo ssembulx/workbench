@@ -34,7 +34,8 @@ import {
   SearchToWW,
   SearchVendor,
   SearchTeam,
-  SearchDuration
+  SearchDuration,
+  SearchBenchdetails
 } from './search.pipe';
 import { SummaryService } from './shared/service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -47,7 +48,6 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { SemicirclePieChartComponent } from './semicircle-pie-chart/semicircle-pie-chart.component';
 import { PublishComponent } from './publish/publish.component';
 import { PlatformComponent } from './platform/platform.component';
-import { SkuComponent } from './sku/sku.component';
 import { VendorComponent } from './vendor/vendor.component';
 import { TeamComponent } from './team/team.component';
 /* import { ToastrService } from 'ngx-toastr'; */
@@ -79,11 +79,11 @@ import { TeamComponent } from './team/team.component';
     SearchFromWW,
     SearchToWW,
     SearchBench,
+    SearchBenchdetails,
     SearchDuration,
     SemicirclePieChartComponent,
     PublishComponent,
     PlatformComponent,
-    SkuComponent,
     VendorComponent,
     TeamComponent,
   ],

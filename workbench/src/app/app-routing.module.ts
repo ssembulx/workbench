@@ -7,7 +7,7 @@ import { MasterComponent } from './master/master.component';
 import { PlatformComponent } from './platform/platform.component';
 import { PublishComponent } from './publish/publish.component';
 import { ReportComponent } from './report/report.component';
-import { SkuComponent } from './sku/sku.component';
+// import { SkuComponent } from './sku/sku.component';
 import { TeamComponent } from './team/team.component';
 import { UserComponent } from './user/user.component';
 import { VendorComponent } from './vendor/vendor.component';
@@ -30,9 +30,9 @@ const routes: Routes = [{
   path: 'program', component: PlatformComponent
 },
 
-{
-  path: 'sku', component: SkuComponent
-},
+// {
+//   path: 'sku', component: SkuComponent
+// },
 
 {
   path: 'vendor', component: VendorComponent
@@ -45,9 +45,9 @@ const routes: Routes = [{
 {
   path: 'report', component: ReportComponent
 },
-// {
-//   path: 'user', component: UserComponent
-// },
+{
+  path: 'user', component: UserComponent
+},
 {
   path: 'publish', component: PublishComponent
 }];

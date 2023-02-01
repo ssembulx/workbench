@@ -1,50 +1,86 @@
 <div class="master">
-    <div class="content">
-        <div class="table-container" *ngIf="programskuData?.length">
-            <div class="btn-add-user">
-                <button class="btn add-btn" (click)="AddRow(addmodal)">Add</button>
+    <div class="row content">
+        <div class="col-6">
+            <div class="table-container" *ngIf="programData?.length">
+                <div class="title">
+                    <h4>Platform Details</h4>
+                    <div class="btn-add-user">
+                        <button class="btn add-btn" (click)="AddRow(addmodal)">Add</button>
+                    </div>
+                </div>
+            
+                <table class="table table-bordered user-table" *ngIf="programdataLoader">
+                    <thead>
+                        <tr>
+                            <th class="v-align">SL NO.</th>
+                            <th class="v-align" (click)="setOrderRelease('Program')"><span class="sort-by">Program</span></th>
+                            <th class="v-align" (click)="setOrderRelease('Platform')"><span class="sort-by">Platform</span></th>
+                            <th class="v-align">ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of programData | orderBy: orderMappedRelease:reverseMappedRelease: true ; let i=index">
+                            <td>{{(i+1)}}</td>
+                            <td>{{data.ProgramName}}</td>
+                            <td>{{data.ProgramShortName}}</td>
+                            <td>
+                                <a  (click)="EditPlatformRow(editmodal,data.id)">Edit</a> |
+                                <a (click)="DeletePlatformRow(deletemodal,data.id)">Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <table class="table table-bordered user-table" *ngIf="programdataLoader">
-                <thead>
-                    <tr>
-                        <th class="v-align">SL NO.</th>
-                        <th class="v-align" (click)="setOrderRelease('Program')"><span class="sort-by">Program Name</span></th>
-                        <th class="v-align" (click)="setOrderRelease('SKU')"><span class="sort-by">Platform</span></th>
-                        <th class="v-align" (click)="setOrderRelease('Vendor')"><span class="sort-by">Created By</span></th>
-                        <!-- <th class="v-align" (click)="setOrderRelease('TEAM')"><span class="sort-by">Team</span></th> --> 
-                        <th class="v-align">ACTION</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let data of masterPlatformData | orderBy: orderMappedRelease:reverseMappedRelease: true ; let i=index">
-                        <td>{{(i+1)}}</td>
-                        <td>{{data.programName}}</td>
-                        <td>{{data.platform}}</td>
-                        <td>{{data.createdBy}}</td>
-                        <!-- <td>{{data.team}}</td> -->
-                        <td>
-                            <a  (click)="EditRow(editmodal,data.slno)">Edit</a> |
-                            <a (click)="DeleteRow(deletemodal,i)">Delete</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        </div>
+        
+
+        <div class="col-6">
+            <div class="table-skucontainer" *ngIf="skuData?.length">
+                <div class="title">
+                    <h4>SKU Details</h4>
+                    <div class="btn-add-user">
+                        <button class="btn add-btn" (click)="AddSkuRow(addskumodal)">Add</button>
+                    </div>
+                </div>
+                
+                <table class="table table-bordered user-table" *ngIf="skudataLoader">
+                    <thead>
+                        <tr>
+                            <th class="v-align">SL NO.</th>
+                            <th class="v-align" (click)="setOrderRelease('Program')"><span class="sort-by">Platform</span></th>
+                            <th class="v-align" (click)="setOrderRelease('SKU')"><span class="sort-by">SKU</span></th>
+                            <th class="v-align">ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of skuData | orderBy: orderMappedRelease:reverseMappedRelease: true ; let i=index">
+                            <td>{{(i+1)}}</td>
+                            <td>{{data.ProgramName__ProgramShortName}}</td>
+                            <td>{{data.SkuName}}</td>
+                            <td>
+                                <a  (click)="EditSkuRow(editskumodal,data.id)">Edit</a> |
+                                <a (click)="DeleteSkuRow(deleteskumodal,data.id)">Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
 
-  <!-- =========***** Modal popup for add details*****=============-->
+  <!-- =========***** Modal popup for add platform details*****=============-->
   <ng-template #addmodal let-c="close" let-d="dismiss">
     <div class="modal-add">
         <div class="modal-header">
-            <h1 class="modal-title fs-5" id="testModalLabel">&nbsp; Add Details
+            <h1 class="modal-title fs-5" id="testModalLabel">&nbsp; Add Platform Details
             </h1>
             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <i class='fas fa-times'></i></button>
         </div>
         <div class="modal-body">
             <div class="form-group row label-style">
-                <label for="testId" class="col-4 col-form-label">Program Name :</label>
+                <label for="testId" class="col-4 col-form-label">Program :</label>
                 <div class="col-8">
                     <input type="text" [(ngModel)]="modal.programName" class="col-8 form-control shadow-none i-field" required>
                 </div>
@@ -53,7 +89,7 @@
             <div class="form-group row label-style">
                 <label for="testId" class="col-4 col-form-label">Platform :</label>
                 <div class="col-8">
-                    <input type="text" [(ngModel)]="modal.platform" class="col-8 form-control shadow-none i-field" required>
+                    <input type="text" [(ngModel)]="modal.programShortName" class="col-8 form-control shadow-none i-field" required>
                 </div>
             </div>
         </div>
@@ -64,17 +100,24 @@
      </div>
 </ng-template>
 
- <!-- =========***** Modal popup for Edit row for platform and sku*****=============-->
+ <!-- =========***** Modal popup for Edit row for platform*****=============-->
  <ng-template #editmodal let-c="close" let-d="dismiss">
     <div class="modal-edit">
         <div class="modal-header">
-            <h1 class="modal-title fs-5" id="testModalLabel">Update Table</h1>
+            <h1 class="modal-title fs-5" id="testModalLabel">Update Platform Table</h1>
             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <i class='fas fa-times'></i></button>
         </div>
         <div class="modal-body">
             <div class="form-group row label-style">
-                <label for="testId" class="col-4 col-form-label">Program Name :</label>
+                <label for="testId" class="col-4 col-form-label">ID :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.id" class="col-8 form-control shadow-none i-field" required>
+                </div>
+            </div>
+
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label"> Program:</label>
                 <div class="col-8">
                     <input type="text" [(ngModel)]="modal.programName" class="col-8 form-control shadow-none i-field" required>
                 </div>
@@ -83,18 +126,18 @@
             <div class="form-group row label-style">
                 <label for="testId" class="col-4 col-form-label">Platform :</label>
                 <div class="col-8">
-                    <input type="text" [(ngModel)]="modal.platform" class="col-8 form-control shadow-none i-field" required>
+                    <input type="text" [(ngModel)]="modal.programShortName" class="col-8 form-control shadow-none i-field" required>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Close</button>
-            <button type="button" class="btn back-btn" (click)="UpdateTable()">Update</button>
+            <button type="button" class="btn back-btn" (click)="UpdatePlatformTable()">Update</button>
         </div>
     </div>
 </ng-template>
 
- <!-- =========***** Modal popup for Delete row*****=============-->
+ <!-- =========***** Modal popup for Delete platform row*****=============-->
  <ng-template #deletemodal let-c="close" let-d="dismiss">
     <div class="modal-delete">
         <div class="modal-header">
@@ -113,13 +156,123 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
-            <button type="button" (click)="ConfirmDelete()" class="btn delete-btn btn-danger">Delete</button>
+            <button type="button" (click)="ConfirmPlatformDelete()" class="btn delete-btn btn-danger">Delete</button>
+        </div>
+    </div>
+ </ng-template>
+
+   <!-- =========***** Modal popup for add sku details *****=============-->
+   <ng-template #addskumodal let-c="close" let-d="dismiss">
+    <div class="modal-add">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="testModalLabel">&nbsp; Add SKU Details
+            </h1>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <i class='fas fa-times'></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">Platform :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.platformShortName" class="col-8 form-control shadow-none i-field" required>
+                </div>
+            </div>
+
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">SKU :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.skuName" class="col-8 form-control shadow-none i-field" required>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
+            <button type="button" class="btn back-btn" (click)="AddSku()">Save</button>
+        </div>
+     </div>
+</ng-template>
+
+ <!-- =========***** Modal popup for Edit row for sku*****=============-->
+ <ng-template #editskumodal let-c="close" let-d="dismiss">
+    <div class="modal-edit">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="testModalLabel">Update SKU Table</h1>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <i class='fas fa-times'></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">ID :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.id" class="col-8 form-control shadow-none i-field" required>
+                </div>
+            </div>
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">Platform :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.platformShortName" class="col-8 form-control shadow-none i-field" readonly>
+                </div>
+            </div>
+
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">SKU :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.skuName" class="col-8 form-control shadow-none i-field" required>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Close</button>
+            <button type="button" class="btn back-btn" (click)="UpdateSkuTable()">Update</button>
+        </div>
+    </div>
+</ng-template>
+
+ <!-- =========***** Modal popup for Delete row*****=============-->
+ <ng-template #deleteskumodal let-c="close" let-d="dismiss">
+    <div class="modal-delete">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5">Delete Row</h1>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+        <form>
+            <div class="container">
+            
+                <p class="para-style">Are you sure you want to delete?</p>
+            </div>
+        </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
+            <button type="button" (click)="ConfirmSkuDelete()" class="btn delete-btn btn-danger">Delete</button>
         </div>
     </div>
  </ng-template>
 
 <!-- ****** program sku loader option ****** -->
 <div class="overlay-main" *ngIf="!programdataLoader">
+    <div class="spinner-container">
+
+        <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+            <div class="rect6"></div>
+            <div class="rect7"></div>
+            <div class="rect8"></div>
+            <div class="rect9"></div>
+        </div>
+        <div class="proccessing-text">Loading ...</div>
+    </div>
+</div>
+
+<!-- ****** sku loader option ****** -->
+<div class="overlay-main" *ngIf="!skudataLoader">
     <div class="spinner-container">
 
         <div class="spinner">

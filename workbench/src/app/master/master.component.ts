@@ -62,12 +62,12 @@ export class MasterComponent implements OnInit {
   //***** Calling program SKU Data API****//
   getProgramSkuData(){
     this.programdataLoader = false;
-    this.service.getProgramSkuData().subscribe((res) => {
-      debugger;
-      this.programskuData = res;
-      console.log(this.programskuData)
-      this.programdataLoader = true;
-    });
+    // this.service.getProgramSkuData().subscribe((res) => {
+    //   debugger;
+    //   this.programskuData = res;
+    //   console.log(this.programskuData)
+    //   this.programdataLoader = true;
+    // });
   }
 
   // ***** open modal popup for platform and sku ****** //
@@ -80,13 +80,13 @@ export class MasterComponent implements OnInit {
     debugger;
     let req = {"ProgramName":this.modal.program,"Sku":[this.modal.sku]}
 
-    this.service.getProgramSkuAddData(req).subscribe((res) => {
-      this.programskuData.push({
-        ProgramName:this.modal.program,
-        Sku:this.modal.sku
-      })
-      console.log(this.programskuData,"fdghj")
-    });
+    // this.service.getProgramSkuAddData(req).subscribe((res) => {
+    //   this.programskuData.push({
+    //     ProgramName:this.modal.program,
+    //     Sku:this.modal.sku
+    //   })
+    //   console.log(this.programskuData,"fdghj")
+    // });
     
     this.modalReference.close();
     // **** to clearing the values *** //
