@@ -50,9 +50,10 @@ AddTeam(){
 
   // **** Calling Add row API***** //
   this.service.getTeamAddData(req).subscribe((res) => {
-    this.teamData.push({
-      TeamName:this.modal.team
-    })
+    this.getTeamData();
+    // this.teamData.push({
+    //   TeamName:this.modal.team
+    // })
   })
   
   this.modalReference.close();

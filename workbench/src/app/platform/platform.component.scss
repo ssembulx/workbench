@@ -218,6 +218,17 @@
 
     .modal-body {
         padding-bottom: 7px;
+        .float-sku{
+            display: flex;
+            .form-select{
+                width: 65%;
+                height: 36px;
+                margin-left: 46px;
+                margin-bottom: 10px;
+            }
+        }
+       
+       
         .form-control{
             margin-bottom: 10px;
         }
