@@ -99,6 +99,9 @@
                             <th class="v-align" (click)="setOrderRelease('Team')"><span class="sort-by">Team</span></th>
                             <th class="v-align" (click)="setOrderRelease('#Bench')"><span class="sort-by">#Bench</span>
                             </th>
+                            <th class="v-align" (click)="setOrderRelease('Benchdetails')"><span class="sort-by">
+                                    Bench Details</span>
+                            </th>
                             <th class="v-align" (click)="setOrderRelease('Program')"><span
                                     class="sort-by">Program</span></th>
                             <th class="v-align" (click)="setOrderRelease('SKU')"><span class="sort-by">SKU</span></th>
@@ -125,11 +128,12 @@
                             <td>{{data.Location__Name}}</td>
                             <td>{{data.Team}}</td>
                             <td>{{data.NumberOfbenches}}</td>
+                            <td>{{data.BenchData}}</td>
                             <td>{{data.Program}}</td>
                             <td>{{data.Sku}}</td>
                             <td>{{data.Vendor}}</td>
-                            <td>{{data.FromWW}}</td>
-                            <td>{{data.ToWW}}</td>
+                            <td>{{data.FromWW | ww: 10}}</td>
+                            <td>{{data.ToWW | ww: 10}}</td>
                             <td>{{data.Duration}}</td>
                             <td>{{data.AllocatedTo[0]?.Name}}</td>
                             <td>{{data.Remarks}}</td>

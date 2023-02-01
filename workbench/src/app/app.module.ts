@@ -35,7 +35,7 @@ import {
   SearchVendor,
   SearchTeam,
   SearchDuration,
-  SearchBenchdetails
+  SearchBenchdetails,
 } from './search.pipe';
 import { SummaryService } from './shared/service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -50,6 +50,7 @@ import { PublishComponent } from './publish/publish.component';
 import { PlatformComponent } from './platform/platform.component';
 import { VendorComponent } from './vendor/vendor.component';
 import { TeamComponent } from './team/team.component';
+import { MultiplierPipe } from './ww';
 /* import { ToastrService } from 'ngx-toastr'; */
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { TeamComponent } from './team/team.component';
     PlatformComponent,
     VendorComponent,
     TeamComponent,
+    MultiplierPipe,
   ],
   imports: [
     BrowserModule,
