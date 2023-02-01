@@ -84,8 +84,10 @@
             </div> -->
             <div class="table-container" *ngIf='approvallist?.length'>
                 <div class="btn-add-user">
-                    <button class="btn add-btn" (click)="rejectBench()">Reject</button>
-                    <button class="btn add-btn" (click)="approveBench()">Approve</button>
+                    <button class="btn add-btn" [disabled]="approveBenchList?.length == 0"
+                        (click)="openReject()">Reject</button>
+                    <button class="btn add-btn" [disabled]="approveBenchList?.length == 0"
+                        (click)="approveBench()">Approve</button>
                 </div>
                 <table class="table table-bordered user-table">
                     <thead>
@@ -96,6 +98,9 @@
 
                             <th class="v-align" (click)="setOrderRelease('Team')"><span class="sort-by">Team</span></th>
                             <th class="v-align" (click)="setOrderRelease('#Bench')"><span class="sort-by">#Bench</span>
+                            </th>
+                            <th class="v-align" (click)="setOrderRelease('Benchdetails')"><span class="sort-by">
+                                    Bench Details</span>
                             </th>
                             <th class="v-align" (click)="setOrderRelease('Program')"><span
                                     class="sort-by">Program</span></th>
@@ -123,11 +128,12 @@
                             <td>{{data.Location__Name}}</td>
                             <td>{{data.Team}}</td>
                             <td>{{data.NumberOfbenches}}</td>
+                            <td>{{data.BenchData}}</td>
                             <td>{{data.Program}}</td>
                             <td>{{data.Sku}}</td>
                             <td>{{data.Vendor}}</td>
-                            <td>{{data.FromWW}}</td>
-                            <td>{{data.ToWW}}</td>
+                            <td>{{data.FromWW | ww: 10}}</td>
+                            <td>{{data.ToWW | ww: 10}}</td>
                             <td>{{data.Duration}}</td>
                             <td>{{data.AllocatedTo[0]?.Name}}</td>
                             <td>{{data.Remarks}}</td>
@@ -138,10 +144,34 @@
                 </table>
             </div>
 
-             <!-- No data available display -->
+            <!-- No data available display -->
             <div class="no_data_block_display" *ngIf='approvallist?.length == 0'>
                 <h2 class="mt-2">No Data Available</h2>
             </div>
         </div>
     </div>
 </div>
+<!-- =========***** Modal popup for booking*****=============-->
+<ng-template #rejectModel let-c="close" id="rejectModel" let-d="dismiss">
+    <div class="modal-add">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="testModalLabel">
+                <!-- <i class="fas fa-user-plus"></i> -->
+                &nbsp; Bench Details
+            </h1>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <i class='fas fa-times'></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <textarea class="form-control" [(ngModel)]="reason"
+                    placeholder="Kindly provide reason for reject"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn back-btn close" aria-label="Close"
+                (click)="d('Cross click')">Cancel</button>
+            <button type="button" class="btn back-btn" (click)="rejectBench()">Save</button>
+        </div>
+    </div>
+</ng-template>

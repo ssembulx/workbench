@@ -118,10 +118,10 @@
                             </th>
 
                             <th class="v-align" (click)="setOrderRelease('Benchdetails')"><span class="sort-by"
-                                [ngbTooltip]="detailsSearch" placement="top" tooltipClass="custom-tooltip"
-                                [autoClose]="false" triggers="manual" #ts11="ngbTooltip"
-                                (click)="showTestTrendSearch(ts11)">
-                                <i class="fas fa-search"></i>&nbsp;&nbsp;Bench Details</span>
+                                    [ngbTooltip]="detailsSearch" placement="top" tooltipClass="custom-tooltip"
+                                    [autoClose]="false" triggers="manual" #ts11="ngbTooltip"
+                                    (click)="showTestTrendSearch(ts11)">
+                                    <i class="fas fa-search"></i>&nbsp;&nbsp;Bench Details</span>
                             </th>
 
                             <th class="v-align" (click)="setOrderRelease('program')"><span class="sort-by"
@@ -130,7 +130,7 @@
                                     (click)="showTestTrendSearch(ts2)">
                                     <i class="fas fa-search"></i>&nbsp;&nbsp;Program</span>
                             </th>
-                                      
+
                             <th class="v-align" (click)="setOrderRelease('SKU')"><span class="sort-by"
                                     [ngbTooltip]="skuSearch" placement="top" tooltipClass="custom-tooltip"
                                     [autoClose]="false" triggers="manual" #ts3="ngbTooltip"
@@ -189,8 +189,8 @@
                             <td>{{data.Vendor}}</td>
                             <td>{{data.AllocatedTo[0].Name }}</td>
                             <!-- <td *ngIf="data.AllocatedTo.length > 0">{{ data.AllocatedTo[0].Name }}</td> -->
-                            <td>{{data.FromWW}}</td>
-                            <td>{{data.ToWW}}</td>
+                            <td>{{data.FromWW | ww: 10}}</td>
+                            <td>{{data.ToWW | ww: 10}}</td>
                             <td>{{data.Duration}}</td>
                             <td>{{data.Remarks}}</td>
                             <!-- <td><input class="form-check-input chcekbox-style" type="checkbox" value="" id="flexCheckChecked"/></td> -->
@@ -198,7 +198,7 @@
                     </tbody>
                 </table>
             </div>
-             <!-- No data available display -->
+            <!-- No data available display -->
             <div class="no_data_block_display" *ngIf="reportData?.length == 0">
                 <h2 class="mt-2">No Data Available</h2>
             </div>
@@ -226,8 +226,7 @@
             <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
         </div>
         <div class="form-group search-ctrl">
-            <input name="target" [(ngModel)]="searchTeam" placeholder="Search Team" type="text"
-                class="form-control" />
+            <input name="target" [(ngModel)]="searchTeam" placeholder="Search Team" type="text" class="form-control" />
             <i class="fas fa-times" (click)="clearInput()" *ngIf="searchTeam !== ''"></i>
             <i class="flaticon-search fas fa-search"></i>
         </div>

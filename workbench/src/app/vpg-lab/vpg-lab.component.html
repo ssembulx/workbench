@@ -1,32 +1,30 @@
 <div class="row" *ngIf="seatmap?.length>0">
     <div class="col-12 seat-container">
-        <div class="lab_block col-8">
+        <div class="lab_block col-7">
             <div class="wall">
                 <ng-container>
-                    <div class="col-12 float_left">
-                        <div class="wall-heading col-5 float_left">
-                            <h4>{{defaultValue}}</h4>
-                        </div>
-                        <div class="wall-legend col-7 float_left">
-                            <img src="./assets/image/non_siv.png">
-                            <h5>Non SIV</h5>
-                            <img src="./assets/image/Booked.png">
-                            <h5>Allocated</h5>
-                            <img src="./assets/image/Available.png">
-                            <h5>Free</h5>
-                            <img src="./assets/image/Requested.png">
-                            <h5>Approval pending</h5>
-                        </div>
-                    </div>
-                </ng-container>
-                <ng-container>
-                    <div class="col-12 float_left">
+                    <div class="new_wall">
+                        <ng-container>
+                            <div class="wall-heading">
+                                <h4>{{defaultValue}}</h4>
+                            </div>
+                            <div class="wall-legend">
+                                <img src="./assets/image/non_siv.png">
+                                <h5>Non SIV</h5>
+                                <img src="./assets/image/Booked.png">
+                                <h5>Allocated</h5>
+                                <img src="./assets/image/Available.png">
+                                <h5>Free</h5>
+                                <img src="./assets/image/Requested.png">
+                                <h5>Approval pending</h5>
+                            </div>
+                        </ng-container>
                         <ng-container *ngFor="let seatrow of seatmap; let i = index;trackBy: trackByIds"
                             class="seat-list">
                             <div class="col-12 pricing-label"
                                 *ngIf="seatChartConfig?.showRowWisePricing && seatrow.seatPricingInformation != ''">
                                 {{seatrow.seatPricingInformation}}</div>
-                            <div class="seatrow padding_l_r_0">
+                            <div class="seatrow padding_l_r_0" [ngClass]="{'m_b_10':seatrow.IsRowSpace == true}">
                                 <!-- [ngClass]="{  'full_bottom' : i == 2 , 'double_side': i==1 , 'single_right': i==0 }"> -->
                                 <div *ngIf="seatChartConfig?.showRowsLabel">
                                     <div class="row-label"> {{seatrow.seatRowLabel}} </div>
@@ -81,7 +79,7 @@
                 </ng-container>
             </div>
         </div>
-        <div class="booknow_block col-4">
+        <div class="booknow_block col-5">
             <div class="row booknow_div">
                 <div class="col-lg-12 summary-bar">
                     <div class="col-lg-12 selected-seats">
@@ -130,8 +128,8 @@
                                         <select class="form-select location_select" aria-label="Default select example"
                                             [(ngModel)]="programName" (change)="onChangeProgram(programName)">
                                             <option selected value="">Select Program</option>
-                                            <option *ngFor="let locat of programList" [ngValue]="locat.ProgramName">
-                                                {{locat.ProgramName}}
+                                            <option *ngFor="let locat of programList?.ProgramName" [ngValue]="locat">
+                                                {{locat}}
                                             </option>
                                         </select>
                                     </td>
@@ -142,7 +140,7 @@
                                         <select class="form-select location_select" aria-label="Default select example"
                                             [(ngModel)]="skuName">
                                             <option selected value="">Select SKU</option>
-                                            <option *ngFor="let locat of skuList?.Sku" [ngValue]="locat">
+                                            <option *ngFor="let locat of skuList" [ngValue]="locat">
                                                 {{locat}}
                                             </option>
                                         </select>
