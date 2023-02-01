@@ -14,7 +14,7 @@ $seat-unavailable-color: white;
 
 .seatrow {
     /* display: inline-flex; */
-    display: flex;
+    display: inline-flex;
     /* width: 670px; */
     text-align: center;
 }
@@ -30,7 +30,7 @@ $seat-unavailable-color: white;
 
 .seat-item {
     height: 40px;
-    width: 40px;
+    width: 45px;
     line-height: 25px;
     margin: 1px;
     border-radius: 7px;
@@ -176,7 +176,7 @@ $seat-unavailable-color: white;
 .summary-bar {
     /* display: inline-flex; */
     margin-top: 1%;
-    text-align: center;
+    text-align: left;
 }
 
 .no-padding {
@@ -198,6 +198,7 @@ $seat-unavailable-color: white;
 .new_wall {
     border: 5px solid #a0a0a0;
     display: inline-block;
+    text-align: center;
 
 }
 
@@ -288,9 +289,11 @@ $seat-unavailable-color: white;
     /* text-align: center; */
     /* float: right; */
     left: 29rem;
-    display: inline-block;
-    float: left;
+    display: inline-flex;
+    /* float: left; */
     margin-right: 20px;
+    padding-top: 5px;
+
     h4 {}
 }
 
@@ -299,11 +302,13 @@ $seat-unavailable-color: white;
     top: 7rem;
     text-align: center;
     left: 41rem;
-    display: flex;
-
+    display: inline-flex;
+    margin-right: 20px;
+    margin-left: 20px;
+    padding-top: 5px;
     img {
-        height: 30px;
-        width: 30px;
+        height: 25px;
+        width: 25px;
         margin-right: 5px;
     }
 
