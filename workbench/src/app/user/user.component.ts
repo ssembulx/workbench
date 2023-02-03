@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { SummaryService } from '../shared/service';
 
 @Component({
   selector: 'app-user',
@@ -8,107 +10,204 @@ import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 })
 export class UserComponent implements OnInit {
 
+  name = '';
+  email ='';
+  wwid = '';
+  idsid = '';
+  badge = '';
+  displayname = '';
   orderMappedRelease: string = '';
   reverseMappedRelease: boolean = true;
   rowValue:any;
   modalReference:any;
+  userDetails: any;
+  role:any;
+  roleList:any
+  userData :any;
   modal:any={
-    name:'',
+    Name:'',
     wwid:'',
-    idsid:'',
+    displayname:'',
+    IDSID:'',
     email:'',
     role:'',
     badge:'',
     lastloggedon:''
   };
+  userdataLoader = false;
 
-  constructor(private modalService:NgbModal,config: NgbModalConfig) { 
+  constructor(private modalService:NgbModal,config: NgbModalConfig,  private service: SummaryService, private toastrService: ToastrService,) { 
     config.backdrop = 'static';
     config.size = 'md';
   }
 
-  //**** Static data for table ****//
-  userData = [
-    { slno: 1, wwid: "11445685", idsid: "bgurusam", displayName: "Gurusamy, Balaji", email: "balaji.gurusamy@intel.com", role: "view", badge:"BB", lastLoggedOn:"Not yet logged in"},
-    { slno: 2, wwid: "11865087", idsid: "nairrath", displayName: "Nair, Ratheesh",   email: "ratheesh.nair@intel.com", role: "view" , badge:"BB", lastLoggedOn:"Not yet logged in" },
-    { slno: 3, wwid: "11382988", idsid: "vbadam",   displayName: "Badam, Venkatesh", email: "venkatesh.badam@intel.com", role: "view", badge:"BB", lastLoggedOn:"Oct 18 2022 10:32AM" },
-    { slno: 4, wwid: "11447352", idsid: "schandna", displayName: "Chandna, Shruti",  email: "shruti.chandna@intel.com", role: "view", badge:"BB", lastLoggedOn:"Oct 18 2022 9:53AM" },
-    { slno: 5, wwid: "11593933", idsid: "sabarigi", displayName: "Radhakrishnan, Sabarigirish", email: "sabarigirish.radhakrishnan@intel.com", role: "view", badge:"BB", lastLoggedOn:"Oct 17 2022 6:36PM" },
-    { slno: 6, wwid: "11486911", idsid: "sethiani", displayName: "Anil Sethi", email: "anil.kumar.sethi@intel.com", role: "view", badge:"BB", lastLoggedOn:"Nov 3 2022 1:35PM" },
-    { slno: 7, wwid: "11421054", idsid: "mpsharma", displayName: "Munish Sharma", email: "munish.p.sharma@intel.com", role: "Manage", badge:"BB", lastLoggedOn:"Oct 21 2022 11:01AM" },
-  ]
-
   ngOnInit(): void {
-    
+     this.getuserData();
+
+     //**** Calling Role API for select drop down in add user modal popup ***//
+     this.service.getRole().subscribe((res) => {
+        this.roleList = res;
+        console.log(this.roleList,"****")
+    });
   }
 
-  //**** Sorting functionality in table(ascending descending order) ****//
-  setOrderRelease(value: string) {
-    if (this.orderMappedRelease === value) {
-      this.reverseMappedRelease = !this.reverseMappedRelease;
-    }
-    this.orderMappedRelease = value;
+  //**** Calling API for user data in table ****//
+  getuserData(){
+    this.userdataLoader = false;
+    this.service.getUserData().subscribe((res:any) => {
+      this.userData = res;
+      console.log(this.userData,"user")
+      this.userdataLoader = true;
+    });
   }
+
+  //*** calling add user data modal popup ****//
+  AddRow(addmodal:any){
+    this.modalReference=this.modalService.open(addmodal)  
+  }
+
+  //*** Add user data functionality****//
+  AddUser(){ 
+    //*** payload for add user data****//
+    let req =  {"wwid":this.wwid,"idsid":this.idsid,"name":this.name,"emailId":this.email,"role":this.role,"employeeBadgeType": this.badge,"displayName": this.displayname}
+    
+    // **** Calling Add row API***** //
+   this.service.getAddUserData(req).subscribe((res:any) => {
+     this.getuserData();
+
+   });
+    this.modalReference.close();
+    //*** To clearing existing values****//
+    this.wwid = '';
+    this.idsid = '';
+    this.name = '';
+    this.email = '';
+    this.role = '';
+    this.badge = '';
+    this.displayname = '';
+  }
+
+  //***** Calling user details API ****//
+  getUserDetails() {
+    debugger
+    if (!/^\d+$/.test(this.wwid.trim())) {
+      var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+      if (format.test(this.wwid.trim())) {
+        var obj = {
+          type: 'CorporateEmailTxt',
+          values: this.wwid.trim(),
+        };
+      } else {
+        var obj = {
+          type: 'FullNm',
+          values: this.wwid.trim(),
+        };
+      }
+    }
+    if (/^\d+$/.test(this.wwid.trim())) {
+      var obj = {
+        type: 'Wwid',
+        values: this.wwid.trim(),
+      };
+    }
+
+    this.service.getUserDetails(obj).subscribe((res) => {
+      if (res['wwid'] === null || res['wwid'] === undefined || res['wwid'] != this.wwid) {
+        debugger
+        this.toastrService.warning(
+          'No users found with entered details, Kindly enter correct details!',
+          'Warning!'
+        );
+      } else {
+        this.userDetails = res;
+        this.name = res['name'];
+        this.email = res ['emailId'];
+        this.wwid = res ['wwid'];
+        this.role = res['role'];
+        this.idsid = res['idsid'];
+        this.badge = res['employeeBadgeType'];
+        this.displayname = res['displayName'];
+      }
+    });
+  }
+
+  //**** Edit Row functionality in table ****//
+  EditRow(editmodal:any,wwid:any,roleName:any){
+
+    this.userData.forEach((element:any) => {
+      if(element.WWID == wwid && element.Role__role_name == roleName){
+       this.modal['IDSID']=element.Idsid
+       this.modal['displayname']=element.DisplayName
+       this.modal['Name']=element.Name
+       this.modal['wwid']=element.WWID
+       this.modal['email']=element.Email
+       this.modal['role']=element.Role__role_name
+       this.modal['badge']=element.Badge
+       this.modal['lastloggedon']=element.LastLoggedOn
+      }
+    });
+    console.log(this.userData,"dgfhjkl")
+     this.modalReference=this.modalService.open(editmodal)  
+   }
+ 
+   //**** Update Row functionality in table ****//
+   UpdateTable(){
+    let req = {"WWID":this.modal.wwid,"Role":this.modal.role}
+
+     // **** Calling Update row API***** //
+     this.service.getUserUpdateData(req).subscribe((res:any)=>{
+        this.getuserData();
+     });
+     this.modalReference.close();
+  
+     //*** To clearing existing values****//
+     this.modal.wwid = '';
+     this.modal.idsid = '';
+     this.modal.Name = '';
+     this.modal.email = '';
+     this.modal.role = '';
+     this.modal.badge = '';
+     this.modal.lastloggedon = '';
+     this.modal.displayname = '';
+   }
 
   //**** Delete Row functionality in table ****//
-  DeleteRow(deletemodal:any,index:any) {
-    this.rowValue = index;
+  DeleteRow(deletemodal:any,wwid:any) {
+    this.rowValue = wwid;
     this.modalReference=this.modalService.open(deletemodal)
   }
 
   //**** Confirm Delete Row functionality in table ****//
   ConfirmDelete()
   {
-    this.userData.splice(this.rowValue, 1);
+    let req = {"WWID":this.rowValue}
+
+    // **** Calling Delete row API***** //
+    this.service.getUserDelete(req).subscribe((res:any)=>{
+       this.getuserData();
+    });
+    // this.userData.splice(this.rowValue, 1);
     this.modalReference.close();
   }
 
-  //**** Edit Row functionality in table ****//
-  EditRow(editmodal:any,wwid:any){
-   this.userData.forEach(element => {
-     if(element.wwid == wwid){
-      this.modal['idsid']=element.idsid
-      this.modal['name']=element.displayName
-      this.modal['wwid']=element.wwid
-      this.modal['email']=element.email
-      this.modal['role']=element.role
-      this.modal['badge']=element.badge
-      this.modal['lastloggedon']=element.lastLoggedOn
-     }
-   });
-    this.modalReference=this.modalService.open(editmodal)  
+  //***** to clear the input fields in add user modal popup****//
+  clearInput(){
+    debugger
+    this.wwid = '';
+    this.idsid = '';
+    this.name = '';
+    this.email = '';
+    this.role = '';
+    this.badge = '';
+    this.displayname = '';
   }
 
-  //**** Update Row functionality in table ****//
-  UpdateTable(){
-    this.userData.forEach(ele=>{
-      if(this.modal.wwid==ele.wwid){
-        ele.displayName = this.modal.name
-        ele.idsid = this.modal.idsid
-        ele.email = this.modal.email
-        ele.role = this.modal.role
-        ele.badge = this.modal.badge
-        ele.lastLoggedOn = this.modal.lastloggedon
-      }
-    })
-    this.modalReference.close();
+   //**** Sorting functionality in table(ascending descending order) ****//
+   setOrderRelease(value: string) {
+    if (this.orderMappedRelease === value) {
+      this.reverseMappedRelease = !this.reverseMappedRelease;
+    }
+    this.orderMappedRelease = value;
   }
-
-  AddRow(addmodal:any){
-    this.modalReference=this.modalService.open(addmodal)  
-  }
-
-  AddUser(){
-    this.userData.push({
-      slno:this.modal.slno,
-      wwid:this.modal.wwid,
-      idsid:this.modal.idsid,
-      displayName:this.modal.name,
-      email: this.modal.email,
-      role: this.modal.role,
-      badge: this.modal.badge,
-      lastLoggedOn: this.modal.lastLoggedOn
-    })
-    this.modalReference.close();
-  }
+ 
 }

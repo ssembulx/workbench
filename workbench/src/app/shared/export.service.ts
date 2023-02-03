@@ -15,13 +15,13 @@ export class ExportService {
   let worksheet = workbook.addWorksheet('Report Data');
   let testcaseData = jsonData;
 
-  let headerNameList = ['Lab Details','Team','#Bench','Program','SKU','Vendor','Allocated To','From WW','To WW','Duration','Remarks'];
+  let headerNameList = ['Lab Details','Team','#Bench','Bench Details','Program','SKU','Vendor','Allocated To','From WW','To WW','Duration','Remarks'];
   // let headerRow = worksheet.addRow(headerNameList);
   worksheet.addRow(headerNameList);
 
          
  testcaseData.forEach((item: any) => {
-  let rowList = [item.Location__Name, item.Team, item.BenchData,item.Program, item.Sku, item.Vendor, item.AllocatedTo[0].Name, item.FromWW, item.ToWW,item.Duration, item.Remarks];
+  let rowList = [item.Location__Name, item.Team, item.BenchData?.length,item.BenchData,item.Program, item.Sku, item.Vendor, item.AllocatedTo[0].Name, item.FromWW, item.ToWW,item.Duration, item.Remarks];
   const row = worksheet.addRow(rowList);
   }),
   
