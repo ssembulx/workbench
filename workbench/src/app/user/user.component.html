@@ -1,11 +1,11 @@
 <div class="users">
     <div class="content">
       <div class="user-content">
-        <div class="table-container">
+        <div class="table-container" *ngIf="userData?.length">
             <div class="btn-add-user">
                 <button class="btn add-btn" (click)="AddRow(addmodal)">Add User</button>
             </div>
-            <table class="table table-bordered user-table">
+            <table class="table table-bordered user-table" *ngIf="userdataLoader">
                 <thead>
                     <tr>
                         <th class="v-align">SL NO.</th>
@@ -22,16 +22,16 @@
                 <tbody>
                     <tr *ngFor="let data of userData | orderBy: orderMappedRelease:reverseMappedRelease: true ; let i=index">
                         <td>{{(i+1)}}</td>
-                        <td>{{data.wwid}}</td>
-                        <td>{{data.idsid}}</td>
-                        <td>{{data.displayName}}</td>
-                        <td>{{data.email}}</td>
-                        <td>{{data.role}}</td>
-                        <td>{{data.badge}}</td>
-                        <td>{{data.lastLoggedOn}}</td>
+                        <td>{{data.WWID}}</td>
+                        <td>{{data.Idsid}}</td>
+                        <td>{{data.DisplayName}}      
+                        <td>{{data.Email}}</td>
+                        <td>{{data.Role__role_name}}</td>
+                        <td>{{data.Badge}}</td>
+                        <td>{{data.LastLoggedOn}}</td>
                         <td>
-                            <a  (click)="EditRow(editmodal,data.wwid)">Edit</a> |
-                            <a (click)="DeleteRow(deletemodal,i)">Delete</a></td>
+                            <a (click)="EditRow(editmodal,data.WWID,data.Role__role_name)">Edit</a> |
+                            <a (click)="DeleteRow(deletemodal,data.WWID)">Delete</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -40,7 +40,7 @@
     </div>
 </div>
 
-  <!-- =========***** Modal popup for add user*****=============-->
+<!-- =========***** Modal popup for add user*****=============-->
 <ng-template #addmodal let-c="close" let-d="dismiss">
     <div class="modal-add">
         <div class="modal-header">
@@ -48,30 +48,44 @@
             </h1>
             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <i class='fas fa-times'></i></button>
-        </div>
-        <div class="modal-body">
+        </div>        <div class="modal-body">
             <table class="table table-bordered user-table">               
                 <tbody>
                     <tr>
-                        <td>WWID/IDSID/EMAIL</td>
-                        <td><input type="text" class="text-box" [(ngModel)]="modal.wwid"></td>
+                        <td>WWID</td>
+                        <td>
+                            <input type="text" class="wwid-text-box" [(ngModel)]="wwid">
+                            <i class="fa fa-search" (click)="getUserDetails()"></i>
+                        </td>
                         </tr>
                     <tr>
                         <td>Name</td>
-                        <td><input type="text" class="text-box" [(ngModel)]="modal.name"></td>
+                        <td><input type="text" class="text-box" [(ngModel)]="name"></td>
                     </tr>
                     <tr>
                         <td>Email</td>
-                        <td><input type="text" class="text-box" [(ngModel)]="modal.email"></td>
+                        <td><input type="text" class="text-box" [(ngModel)]="email"></td>
                     </tr>
                     <tr>
                         <td>Role</td>
-                        <td><input type="text" class="text-box" [(ngModel)]="modal.role"></td>
+                        <td>
+                            <select class="form-select" aria-label="Default select example"  [(ngModel)]="role">
+                                <option selected value="">Select Role</option>
+                                <option *ngFor="let roledata of roleList?.Roles" [ngValue]="roledata">
+                                    {{roledata}}
+                                </option>
+                                <!-- <option>Admin</option>
+                                <option>Super Admin</option>
+                                <option>Manager</option> -->
+                           </select>
+                        </td>
+                        <!-- <td><input type="text" class="text-box" [(ngModel)]="modal.role"></td> -->
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="modal-footer">
+            <button type="button" class="btn back-btn" (click)="clearInput()">Clear</button>
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
             <button type="button" class="btn back-btn" (click)="AddUser()">Save</button>
         </div>
@@ -79,7 +93,7 @@
 </ng-template>
  
 
-  <!-- =========***** Modal popup for Edit row*****=============-->
+<!-- =========***** Modal popup for Edit row*****=============-->
 <ng-template #editmodal let-c="close" let-d="dismiss">
 <div class="modal-edit">
     <div class="modal-header">
@@ -91,43 +105,61 @@
             <div class="form-group row label-style">
                 <label for="testId" class="col-4 col-form-label">WWID :</label>
                 <div class="col-8">
-                    <input type="text" [(ngModel)]="modal.wwid" class="col-8 form-control shadow-none i-field" required>
+                    <input type="text" [(ngModel)]="modal.wwid" class="col-8 form-control shadow-none i-field" readonly>
                 </div>
             </div>
             <div class="form-group row label-style">
                 <label for="testId" class="col-4 col-form-label">IDSID :</label>
                 <div class="col-8">
-                    <input type="text" [(ngModel)]="modal.idsid" class="col-8 form-control shadow-none i-field" required>
+                    <input type="text" [(ngModel)]="modal.IDSID" class="col-8 form-control shadow-none i-field" readonly>
                 </div>
             </div>
             <div class="form-group row label-style">
                 <label for="testId" class="col-4 col-form-label">Dislay Name :</label>
                 <div class="col-8">
-                    <input type="text" [(ngModel)]="modal.name" class="col-8 form-control shadow-none i-field" required>
+                    <input type="text" [(ngModel)]="modal.Name" class="col-8 form-control shadow-none i-field" readonly>
                 </div>
             </div>
             <div class="form-group row label-style">
                 <label for="testId" class="col-4 col-form-label">Email :</label>
                 <div class="col-8">
-                    <input type="text" [(ngModel)]="modal.email" class="col-8 form-control shadow-none i-field" required>
+                    <input type="text" [(ngModel)]="modal.email" class="col-8 form-control shadow-none i-field" readonly>
                 </div>
             </div>
-            <div class="form-group row label-style">
+            <div class="float-role">
+                <label>Role</label>
+                <!-- <select class="form-select" aria-label="Default select example" [(ngModel)]="modal.role">
+                    <option selected value="">Select Role</option>
+                    <option>Admin</option>
+                    <option>User</option>
+                    <option>Manager</option>
+                </select> -->
+                <select class="form-select" aria-label="Default select example"  [(ngModel)]="modal.role">
+                    <option selected value="">Select Role</option>
+                    <option *ngFor="let roledata of roleList?.Roles" [ngValue]="roledata">
+                        {{roledata}}
+                    </option>
+                    <!-- <option>Admin</option>
+                    <option>Super Admin</option>
+                    <option>Manager</option> -->
+               </select>
+            </div> 
+            <!-- <div class="form-group row label-style">
                 <label for="testId" class="col-4 col-form-label"> Role :</label>
                 <div class="col-8">
                     <input type="text" [(ngModel)]="modal.role" class="col-8 form-control shadow-none i-field" required>
                 </div>
-            </div>
+            </div> -->
             <div class="form-group row label-style">
                 <label for="testId" class="col-4 col-form-label">Badge :</label>
                 <div class="col-8">
-                    <input type="text" [(ngModel)]="modal.badge" class="col-8 form-control shadow-none i-field" required>
+                    <input type="text" [(ngModel)]="modal.badge" class="col-8 form-control shadow-none i-field" readonly>
                 </div>
             </div>
             <div class="form-group row label-style">
                 <label for="testId" class="col-4 col-form-label">Last Logged On:</label>
                 <div class="col-8">
-                    <input type="text" [(ngModel)]="modal.lastloggedon" class="col-8 form-control shadow-none i-field" required>
+                    <input type="text" [(ngModel)]="modal.lastloggedon" class="col-8 form-control shadow-none i-field" readonly>
                 </div>
             </div>
     </div>
@@ -141,25 +173,43 @@
 
  <!-- =========***** Modal popup for Delete row*****=============-->
 <ng-template #deletemodal let-c="close" let-d="dismiss">
-<div class="modal-delete">
-    <div class="modal-header">
-        <h1 class="modal-title fs-5">Delete Row</h1>
-        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <i class="fas fa-times"></i>
-        </button>
-    </div>
-    <div class="modal-body">
-    <form>
-        <div class="container">
-        
-            <p class="para-style">Are you sure you want to delete?</p>
+    <div class="modal-delete">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5">Delete Row</h1>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
-    </form>
+        <div class="modal-body">
+        <form>
+            <div class="container">
+            
+                <p class="para-style">Are you sure you want to delete?</p>
+            </div>
+        </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
+            <button type="button" (click)="ConfirmDelete()" class="btn delete-btn btn-danger">Delete</button>
+        </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
-        <button type="button" (click)="ConfirmDelete()" class="btn delete-btn btn-danger">Delete</button>
-    </div>
-</div>
 </ng-template>
 
+
+<!-- ****** vendor table loader option ****** -->
+<div class="overlay-main" *ngIf="!userdataLoader">
+    <div class="spinner-container">
+        <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+            <div class="rect6"></div>
+            <div class="rect7"></div>
+            <div class="rect8"></div>
+            <div class="rect9"></div>
+        </div>
+        <div class="proccessing-text">Loading ...</div>
+    </div>
+</div>

@@ -126,7 +126,7 @@ export class SummaryService {
     return this.http.post(this.ServiceURL + 'home/DeleteVendor/',req);
   }
 
-  // ***** Master view add team data API ******//
+  // ***** Master view  team data API ******//
   public getTeamData(): Observable<any> {
     return this.http.get(this.ServiceURL + 'home/TeamData/');
   }
@@ -136,17 +136,40 @@ export class SummaryService {
     return this.http.post(this.ServiceURL + 'home/TeamData/',req);
   }
 
-  // ***** Master view add team data API ******//
+  // ***** Master view update team data API ******//
   public getTeamUpdateData(req: any): Observable<any> {
     return this.http.put(this.ServiceURL + 'home/TeamData/',req);
   }
   
-   // ***** Master view add team data API ******//
+   // ***** Master view delete team data API ******//
    public getTeamDelete(req: any): Observable<any> {
     return this.http.post(this.ServiceURL + 'home/DeleteTeam/',req);
   }
+
+   // *****  user data API ******//
+   public getUserData(): Observable<any> {
+    return this.http.get(this.ServiceURL + 'home/AddUser/');
+  }
+
+  // *****  Calling API for Role for user table(drop down select option) ******//
+  public getRole(): Observable<any> {
+    return this.http.get(this.ServiceURL + 'home/GetAllRoles/');
+  }
   
+  // ***** user view add user data API ******//
+  public getAddUserData(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/AddUser/',req);
+  }
   
+   // ***** User view update user data API ******//
+   public getUserUpdateData(req: any): Observable<any> {
+    return this.http.put(this.ServiceURL + 'home/AddUser/',req);
+  }
+
+   // ***** User view delete team data API ******//
+   public getUserDelete(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/DeleteUser/',req);
+  }
   // constructor(private http: HttpClient) {}
 
   // public LabProgramVendorSummary(): Observable<any> {

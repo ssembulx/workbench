@@ -141,7 +141,7 @@ export class PlatformComponent implements OnInit {
   // ***** Add functionality for sku ****** //
   AddSku(){
     let req = {"ProgramShortName":this.modal.platformShortName,"SkuName":this.modal.skuName}
-
+     // **** Calling Add row API***** //
     this.service.getSkuAddData(req).subscribe((res:any) => {
       this.getSkuData();
       console.log(this.skuData,"fdghj")
@@ -205,6 +205,4 @@ export class PlatformComponent implements OnInit {
     }
     this.orderMappedRelease = value;
   }
-
-
 }
