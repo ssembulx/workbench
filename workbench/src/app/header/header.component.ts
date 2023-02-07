@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit {
         "displayName": "Manjunath, ArundathiX",
         "isApplicationAccess": false,
         "programAccesses": null,
-        "Role": "Manager"
+        "Role": "User"
     }
     this.RoleName = this.userDetails.Role;
     if( this.RoleName != 'User'  &&  this.RoleName != 'Admin'){
@@ -59,7 +59,7 @@ export class HeaderComponent implements OnInit {
 
     // this.service.getWindowsAuth().subscribe((res:any) =>{
     //   debugger
-    //   this.token = res;
+    //   this.token = res.token;
     //   console.log(this.token,"Token ")
     // })
 
