@@ -51,7 +51,10 @@
                                             class="seat-item seat-unavailable" (click)="deSelectSeat(seatobj)"
                                             *ngIf="seatobj.IsAllocated == true && seatobj.seatLabel != '' && seatobj.team == 'SIV'">
                                             <h4>{{seatobj.labelNo}}</h4>
-                                            <img src="./assets/image/Booked.png">
+                                            <img *ngIf="seatobj.IsAllocated == true  && seatobj.status != 'deselected'"
+                                                src="./assets/image/Booked.png">
+                                            <img *ngIf="seatobj.IsAllocated == true  && seatobj.status == 'deselected'"
+                                                src="./assets/image/deselect1.png">
                                         </div>
                                         <!-- Desk Requested -->
                                         <div placement="top" ngbTooltip="Desk : {{seatobj.seatNo}} Approval pending"

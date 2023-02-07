@@ -884,15 +884,20 @@ export class VPGLabComponent implements OnInit, OnChanges {
   deAllocateBenchList: any = [];
   deSelectSeat(seatObject: any) {
     debugger;
-    const index = this.deAllocateBenchList.indexOf(seatObject?.BenchName);
-    if (index > -1) {
-      // only splice array when item is found
-      this.deAllocateBenchList.splice(index, 1); // 2nd parameter means remove one item only
-    } else {
-      this.deAllocateBenchList.push(seatObject?.BenchName);
-    }
+    if (seatObject.status != 'deselected' && seatObject.IsAllocated === true) {
+      seatObject.status = 'deselected';
 
-    if (seatObject.status != 'selected' && seatObject.IsAllocated === true) {
+      this.deAllocateBenchList.push(seatObject?.BenchName);
+    } else if (
+      seatObject.status == 'deselected' &&
+      seatObject.IsAllocated === true
+    ) {
+      seatObject.status = 'selected';
+      const index = this.deAllocateBenchList.indexOf(seatObject?.BenchName);
+      if (index > -1) {
+        // only splice array when item is found
+        this.deAllocateBenchList.splice(index, 1); // 2nd parameter means remove one item only
+      }
     }
   }
 }
