@@ -53,15 +53,18 @@ export class HeaderComponent implements OnInit {
   }
 
    //**** Getting user role ****//
-  GetUserDetails(){
+  async GetUserDetails(){
     //**** Getting user role in deployment code ****//
     //***** comment while checking in local****//
 
-    this.service.getWindowsAuth().subscribe((res:any) =>{
-      debugger
-      this.token = res.token;
-      console.log(this.token,"Token ")
-    })
+    const tokenData: any = await this.service.getWindowsAuth()
+    this.token = tokenData.token;
+
+    // this.service.getWindowsAuth().subscribe((res:any) =>{
+    //   debugger
+    //   this.token = res.token;
+    //   console.log(this.token,"Token ")
+    // })
 
     //***** comment while checking in local****//
     let req = {"token":this.token}
