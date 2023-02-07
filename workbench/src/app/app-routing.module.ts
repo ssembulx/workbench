@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { AllocationComponent } from './allocation/allocation.component';
 import { ApproveComponent } from './approve/approve.component';
 import { HomeComponent } from './home/home.component';
@@ -50,7 +51,11 @@ const routes: Routes = [{
 },
 {
   path: 'publish', component: PublishComponent
-}];
+},
+{
+  path: 'access-ristrict', component: AccessDeniedComponent
+}
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

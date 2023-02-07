@@ -128,6 +128,16 @@ export class VendorStackedChartComponentComponent implements OnInit {
     //   }
     // ];
 
+// Create the value axis
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+valueAxis.stacking = "normal";
+valueAxis.calculateTotals = true;
+valueAxis.strictMinMax = true;
+
+ // Set the minimum and maximum value
+valueAxis.min = 0;
+valueAxis.max = 100;
+
     xAxis.data.setAll(data);
     series.data.setAll(data);
 

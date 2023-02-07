@@ -32,7 +32,7 @@
             </div>
         </div>
     </section>
-    <section class="second-header">
+    <section class="second-header" *ngIf = "RoleName == 'User' || RoleName == 'Admin'">
         <div class="nav_bar">
             <a routerLink="/home">Home</a>
             <a routerLink="/allocation">Allocation</a>
@@ -47,7 +47,6 @@
                   <!-- <a [routerLink]="['/sku']" (click)="changeView()" class="dropdown-item">SKU</a> -->
                   <a [routerLink]="['/vendor']" (click)="changeView()" class="dropdown-item">Vendor</a>
                   <a [routerLink]="['/team']" (click)="changeView()" class="dropdown-item">Team</a>
-                  <!-- <a [routerLink]="['/NicAnalyze']" (click)="changeView()" class="dropdown-item">NIC Trends</a> -->
                 </div>
               </div>
             <!-- <a routerLink="/master">Master</a> -->

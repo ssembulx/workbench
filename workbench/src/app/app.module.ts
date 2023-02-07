@@ -51,6 +51,7 @@ import { PlatformComponent } from './platform/platform.component';
 import { VendorComponent } from './vendor/vendor.component';
 import { TeamComponent } from './team/team.component';
 import { MultiplierPipe } from './ww';
+import { AccessDeniedComponent } from './access-denied/access-denied.component';
 /* import { ToastrService } from 'ngx-toastr'; */
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { MultiplierPipe } from './ww';
     VendorComponent,
     TeamComponent,
     MultiplierPipe,
+    AccessDeniedComponent,
   ],
   imports: [
     BrowserModule,

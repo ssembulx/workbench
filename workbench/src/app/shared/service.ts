@@ -170,6 +170,17 @@ export class SummaryService {
    public getUserDelete(req: any): Observable<any> {
     return this.http.post(this.ServiceURL + 'home/DeleteUser/',req);
   }
+
+  // ***** User details API ******//
+  public getUserDetail(req:any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/GetCurrentUserData/',req);
+  }
+
+   // ***** WindowsAuth API for getting token ******//
+   public getWindowsAuth(): Observable<any> {
+    return this.http.get('https://iamws-i.intel.com/api/v1/token/WindowsAuth');
+  }
+
   // constructor(private http: HttpClient) {}
 
   // public LabProgramVendorSummary(): Observable<any> {
@@ -252,4 +263,7 @@ export class SummaryService {
       }
     );
   }
+  
+
+
 }

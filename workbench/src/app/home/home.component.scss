@@ -703,6 +703,7 @@
         .float-vendor {
             float: left;
             margin-left: 64%;
+            z-index: 99;
 
             .location_select {
                 height: 37px;
