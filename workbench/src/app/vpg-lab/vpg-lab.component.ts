@@ -64,6 +64,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
   vendorName: any = '';
   teamName: any = '';
   allocatitedTo = '';
+  notifyTo = '';
   fromWW = '';
   toWW = '';
   remarks = '';
@@ -97,7 +98,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
     );
   }
   ngOnChanges(changes: SimpleChanges) {
-     if (!changes?.['defaultValue']?.['firstChange']) {
+    if (!changes?.['defaultValue']?.['firstChange']) {
       this.getLabDetails();
     }
     /* this.labViewLoader = true;
@@ -584,9 +585,11 @@ export class VPGLabComponent implements OnInit, OnChanges {
     this.skuName = '';
     this.vendorName = '';
     this.allocatitedTo = '';
+    this.notifyTo = '';
     this.fromWW = '';
     this.toWW = '';
     this.remarks = '';
+    this.duration = '';
     this.modalReference = this.modalService.open(addmodal);
   }
   saveBooking() {
@@ -604,6 +607,13 @@ export class VPGLabComponent implements OnInit, OnChanges {
           WWID: this.userDetails?.wwid,
           Name: this.userDetails?.name,
           Email: this.userDetails?.emailId,
+        },
+      ],
+      NotifyTo: [
+        {
+          WWID: this.notifyUserDetails?.wwid,
+          Name: this.notifyUserDetails?.name,
+          Email: this.notifyUserDetails?.emailId,
         },
       ],
 
@@ -659,11 +669,13 @@ export class VPGLabComponent implements OnInit, OnChanges {
     this.skuName = '';
     this.vendorName = '';
     this.allocatitedTo = '';
+    this.notifyTo = '';
     this.fromWW = '';
     this.toWW = '';
     this.remarks = '';
     this.toworkweek = '';
     this.fromworkweek = '';
+    this.duration = '';
   }
   trackByIds(index: number, item: any) {
     return item.id;
@@ -815,5 +827,69 @@ export class VPGLabComponent implements OnInit, OnChanges {
       }
       //  this.loadRoles();
     });
+  }
+  notifyUserDetails: any;
+  getNotifyUserDetails() {
+    /*     let flag = this.checkUserExists();
+    if (this.modal.user === '' || this.modal.user === undefined) {
+      this.alertService.showWarning(
+        'Kindly enter WWID/Email/Username to search.'
+      );
+    } else { */
+    /* if (flag) { */
+    if (!/^\d+$/.test(this.notifyTo.trim())) {
+      var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+      if (format.test(this.notifyTo.trim())) {
+        var obj = {
+          type: 'CorporateEmailTxt',
+          values: this.notifyTo.trim(),
+        };
+      } else {
+        var obj = {
+          type: 'FullNm',
+          values: this.notifyTo.trim(),
+        };
+      }
+    }
+    if (/^\d+$/.test(this.notifyTo.trim())) {
+      var obj = {
+        type: 'Wwid',
+        values: this.notifyTo.trim(),
+      };
+    }
+
+    /*    console.log('datatype', isNaN(this.allocatitedTo.trim()) === false);
+    console.log('datatype', /^\d+$/.test(this.allocatitedTo.trim()));
+    console.log('datatype', obj); */
+    // let obj = {
+    //   indentifier: this.modal.user.trim()
+    // };
+
+    this.dataSvc.getUserDetails(obj).subscribe((res) => {
+      if (res['name'] === null || res['name'] === undefined) {
+        this.toastrService.success(
+          'No users found with entered details, Kindly enter correct details!',
+          'Success!'
+        );
+        /*  this.alertService.showWarning(
+          'No users found with entered details, Kindly enter correct details!'
+        ); */
+      } else {
+        this.notifyUserDetails = res;
+        this.notifyTo = res['name'];
+      }
+      //  this.loadRoles();
+    });
+  }
+  deAllocateBenchList: any = [];
+  deSelectSeat(seatObject: any) {
+    debugger;
+    const index = this.deAllocateBenchList.indexOf(seatObject?.BenchName);
+    if (index > -1) {
+      // only splice array when item is found
+      this.deAllocateBenchList.splice(index, 1); // 2nd parameter means remove one item only
+    } else {
+      this.deAllocateBenchList.push(seatObject?.BenchName);
+    }
   }
 }
