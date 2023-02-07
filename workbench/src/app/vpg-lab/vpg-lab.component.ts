@@ -169,8 +169,8 @@ export class VPGLabComponent implements OnInit, OnChanges {
     /*   else if (lab.toString() == 'SRR-2-CRD-4') {
        this.getLabDetails();
     } */
-   /*  let lab = changes?.['defaultValue']?.['currentValue'];
-    if (lab.toString() == 'SRR-2-CRD-5') {
+    /* let lab = changes?.['defaultValue']?.['currentValue'];
+    if (lab.toString() == 'SRR3-CCG3-RFChamber') {
       this.seatmap = [];
       this.seatConfig = [
         {
@@ -178,19 +178,51 @@ export class VPGLabComponent implements OnInit, OnChanges {
           seat_map: [
             {
               seat_label: 'A',
-              layout: 'gggggggg',
-              direction: 'dddddddd',
-              labelNo: 'A8,A7,A6,A5,A4,A3,A2,A1',
-              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
-              IsSpace: true,
+              layout: '____gg_gg__',
+              direction: 'ddddddddddd',
+              labelNo: '_,_,_,_,B-1,B-2,_,B-3,B-4,_,_',
+              Team: '_,_,_,_,SIV,SIV,_,SIV,SIV,_,_,',
+              IsSpace: false,
             },
             {
               seat_label: 'B',
-              layout: 'gggggggg',
-              direction: 'dddddddd',
-              labelNo: 'A9,A10,A11,A12,A13,A14,A15,A16',
-              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+              layout: '__g________',
+              direction: 'ddddddddddd',
+              labelNo: '_,_,C-3,_,_,_,_,_,_,_,_,',
+              Team: '_,_,SIV,_,_,_,_,_,_,_,_,',
               IsSpace: false,
+            },
+            {
+              seat_label: 'C',
+              layout: '___________',
+              direction: 'ddddddddddd',
+              labelNo: '_,_,_,_,_,_,_,_,_,_,_',
+              Team: '_,_,_,_,_,_,_,_,_,_,_',
+              IsSpace: false,
+            },
+            {
+              seat_label: 'D',
+              layout: '__g___g____',
+              direction: 'ddddddddddd',
+              labelNo: '_,_,C-2,_,_,_,A-1,_,_,_,_,',
+              Team: '_,_,SIV,_,_,_,SIV,_,_,_,_,',
+              IsSpace: false,
+            },
+            {
+              seat_label: 'E',
+              layout: '__g________',
+              direction: 'ddddddddddd',
+              labelNo: '_,_,C-1,_,_,_,_,_,_,_,_,',
+              Team: '_,_,SIV,_,_,_,_,_,_,_,_,',
+              IsSpace: false,
+            },
+            {
+              seat_label: 'F',
+              layout: '______g____',
+              direction: 'ddddddddddd',
+              labelNo: '_,_,_,_,_,_,A-1,_,_,_,_,',
+              Team: '_,_,_,_,_,_,SIV,_,_,_,_,',
+              IsSpace: true,
             },
           ],
         },

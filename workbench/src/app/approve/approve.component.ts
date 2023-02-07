@@ -43,22 +43,24 @@ export class ApproveComponent implements OnInit {
     let finalResult: any = {};
     this.finalResultList = [];
     this.approveBenchList.forEach((element: any, index: any) => {
-      finalResult['Program'] = element.Program;
-      finalResult['Sku'] = element.Sku;
-      finalResult['Vendor'] = element.Vendor;
-      finalResult['Team'] = element.Team;
-      finalResult['FromWW'] = element.FromWW;
-      finalResult['ToWW'] = element.ToWW;
-      finalResult['AllocatedTo'] = element.AllocatedTo;
-      finalResult['NumberOfBenches'] = element.NumberOfbenches;
-      finalResult['Remarks'] = element.Remarks;
-      finalResult['IsAllocated'] = false;
-      finalResult['IsRequested'] = true;
-      finalResult['LabName'] = element.Location__Name;
-      finalResult['BenchData'] = element.BenchData;
-      finalResult['Duration'] = element.Duration;
-      finalResult['id'] = element.id;
-      finalResult['Reason'] = this.reason;
+      finalResult = {
+        Program: element.Program,
+        Sku: element.Sku,
+        Vendor: element.Vendor,
+        Team: element.Team,
+        FromWW: element.FromWW,
+        ToWW: element.ToWW,
+        AllocatedTo: element.AllocatedTo,
+        NumberOfBenches: element.NumberOfbenches,
+        Remarks: element.Remarks,
+        IsAllocated: false,
+        IsRequested: true,
+        LabName: element.Location__Name,
+        BenchData: element.BenchData,
+        Duration: element.Duration,
+        id: element.id,
+        Reason: this.reason,
+      };
       // delete element['id'];
       this.finalResultList.push(finalResult);
     });
@@ -80,21 +82,23 @@ export class ApproveComponent implements OnInit {
     let finalResult: any = {};
     this.finalResultList = [];
     this.approveBenchList.forEach((element: any, index: any) => {
-      finalResult['Program'] = element.Program;
-      finalResult['Sku'] = element.Sku;
-      finalResult['Vendor'] = element.Vendor;
-      finalResult['Team'] = element.Team;
-      finalResult['FromWW'] = element.FromWW;
-      finalResult['ToWW'] = element.ToWW;
-      finalResult['AllocatedTo'] = element.AllocatedTo;
-      finalResult['NumberOfBenches'] = element.NumberOfbenches;
-      finalResult['Remarks'] = element.Remarks;
-      finalResult['IsAllocated'] = true;
-      finalResult['IsRequested'] = false;
-      finalResult['LabName'] = element.Location__Name;
-      finalResult['BenchData'] = element.BenchData;
-      finalResult['Duration'] = element.Duration;
-      finalResult['id'] = element.id;
+      finalResult = {
+        Program: element.Program,
+        Sku: element.Sku,
+        Vendor: element.Vendor,
+        Team: element.Team,
+        FromWW: element.FromWW,
+        ToWW: element.ToWW,
+        AllocatedTo: element.AllocatedTo,
+        NumberOfBenches: element.NumberOfbenches,
+        Remarks: element.Remarks,
+        IsAllocated: true,
+        IsRequested: false,
+        LabName: element.Location__Name,
+        BenchData: element.BenchData,
+        Duration: element.Duration,
+        id: element.id,
+      };
       // delete element['id'];
       this.finalResultList.push(finalResult);
     });
