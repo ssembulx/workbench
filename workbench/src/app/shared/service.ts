@@ -177,8 +177,8 @@ export class SummaryService {
   }
 
    // ***** WindowsAuth API for getting token ******//
-   public getWindowsAuth(): Observable<any> {
-    return this.http.get('https://iamws-i.intel.com/api/v1/token/WindowsAuth', { withCredentials: true });
+  getWindowsAuth(){
+     return this.http.get('https://iamws-i.intel.com/api/v1/token/WindowsAuth', { withCredentials: true }).toPromise();
   }
   
   // constructor(private http: HttpClient) {}
