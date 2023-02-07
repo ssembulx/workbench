@@ -157,7 +157,7 @@
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="testModalLabel">
                 <!-- <i class="fas fa-user-plus"></i> -->
-                &nbsp; Bench Details
+                &nbsp; Reason for rejection
             </h1>
             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <i class='fas fa-times'></i></button>
@@ -165,13 +165,13 @@
         <div class="modal-body">
             <div class="row">
                 <textarea class="form-control" [(ngModel)]="reason"
-                    placeholder="Kindly provide reason for reject"></textarea>
+                    placeholder="Please provide the reason for rejecting"></textarea>
             </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn back-btn close" aria-label="Close"
                 (click)="d('Cross click')">Cancel</button>
-            <button type="button" class="btn back-btn" (click)="rejectBench()">Save</button>
+            <button type="button" class="btn back-btn" (click)="rejectBench()">Reject</button>
         </div>
     </div>
 </ng-template>

@@ -66,6 +66,7 @@ export class ApproveComponent implements OnInit {
       if (res) {
         this.closeReject();
         this.viewApprovalRequests();
+        this.approveBenchList = [];
         this.toastrService.success(
           'Allocation Rejected Successfully',
           'Success!'
@@ -101,6 +102,7 @@ export class ApproveComponent implements OnInit {
     this.dataSvc.approveBenchList(this.finalResultList).subscribe((res) => {
       if (res) {
         this.viewApprovalRequests();
+        this.approveBenchList = [];
         this.toastrService.success(
           'Allocation Approved Successfully',
           'Success!'
