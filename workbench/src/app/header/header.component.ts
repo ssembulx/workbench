@@ -82,9 +82,9 @@ export class HeaderComponent implements OnInit {
         this.router.navigate(['/access-ristrict']);
         console.log(this.userDetails.Role,"sfdghjk")
       }
-      else{
-        this.router.navigate(['']);
-      }
+      // else{
+      //   this.router.navigate(['']);
+      // }
       console.log("user details",this.userDetails)
     });
   }
