@@ -75,13 +75,15 @@ export class VPGLabComponent implements OnInit, OnChanges {
       }
     });
   }
-
+  allocationBlock = false;
   getLabDetails() {
     this.labViewLoader = false;
+    this.allocationBlock = false;
     this.dataSvc.getLabDetails({ LabName: this.defaultValue }).subscribe(
       (res) => {
         if (res != 'Info! Lab Does Not Exist') {
           this.labViewLoader = true;
+          this.allocationBlock = true;
           let response: any = res;
           this.parentLabDetailsCreated.emit(response);
           this.seatmap = response.BenchDetails;
