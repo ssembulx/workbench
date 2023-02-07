@@ -48,7 +48,7 @@
                                         </div>
                                         <!-- Desk not available" -->
                                         <div ngbTooltip="Desk not available" placement="top"
-                                            class="seat-item seat-unavailable"
+                                            class="seat-item seat-unavailable" (click)="deSelectSeat(seatobj)"
                                             *ngIf="seatobj.IsAllocated == true && seatobj.seatLabel != '' && seatobj.team == 'SIV'">
                                             <h4>{{seatobj.labelNo}}</h4>
                                             <img src="./assets/image/Booked.png">
@@ -217,6 +217,19 @@
                                                 class="form-control ww-input"
                                                 placeholder="Search with WWID/Email/Username" />
                                             <i class="fa fa-search" (click)="getUserDetails()"></i>
+                                        </div>
+                                        <!--  <input style="width: 100%;" type="text" class="text-box"
+                                            placeholder="Srikanth Uppuluri" [(ngModel)]="allocatitedTo"> -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Notify To :- (<span style="color:red">*</span>)</td>
+                                    <td style="padding: 0px;">
+                                        <div class="field-ctrl">
+                                            <input name="user" [(ngModel)]="notifyTo" type="text"
+                                                class="form-control ww-input"
+                                                placeholder="Search with WWID/Email/Username" />
+                                            <i class="fa fa-search" (click)="getNotifyUserDetails()"></i>
                                         </div>
                                         <!--  <input style="width: 100%;" type="text" class="text-box"
                                             placeholder="Srikanth Uppuluri" [(ngModel)]="allocatitedTo"> -->
