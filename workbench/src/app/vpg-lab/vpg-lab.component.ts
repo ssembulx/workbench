@@ -891,5 +891,8 @@ export class VPGLabComponent implements OnInit, OnChanges {
     } else {
       this.deAllocateBenchList.push(seatObject?.BenchName);
     }
+
+    if (seatObject.status != 'selected' && seatObject.IsAllocated === true) {
+    }
   }
 }
