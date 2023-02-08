@@ -916,7 +916,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
 
         LabName: this.defaultValue,
 
-        BenchData: this.deAllocateBenchList,
+        BenchData: this.deAllocateBenchLabelList,
       },
     ];
     this.dataSvc.deallocationBooking(deallocationData).subscribe((res) => {
