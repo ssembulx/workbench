@@ -234,6 +234,14 @@ export class SummaryService {
       },
     });
   }
+  deallocationBooking(data: any) {
+    const serviceUrl = this.ServiceURL + 'home/DeallocateBenches/';
+    return this.http.post(serviceUrl, data, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
   viewApprovalRequests() {
     return this.http.get(this.ServiceURL + 'home/ViewApprovalRequests/ ');
   }

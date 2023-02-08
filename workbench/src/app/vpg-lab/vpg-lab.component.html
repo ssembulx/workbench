@@ -88,9 +88,20 @@
         <div class="booknow_block col-5" style="padding-left: 20px;padding-right: 25px;">
             <div class="row booknow_div">
                 <div class="col-lg-12 summary-bar">
-                    <div class="col-lg-12 selected-seats" *ngIf="allocationBlock">
-                        <h5>Allocation details</h5>
-                        <!--  <div class="col-lg-6 float_left no-padding">
+                    <div style="display: inline-flex;">
+                        <div class="btn-dv2" [ngClass]="typeChart == 'Location chart' ? 'active-btn' : ''"
+                            (click)="Options('Allocation')">
+                            Allocation
+                        </div>
+                        <div class="btn-dv" [ngClass]="typeChart == 'Program chart' ? 'active-btn' : ''"
+                            (click)="Options('Deallocation')">
+                            Deallocation
+                        </div>
+                    </div>
+                    <div *ngIf="typeChart == 'Location chart'">
+                        <div class="col-lg-12 selected-seats">
+                            <!-- <h5>Allocation details</h5> -->
+                            <!--  <div class="col-lg-6 float_left no-padding">
                             <h5>Total Selected Desk</h5>
                             <h5>Total Selected Desk :<span> {{ cart?.selectedSeats?.length }}</span></h5>
                             <h5> {{ cart?.selectedSeats?.length }}</h5>
@@ -102,163 +113,196 @@
                             <span *ngFor="let seatLabel of cart.selectedSeats"
                                 class="badge badge-primary">{{seatLabel}}</span>
                         </div> -->
-                        <table class="table table-bordered user-table">
-                            <tbody>
-                                <tr>
-                                    <td>Location :- (<span style="color:red">*</span>)</td>
-                                    <td>
-                                        {{defaultValue}}
-                                        <!-- <select class="form-select location_select" aria-label="Default select example">
+                            <table class="table table-bordered user-table">
+                                <tbody>
+                                    <tr>
+                                        <td>Location :- (<span style="color:red">*</span>)</td>
+                                        <td>
+                                            {{defaultValue}}
+                                            <!-- <select class="form-select location_select" aria-label="Default select example">
                                             <option selected>SRR2-1F CRD-4-BA-SRR2</option>
                                         </select> -->
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Team :- (<span style="color:red">*</span>)</td>
-                                    <td style="padding: 0px;">
-                                        <select class="form-select location_select" aria-label="Default select example"
-                                            [(ngModel)]="teamName">
-                                            <option selected value="">Select Team</option>
-                                            <option *ngFor="let loca of teamList?.TeamName" [ngValue]="loca">
-                                                {{loca}}
-                                            </option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#. Bench :- (<span style="color:red">*</span>)</td>
-                                    <td>{{ cart?.seatsLabelNo?.length }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Program :- (<span style="color:red">*</span>)</td>
-                                    <td style="padding: 0px;">
-                                        <select class="form-select location_select" aria-label="Default select example"
-                                            [(ngModel)]="programName" (change)="onChangeProgram(programName)">
-                                            <option selected value="">Select Program</option>
-                                            <option *ngFor="let locat of programList?.ProgramName" [ngValue]="locat">
-                                                {{locat}}
-                                            </option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>SKU :- (<span style="color:red">*</span>)</td>
-                                    <td style="padding: 0px;">
-                                        <select class="form-select location_select" aria-label="Default select example"
-                                            [(ngModel)]="skuName">
-                                            <option selected value="">Select SKU</option>
-                                            <option *ngFor="let locat of skuList" [ngValue]="locat">
-                                                {{locat}}
-                                            </option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Vendor :- (<span style="color:red">*</span>)</td>
-                                    <td style="padding: 0px;">
-                                        <select class="form-select location_select" aria-label="Default select example"
-                                            [(ngModel)]="vendorName">
-                                            <option selected value="">Select Vendor</option>
-                                            <option *ngFor="let locat of vendorList?.Vendors" [ngValue]="locat">
-                                                {{locat}}
-                                            </option>
-                                        </select>
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Team :- (<span style="color:red">*</span>)</td>
+                                        <td style="padding: 0px;">
+                                            <select class="form-select location_select"
+                                                aria-label="Default select example" [(ngModel)]="teamName">
+                                                <option selected value="">Select Team</option>
+                                                <option *ngFor="let loca of teamList?.TeamName" [ngValue]="loca">
+                                                    {{loca}}
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#. Bench :- (<span style="color:red">*</span>)</td>
+                                        <td>{{ cart?.seatsLabelNo?.length }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Program :- (<span style="color:red">*</span>)</td>
+                                        <td style="padding: 0px;">
+                                            <select class="form-select location_select"
+                                                aria-label="Default select example" [(ngModel)]="programName"
+                                                (change)="onChangeProgram(programName)">
+                                                <option selected value="">Select Program</option>
+                                                <option *ngFor="let locat of programList?.ProgramName"
+                                                    [ngValue]="locat">
+                                                    {{locat}}
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>SKU :- (<span style="color:red">*</span>)</td>
+                                        <td style="padding: 0px;">
+                                            <select class="form-select location_select"
+                                                aria-label="Default select example" [(ngModel)]="skuName">
+                                                <option selected value="">Select SKU</option>
+                                                <option *ngFor="let locat of skuList" [ngValue]="locat">
+                                                    {{locat}}
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Vendor :- (<span style="color:red">*</span>)</td>
+                                        <td style="padding: 0px;">
+                                            <select class="form-select location_select"
+                                                aria-label="Default select example" [(ngModel)]="vendorName">
+                                                <option selected value="">Select Vendor</option>
+                                                <option *ngFor="let locat of vendorList?.Vendors" [ngValue]="locat">
+                                                    {{locat}}
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
 
-                                <tr>
-                                    <td>From WW :- (<span style="color:red">*</span>)</td>
-                                    <td style="padding: 0px;">
-                                        <div class="fields-two">
-                                            <div class="form-group cal">
-                                                <input class="form-control ip1" name="dp" [(bsValue)]="fromworkweek"
-                                                    #d="bsDatepicker" bsDatepicker
-                                                    (bsValueChange)="onDateSelectFrom($event)">
-                                                <input type="text" placeholder="WW'YYYY" class="form-control cal-input"
-                                                    [(ngModel)]="fromworkweek" />
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-outline-secondary datepicker_btn"
-                                                        (click)="d.toggle()" type="button">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </button>
+                                    <tr>
+                                        <td>From WW :- (<span style="color:red">*</span>)</td>
+                                        <td style="padding: 0px;">
+                                            <div class="fields-two">
+                                                <div class="form-group cal">
+                                                    <input class="form-control ip1" name="dp" [(bsValue)]="fromworkweek"
+                                                        #d="bsDatepicker" bsDatepicker
+                                                        (bsValueChange)="onDateSelectFrom($event)">
+                                                    <input type="text" placeholder="WW'YYYY"
+                                                        class="form-control cal-input" [(ngModel)]="fromworkweek" />
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-secondary datepicker_btn"
+                                                            (click)="d.toggle()" type="button">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>To WW :- (<span style="color:red">*</span>)</td>
-                                    <td style="padding: 0px;">
-                                        <!--  <input style="width: 100%;" type="text" class="text-box"
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>To WW :- (<span style="color:red">*</span>)</td>
+                                        <td style="padding: 0px;">
+                                            <!--  <input style="width: 100%;" type="text" class="text-box"
                                             placeholder="502022" [(ngModel)]="toWW"> -->
-                                        <div class="fields-two">
-                                            <div class="form-group cal">
-                                                <input class="form-control ip1" name="dp" [(bsValue)]="toworkweek"
-                                                    #d1="bsDatepicker" bsDatepicker
-                                                    (bsValueChange)="onDateSelectTo($event)">
-                                                <input type="text" placeholder="WW'YYYY" class="form-control cal-input"
-                                                    [(ngModel)]="toworkweek" />
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-outline-secondary datepicker_btn"
-                                                        (click)="d1.toggle()" type="button">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </button>
+                                            <div class="fields-two">
+                                                <div class="form-group cal">
+                                                    <input class="form-control ip1" name="dp" [(bsValue)]="toworkweek"
+                                                        #d1="bsDatepicker" bsDatepicker
+                                                        (bsValueChange)="onDateSelectTo($event)">
+                                                    <input type="text" placeholder="WW'YYYY"
+                                                        class="form-control cal-input" [(ngModel)]="toworkweek" />
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-secondary datepicker_btn"
+                                                            (click)="d1.toggle()" type="button">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
 
-                                <tr>
-                                    <td>Duration :- (<span style="color:red">*</span>)</td>
-                                    <td>{{duration}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Allocated To :- (<span style="color:red">*</span>)</td>
-                                    <td style="padding: 0px;">
-                                        <div class="field-ctrl">
-                                            <input name="user" [(ngModel)]="allocatitedTo" type="text"
-                                                class="form-control ww-input"
-                                                placeholder="Search with WWID/Email/Username" />
-                                            <i class="fa fa-search" (click)="getUserDetails()"></i>
-                                        </div>
-                                        <!--  <input style="width: 100%;" type="text" class="text-box"
+                                    <tr>
+                                        <td>Duration :- (<span style="color:red">*</span>)</td>
+                                        <td>{{duration}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Allocated To :- (<span style="color:red">*</span>)</td>
+                                        <td style="padding: 0px;">
+                                            <div class="field-ctrl">
+                                                <input name="user" [(ngModel)]="allocatitedTo" type="text"
+                                                    class="form-control ww-input"
+                                                    placeholder="Search with WWID/Email/Username" />
+                                                <i class="fa fa-search" (click)="getUserDetails()"></i>
+                                            </div>
+                                            <!--  <input style="width: 100%;" type="text" class="text-box"
                                             placeholder="Srikanth Uppuluri" [(ngModel)]="allocatitedTo"> -->
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Notify To :- (<span style="color:red">*</span>)</td>
-                                    <td style="padding: 0px;">
-                                        <div class="field-ctrl">
-                                            <input name="user" [(ngModel)]="notifyTo" type="text"
-                                                class="form-control ww-input"
-                                                placeholder="Search with WWID/Email/Username" />
-                                            <i class="fa fa-search" (click)="getNotifyUserDetails()"></i>
-                                        </div>
-                                        <!--  <input style="width: 100%;" type="text" class="text-box"
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Notify To :- (<span style="color:red">*</span>)</td>
+                                        <td style="padding: 0px;">
+                                            <div class="field-ctrl">
+                                                <input name="user" [(ngModel)]="notifyTo" type="text"
+                                                    class="form-control ww-input"
+                                                    placeholder="Search with WWID/Email/Username" />
+                                                <i class="fa fa-search" (click)="getNotifyUserDetails()"></i>
+                                            </div>
+                                            <!--  <input style="width: 100%;" type="text" class="text-box"
                                             placeholder="Srikanth Uppuluri" [(ngModel)]="allocatitedTo"> -->
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Remarks :- (<span style="color:red">*</span>)</td>
-                                    <td style="padding: 0px;"><input style="width: 100%;" type="text"
-                                            class=" form-control text-box" [(ngModel)]="remarks">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Bench :- (<span style="color:red">*</span>)</td>
-                                    <td class="bench_list_div"><span *ngFor="let seatLabel of cart.seatsLabelNo"
-                                            class="badge badge-primary">{{seatLabel}}</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Remarks :- (<span style="color:red">*</span>)</td>
+                                        <td style="padding: 0px;"><input style="width: 100%;" type="text"
+                                                class=" form-control text-box" [(ngModel)]="remarks">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bench :- (<span style="color:red">*</span>)</td>
+                                        <td class="bench_list_div"><span *ngFor="let seatLabel of cart.seatsLabelNo"
+                                                class="badge badge-primary">{{seatLabel}}</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-12 selected-seats">
+                            <div class="col-lg-12 float_left no-padding" style="text-align: center;">
+                                <button
+                                    [disabled]="cart?.selectedSeats?.length == 0 || programName =='' || skuName=='' || vendorName=='' || teamName =='' || allocatitedTo =='' || fromworkweek =='' || toworkweek ==''"
+                                    type="button" (click)="saveBooking()" class="btn btn-primary" mdbWavesEffect>Book
+                                    Now</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-lg-12 selected-seats">
-                        <div class="col-lg-12 float_left no-padding" style="text-align: center;">
-                            <button
-                                [disabled]="cart?.selectedSeats?.length == 0 || programName =='' || skuName=='' || vendorName=='' || teamName =='' || allocatitedTo =='' || fromworkweek =='' || toworkweek ==''"
-                                type="button" (click)="saveBooking()" class="btn btn-primary" mdbWavesEffect>Book
-                                Now</button>
+                    <div *ngIf="typeChart == 'Program chart'">
+                        <div class="col-lg-12 selected-seats">
+                            <table class="table table-bordered user-table">
+                                <tbody>
+                                    <tr>
+                                        <td>Location :- (<span style="color:red">*</span>)</td>
+                                        <td>
+                                            {{defaultValue}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#. Bench :- (<span style="color:red">*</span>)</td>
+                                        <td>{{ deAllocateBenchLabelList?.length }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bench :- (<span style="color:red">*</span>)</td>
+                                        <td class="bench_list_div"><span
+                                                *ngFor="let seatLabel of deAllocateBenchLabelList"
+                                                class="badge badge-primary">{{seatLabel}}</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-12 selected-seats">
+                            <div class="col-lg-12 float_left no-padding" style="text-align: center;">
+                                <button [disabled]="deAllocateBenchLabelList?.length == 0" type="button"
+                                    (click)="deallocateBooking()" class="btn btn-primary" mdbWavesEffect>Deallocate</button>
+                            </div>
                         </div>
                     </div>
                 </div>
