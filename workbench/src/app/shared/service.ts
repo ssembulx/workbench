@@ -175,8 +175,13 @@ export class SummaryService {
 
   // ***** User details API ******//
   public getUserDetail(req:any): Observable<any> {
-    return this.http.post(this.ServiceURL + 'home/GetCurrentUserData/',req);
+    return this.http.post(this.ServiceURL + 'home/GetCurrentUserData/',req, { withCredentials: true });
   }
+
+    // ***** User details API authguard ******//
+  getUserDetailP(req:any){
+      return this.http.post(this.ServiceURL + 'home/GetCurrentUserData/',req, { withCredentials: true }).toPromise();
+    }
 
   setValue(value: boolean) {
     this.userAuth = value;
@@ -187,6 +192,13 @@ export class SummaryService {
      return this.http.get('https://iamws-i.intel.com/api/v1/token/WindowsAuth', { withCredentials: true });
   }
   
+
+    // ***** WindowsAuth API for getting token authguard ******//
+    getWindowsAuthP(){
+      return this.http.get('https://iamws-i.intel.com/api/v1/token/WindowsAuth', { withCredentials: true }).toPromise();
+   }
+  
+   
   // constructor(private http: HttpClient) {}
 
   // public LabProgramVendorSummary(): Observable<any> {

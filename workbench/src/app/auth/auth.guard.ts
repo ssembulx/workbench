@@ -49,11 +49,16 @@ export class AuthGuard implements CanActivate {
     //   return false
     // }
 
+
+
+   
+
+
     // ******  Server code ****** //
-     const tokenData: any = await this.service.getWindowsAuth()
-    const resAuth: any = await this.service.getUserDetail({ token: tokenData.token })
+     const tokenData: any = await this.service.getWindowsAuthP()
+    const resAuth: any = await this.service.getUserDetailP({ token: tokenData.token })
     console.log(resAuth,"res Auth")
-    if (resAuth.Role) {
+    if (resAuth.Role == 'Admin' || resAuth.Role == 'User' || resAuth.Role == 'Manager') {
       this.service.setValue(true);
       return true
     } else {
@@ -62,4 +67,5 @@ export class AuthGuard implements CanActivate {
     }
 
   }
+
 }
