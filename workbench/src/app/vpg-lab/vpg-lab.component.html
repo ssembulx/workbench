@@ -51,7 +51,10 @@
                                             class="seat-item seat-unavailable" (click)="deSelectSeat(seatobj)"
                                             *ngIf="seatobj.IsAllocated == true && seatobj.seatLabel != '' && seatobj.team == 'SIV'">
                                             <h4>{{seatobj.labelNo}}</h4>
-                                            <img src="./assets/image/Booked.png">
+                                            <img *ngIf="seatobj.IsAllocated == true  && seatobj.status != 'deselected'"
+                                                src="./assets/image/Booked.png">
+                                            <img *ngIf="seatobj.IsAllocated == true  && seatobj.status == 'deselected'"
+                                                src="./assets/image/deselect1.png">
                                         </div>
                                         <!-- Desk Requested -->
                                         <div placement="top" ngbTooltip="Desk : {{seatobj.seatNo}} Approval pending"
@@ -85,7 +88,8 @@
         <div class="booknow_block col-5" style="padding-left: 20px;padding-right: 25px;">
             <div class="row booknow_div">
                 <div class="col-lg-12 summary-bar">
-                    <div class="col-lg-12 selected-seats">
+                    <div class="col-lg-12 selected-seats" *ngIf="allocationBlock">
+                        <h5>Allocation details</h5>
                         <!--  <div class="col-lg-6 float_left no-padding">
                             <h5>Total Selected Desk</h5>
                             <h5>Total Selected Desk :<span> {{ cart?.selectedSeats?.length }}</span></h5>
