@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit {
     //     "displayName": "Manjunath, ArundathiX",
     //     "isApplicationAccess": false,
     //     "programAccesses": null,
-    //     "Role": "User"
+    //     "Role": "Manager"
     // }
     // this.RoleName = this.userDetails.Role;
     // if( this.RoleName != 'User'  &&  this.RoleName != 'Admin'){
@@ -77,7 +77,7 @@ export class HeaderComponent implements OnInit {
        debugger
       this.userDetails = res;
       this.RoleName = this.userDetails.Role;
-      if( this.RoleName != 'User'  &&  this.RoleName != 'Admin'){
+      if(this.RoleName != 'User'  &&  this.RoleName != 'Admin' && this.RoleName != 'Manager'){
         debugger
         this.router.navigate(['/access-ristrict']);
         console.log(this.userDetails.Role,"sfdghjk")
