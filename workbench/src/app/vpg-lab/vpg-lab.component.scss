@@ -587,7 +587,7 @@ $seat-unavailable-color: white;
 
 .bench_list_div {
     padding: 0px;
-    height: 19vh;
+    height: 15vh;
 }
 
 .m_b_10 {
@@ -880,3 +880,33 @@ $seat-unavailable-color: white;
         width: 14.5vh !important;
     }
 } */
+
+/* tab view */
+.btn-dv {
+    padding: 1px 8px;
+    // background-color: #f39c12;
+    border: 1px solid #f39c12;
+    text-align: center;
+    color: gray;
+    cursor: pointer;
+}  
+.btn-dv2 {
+    padding: 1px 8px;
+    // background-color: #f39c12;
+    border: 1px solid #f39c12;
+    text-align: center;
+    color: gray;
+    cursor: pointer;
+}
+.btn-dv3{
+    padding: 1px 8px;
+    // background-color: #f39c12;
+    border: 1px solid #f39c12;
+    text-align: center;
+    color: gray;
+    cursor: pointer;
+}
+.active-btn{
+    background: #f39c12 !important;
+    color: #fff !important;
+}
