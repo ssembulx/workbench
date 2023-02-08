@@ -52,7 +52,7 @@ export class AuthGuard implements CanActivate {
     // ******  Server code ****** //
      const tokenData: any = await this.service.getWindowsAuth()
     const resAuth: any = await this.service.getUserDetail({ token: tokenData.token })
-    console.log(resAuth)
+    console.log(resAuth,"res Auth")
     if (resAuth.Role) {
       this.service.setValue(true);
       return true
