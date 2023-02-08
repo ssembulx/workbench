@@ -32,7 +32,7 @@
             </div>
         </div>
     </section>
-    <section class="second-header" *ngIf = "RoleName == 'User' || RoleName == 'Admin'">
+    <section class="second-header" *ngIf = "roleName == 'User' || roleName == 'Admin' || roleName == 'Manager'">
         <div class="nav_bar">
             <a routerLink="/home">Home</a>
             <a routerLink="/allocation">Allocation</a>

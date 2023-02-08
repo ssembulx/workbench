@@ -15,6 +15,8 @@ export class SummaryService {
     'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
   });
 
+  userAuth: any;
+
   private ServiceURL = environment.ServiceURL;
 
   private options = { headers: this.headers };
@@ -176,9 +178,13 @@ export class SummaryService {
     return this.http.post(this.ServiceURL + 'home/GetCurrentUserData/',req);
   }
 
+  setValue(value: boolean) {
+    this.userAuth = value;
+  };
+
    // ***** WindowsAuth API for getting token ******//
   getWindowsAuth(){
-     return this.http.get('https://iamws-i.intel.com/api/v1/token/WindowsAuth', { withCredentials: true }).toPromise();
+     return this.http.get('https://iamws-i.intel.com/api/v1/token/WindowsAuth', { withCredentials: true });
   }
   
   // constructor(private http: HttpClient) {}
