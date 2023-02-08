@@ -51,6 +51,7 @@ export class ApproveComponent implements OnInit {
         FromWW: element.FromWW,
         ToWW: element.ToWW,
         AllocatedTo: element.AllocatedTo,
+        NotifyTo: element.NotifyTo,
         NumberOfBenches: element.NumberOfbenches,
         Remarks: element.Remarks,
         IsAllocated: false,
@@ -90,6 +91,7 @@ export class ApproveComponent implements OnInit {
         FromWW: element.FromWW,
         ToWW: element.ToWW,
         AllocatedTo: element.AllocatedTo,
+        NotifyTo: element.NotifyTo,
         NumberOfBenches: element.NumberOfbenches,
         Remarks: element.Remarks,
         IsAllocated: true,
@@ -102,7 +104,6 @@ export class ApproveComponent implements OnInit {
       // delete element['id'];
       this.finalResultList.push(finalResult);
     });
-    debugger;
     this.dataSvc.approveBenchList(this.finalResultList).subscribe((res) => {
       if (res) {
         this.viewApprovalRequests();
