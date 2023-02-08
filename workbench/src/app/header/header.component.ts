@@ -12,6 +12,7 @@ export class HeaderComponent implements OnInit {
   changeText: boolean;
   RoleName:string;
   token:any;
+  details:string;
 
   constructor(private service: SummaryService,private router: Router) { }
 
@@ -37,7 +38,7 @@ export class HeaderComponent implements OnInit {
     //     "displayName": "Manjunath, ArundathiX",
     //     "isApplicationAccess": false,
     //     "programAccesses": null,
-    //     "Role": "User"
+    //     "Role": "Manager"
     // }
     // this.RoleName = this.userDetails.Role;
     // if( this.RoleName != 'User'  &&  this.RoleName != 'Admin'){
@@ -77,7 +78,7 @@ export class HeaderComponent implements OnInit {
        debugger
       this.userDetails = res;
       this.RoleName = this.userDetails.Role;
-      if( this.RoleName != 'User'  &&  this.RoleName != 'Admin'){
+      if(this.RoleName != 'User'  &&  this.RoleName != 'Admin' && this.RoleName != 'Manager' && this.userDetails == 'Null'){
         debugger
         this.router.navigate(['/access-ristrict']);
         console.log(this.userDetails.Role,"sfdghjk")
