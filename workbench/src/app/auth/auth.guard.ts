@@ -39,7 +39,7 @@ export class AuthGuard implements CanActivate {
     //     "programAccesses": null,
     //     "Role": "User"
     // }
-    // if (resAuth.Role) {
+    // if (resAuth.Role == 'Admin' || resAuth.Role == 'User' || resAuth.Role == 'Manager') {
     //     debugger
     //   this.service.setValue(true);
     //   return true
@@ -48,11 +48,6 @@ export class AuthGuard implements CanActivate {
     //   this.router.navigate(['/access-ristrict']);
     //   return false
     // }
-
-
-
-   
-
 
     // ******  Server code ****** //
      const tokenData: any = await this.service.getWindowsAuth()
