@@ -43,6 +43,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
   };
   labViewLoader = false;
   title = 'seat-chart-generator';
+  reason: any = '';
   constructor(
     private modalService: NgbModal,
     config: NgbModalConfig,
@@ -174,8 +175,9 @@ export class VPGLabComponent implements OnInit, OnChanges {
     /*   else if (lab.toString() == 'SRR-2-CRD-4') {
        this.getLabDetails();
     } */
-    /* let lab = changes?.['defaultValue']?.['currentValue'];
-    if (lab.toString() == 'SRR3-CCG3-RFChamber') {
+   /* let lab = changes?.['defaultValue']?.['currentValue'];
+    if (lab.toString() == 'SRR-1-CRD15_VPG_LINUX') {
+      this.labViewLoader = true;
       this.seatmap = [];
       this.seatConfig = [
         {
@@ -183,50 +185,18 @@ export class VPGLabComponent implements OnInit, OnChanges {
           seat_map: [
             {
               seat_label: 'A',
-              layout: '____gg_gg__',
-              direction: 'ddddddddddd',
-              labelNo: '_,_,_,_,B-1,B-2,_,B-3,B-4,_,_',
-              Team: '_,_,_,_,SIV,SIV,_,SIV,SIV,_,_,',
-              IsSpace: false,
+              layout: '__gggg_g__',
+              direction: 'dddddddddd',
+              labelNo: '_,_,A4,A3,A2,A1,_,A10,_,_',
+              Team: '_,_,SIV,SIV,SIV,SIV,_,SIV,_,_',
+              IsSpace: true,
             },
             {
               seat_label: 'B',
-              layout: '__g________',
-              direction: 'ddddddddddd',
-              labelNo: '_,_,C-3,_,_,_,_,_,_,_,_,',
-              Team: '_,_,SIV,_,_,_,_,_,_,_,_,',
-              IsSpace: false,
-            },
-            {
-              seat_label: 'C',
-              layout: '___________',
-              direction: 'ddddddddddd',
-              labelNo: '_,_,_,_,_,_,_,_,_,_,_',
-              Team: '_,_,_,_,_,_,_,_,_,_,_',
-              IsSpace: false,
-            },
-            {
-              seat_label: 'D',
-              layout: '__g___g____',
-              direction: 'ddddddddddd',
-              labelNo: '_,_,C-2,_,_,_,A-1,_,_,_,_,',
-              Team: '_,_,SIV,_,_,_,SIV,_,_,_,_,',
-              IsSpace: false,
-            },
-            {
-              seat_label: 'E',
-              layout: '__g________',
-              direction: 'ddddddddddd',
-              labelNo: '_,_,C-1,_,_,_,_,_,_,_,_,',
-              Team: '_,_,SIV,_,_,_,_,_,_,_,_,',
-              IsSpace: false,
-            },
-            {
-              seat_label: 'F',
-              layout: '______g____',
-              direction: 'ddddddddddd',
-              labelNo: '_,_,_,_,_,_,A-1,_,_,_,_,',
-              Team: '_,_,_,_,_,_,SIV,_,_,_,_,',
+              layout: '__gggg_g__',
+              direction: 'dddddddddd',
+              labelNo: '_,_,A5,A6,A7,A8,_,A9,_,_',
+              Team: '_,_,SIV,SIV,SIV,SIV,_,SIV,_,_',
               IsSpace: true,
             },
           ],
@@ -913,10 +883,9 @@ export class VPGLabComponent implements OnInit, OnChanges {
     let deallocationData = [
       {
         id: this.labId,
-
         LabName: this.defaultValue,
-
         BenchData: this.deAllocateBenchLabelList,
+        Reason: this.reason,
       },
     ];
     this.dataSvc.deallocationBooking(deallocationData).subscribe((res) => {
