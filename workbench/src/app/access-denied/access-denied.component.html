@@ -32,17 +32,17 @@
                     <tr>
                         <td>WWID</td>
                         <td>
-                            <input type="text" class="wwid-text-box">{{userWWID}}
+                          {{userWWID}}
                             <!-- <i class="fa fa-search" (click)="getUserDetails()"></i> -->
                         </td>
                         </tr>
                     <tr>
                         <td>Name</td>
-                        <td><input type="text" class="text-box">{{userName}}</td>
+                        <td>{{userName}}</td>
                     </tr>
                     <tr>
                         <td>Email</td>
-                        <td><input type="text" class="text-box">{{mailId}}</td>
+                        <td>{{mailId}}</td>
                     </tr>
                     <tr>
                         <td>Role</td>
@@ -63,9 +63,28 @@
             </table>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn back-btn" (click)="clearInput()">Clear</button>
+            <!-- <button type="button" class="btn back-btn" (click)="clearInput()">Clear</button> -->
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
             <button type="button" class="btn back-btn" (click)="AddNewUser()"><i class="fas fa-paper-plane"></i> Send</button>
         </div>
      </div>
 </ng-template>
+
+<!-- loader -->
+<div class="overlay-main" *ngIf="!labwiseChartLoader">
+    <div class="spinner-container">
+
+        <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+            <div class="rect6"></div>
+            <div class="rect7"></div>
+            <div class="rect8"></div>
+            <div class="rect9"></div>
+        </div>
+        <div class="proccessing-text">Loading ...</div>
+    </div>
+</div>

@@ -32,6 +32,7 @@ export class AccessDeniedComponent implements OnInit {
   badge:any;
   userImage:any;
   token:any;
+  userLoader = false;
   
 
   constructor(private modalService:NgbModal,config: NgbModalConfig,  private service: SummaryService, private toastrService: ToastrService,) { 
@@ -83,7 +84,7 @@ export class AccessDeniedComponent implements OnInit {
     //***** Calling user details API ****//
     getUserDetails() {
       debugger
-      // ***** local code ***** //
+     // ***** local code ***** //
     //   this.userDetails =  {
     //     "emailId": "arundathix.manjunath@intel.com",
     //     "name": "Manjunath, ArundathiX",
@@ -112,6 +113,7 @@ export class AccessDeniedComponent implements OnInit {
 
     // **** Server Code ****** //  
    // **** Calling API for to get token and user details ***//
+     this.userLoader = false;
     this.service.getWindowsAuth().subscribe((res: any) => {
       this.token = res.token;
       this.service.getUserDetail({ 'token': this.token }).subscribe((data: any) => {
@@ -130,61 +132,9 @@ export class AccessDeniedComponent implements OnInit {
         this.mailId = data.emailId;
         this.badge = data.employeeBadgeType;
         console.log(data)
-    sessionStorage.setItem('display_name',JSON.stringify(this.userName));
+        sessionStorage.setItem('display_name',JSON.stringify(this.userName));
       })
+      this.userLoader = true;
     })
-
-    // this.roleName = this.userDetails.Role;
-      // if (!/^\d+$/.test(this.wwid.trim())) {
-      //   var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
-      //   if (format.test(this.wwid.trim())) {
-      //     var obj = {
-      //       type: 'CorporateEmailTxt',
-      //       values: this.wwid.trim(),
-      //     };
-      //   } else {
-      //     var obj = {
-      //       type: 'FullNm',
-      //       values: this.wwid.trim(),
-      //     };
-      //   }
-      // }
-      // if (/^\d+$/.test(this.wwid.trim())) {
-      //   var obj = {
-      //     type: 'Wwid',
-      //     values: this.wwid.trim(),
-      //   };
-      // }
-        
-      // this.service.getUserDetails(req).subscribe((res) => {
-        // if (res['wwid'] === null || res['wwid'] === undefined || res['wwid'] != this.wwid) {
-        //   debugger
-        //   this.toastrService.warning(
-        //     'No users found with entered details, Kindly enter correct details!',
-        //     'Warning!'
-        //   );
-        // } else {
-        //   this.userDetails = res;
-        //   this.name = res['name'];
-        //   this.email = res ['emailId'];
-        //   this.wwid = res ['wwid'];
-        //   this.role = res['role'];
-        //   this.idsid = res['idsid'];
-        //   this.badge = res['employeeBadgeType'];
-        //   this.displayname = res['displayName'];
-        // }
-      // });
     }
-
- //***** to clear the input fields in add user modal popup****//
-  clearInput(){
-    debugger
-    this.wwid = '';
-    this.idsid = '';
-    this.name = '';
-    this.email = '';
-    this.role = '';
-    this.badge = '';
-    this.displayname = '';
-  }
 }
