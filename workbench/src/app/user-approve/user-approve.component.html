@@ -1,0 +1,88 @@
+<div class="users">
+    <div class="content">
+      <div class="user-content">
+        <div class="table-container" *ngIf="userData?.length">
+            <div class="btn-add-user">
+                <button class="btn add-btn" (click)="openReject()" [disabled]="userList?.length == 0">Reject</button>
+                <button class="btn add-btn" (click)="approveUser()" [disabled]="userList?.length == 0">Approve</button>
+            </div>
+            <table class="table table-bordered user-table" *ngIf="userdataLoader">
+                <thead>
+                    <tr>
+                        <th class="v-align">SL NO.</th>
+                        <th class="v-align" (click)="setOrderRelease('WWID')"><span class="sort-by">WWID</span></th>
+                        <th class="v-align" (click)="setOrderRelease('IDSID')"><span class="sort-by">IDSID</span></th>
+                        <th class="v-align" (click)="setOrderRelease('DISPLAY NAME')"><span class="sort-by">DISPLAY NAME</span></th>
+                        <th class="v-align" (click)="setOrderRelease('EMAIL')"><span class="sort-by">EMAIL</span></th>
+                        <th class="v-align" (click)="setOrderRelease('ROLE')"><span class="sort-by">ROLE Id</span></th>
+                        <th class="v-align" (click)="setOrderRelease('BADGE')"><span class="sort-by">BADGE</span></th>
+                        <th class="v-align" (click)="setOrderRelease('APPROVED ON')"><span class="sort-by">APPROVED ON</span></th>
+                        <th class="v-align" (click)="setOrderRelease('CREATED ON')"><span class="sort-by">CREATED ON</span></th>
+                        <th class="v-align"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of userData | orderBy: orderMappedRelease:reverseMappedRelease: true ; let i=index">
+                        <td>{{(i+1)}}</td>
+                        <td>{{data.WWID}}</td>
+                        <td>{{data.Idsid}}</td>
+                        <td>{{data.DisplayName}}      
+                        <td>{{data.Email}}</td>
+                        <td>{{data.Role_id}}</td>
+                        <td>{{data.Badge}}</td>
+                        <td>{{data.ApprovedOn}}</td>
+                        <td>{{data.CreatedOn}}</td>
+                        <td><input class="form-check-input chcekbox-style" type="checkbox" (click)="checkRow(data,data.WWID)" id="flexCheckChecked" /></td>
+                        <!-- <td>
+                            <a (click)="EditRow(editmodal,data.WWID,data.Role__role_name)">Edit</a> |
+                            <a (click)="DeleteRow(deletemodal,data.WWID)">Delete</a></td> -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- =========***** Modal popup for reject user*****=============-->
+<ng-template #rejectModel let-c="close" id="rejectModel" let-d="dismiss">
+    <div class="modal-add">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="testModalLabel">
+                <!-- <i class="fas fa-user-plus"></i> -->
+                &nbsp; Reason for rejection
+            </h1>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <i class='fas fa-times'></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <textarea class="form-control" [(ngModel)]="reason"
+                    placeholder="Please provide the reason for rejecting"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn back-btn close" aria-label="Close"
+                (click)="d('Cross click')">Cancel</button>
+            <button type="button" class="btn back-btn" (click)="rejectUser()">Reject</button>
+        </div>
+    </div>
+</ng-template>
+
+<!-- ****** user table loader option ****** -->
+<div class="overlay-main" *ngIf="!userdataLoader">
+    <div class="spinner-container">
+        <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+            <div class="rect6"></div>
+            <div class="rect7"></div>
+            <div class="rect8"></div>
+            <div class="rect9"></div>
+        </div>
+        <div class="proccessing-text">Loading ...</div>
+    </div>
+</div>

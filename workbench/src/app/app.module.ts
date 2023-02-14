@@ -52,6 +52,7 @@ import { VendorComponent } from './vendor/vendor.component';
 import { TeamComponent } from './team/team.component';
 import { MultiplierPipe } from './ww';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
+import { UserApproveComponent } from './user-approve/user-approve.component';
 /* import { ToastrService } from 'ngx-toastr'; */
 @NgModule({
   declarations: [
@@ -90,6 +91,7 @@ import { AccessDeniedComponent } from './access-denied/access-denied.component';
     TeamComponent,
     MultiplierPipe,
     AccessDeniedComponent,
+    UserApproveComponent,
   ],
   imports: [
     BrowserModule,

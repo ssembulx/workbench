@@ -162,7 +162,7 @@ export class SummaryService {
   public getAddUserData(req: any): Observable<any> {
     return this.http.post(this.ServiceURL + 'home/AddUser/',req);
   }
-  
+ 
    // ***** User view update user data API ******//
    public getUserUpdateData(req: any): Observable<any> {
     return this.http.put(this.ServiceURL + 'home/AddUser/',req);
@@ -171,6 +171,26 @@ export class SummaryService {
    // ***** User view delete team data API ******//
    public getUserDelete(req: any): Observable<any> {
     return this.http.post(this.ServiceURL + 'home/DeleteUser/',req);
+  }
+
+  // ***** API for  new user data for request access ******//
+  public getAddNewUserData(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/AddNewUser/',req);
+  }
+
+   // ***** API for  new user data for approve request ******//
+   public userApproveList(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/ApproveUser/',req);
+  }
+
+  // ***** API for  new user data for approve request ******//
+  public userRejectList(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/RejectUser/',req);
+  }
+
+  // ***** API for  new user data for request access ******//
+  public getUserNewData(): Observable<any> {
+    return this.http.get(this.ServiceURL + 'home/AddNewUser/');
   }
 
   // ***** User details API ******//
@@ -197,6 +217,7 @@ export class SummaryService {
     getWindowsAuthP(){
       return this.http.get('https://iamws-i.intel.com/api/v1/token/WindowsAuth', { withCredentials: true }).toPromise();
    }
+  
   
    
   // constructor(private http: HttpClient) {}

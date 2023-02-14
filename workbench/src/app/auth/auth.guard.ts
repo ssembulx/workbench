@@ -37,7 +37,7 @@ export class AuthGuard implements CanActivate {
     //     "displayName": "Manjunath, ArundathiX",
     //     "isApplicationAccess": false,
     //     "programAccesses": null,
-    //     "Role": "User"
+    //     "Role": "Admin"
     // }
     // if (resAuth.Role == 'Admin' || resAuth.Role == 'User' || resAuth.Role == 'Manager') {
     //     debugger

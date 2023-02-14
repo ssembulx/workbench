@@ -11,6 +11,7 @@ import { PublishComponent } from './publish/publish.component';
 import { ReportComponent } from './report/report.component';
 // import { SkuComponent } from './sku/sku.component';
 import { TeamComponent } from './team/team.component';
+import { UserApproveComponent } from './user-approve/user-approve.component';
 import { UserComponent } from './user/user.component';
 import { VendorComponent } from './vendor/vendor.component';
 const routes: Routes = [{
@@ -50,6 +51,9 @@ const routes: Routes = [{
 },
 {
   path: 'user', component: UserComponent, canActivate: [AuthGuard]
+},
+{
+  path: 'approveuser', component: UserApproveComponent, canActivate: [AuthGuard]
 },
 {
   path: 'publish', component: PublishComponent, canActivate: [AuthGuard]
