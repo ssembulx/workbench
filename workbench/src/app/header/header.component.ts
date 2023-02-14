@@ -46,7 +46,7 @@ export class HeaderComponent implements OnInit {
     //     "displayName": "Manjunath, ArundathiX",
     //     "isApplicationAccess": false,
     //     "programAccesses": null,
-    //     "Role": "User"
+    //     "Role": "Admin"
     // }
     // this.userName = this.userDetails.displayName;
     // this.roleName = this.userDetails.Role;
@@ -55,6 +55,7 @@ export class HeaderComponent implements OnInit {
     // this.userWWID = this.userDetails.wwid;
     // this.mailId = this.userDetails.emailId;
     // this.badge = this.userDetails.employeeBadgeType;
+    // sessionStorage.setItem('display_name',JSON.stringify(this.userName));
 
     // this.RoleName = this.userDetails.Role;
     // if( this.RoleName != 'User'  &&  this.RoleName != 'Admin'){
@@ -67,7 +68,7 @@ export class HeaderComponent implements OnInit {
     // }
 
     // **** Server Code ****** //  
-    //**** Calling API for to get token and user details ***//
+   // **** Calling API for to get token and user details ***//
     this.service.getWindowsAuth().subscribe((res: any) => {
       this.token = res.token;
       this.service.getUserDetail({ 'token': this.token }).subscribe((data: any) => {
@@ -77,6 +78,7 @@ export class HeaderComponent implements OnInit {
         this.roleName = data.Role;
         this.userWWID = data.wwid;
         console.log(data)
+    sessionStorage.setItem('display_name',JSON.stringify(this.userName));
       })
     })
    

@@ -1,15 +1,71 @@
 <div class="Page-Center">
     <div>
         <h1 class="h1-text">Access is restricted for Lab Sapce Management.</h1><br><br>
-        <!-- <p>Request Access:</p>
-        <p class="para-text">1. Please goto AGS <a href="https://ags.intel.com" 
-        rel="nofollow noreferrer noopener" target="_blank">("https://ags.intel.com")</a></p>
-        <p>2. Search for "Jarvis CQI User".</p> 
-        <p>2. Please specify the justification and submit the request</p>
- -->
+       <div class="access">
+        <br/>
+        <p class="para-text-heading">Request Access:</p>
+        <p class="para-text">1. Click on Request Access button </p> 
+        <p class="para-text">2. Enter your WWID click on search icon</p>
+        <p class="para-text">3. Select your role from drop down</p>
+        <div class="btn-add-user">
+            <button class="btn add-btn" (click)="AddRow(addmodal)">Request Access</button>
+        </div>
+       </div>
 
         <!-- <a href="https://ags.intel.com/identityiq/ui/rest/redirect?rp1=/accessRequest/accessRequest.jsf&rp2=accessRequest/manageAccess/add?filterKeyword=Jarvis%20CQI" 
         rel="nofollow noreferrer noopener" target="_blank">goto/cqiaccess</a>
         and apply for AGS role - "Jarvis CQI Users or Jarvis CQI Admin"</h1> -->
     </div>
 </div>
+
+<!-- =========***** Modal popup for add user*****=============-->
+<ng-template #addmodal let-c="close" let-d="dismiss">
+    <div class="modal-add">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="testModalLabel"><i class="fas fa-user-plus"></i>&nbsp; Enter Details
+            </h1>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <i class='fas fa-times'></i></button>
+        </div>        <div class="modal-body">
+            <table class="table table-bordered user-table">               
+                <tbody>
+                    <tr>
+                        <td>WWID</td>
+                        <td>
+                            <input type="text" class="wwid-text-box">{{userWWID}}
+                            <!-- <i class="fa fa-search" (click)="getUserDetails()"></i> -->
+                        </td>
+                        </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td><input type="text" class="text-box">{{userName}}</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td><input type="text" class="text-box">{{mailId}}</td>
+                    </tr>
+                    <tr>
+                        <td>Role</td>
+                        <td>
+                            <select class="form-select" aria-label="Default select example"  [(ngModel)]="role">
+                                <option selected value="">Select Role</option>
+                                <option *ngFor="let roledata of roleList?.Roles" [ngValue]="roledata">
+                                    {{roledata}}
+                                </option>
+                                <!-- <option>Admin</option>
+                                <option>Super Admin</option>
+                                <option>Manager</option> -->
+                           </select>
+                        </td>
+                        <!-- <td><input type="text" class="text-box" [(ngModel)]="modal.role"></td> -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn back-btn" (click)="clearInput()">Clear</button>
+            <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
+            <button type="button" class="btn back-btn" (click)="AddNewUser()"><i class="fas fa-paper-plane"></i> Send</button>
+        </div>
+     </div>
+</ng-template>
