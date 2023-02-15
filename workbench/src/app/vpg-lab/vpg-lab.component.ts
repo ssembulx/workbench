@@ -1000,6 +1000,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
           'Deallocation Request Added Successfully',
           'Success!'
         );
+        this.reason = '';
         this.getLabDetails();
         this.deAllocateBenchList = [];
         this.deAllocateBenchLabelList = [];
