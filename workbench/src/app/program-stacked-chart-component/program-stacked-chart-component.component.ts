@@ -32,20 +32,20 @@ export class ProgramStackedChartComponentComponent implements OnInit{
  
 
   ngOnInit(): void {
-    // this.LabProgramSummary();
-    this.getProgramSatckedChartData();
+    this.LabProgramSummary();
+    // this.getProgramSatckedChartData();
   }
 
-   //****Calling API for program chart ***//
-  // LabProgramSummary(){
-  //   this.programChartLoader = false;
-  //   this.service.LabProgramSummary().subscribe(res => {
-  //     this.ChartData = res.Data;
-  //     console.log("stacked chart",this.ChartData)
-  //     // this.getProgramColumnChart();
-  //     this.programChartLoader = true;
-  //    })
-  // }
+  //  ****Calling API for program chart ***//
+  LabProgramSummary(){
+    this.programChartLoader = false;
+    this.service.LabProgramSummary().subscribe(res => {
+      this.ChartData = res.Data;
+      console.log("stacked chart",this.ChartData)
+      this.getProgramSatckedChartData();
+      this.programChartLoader = true;
+     })
+  }
 
   //**** Chart data ****//
   // getProgramColumnChart(){
@@ -200,108 +200,108 @@ export class ProgramStackedChartComponentComponent implements OnInit{
         am4core.color('#67b7dc'),
       ];
       
-      // chart.data = this.ChartData;
-      chart.data = [
-        {
-          category: "ADL-P",
-          value1: 5,
-          value2: 5,
-          value3: 10,
-          value4: 5,
-          value5: 10,
-          value6: 5,
-          value7: 5
-        },
-        {
-          category: "MTL-P",
-          value1: 5,
-          value2: 20,
-          value3: 10,
-          value4: 10,
-          value5: 10,
-          value6: 5,
-          value7: 5
-        },
-        {
-          category: "RKL-S",
-          value1: 25,
-          value2: 10,
-          value3: 10,
-          value4: 5,
-          value5: 10,
-          value6: 5,
-          value7: 5
-        },
-        {
-          category: "GLK-S",
-          value1: 10,
-          value2: 10,
-          value3: 15,
-          value4: 10,
-          value5: 5,
-          value6: 10,
-          value7: 5
-        },
-        {
-          category: "RPL-T",
-          value1: 10,
-          value2: 15,
-          value3: 10,
-          value4: 10,
-          value5: 5,
-          value6: 20,
-          value7: 5
-        },
-        {
-          category: "MTL-S",
-          value1: 10,
-          value2: 10,
-          value3: 15,
-          value4: 10,
-          value5: 10,
-          value6: 5,
-          value7: 10
-        },
-        {
-          category: "RTL-S",
-          value1: 15,
-          value2: 10,
-          value3: 10,
-          value4: 20,
-          value5: 10,
-          value6: 10,
-          value7: 5
-        },
-        {
-          category: "TGL-R",
-          value1: 10,
-          value2: 15,
-          value3: 5,
-          value4: 10,
-          value5: 5,
-          value6: 10,
-          value7: 5
-        },
-        {
-          category: "CFL-H",
-          value1: 15,
-          value2: 10,
-          value3: 10,
-          value4: 5,
-          value5: 5,
-          value6: 10,
-          value7: 5
-        }, {
-          category: "WHL-U",
-          value1: 10,
-          value2: 10,
-          value3: 5,
-          value4: 5,
-          value5: 5,
-          value6: 5,
-          value7: 10
-        } 
-      ];
+      chart.data = this.ChartData;
+      // chart.data = [
+      //   {
+      //     category: "ADL-P",
+      //     value1: 5,
+      //     value2: 5,
+      //     value3: 10,
+      //     value4: 5,
+      //     value5: 10,
+      //     value6: 5,
+      //     value7: 5
+      //   },
+      //   {
+      //     category: "MTL-P",
+      //     value1: 5,
+      //     value2: 20,
+      //     value3: 10,
+      //     value4: 10,
+      //     value5: 10,
+      //     value6: 5,
+      //     value7: 5
+      //   },
+      //   {
+      //     category: "RKL-S",
+      //     value1: 25,
+      //     value2: 10,
+      //     value3: 10,
+      //     value4: 5,
+      //     value5: 10,
+      //     value6: 5,
+      //     value7: 5
+      //   },
+      //   {
+      //     category: "GLK-S",
+      //     value1: 10,
+      //     value2: 10,
+      //     value3: 15,
+      //     value4: 10,
+      //     value5: 5,
+      //     value6: 10,
+      //     value7: 5
+      //   },
+      //   {
+      //     category: "RPL-T",
+      //     value1: 10,
+      //     value2: 15,
+      //     value3: 10,
+      //     value4: 10,
+      //     value5: 5,
+      //     value6: 20,
+      //     value7: 5
+      //   },
+      //   {
+      //     category: "MTL-S",
+      //     value1: 10,
+      //     value2: 10,
+      //     value3: 15,
+      //     value4: 10,
+      //     value5: 10,
+      //     value6: 5,
+      //     value7: 10
+      //   },
+      //   {
+      //     category: "RTL-S",
+      //     value1: 15,
+      //     value2: 10,
+      //     value3: 10,
+      //     value4: 20,
+      //     value5: 10,
+      //     value6: 10,
+      //     value7: 5
+      //   },
+      //   {
+      //     category: "TGL-R",
+      //     value1: 10,
+      //     value2: 15,
+      //     value3: 5,
+      //     value4: 10,
+      //     value5: 5,
+      //     value6: 10,
+      //     value7: 5
+      //   },
+      //   {
+      //     category: "CFL-H",
+      //     value1: 15,
+      //     value2: 10,
+      //     value3: 10,
+      //     value4: 5,
+      //     value5: 5,
+      //     value6: 10,
+      //     value7: 5
+      //   }, {
+      //     category: "WHL-U",
+      //     value1: 10,
+      //     value2: 10,
+      //     value3: 5,
+      //     value4: 5,
+      //     value5: 5,
+      //     value6: 5,
+      //     value7: 10
+      //   } 
+      // ];
       
       chart.colors.step = 2;
       // chart.padding(30, 30, 10, 30);
@@ -337,7 +337,7 @@ export class ProgramStackedChartComponentComponent implements OnInit{
         "{name}: {valueY.formatNumber('#')}";
       series1.name = "Domain ";
       series1.dataFields.categoryX = "category";
-      series1.dataFields.valueY = "value1";
+      series1.dataFields.valueY = "Domain";
       // series1.dataFields.valueYShow = "totalPercent";
       // series1.dataItems.template.locations.categoryX = 0.5;
       series1.stacked = true;
@@ -355,7 +355,7 @@ export class ProgramStackedChartComponentComponent implements OnInit{
         "{name}: {valueY.formatNumber('#')}";
       series2.name = "Debug";
       series2.dataFields.categoryX = "category";
-      series2.dataFields.valueY = "value2";
+      series2.dataFields.valueY = "Debug";
       // series2.dataFields.valueYShow = "totalPercent";
       // series2.dataItems.template.locations.categoryX = 0.5;
       series2.stacked = true;
@@ -383,7 +383,7 @@ export class ProgramStackedChartComponentComponent implements OnInit{
         "{name}: {valueY.formatNumber('#')}";
       series3.name = "Execution";
       series3.dataFields.categoryX = "category";
-      series3.dataFields.valueY = "value3";
+      series3.dataFields.valueY = "Execution";
       // series1.dataFields.valueYShow = "totalPercent";
       // series1.dataItems.template.locations.categoryX = 0.5;
       series3.stacked = true;
@@ -401,7 +401,7 @@ export class ProgramStackedChartComponentComponent implements OnInit{
         "{name}: {valueY.formatNumber('#')}";
       series4.name = "PnP";
       series4.dataFields.categoryX = "category";
-      series4.dataFields.valueY = "value4";
+      series4.dataFields.valueY = "Integration";
       // series1.dataFields.valueYShow = "totalPercent";
       // series1.dataItems.template.locations.categoryX = 0.5;
       series4.stacked = true;
@@ -419,7 +419,7 @@ export class ProgramStackedChartComponentComponent implements OnInit{
         "{name}: {valueY.formatNumber('#')}";
       series5.name = "Integration";
       series5.dataFields.categoryX = "category";
-      series5.dataFields.valueY = "value5";
+      series5.dataFields.valueY = "DevTest2";
       // series1.dataFields.valueYShow = "totalPercent";
       // series1.dataItems.template.locations.categoryX = 0.5;
       series5.stacked = true;
@@ -438,7 +438,7 @@ export class ProgramStackedChartComponentComponent implements OnInit{
         "{name}: {valueY.formatNumber('#')}";
       series6.name = "Validation";
       series6.dataFields.categoryX = "category";
-      series6.dataFields.valueY = "value6";
+      series6.dataFields.valueY = "Pnp";
       // series1.dataFields.valueYShow = "totalPercent";
       // series1.dataItems.template.locations.categoryX = 0.5;
       series6.stacked = true;
@@ -456,7 +456,7 @@ export class ProgramStackedChartComponentComponent implements OnInit{
         "{name}: {valueY.formatNumber('#')}";
       series7.name = "Automation/POC/Misc";
       series7.dataFields.categoryX = "category";
-      series7.dataFields.valueY = "value7";
+      series7.dataFields.valueY = "Dev Team";
       // series1.dataFields.valueYShow = "totalPercent";
       // series1.dataItems.template.locations.categoryX = 0.5;
       series7.stacked = true;

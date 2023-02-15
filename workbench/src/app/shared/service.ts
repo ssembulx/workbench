@@ -53,6 +53,21 @@ export class SummaryService {
     );
   }
 
+   // ***** get lab details  API for labwsie summary chart in home page ******//
+   public getLabDetail(): Observable<any> {
+    return this.http.get(this.ServiceURL + 'home/GetBuildingNames/');
+  }
+  
+  // ***** get prgoram details  API for labwsie summary chart in home page ******//
+  public getPrgmDetail(): Observable<any> {
+    return this.http.get(this.ServiceURL + 'home/GetProgramSkuDropdownNames/');
+  }
+
+   // ***** get vendor details  API for labwsie summary chart in home page ******//
+   public getVendorDetail(): Observable<any> {
+    return this.http.get(this.ServiceURL + 'home/GetVendorDetailsDropdownNames/');
+  }
+
   // ***** Overallsummary semi circle pie Chart API ******//
   public LabOverallSummary(): Observable<any> {
     return this.http.get(this.ServiceURL + 'home/OverallSummary/');
