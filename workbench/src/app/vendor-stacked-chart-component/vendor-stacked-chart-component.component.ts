@@ -29,6 +29,7 @@ export class VendorStackedChartComponentComponent implements OnInit {
 
   //****Calling API for program chart ***//
   LabVendorSummary() {
+    debugger
     this.vendorChartLoader = false;
     this.service.LabVendorSummary().subscribe((res) => {
       this.ChartData = res.Data;
@@ -40,6 +41,7 @@ export class VendorStackedChartComponentComponent implements OnInit {
 
   //**** Chart data ****//
   getVendorColumnChart() {
+    debugger
     var root = am5.Root.new('chartdiv4');
     root._logo.dispose();
 
@@ -63,7 +65,6 @@ export class VendorStackedChartComponentComponent implements OnInit {
 
     // Create axes
     var xRenderer = am5xy.AxisRendererX.new(root, { minGridDistance: 30 });
-    xRenderer.labels.template.setAll({});
 
     var xAxis = chart.xAxes.push(
       am5xy.CategoryAxis.new(root, {
@@ -77,6 +78,9 @@ export class VendorStackedChartComponentComponent implements OnInit {
     var yAxis = chart.yAxes.push(
       am5xy.ValueAxis.new(root, {
         maxDeviation: 0.3,
+        min: 0,
+        max: 100,
+        // strictMinMax: true,
         renderer: am5xy.AxisRendererY.new(root, {}),
       })
     );
@@ -127,16 +131,16 @@ export class VendorStackedChartComponentComponent implements OnInit {
     //     value: 20
     //   }
     // ];
+ 
+// // // Create the value axis
+// var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+// valueAxis.stacking = "normal";
+// valueAxis.calculateTotals = true;
+// valueAxis.strictMinMax = true;
 
-// Create the value axis
-var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-valueAxis.stacking = "normal";
-valueAxis.calculateTotals = true;
-valueAxis.strictMinMax = true;
-
- // Set the minimum and maximum value
-valueAxis.min = 0;
-valueAxis.max = 100;
+// //  // Set the minimum and maximum value
+// valueAxis.min = 0;
+// valueAxis.max = 100;
 
     xAxis.data.setAll(data);
     series.data.setAll(data);

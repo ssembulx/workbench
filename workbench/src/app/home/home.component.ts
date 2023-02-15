@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
   fullScreenBack: boolean = false;
   smallscreen = true;
   ChartData:any;
+  ChartData1:any;
   changestatus: any;
   type = "pie chart";
   Labtype = "Lab chart";
@@ -36,6 +37,15 @@ export class HomeComponent implements OnInit {
   pieChartLoader = false;
   semicircle :any=false;
   setIconPossition: boolean = true;
+  labList:any
+  lab :string = "SRR-1";
+  program : string = "All";
+  prgmList:any;
+  vendorList:any;
+  vendor :string = "All";
+
+  // ChartData:any;
+  labwiseChartLoader = false;
 
   constructor(private service: SummaryService) {}
 
@@ -87,10 +97,70 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     // this.LabOverallSummary();
-    this.getCheckbox()
+    this.getCheckbox();
+    this.getLabDetails();
+    this.getProgramDetails();
+    this.getVendorDetails();
+    this.LabwiseSummary();
+
+    // this.lab = "SRR1";
+    // this.program = "All";
+    // this.vendor = "All"; 
+   
     // this.getSemiPiechart();
   }
 
+  getLabDetails(){
+    //**** Calling labdetails API for select drop down in labwise program chart ***//
+    this.service.getLabDetail().subscribe((res) => {
+      this.labList = res;
+      console.log(this.labList,"****")
+  });
+    
+  }
+
+  getProgramDetails(){
+     //**** Calling program details API for select drop down in labwise program chart ***//
+     this.service.getPrgmDetail().subscribe((res) => {
+      this.prgmList = res;
+      // console.log(this.labList,"****")
+  });
+  }
+
+  getVendorDetails(){
+     //**** Calling vendor details API for select drop down in labwise program chart ***//
+     this.service.getVendorDetail().subscribe((res) => {
+      if (res) {
+        this.vendorList = res;
+      }
+    });
+  }
+
+  labChange(){
+    this.LabwiseSummary();
+  }
+  programChange(){
+    this.LabwiseSummary();
+  }
+  vendorChange(){
+    this.LabwiseSummary();
+  }
+   //****Calling API for Labwsie summary chart ***//
+   LabwiseSummary(){
+    debugger
+    this.labwiseChartLoader = false;
+    let req = {"LabName":this.lab,
+    "Program":this.program,
+    "Vendor":this.vendor}
+   
+    this.service.LabwiseSummary(req).subscribe(res => {
+      debugger
+      this.ChartData1 = res.Location; 
+      console.log("stacked chart",this.ChartData1)
+      // this.getLabwiseStackedChart();
+      this.labwiseChartLoader = true;
+   })
+  }
     //****Calling API for summary pie chart ***//
     OverallAvailability() {
       this.pieChartLoader = false;

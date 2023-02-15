@@ -263,26 +263,49 @@
                 </div>
             </div>
             <div class="col-2 float_left" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
-                <select class="form-select location_select" aria-label="Default select example">
+                <!-- <select class="form-select location_select" aria-label="Default select example">
                     <option>SRR1</option>
                     <option>SRR2</option>
                     <option>SRR3</option>
-                </select>
+                </select> -->
+                <select class="form-select location_select" aria-label="Default select example" [(ngModel)]="lab" (change)="labChange()">
+                    <option value="" disabled selected>-- Select Lab --</option>
+                    <option *ngFor="let labdata of labList?.Data" [ngValue]="labdata">
+                        {{labdata}}
+                    </option>
+                    <!-- <option>Admin</option>
+                    <option>Super Admin</option>
+                    <option>Manager</option> -->
+               </select>
             </div>
             <div class="col-2 float-program" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
-                <select class="form-select location_select" aria-label="Default select example">
-                    <option>-- All Program --</option>
+                <select class="form-select location_select" aria-label="Default select example" [(ngModel)]="program" (change)="programChange()">
+                    <option value="" disabled selected>-- All Program --</option>
+                    <!-- <option value="">
+                        All
+                    </option> -->
+                    <option *ngFor="let prgmdata of prgmList?.Data" [ngValue]="prgmdata">
+                        {{prgmdata}}
+                    </option>
+                    <!-- <option>-- All Program --</option>
                     <option>ADL-P</option>
                     <option>MTL-P</option>
-                    <option>RPL-S</option>
+                    <option>RPL-S</option> -->
                 </select>
             </div>
             <div class="col-2 float-vendor" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
-                <select class="form-select location_select" aria-label="Default select example">
-                    <option>-- All Vendor --</option>
+                <select class="form-select location_select" aria-label="Default select example" [(ngModel)]="vendor" (change)="vendorChange()">
+                    <option value="" disabled selected>-- All Vendor --</option>
+                    <!-- <option value="">
+                        All
+                    </option> -->
+                    <option *ngFor="let vendordata of vendorList?.Vendors" [ngValue]="vendordata">
+                        {{vendordata}}
+                    </option>
+                    <!-- <option>-- All Vendor --</option>
                     <option> UST</option>
                     <option>Wipro</option>
-                    <option>Infosys</option>
+                    <option>Infosys</option> -->
                 </select>
             </div>
 
@@ -309,7 +332,7 @@
 
             <!-- ******* Labwise chart view  ******* -->
             <div class="chart-item after-fullscreen" *ngIf="Labtype == 'Lab chart'">
-                <app-labwise-alloted-chart-component></app-labwise-alloted-chart-component>
+                <app-labwise-alloted-chart-component [widget]="ChartData1"></app-labwise-alloted-chart-component>
             </div>
 
             <!-- ******* Labwise chart table view ******* -->
@@ -344,6 +367,26 @@
 <!-- ****** loader option ****** -->
 <div class="overlay-main" *ngIf="!pieChartLoader">
     <div class="spinner-container">
+
+        <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+            <div class="rect6"></div>
+            <div class="rect7"></div>
+            <div class="rect8"></div>
+            <div class="rect9"></div>
+        </div>
+        <div class="proccessing-text">Loading ...</div>
+    </div>
+</div>
+
+
+<!-- loader -->
+<div class="overlay-main-lab" *ngIf="!labwiseChartLoader">
+    <div class="spinner-container-lab">
 
         <div class="spinner">
             <div class="rect1"></div>
