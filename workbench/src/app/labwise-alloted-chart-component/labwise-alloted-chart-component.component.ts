@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ElementRef, Input, SimpleChanges, OnChanges } from '@angular/core';
 // amCharts imports
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
@@ -19,8 +19,10 @@ import { SummaryService } from '../shared/service';
 })
 export class LabwiseAllotedChartComponentComponent implements OnInit{
   colors: any;
-  ChartData:any;
-  labwiseChartLoader = false;
+  ChartData1:any;
+  // labwiseChartLoader = false;
+  labList:any;
+  chartData:any;
 
   @ViewChild('bookingmodalHome') bookingmodalHome: ElementRef;
 
@@ -32,29 +34,28 @@ export class LabwiseAllotedChartComponentComponent implements OnInit{
   //   this.getLabwiseStackedChart();
   //   console.log("ngAfterViewInit", this.bookingmodalHome);
   // }
-
+    @Input() widget: any;
+  
+  
   ngOnInit(): void {
     console.log("ngOnInit", this.bookingmodalHome);
-    this.LabwiseSummary();
+    // this.LabwiseSummary();
+    debugger
+    // this.chartData = this.widget
+    console.log("widget ----",this.chartData)
+    this.getLabwiseStackedChart();
   }
 
-  //****Calling API for Labwsie summary chart ***//
-  LabwiseSummary(){
-    this.labwiseChartLoader = false;
-    let req = {"LabName":"VPG Lab",
-    "Program":"MTL-P",
-    "Vendor":"UST"}
-   
-    this.service.LabwiseSummary(req).subscribe(res => {
-      this.ChartData = res.Location;
-      console.log("stacked chart",this.ChartData)
-      this.getLabwiseStackedChart();
-      this.labwiseChartLoader = true;
-   })
-  }
-
+ 
+ngOnChanges(changes: SimpleChanges) {
+  debugger
+  this.chartData = this.widget
+  this.getLabwiseStackedChart();
+}
   //****Chart data****/
   getLabwiseStackedChart() {
+    // this.ChartData = this.widget
+    debugger
     am4core.useTheme(am4themes_animated);
     // Themes end
 
@@ -69,7 +70,13 @@ export class LabwiseAllotedChartComponentComponent implements OnInit{
     ];
 
     //****chart data***//
-    chart.data = this.ChartData;
+    chart.data = this.chartData;
+    // chart.data =
+    //  [{"Category":"CRD-14","Allocated":0,"Free":152},
+    //  {"Category":"CRD-15-VPG_LINUX","Allocated":0,"Free":10},
+    //  {"Category":"CRD-2","Allocated":0,"Free":120}]
+
+    console.log("labwsie +++++++++++=",chart.data)
    
     chart.colors.step = 2;
     // chart.padding(30, 30, 10, 30);
@@ -121,7 +128,7 @@ export class LabwiseAllotedChartComponentComponent implements OnInit{
 
     series2.name = "Free";
     series2.dataFields.categoryX = "Category";
-    series2.dataFields.valueY = "Unallocated";
+    series2.dataFields.valueY = "Free";
     // series2.dataFields.valueYShow = "totalPercent";
     // series2.dataItems.template.locations.categoryX = 0.5;
     series2.stacked = true;

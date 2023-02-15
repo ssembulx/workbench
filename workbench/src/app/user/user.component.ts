@@ -21,7 +21,7 @@ export class UserComponent implements OnInit {
   rowValue:any;
   modalReference:any;
   userDetails: any;
-  role:any;
+  role:any = '';
   roleList:any
   userData :any;
   modal:any={
