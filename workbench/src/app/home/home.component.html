@@ -281,9 +281,9 @@
             <div class="col-2 float-program" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                 <select class="form-select location_select" aria-label="Default select example" [(ngModel)]="program" (change)="programChange()">
                     <option value="" disabled selected>-- All Program --</option>
-                    <option value="">
+                    <!-- <option value="">
                         All
-                    </option>
+                    </option> -->
                     <option *ngFor="let prgmdata of prgmList?.Data" [ngValue]="prgmdata">
                         {{prgmdata}}
                     </option>
@@ -296,9 +296,9 @@
             <div class="col-2 float-vendor" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                 <select class="form-select location_select" aria-label="Default select example" [(ngModel)]="vendor" (change)="vendorChange()">
                     <option value="" disabled selected>-- All Vendor --</option>
-                    <option value="">
+                    <!-- <option value="">
                         All
-                    </option>
+                    </option> -->
                     <option *ngFor="let vendordata of vendorList?.Vendors" [ngValue]="vendordata">
                         {{vendordata}}
                     </option>
