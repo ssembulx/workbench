@@ -33,54 +33,54 @@ export class HeaderComponent implements OnInit {
      //**** Getting user role in local code (static data) ****//
      //***** uncomment while checking in local****//
      // ***** local code ***** //
-      this.userDetails =  {
-        "emailId": "arundathix.manjunath@intel.com",
-        "name": "Manjunath, ArundathiX",
-        "idsid": "arundatx",
-        "wwid": 12035082,
-        "employeeBadgeType": "GB",
-        "avatarURL": "https://photos.intel.com/images/12035082.jpg",
-        "role": null,
-        "domain": null,
-        "comments": null,
-        "displayName": "Manjunath, ArundathiX",
-        "isApplicationAccess": false,
-        "programAccesses": null,
-        "Role": "Admin"
-    }
-    this.userName = this.userDetails.displayName;
-    this.roleName = this.userDetails.Role;
-    this.avatarURL = this.userDetails.avatarURL;
-    this.userIDSID = this.userDetails.idsid;
-    this.userWWID = this.userDetails.wwid;
-    this.mailId = this.userDetails.emailId;
-    this.badge = this.userDetails.employeeBadgeType;
-    sessionStorage.setItem('display_name',JSON.stringify(this.userName));
+    //   this.userDetails =  {
+    //     "emailId": "arundathix.manjunath@intel.com",
+    //     "name": "Manjunath, ArundathiX",
+    //     "idsid": "arundatx",
+    //     "wwid": 12035082,
+    //     "employeeBadgeType": "GB",
+    //     "avatarURL": "https://photos.intel.com/images/12035082.jpg",
+    //     "role": null,
+    //     "domain": null,
+    //     "comments": null,
+    //     "displayName": "Manjunath, ArundathiX",
+    //     "isApplicationAccess": false,
+    //     "programAccesses": null,
+    //     "Role": "Admin"
+    // }
+    // this.userName = this.userDetails.displayName;
+    // this.roleName = this.userDetails.Role;
+    // this.avatarURL = this.userDetails.avatarURL;
+    // this.userIDSID = this.userDetails.idsid;
+    // this.userWWID = this.userDetails.wwid;
+    // this.mailId = this.userDetails.emailId;
+    // this.badge = this.userDetails.employeeBadgeType;
+    // sessionStorage.setItem('display_name',JSON.stringify(this.userName));
 
-    this.RoleName = this.userDetails.Role;
-    if( this.RoleName != 'User'  &&  this.RoleName != 'Admin'){
-      debugger
-      this.router.navigate(['/access-ristrict']);
-      console.log(this.userDetails.Role,"sfdghjk")
-    }
-    else{
-      this.router.navigate(['']);
-    }
+    // this.RoleName = this.userDetails.Role;
+    // if( this.RoleName != 'User'  &&  this.RoleName != 'Admin'){
+    //   debugger
+    //   this.router.navigate(['/access-ristrict']);
+    //   console.log(this.userDetails.Role,"sfdghjk")
+    // }
+    // else{
+    //   this.router.navigate(['']);
+    // }
 
     // **** Server Code ****** //  
    // **** Calling API for to get token and user details ***//
-    // this.service.getWindowsAuth().subscribe((res: any) => {
-    //   this.token = res.token;
-    //   this.service.getUserDetail({ 'token': this.token }).subscribe((data: any) => {
-    //     this.userName = data.displayName;
-    //     this.userImage = data.avatarURL;
-    //     this.userIDSID = data.idsid;
-    //     this.roleName = data.Role;
-    //     this.userWWID = data.wwid;
-    //     console.log(data)
-    // sessionStorage.setItem('display_name',JSON.stringify(this.userName));
-    //   })
-    // })
+    this.service.getWindowsAuth().subscribe((res: any) => {
+      this.token = res.token;
+      this.service.getUserDetail({ 'token': this.token }).subscribe((data: any) => {
+        this.userName = data.displayName;
+        this.userImage = data.avatarURL;
+        this.userIDSID = data.idsid;
+        this.roleName = data.Role;
+        this.userWWID = data.wwid;
+        console.log(data)
+    sessionStorage.setItem('display_name',JSON.stringify(this.userName));
+      })
+    })
    
   }
 

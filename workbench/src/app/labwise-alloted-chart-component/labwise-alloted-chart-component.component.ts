@@ -46,12 +46,13 @@ export class LabwiseAllotedChartComponentComponent implements OnInit{
     this.getLabwiseStackedChart();
   }
 
- 
+ //**** Passing the chart data for labwise program chart ***//
 ngOnChanges(changes: SimpleChanges) {
   debugger
   this.chartData = this.widget
   this.getLabwiseStackedChart();
 }
+
   //****Chart data****/
   getLabwiseStackedChart() {
     // this.ChartData = this.widget

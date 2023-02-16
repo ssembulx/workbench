@@ -110,8 +110,8 @@ export class HomeComponent implements OnInit {
     // this.getSemiPiechart();
   }
 
+  //**** Calling labdetails API for select drop down in labwise program chart ***//
   getLabDetails(){
-    //**** Calling labdetails API for select drop down in labwise program chart ***//
     this.service.getLabDetail().subscribe((res) => {
       this.labList = res;
       console.log(this.labList,"****")
@@ -119,16 +119,16 @@ export class HomeComponent implements OnInit {
     
   }
 
+   //**** Calling program details API for select drop down in labwise program chart ***//
   getProgramDetails(){
-     //**** Calling program details API for select drop down in labwise program chart ***//
      this.service.getPrgmDetail().subscribe((res) => {
       this.prgmList = res;
       // console.log(this.labList,"****")
   });
   }
 
+   //**** Calling vendor details API for select drop down in labwise program chart ***//
   getVendorDetails(){
-     //**** Calling vendor details API for select drop down in labwise program chart ***//
      this.service.getVendorDetail().subscribe((res) => {
       if (res) {
         this.vendorList = res;
@@ -136,15 +136,21 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  //**** Change function for lab select drop down in labwise program chart ***//
   labChange(){
     this.LabwiseSummary();
   }
+
+  //**** Change function for program select drop down in labwise program chart ***//
   programChange(){
     this.LabwiseSummary();
   }
+
+  //**** Change function for vendor select drop down in labwise program chart ***//
   vendorChange(){
     this.LabwiseSummary();
   }
+  
    //****Calling API for Labwsie summary chart ***//
    LabwiseSummary(){
     debugger
