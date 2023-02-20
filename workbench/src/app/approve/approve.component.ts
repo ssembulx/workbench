@@ -116,8 +116,17 @@ export class ApproveComponent implements OnInit {
     });
   }
   approveBenchList: any = [];
-  checkRow(data: any, id: any) {
-    if (this.approveBenchList.length === 0) {
+  checkRow(data: any, id: any, event: any) {
+    if (event.currentTarget.checked == true) {
+      this.approveBenchList.push(data);
+    } else if (event.currentTarget.checked == false) {
+      this.approveBenchList.forEach((element: any, index: any) => {
+        if (element.id == id) {
+          this.approveBenchList.splice(index, 1);
+        }
+      });
+    }
+    /*   if (this.approveBenchList.length === 0) {
       this.approveBenchList.push(data);
     } else {
       this.approveBenchList.forEach((element: any, index: any) => {
@@ -127,7 +136,7 @@ export class ApproveComponent implements OnInit {
           this.approveBenchList.push(data);
         }
       });
-    }
+    } */
     console.log(this.approveBenchList);
   }
 
