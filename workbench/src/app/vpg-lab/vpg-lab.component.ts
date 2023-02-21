@@ -687,13 +687,16 @@ export class VPGLabComponent implements OnInit, OnChanges {
           Email: this.userDetails?.emailId,
         },
       ],
-      NotifyTo: [
-        {
-          WWID: this.notifyUserDetails?.wwid,
-          Name: this.notifyUserDetails?.name,
-          Email: this.notifyUserDetails?.emailId,
-        },
-      ],
+      NotifyTo:
+        this.notifyUserDetails == undefined
+          ? null
+          : [
+              {
+                WWID: this.notifyUserDetails?.wwid,
+                Name: this.notifyUserDetails?.name,
+                Email: this.notifyUserDetails?.emailId,
+              },
+            ],
 
       FromWW: this.fromformatWW,
 
