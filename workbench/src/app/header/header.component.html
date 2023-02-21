@@ -124,7 +124,7 @@
         <div class="modal-footer">
             <button type="button" class="btn back-btn close" aria-label="Close"
                 (click)="d('Cross click')">Cancel</button>
-            <button type="button" class="btn back-btn" (click)="AddSuggestionBox()">Submit</button>
+            <button type="button" class="btn back-btn" (click)="AddSuggestionBox()" [disabled]="!suggestion">Submit</button>
         </div>
     </div>
 </ng-template>

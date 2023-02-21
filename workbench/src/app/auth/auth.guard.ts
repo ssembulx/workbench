@@ -26,30 +26,30 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     // ***** Local code ***** //
-    /*     const resAuth: any = {
-        "emailId": "arundathix.manjunath@intel.com",
-        "name": "Manjunath, ArundathiX",
-        "idsid": "arundatx",
-        "wwid": 12035082,
-        "employeeBadgeType": "GB",
-        "avatarURL": "https://photos.intel.com/images/12035082.jpg",
-        "role": null,
-        "domain": null,
-        "comments": null,
-        "displayName": "Manjunath, ArundathiX",
-        "isApplicationAccess": false,
-        "programAccesses": null,
-        "Role": "Admin"
-    }
-    if (resAuth.Role == 'Admin' || resAuth.Role == 'User' || resAuth.Role == 'Manager') {
-        debugger
-      this.service.setValue(true);
-      return true
-    } else {
-        debugger
-      this.router.navigate(['/access-ristrict']);
-      return false
-    } */
+    //     const resAuth: any = {
+    //     "emailId": "arundathix.manjunath@intel.com",
+    //     "name": "Manjunath, ArundathiX",
+    //     "idsid": "arundatx",
+    //     "wwid": 12035082,
+    //     "employeeBadgeType": "GB",
+    //     "avatarURL": "https://photos.intel.com/images/12035082.jpg",
+    //     "role": null,
+    //     "domain": null,
+    //     "comments": null,
+    //     "displayName": "Manjunath, ArundathiX",
+    //     "isApplicationAccess": false,
+    //     "programAccesses": null,
+    //     "Role": "Admin"
+    // }
+    // if (resAuth.Role == 'Admin' || resAuth.Role == 'User' || resAuth.Role == 'Manager') {
+    //     debugger
+    //   this.service.setValue(true);
+    //   return true
+    // } else {
+    //     debugger
+    //   this.router.navigate(['/access-ristrict']);
+    //   return false
+    // } 
 
     // ******  Server code ****** //
     const tokenData: any = await this.service.getWindowsAuthP();
