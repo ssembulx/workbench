@@ -43,7 +43,7 @@ export class HeaderComponent implements OnInit {
      //**** Getting user role in local code (static data) ****//
      //***** uncomment while checking in local****//
      // ***** local code ***** //
-      this.userDetails =  {
+     /*  this.userDetails =  {
         "emailId": "arundathix.manjunath@intel.com",
         "name": "Manjunath, ArundathiX",
         "idsid": "arundatx",
@@ -75,23 +75,23 @@ export class HeaderComponent implements OnInit {
     }
     else{
       this.router.navigate(['']);
-    }
+    } */
 
     // **** Server Code ****** //  
    // **** Calling API for to get token and user details ***//
-    // this.service.getWindowsAuth().subscribe((res: any) => {
-    //   this.token = res.token;
-    //   this.service.getUserDetail({ 'token': this.token }).subscribe((data: any) => {
-    //     this.userName = data.displayName;
-    //     this.userImage = data.avatarURL;
-    //     this.userIDSID = data.idsid;
-    //     this.roleName = data.Role;
-    //     this.userWWID = data.wwid;
-    //     this.mailId = data.emailId
-    //     console.log(data)
-    // sessionStorage.setItem('display_name',JSON.stringify(this.userName));
-    //   })
-    // })
+    this.service.getWindowsAuth().subscribe((res: any) => {
+      this.token = res.token;
+      this.service.getUserDetail({ 'token': this.token }).subscribe((data: any) => {
+        this.userName = data.displayName;
+        this.userImage = data.avatarURL;
+        this.userIDSID = data.idsid;
+        this.roleName = data.Role;
+        this.userWWID = data.wwid;
+        this.mailId = data.emailId
+        console.log(data)
+    sessionStorage.setItem('display_name',JSON.stringify(this.userName));
+      })
+    })
    
   }
 
