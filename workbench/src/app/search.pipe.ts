@@ -235,3 +235,28 @@ export class SearchBenchdetails implements PipeTransform {
         });
     }
 }
+
+
+@Pipe({
+    name: 'searchFilterFeedback',
+    pure: false
+})
+export class SearchPipeFeedback implements PipeTransform {
+
+    transform(value: any, args?: any): any {
+        if (!args) {
+            return value;
+        }
+        return value.filter((val: any) => {
+            return (
+                val.suggestion_by[0].WWID === null ? val.suggestion_by[0].WWID
+                    : val.suggestion_by[0].WWID.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+                || (val.suggestion_by[0].Name === null ? val.suggestion_by[0].Name
+                    : val.suggestion_by[0].Name.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+                || (val.suggestion_by[0].Email === null ? val.suggestion_by[0].Email
+                    : val.suggestion_by[0].Email.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))
+                ||  (val.created_date === null ? val.created_date
+                    : val.created_date.toString().trim().toLowerCase().includes(args.toString().trim().toLowerCase()))      
+        });
+    }
+}

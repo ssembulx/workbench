@@ -46,8 +46,10 @@ export class StackedChartComponentComponent implements OnInit{
 
     //*** color list for chart and legend ***//
     chart.colors.list = [
-      am4core.color('#67b7dc'),
-      am4core.color('#67b7dc')
+      // am4core.color('#67b7dc'),
+      // am4core.color('#67b7dc')
+      am4core.color('#82589F'),
+      am4core.color('#82589F')
     ];
     
     chart.data = this.ChartData;

@@ -40,6 +40,10 @@
                 </tbody>
             </table>
         </div>
+         <!-- No data available display -->
+         <div class="no_data_block_display" *ngIf="userData?.length == 0">
+            <h2 class="mt-2">No Data Available</h2>
+        </div>
       </div>
     </div>
 </div>

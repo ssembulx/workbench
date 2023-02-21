@@ -1032,6 +1032,16 @@ span.sort-by:after {
     margin-top: 27%;
 }
 
+.spinner-container-lab {
+    display: flex;
+    flex-direction: column;
+    height: 11vh;
+    justify-content: center;
+    align-items: center;
+    margin-top: 12%;
+}
+
+
 .proccessing-text {
     margin-top: 13px;
     color: #0070c0;
@@ -1123,6 +1133,16 @@ span.sort-by:after {
     background: none no-repeat scroll 0 0 white;
     opacity: 0.85;
     margin-top: -935px;
+}
+
+.overlay-main-lab{
+    position: absolute;
+    width: 99%;
+    height: 63vh;
+    margin-left: 1%;
+    background: none no-repeat scroll 0 0 white;
+    opacity: 0.85;
+    margin-top: -437px;
 }
 
 @-webkit-keyframes sk-stretchdelay {

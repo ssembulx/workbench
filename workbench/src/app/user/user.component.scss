@@ -15,37 +15,162 @@
                 width: 98%;
                 overflow: auto;
                 margin: 0px 15px 0px 15px;
+
                 .user-table {
                     max-width: 150%;
                     margin-top: 8px;
+
                     thead {
                         background-color: #d5cbd7;
-                        th {
-                            text-align: center;
-                            &:first-child {
-                                width: 5%;
-                            }
-                       
+                        display: table;
+                        width: 100%;
+                        table-layout: fixed;
+
+                        tr {
+                            th {
+                                    text-align: center;
+                                    &:first-child {
+                                        width: 5%;
+                                    }
+                                    &:nth-child(2) {
+                                        width: 8.6%;
+                                    }
+    
+                                    &:nth-child(3) {
+                                        width: 7.3%;
+                                    }
+    
+                                    &:nth-child(4) {
+                                        width: 12.3%;
+                                    }
+    
+                                    &:nth-child(5) {
+                                        width: 19.3%;
+                                    }
+                                    &:nth-child(6) {
+                                        width: 10.3%;
+                                    }
+                                    &:nth-child(7) {
+                                        width: 9.3%;
+                                    }
+                                    &:nth-child(8) {
+                                        width: 19.3%;
+                                    }
+                                }
                         }
+
                     }
+
                     tbody {
-                        border-top: none;
-                        td {
+                        display: block;
+                        max-height: 70vh;
+                        overflow-y: auto;
+
+                        tr {
+                            display: table;
+                            width: 100%;
+                            table-layout: fixed;
+
+                            td {
                             
-                            &:first-child {
-                                width: 5%;
-                                text-align: center;
+                                &:first-child {
+                                    width: 5%;
+                                }
+
+                                &:nth-child(2) {
+                                    width: 8.6%;
+                                }
+
+                                &:nth-child(3) {
+                                    width: 7.3%;
+                                }
+
+                                &:nth-child(4) {
+                                    width: 12.3%;
+                                }
+
+                                &:nth-child(5) {
+                                    width: 19.4%;
+                                }
+
+                                &:nth-child(6) {
+                                    width: 10.2%;
+                                }
+
+                                &:nth-child(7) {
+                                    width: 9.3%;
+                                }
+                                &:nth-child(8) {
+                                    width: 19.3%;
+                                }
+                               a{
+                                cursor: pointer;
+                               }
                             }
-                            &:last-child{
-                                text-align: center;
-                            }
-                           a{
-                            cursor: pointer;
-                           }
                         }
                     }
-                  
+
                 }
+
+                .search-bar {
+                    .input-group {
+                        width: 19%;
+                        // float: right;
+                        margin-left: 72%;
+
+                        input {
+                            height: 35px;
+                            padding: 5px;
+                        }
+
+                        input[type=text] {
+                            padding: 3px 0px;
+                            padding-left: 10px;
+
+                            input[type=text]::placeholder {
+                                text-align: center;
+                            }
+
+                        }
+                    }
+
+                    .save-btn {
+                        float: right;
+                        font-family: "IntelOne Display AR Medium";
+                        background-color: #0071c5;
+                        padding: 3px 0px;
+                        color: white;
+                        border-top-right-radius: 5px;
+                        border-bottom-right-radius: 5px;
+                        border-top-left-radius: 0;
+                        border-bottom-left-radius: 0;
+                        box-shadow: #7f9fff 3px 3px 6px 0px inset, #350d33 -3px -3px 6px 1px inset;
+                        width: 40px;
+                        text-align: center;
+                        height: 35px;
+
+                        i {
+                            font-size: 16px;
+                            margin-top: 4px;
+                        }
+                    }
+
+                    .save-btn:hover {
+                        float: right;
+                        font-family: "IntelOne Display AR Medium";
+                        background-color: #0071c5;
+                        padding: 3px 0px;
+                        color: white;
+                        border-top-right-radius: 5px;
+                        border-bottom-right-radius: 5px;
+                        border-top-left-radius: 0;
+                        border-bottom-left-radius: 0;
+                        box-shadow: #7f9fff 3px 3px 6px 0px inset, #350d33 -3px -3px 6px 1px inset;
+                        width: 40px;
+                        text-align: center;
+                    }
+                }
+
             }
         }
 

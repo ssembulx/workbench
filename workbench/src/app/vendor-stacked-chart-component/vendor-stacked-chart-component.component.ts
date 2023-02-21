@@ -45,8 +45,15 @@ export class VendorStackedChartComponentComponent implements OnInit {
     var root = am5.Root.new('chartdiv4');
     root._logo.dispose();
 
+    
     // Set themes
     root.setThemes([am5themes_Animated.new(root)]);
+    const colors = [
+      am5.color("#FF5733"),
+      am5.color("#C70039"),
+      am5.color("#900C3F"),
+      am5.color("#581845")
+    ];
 
     var chart: any = root.container.children.push(
       am5xy.XYChart.new(root, {

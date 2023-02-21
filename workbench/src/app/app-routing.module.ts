@@ -4,6 +4,7 @@ import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { AllocationComponent } from './allocation/allocation.component';
 import { ApproveComponent } from './approve/approve.component';
 import { AuthGuard } from './auth/auth.guard';
+import { FeedbackComponent } from './feedback/feedback.component';
 import { HomeComponent } from './home/home.component';
 import { MasterComponent } from './master/master.component';
 import { PlatformComponent } from './platform/platform.component';
@@ -57,6 +58,9 @@ const routes: Routes = [{
 },
 {
   path: 'publish', component: PublishComponent, canActivate: [AuthGuard]
+},
+{
+  path: 'feedback', component: FeedbackComponent, canActivate: [AuthGuard]
 },
 {
   path: 'access-ristrict', component: AccessDeniedComponent

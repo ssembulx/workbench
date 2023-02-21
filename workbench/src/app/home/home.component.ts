@@ -241,10 +241,11 @@ export class HomeComponent implements OnInit {
       //     return am5.color('#6794dc'); 
       // }
        if(target.dataItem.get("category") == "Allocated") {
-        return am5.color('#67b7dc')
+        // return am5.color('#67b7dc')
+        return am5.color('#FD7272')
       }
       else if(target.dataItem.get("category") == "Free") {
-        return am5.color('#67b7dc')
+        return am5.color('#FD7272')
       }
     });
 
@@ -254,10 +255,10 @@ export class HomeComponent implements OnInit {
       //   return am5.color('#6794dc'); 
       // }
       if(target.dataItem.get("category") == "Allocated") {
-        return am5.color('#67b7dc')
+        return am5.color('#FD7272')
       }
       else if(target.dataItem.get("category") == "Free") {
-        return am5.color('#67b7dc')
+        return am5.color('#FD7272')
       }
     });
 

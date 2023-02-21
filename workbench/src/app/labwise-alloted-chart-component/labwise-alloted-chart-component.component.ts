@@ -66,16 +66,18 @@ ngOnChanges(changes: SimpleChanges) {
 
     // color list for chart and legend
     chart.colors.list = [
-      am4core.color('#67b7dc'),
-      am4core.color('#67b7dc'),
+      // am4core.color('#67b7dc'),
+      // am4core.color('#67b7dc'),
+      am4core.color('#786fa6'),
+      am4core.color('#786fa6')
     ];
 
     //****chart data***//
     chart.data = this.chartData;
     // chart.data =
-    //  [{"Category":"CRD-14","Allocated":0,"Free":152},
-    //  {"Category":"CRD-15-VPG_LINUX","Allocated":0,"Free":10},
-    //  {"Category":"CRD-2","Allocated":0,"Free":120}]
+    //  [{"Category":"CRD-14","Allocated":100,"Free":52},
+    //  {"Category":"CRD-15-VPG_LINUX","Allocated":10,"Free":0},
+    //  {"Category":"CRD-2","Allocated":120,"Free":10}]
 
     console.log("labwsie +++++++++++=",chart.data)
    
@@ -138,7 +140,7 @@ ngOnChanges(changes: SimpleChanges) {
     series2.fillOpacity = 0.1;
 
     //**** for dotted outline border ****//
-    series2.stroke = am4core.color("#67b7dc").lighten(0.5);
+    series2.stroke = am4core.color("#786fa6").lighten(0.5);
     series2.strokeDasharray = "8,4"
 
 

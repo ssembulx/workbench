@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SummaryService } from '../shared/service';
 
@@ -11,7 +11,6 @@ import { SummaryService } from '../shared/service';
 export class AuthGuard implements CanActivate {
 
   userDetails: any;
-  public token: String;
 
   headers = new HttpHeaders({
     'Content-Type': 'application/json',
@@ -26,49 +25,88 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot) {
 
     // ***** Local code ***** //
-    // const resAuth: any = {
-    //     "emailId": "arundathix.manjunath@intel.com",
-    //     "name": "Manjunath, ArundathiX",
-    //     "idsid": "arundatx",
-    //     "wwid": 12035082,
-    //     "employeeBadgeType": "GB",
-    //     "avatarURL": "https://photos.intel.com/images/12035082.jpg",
-    //     "role": null,
-    //     "domain": null,
-    //     "comments": null,
-    //     "displayName": "Manjunath, ArundathiX",
-    //     "isApplicationAccess": false,
-    //     "programAccesses": null,
-    //     "Role": "Admin"
-    // }
-    // if (resAuth.Role == 'Admin' || resAuth.Role == 'User' || resAuth.Role == 'Manager') {
-    //     debugger
-    //   this.service.setValue(true);
-    //   return true
-    // } else {
-    //     debugger
-    //   this.router.navigate(['/access-ristrict']);
-    //   return false
-    // }
+    const resAuth: any = {
+        "emailId": "arundathix.manjunath@intel.com",
+        "name": "Manjunath, ArundathiX",
+        "idsid": "arundatx",
+        "wwid": 12035082,
+        "employeeBadgeType": "GB",
+        "avatarURL": "https://photos.intel.com/images/12035082.jpg",
+        "role": null,
+        "domain": null,
+        "comments": null,
+        "displayName": "Manjunath, ArundathiX",
+        "isApplicationAccess": false,
+        "programAccesses": null,
+        "Role": "Admin"
+    }
+    if (resAuth.Role == 'Admin' || resAuth.Role == 'User' || resAuth.Role == 'Manager') {
+        debugger
+      this.service.setValue(true);
+      return true
+    } else {
+        debugger
+      this.router.navigate(['/access-ristrict']);
+      return false
+    }
 
     // ******  Server code ****** //
-    if(!this.token){
-      const tokenData: any = await this.service.getWindowsAuthP()
-      const resAuth: any = await this.service.getUserDetailP({ token: tokenData.token })
-      console.log(resAuth,"res Auth")
-      if (resAuth.Role == 'Admin' || resAuth.Role == 'User' || resAuth.Role == 'Manager') {
-        this.service.setValue(true);
-        return true
-      } else {
-        this.router.navigate(['/access-ristrict']);
-        return false
-      }
+      // const tokenData: any = await this.service.getWindowsAuthP()
+      // const resAuth: any = await this.service.getUserDetailP({ token: tokenData.token })
+      // console.log(resAuth,"res Auth")
+      // if (resAuth.Role == 'Admin' || resAuth.Role == 'User' || resAuth.Role == 'Manager') {
+      //   this.service.setValue(true);
+      //   return true
+      // } else {
+      //   this.router.navigate(['/access-ristrict']);
+      //   return false
+      // }
+
+
+
+    //   if (!this.helper.token) {   
+    //     let userToken:any = await this.service.getWindowsAuthP();
+    //     const payload = { "userToken": userToken.token }
+    //     const userinfo: any = await this.service.getUserDetailP(payload)
+    //      this.userDetails = userinfo
+    //      this.helper.authenticationDone(true)  
+    //      if (this.userDetails.isAuthorize) {
+    //       this.helper.setToken(this.userDetails.token)
+    //       const data : any=   await this.service.getUserData()
+    //       let userInfo:any = {
+    //         avatarURL: this.userDetails.avatarURL,
+    //         displayName: this.userDetails.name,
+    //         emailId: this.userDetails.emailId,
+    //         name: this.userDetails.name,
+    //         idsid:this.userDetails.idsid,
+    //         wwid:this.userDetails.wwid,
+    //         employeeBadgeType:this.userDetails.employeeBadgeType,
+    //         // isSuccess: true,
+    //         // lastName: this.userDetails.name,
+    //         isApplicationAccess:this.userDetails.isApplicationAccess,
+    //         // message: null,
+    //         role: this.userDetails.roleName,
+    //         domain:this.userDetails.domain,
+    //         comments:this.userDetails.comments,
+    //         programAccesses:this.userDetails.programAccesses,
+    //         Role:this.userDetails.Role
+    //         // ssoId:this.userDetails.wwid,
+    //         // userName: this.userDetails.idsid,
+    //      // userConfig: null
+    //       };
+    //      Object.assign(userInfo ,{userConfig:data.userConfig})
+    //        this.helper.editUser(userInfo);
+    //        this.helper.SetUser(userInfo);
+    //       //  this.accountService.setShowHeader(true);          
+    //        return true;
+    //       } else {
+    //       // this.accountService.setShowHeader(false);
+    //       this.router.navigate(['/access-ristrict']);
+    //       return false
+    //      } 
+    //  } else {
+    //    return true
+    //  }
     }
-    else if(this.token){
-      return true;
-    }
- 
 
   }
-
-}

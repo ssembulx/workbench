@@ -36,6 +36,7 @@ import {
   SearchTeam,
   SearchDuration,
   SearchBenchdetails,
+  SearchPipeFeedback,
 } from './search.pipe';
 import { SummaryService } from './shared/service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -53,6 +54,7 @@ import { TeamComponent } from './team/team.component';
 import { MultiplierPipe } from './ww';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { UserApproveComponent } from './user-approve/user-approve.component';
+import { FeedbackComponent } from './feedback/feedback.component';
 /* import { ToastrService } from 'ngx-toastr'; */
 @NgModule({
   declarations: [
@@ -84,6 +86,7 @@ import { UserApproveComponent } from './user-approve/user-approve.component';
     SearchBench,
     SearchBenchdetails,
     SearchDuration,
+    SearchPipeFeedback,
     SemicirclePieChartComponent,
     PublishComponent,
     PlatformComponent,
@@ -92,6 +95,7 @@ import { UserApproveComponent } from './user-approve/user-approve.component';
     MultiplierPipe,
     AccessDeniedComponent,
     UserApproveComponent,
+    FeedbackComponent,
   ],
   imports: [
     BrowserModule,

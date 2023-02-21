@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  ServiceURL: 'https://labmanager.apps1-fm-int.icloud.intel.com/',
+  ServiceURL: 'https://labspaceapi.apps1-bg-int.icloud.intel.com/',
 };

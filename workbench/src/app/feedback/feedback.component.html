@@ -1,0 +1,65 @@
+<div class="users">
+    <div class="content">
+      <div class="user-content">
+        <div class="table-container" *ngIf="feedbackData?.length">
+            <div class="search-bar col-12">
+                <div class="input-group">
+                    <input type="search" name="search" placeholder="Search any field"
+                        class="form-control shadow-none" aria-label="search" [(ngModel)]="searchText">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn save-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered user-table" *ngIf="feedbackdataLoader">
+                <thead>
+                    <tr>
+                        <th class="v-align">SL NO.</th>
+                        <th class="v-align" (click)="setOrderRelease('WWID')"><span class="sort-by">WWID</span></th>
+                        <!-- <th class="v-align" (click)="setOrderRelease('IDSID')"><span class="sort-by">IDSID</span></th> -->
+                        <th class="v-align" (click)="setOrderRelease('DISPLAY NAME')"><span class="sort-by">DISPLAY NAME</span></th>
+                        <th class="v-align" (click)="setOrderRelease('EMAIL')"><span class="sort-by">EMAIL</span></th>
+                        <!-- <th class="v-align" (click)="setOrderRelease('ROLE')"><span class="sort-by">ROLE</span></th>
+                        <th class="v-align" (click)="setOrderRelease('BADGE')"><span class="sort-by">BADGE</span></th> -->
+                        <th class="v-align" (click)="setOrderRelease('LAST LOGGED ON')"><span class="sort-by">DATE TIME</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of feedbackData | searchFilterFeedback: searchText | orderBy: orderMappedRelease:reverseMappedRelease: true ; let i=index">
+                        <td>{{(i+1)}}</td>
+                        <td>{{data.suggestion_by[0].WWID}}</td>
+                        <td>{{data.suggestion_by[0].Name}}</td>
+                        <!-- <td>{{data.DisplayName}}       -->
+                        <td>{{data.suggestion_by[0].Email}}</td>
+                        <!-- <td>{{data.Role__role_name}}</td>
+                        <td>{{data.Badge}}</td> -->
+                        <td>{{data.created_date}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+         <!-- No data available display -->
+         <div class="no_data_block_display" *ngIf="feedbackData?.length == 0">
+            <h2 class="mt-2">No Data Available</h2>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- ****** vendor table loader option ****** -->
+<div class="overlay-main" *ngIf="!feedbackdataLoader">
+    <div class="spinner-container">
+        <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+            <div class="rect6"></div>
+            <div class="rect7"></div>
+            <div class="rect8"></div>
+            <div class="rect9"></div>
+        </div>
+        <div class="proccessing-text">Loading ...</div>
+    </div>
+</div>

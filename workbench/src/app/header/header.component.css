@@ -265,4 +265,64 @@ h3 {
 ::ng-deep .dropdown-menu{
     margin-top: 28px;
 }
-  
+
+.float-right{
+    float: right;
+}
+.icon-style{
+    margin-right: 3px;
+    /* margin-top: 8px; */
+    color: white;
+    font-size: 16px;
+}
+
+/* =========== reject user modal popup =============== */
+
+
+.modal-header {
+    background-color: #0071c5;
+    font-weight:bold ;
+    color: white;
+    padding: 10px 18px;
+}
+
+.modal-body {
+    padding-bottom: 7px;
+
+}
+.text-box {
+    outline: none;
+    border: none;
+}
+.back-btn {
+    font-family: "IntelOne Display AR Medium";
+    background-color: #0071c5;
+    padding: 4px 10px;
+    color: white;
+    font-size: 14px;
+    border-radius: 0px;
+    box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
+    width: 87px;
+    text-align: center;
+}
+
+.back-btn:hover {
+    font-family: "IntelOne Display AR Medium";
+    background-color: #0071c5;
+    /* color: white; */
+}
+.back-btn {
+    font-family: "IntelOne Display AR Medium";
+    background-color: #0071c5;
+    /* color: white; */
+}
+.modal-footer {
+    padding: 7px;
+   
+}
+
+::ng-deep .modal-content {
+    margin-top: 17% !important;
+    width: 41%;
+    margin-left: 35%;
+}

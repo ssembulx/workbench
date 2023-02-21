@@ -7,7 +7,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'workbench';
+
+  constructor(){}
+
+  ngOnInit(){
+ 
+  }
 }
+
 
 if (typeof Worker !== 'undefined') {
   // Create a new

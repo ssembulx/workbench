@@ -233,8 +233,14 @@ export class SummaryService {
       return this.http.get('https://iamws-i.intel.com/api/v1/token/WindowsAuth', { withCredentials: true }).toPromise();
    }
   
-  
-   
+   // ***** API for  new user data for approve request ******//
+   public getSuggestion(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/GiveSuggestions/',req);
+  }
+  // ***** API for  new user data for approve request ******//
+  public getFeedbackData(): Observable<any> {
+    return this.http.get(this.ServiceURL + 'home/GiveSuggestions/');
+  }
   // constructor(private http: HttpClient) {}
 
   // public LabProgramVendorSummary(): Observable<any> {

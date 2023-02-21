@@ -93,26 +93,29 @@ export class SemicirclePieChartComponent implements OnInit {
     //**** custom color for slices****//
     series.slices.template.adapters.add("fill", function(fill, target:any) {
       if (target.dataItem.get("category") == "Non-SIV") {
-          return am5.color('#6794dc'); 
+          // return am5.color('#6794dc'); 
+          return am5.color('#FC427B')
       }
       else if(target.dataItem.get("category") == "Allocated") {
-        return am5.color('#67b7dc')
+        // return am5.color('#67b7dc')
+        return am5.color('#f78fb3')
       }
       else if(target.dataItem.get("category") == "Free") {
-        return am5.color('#67b7dc')
+        // return am5.color('#f78fb3')
+        return am5.color('#f78fb3')
       }
     });
 
     //**** custom color for border(stroke)****//
     series.slices.template.adapters.add("stroke", function(fill, target:any) {
       if (target.dataItem.get("category") == "Non-SIV") {
-        return am5.color('#6794dc'); 
+        return am5.color('#f78fb3'); 
       }
       else if(target.dataItem.get("category") == "Allocated") {
-        return am5.color('#67b7dc')
+        return am5.color('#f78fb3')
       }
       else if(target.dataItem.get("category") == "Free") {
-        return am5.color('#67b7dc')
+        return am5.color('#f78fb3')
       }
     });
 
