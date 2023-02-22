@@ -44,6 +44,7 @@ export class AuthGuard implements CanActivate {
     if (resAuth.Role == 'Admin' || resAuth.Role == 'User' || resAuth.Role == 'Manager') {
         debugger
       this.service.setValue(true);
+      this.service.SetUser(resAuth);
       return true
     } else {
         debugger
@@ -52,21 +53,28 @@ export class AuthGuard implements CanActivate {
     } */
 
     // ******  Server code ****** //
-    const tokenData: any = await this.service.getWindowsAuthP();
-    const resAuth: any = await this.service.getUserDetailP({
-      token: tokenData.token,
-    });
-    console.log(resAuth, 'res Auth');
-    if (
-      resAuth.Role == 'Admin' ||
-      resAuth.Role == 'User' ||
-      resAuth.Role == 'Manager'
-    ) {
-      this.service.setValue(true);
-      return true;
+    let userInfo = this.service.GetUser();
+    console.log(userInfo, 'res userInfo');
+    if (userInfo == undefined || typeof userInfo !== 'object') {
+      const tokenData: any = await this.service.getWindowsAuthP();
+      const resAuth: any = await this.service.getUserDetailP({
+        token: tokenData.token,
+      });
+      console.log(resAuth, 'res Auth');
+      if (
+        resAuth.Role == 'Admin' ||
+        resAuth.Role == 'User' ||
+        resAuth.Role == 'Manager'
+      ) {
+        this.service.setValue(true);
+        this.service.SetUser(resAuth);
+        return true;
+      } else {
+        this.router.navigate(['/access-ristrict']);
+        return false;
+      }
     } else {
-      this.router.navigate(['/access-ristrict']);
-      return false;
+      return true;
     }
 
     //   if (!this.helper.token) {

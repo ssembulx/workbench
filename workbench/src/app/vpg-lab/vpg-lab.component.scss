@@ -889,7 +889,8 @@ $seat-unavailable-color: white;
     text-align: center;
     color: gray;
     cursor: pointer;
-}  
+}
+
 .btn-dv2 {
     padding: 1px 8px;
     // background-color: #f39c12;
@@ -898,7 +899,8 @@ $seat-unavailable-color: white;
     color: gray;
     cursor: pointer;
 }
-.btn-dv3{
+
+.btn-dv3 {
     padding: 1px 8px;
     // background-color: #f39c12;
     border: 1px solid #f39c12;
@@ -906,7 +908,13 @@ $seat-unavailable-color: white;
     color: gray;
     cursor: pointer;
 }
-.active-btn{
+
+.active-btn {
     background: #f39c12 !important;
     color: #fff !important;
+}
+
+.crd_11 {
+    padding-left: 10px !important;
+    padding-right: 0px !important;
 }
