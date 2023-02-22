@@ -1,7 +1,7 @@
 import { any } from '@amcharts/amcharts5/.internal/core/util/Array';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -22,6 +22,13 @@ export class SummaryService {
   private options = { headers: this.headers };
 
   constructor(private http: HttpClient) {}
+  private user: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public SetUser(_user: any) {
+    this.user.next(_user);
+  }
+  public GetUser(): Observable<any> {
+    return this.user.asObservable();
+  }
 
   //**** Location Chart API  ****//
   public LabProgramVendorSummary(): Observable<any> {
@@ -53,19 +60,21 @@ export class SummaryService {
     );
   }
 
-   // ***** get lab details  API for labwsie summary chart in home page ******//
-   public getLabDetail(): Observable<any> {
+  // ***** get lab details  API for labwsie summary chart in home page ******//
+  public getLabDetail(): Observable<any> {
     return this.http.get(this.ServiceURL + 'home/GetBuildingNames/');
   }
-  
+
   // ***** get prgoram details  API for labwsie summary chart in home page ******//
   public getPrgmDetail(): Observable<any> {
     return this.http.get(this.ServiceURL + 'home/GetProgramSkuDropdownNames/');
   }
 
-   // ***** get vendor details  API for labwsie summary chart in home page ******//
-   public getVendorDetail(): Observable<any> {
-    return this.http.get(this.ServiceURL + 'home/GetVendorDetailsDropdownNames/');
+  // ***** get vendor details  API for labwsie summary chart in home page ******//
+  public getVendorDetail(): Observable<any> {
+    return this.http.get(
+      this.ServiceURL + 'home/GetVendorDetailsDropdownNames/'
+    );
   }
 
   // ***** Overallsummary semi circle pie Chart API ******//
@@ -90,38 +99,38 @@ export class SummaryService {
 
   // ***** Master view add program data API ******//
   public getProgramAddData(req: any): Observable<any> {
-    return this.http.post(this.ServiceURL + 'home/AddProgram/',req);
+    return this.http.post(this.ServiceURL + 'home/AddProgram/', req);
   }
 
-   // ***** Master view update program data API ******//
-   public  getProgramUpdateData(req: any): Observable<any> {
-    return this.http.put(this.ServiceURL + 'home/EditDeleteProgram/',req);
+  // ***** Master view update program data API ******//
+  public getProgramUpdateData(req: any): Observable<any> {
+    return this.http.put(this.ServiceURL + 'home/EditDeleteProgram/', req);
   }
 
-   // ***** Master view delete program data API ******//
-   public  getProgramDeleteData(req: any): Observable<any> {
-    return this.http.post(this.ServiceURL + 'home/EditDeleteProgram/',req);
+  // ***** Master view delete program data API ******//
+  public getProgramDeleteData(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/EditDeleteProgram/', req);
   }
 
-   // ***** Master view Sku data API ******//
-   public getSkuData(): Observable<any> {
+  // ***** Master view Sku data API ******//
+  public getSkuData(): Observable<any> {
     return this.http.get(this.ServiceURL + 'home/AddSku/');
   }
 
-    // ***** Master view add sku data API ******//
-    public getSkuAddData(req: any): Observable<any> {
-      return this.http.post(this.ServiceURL + 'home/AddSku/',req);
-    }
-
-    // ***** Master view update sku data API ******//
-   public  getSkuUpdateData(req: any): Observable<any> {
-    return this.http.put(this.ServiceURL + 'home/EditDeleteSku/',req);
+  // ***** Master view add sku data API ******//
+  public getSkuAddData(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/AddSku/', req);
   }
 
-     // ***** Master view delete sku data API ******//
-     public  getSkuDeleteData(req: any): Observable<any> {
-      return this.http.post(this.ServiceURL + 'home/EditDeleteSku/',req);
-    }
+  // ***** Master view update sku data API ******//
+  public getSkuUpdateData(req: any): Observable<any> {
+    return this.http.put(this.ServiceURL + 'home/EditDeleteSku/', req);
+  }
+
+  // ***** Master view delete sku data API ******//
+  public getSkuDeleteData(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/EditDeleteSku/', req);
+  }
 
   // ***** Master view vendor data API ******//
   public getVendorData(): Observable<any> {
@@ -130,17 +139,17 @@ export class SummaryService {
 
   // ***** Master view add vendor data API ******//
   public getVendorAddData(req: any): Observable<any> {
-    return this.http.post(this.ServiceURL + 'home/VendorData/',req);
+    return this.http.post(this.ServiceURL + 'home/VendorData/', req);
   }
 
   // ***** Master view update vendor data API ******//
-  public  getVendorUpdateData(req: any): Observable<any> {
-    return this.http.put(this.ServiceURL + 'home/VendorData/',req);
+  public getVendorUpdateData(req: any): Observable<any> {
+    return this.http.put(this.ServiceURL + 'home/VendorData/', req);
   }
 
   // ***** Master view delete vendor data API ******//
-  public  getVendordelete(req: any): Observable<any> {
-    return this.http.post(this.ServiceURL + 'home/DeleteVendor/',req);
+  public getVendordelete(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/DeleteVendor/', req);
   }
 
   // ***** Master view  team data API ******//
@@ -150,21 +159,21 @@ export class SummaryService {
 
   // ***** Master view add team data API ******//
   public getTeamAddData(req: any): Observable<any> {
-    return this.http.post(this.ServiceURL + 'home/TeamData/',req);
+    return this.http.post(this.ServiceURL + 'home/TeamData/', req);
   }
 
   // ***** Master view update team data API ******//
   public getTeamUpdateData(req: any): Observable<any> {
-    return this.http.put(this.ServiceURL + 'home/TeamData/',req);
-  }
-  
-   // ***** Master view delete team data API ******//
-   public getTeamDelete(req: any): Observable<any> {
-    return this.http.post(this.ServiceURL + 'home/DeleteTeam/',req);
+    return this.http.put(this.ServiceURL + 'home/TeamData/', req);
   }
 
-   // *****  user data API ******//
-   public getUserData(): Observable<any> {
+  // ***** Master view delete team data API ******//
+  public getTeamDelete(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/DeleteTeam/', req);
+  }
+
+  // *****  user data API ******//
+  public getUserData(): Observable<any> {
     return this.http.get(this.ServiceURL + 'home/AddUser/');
   }
 
@@ -172,35 +181,35 @@ export class SummaryService {
   public getRole(): Observable<any> {
     return this.http.get(this.ServiceURL + 'home/GetAllRoles/');
   }
-  
+
   // ***** user view add user data API ******//
   public getAddUserData(req: any): Observable<any> {
-    return this.http.post(this.ServiceURL + 'home/AddUser/',req);
-  }
- 
-   // ***** User view update user data API ******//
-   public getUserUpdateData(req: any): Observable<any> {
-    return this.http.put(this.ServiceURL + 'home/AddUser/',req);
+    return this.http.post(this.ServiceURL + 'home/AddUser/', req);
   }
 
-   // ***** User view delete team data API ******//
-   public getUserDelete(req: any): Observable<any> {
-    return this.http.post(this.ServiceURL + 'home/DeleteUser/',req);
+  // ***** User view update user data API ******//
+  public getUserUpdateData(req: any): Observable<any> {
+    return this.http.put(this.ServiceURL + 'home/AddUser/', req);
+  }
+
+  // ***** User view delete team data API ******//
+  public getUserDelete(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/DeleteUser/', req);
   }
 
   // ***** API for  new user data for request access ******//
   public getAddNewUserData(req: any): Observable<any> {
-    return this.http.post(this.ServiceURL + 'home/AddNewUser/',req);
+    return this.http.post(this.ServiceURL + 'home/AddNewUser/', req);
   }
 
-   // ***** API for  new user data for approve request ******//
-   public userApproveList(req: any): Observable<any> {
-    return this.http.post(this.ServiceURL + 'home/ApproveUser/',req);
+  // ***** API for  new user data for approve request ******//
+  public userApproveList(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/ApproveUser/', req);
   }
 
   // ***** API for  new user data for approve request ******//
   public userRejectList(req: any): Observable<any> {
-    return this.http.post(this.ServiceURL + 'home/RejectUser/',req);
+    return this.http.post(this.ServiceURL + 'home/RejectUser/', req);
   }
 
   // ***** API for  new user data for request access ******//
@@ -209,33 +218,44 @@ export class SummaryService {
   }
 
   // ***** User details API ******//
-  public getUserDetail(req:any): Observable<any> {
-    return this.http.post(this.ServiceURL + 'home/GetCurrentUserData/',req, { withCredentials: true });
+  public getUserDetail(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/GetCurrentUserData/', req, {
+      withCredentials: true,
+    });
   }
 
-    // ***** User details API authguard ******//
-  getUserDetailP(req:any){
-      return this.http.post(this.ServiceURL + 'home/GetCurrentUserData/',req, { withCredentials: true }).toPromise();
-    }
+  // ***** User details API authguard ******//
+  getUserDetailP(req: any) {
+    return this.http
+      .post(this.ServiceURL + 'home/GetCurrentUserData/', req, {
+        withCredentials: true,
+      })
+      .toPromise();
+  }
 
   setValue(value: boolean) {
     this.userAuth = value;
-  };
-
-   // ***** WindowsAuth API for getting token ******//
-  getWindowsAuth(){
-     return this.http.get('https://iamws-i.intel.com/api/v1/token/WindowsAuth', { withCredentials: true });
   }
-  
 
-    // ***** WindowsAuth API for getting token authguard ******//
-    getWindowsAuthP(){
-      return this.http.get('https://iamws-i.intel.com/api/v1/token/WindowsAuth', { withCredentials: true }).toPromise();
-   }
-  
-   // ***** API for  new user data for approve request ******//
-   public getSuggestion(req: any): Observable<any> {
-    return this.http.post(this.ServiceURL + 'home/GiveSuggestions/',req);
+  // ***** WindowsAuth API for getting token ******//
+  getWindowsAuth() {
+    return this.http.get('https://iamws-i.intel.com/api/v1/token/WindowsAuth', {
+      withCredentials: true,
+    });
+  }
+
+  // ***** WindowsAuth API for getting token authguard ******//
+  getWindowsAuthP() {
+    return this.http
+      .get('https://iamws-i.intel.com/api/v1/token/WindowsAuth', {
+        withCredentials: true,
+      })
+      .toPromise();
+  }
+
+  // ***** API for  new user data for approve request ******//
+  public getSuggestion(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/GiveSuggestions/', req);
   }
   // ***** API for  new user data for approve request ******//
   public getFeedbackData(): Observable<any> {
@@ -331,7 +351,4 @@ export class SummaryService {
       }
     );
   }
-  
-
-
 }
