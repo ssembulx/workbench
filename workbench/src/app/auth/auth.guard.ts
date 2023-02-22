@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     // ***** Local code ***** //
-      /*   const resAuth: any = {
+    /*   const resAuth: any = {
         "emailId": "arundathix.manjunath@intel.com",
         "name": "Manjunath, ArundathiX",
         "idsid": "arundatx",
