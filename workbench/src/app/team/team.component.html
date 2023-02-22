@@ -50,7 +50,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
-            <button type="button" class="btn back-btn" (click)="AddTeam()">Save</button>
+            <button type="button" class="btn back-btn" (click)="AddTeam()" [disabled]="!modal.team">Save</button>
         </div>
      </div>
 </ng-template>
