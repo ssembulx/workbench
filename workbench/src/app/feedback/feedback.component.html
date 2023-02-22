@@ -19,8 +19,8 @@
                         <!-- <th class="v-align" (click)="setOrderRelease('IDSID')"><span class="sort-by">IDSID</span></th> -->
                         <th class="v-align" (click)="setOrderRelease('DISPLAY NAME')"><span class="sort-by">DISPLAY NAME</span></th>
                         <th class="v-align" (click)="setOrderRelease('EMAIL')"><span class="sort-by">EMAIL</span></th>
-                        <!-- <th class="v-align" (click)="setOrderRelease('ROLE')"><span class="sort-by">ROLE</span></th>
-                        <th class="v-align" (click)="setOrderRelease('BADGE')"><span class="sort-by">BADGE</span></th> -->
+                         <th class="v-align" (click)="setOrderRelease('SUGGESTION')"><span class="sort-by">SUGGESTION</span></th>
+                       <!-- <th class="v-align" (click)="setOrderRelease('BADGE')"><span class="sort-by">BADGE</span></th> -->
                         <th class="v-align" (click)="setOrderRelease('LAST LOGGED ON')"><span class="sort-by">DATE TIME</span></th>
                     </tr>
                 </thead>
@@ -31,9 +31,10 @@
                         <td>{{data.suggestion_by[0].Name}}</td>
                         <!-- <td>{{data.DisplayName}}       -->
                         <td>{{data.suggestion_by[0].Email}}</td>
-                        <!-- <td>{{data.Role__role_name}}</td>
-                        <td>{{data.Badge}}</td> -->
+                        <td>{{data.suggestion}}</td>
+                        <!-- <td>{{data.Badge}}</td> -->
                         <td>{{data.created_date}}</td>
+                        
                     </tr>
                 </tbody>
             </table>

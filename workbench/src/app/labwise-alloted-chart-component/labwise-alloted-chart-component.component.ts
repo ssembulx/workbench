@@ -171,7 +171,8 @@ ngOnChanges(changes: SimpleChanges) {
 
   modalReference: any;
   processBooking(addmodal: any) {
-    this.modalReference = this.modalService.open(addmodal)
+    // this.modalReference = this.modalService.open(addmodal)
+    this.modalReference = this.modalService.open(addmodal, { centered: true, windowClass : "booking-modal" });
   }
 
   saveBooking() {

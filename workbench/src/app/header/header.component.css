@@ -322,7 +322,7 @@ h3 {
 }
 
 ::ng-deep .modal-content {
-    margin-top: 17% !important;
-    width: 41%;
-    margin-left: 35%;
+    /* margin-top: 17% !important;
+    width: 65%;
+    margin-left: 19%; */
 }

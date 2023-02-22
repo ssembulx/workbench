@@ -299,9 +299,9 @@ $seat-unavailable-color: white;
 
 
 
-::ng-deep .modal-lg,
-.modal-xl {
-  --bs-modal-width: 1150px !important;
+::ng-deep .booking-modal,
+.modal-dialog {
+   width: 1150px !important;
 }
 
 /* booking code */

@@ -36,9 +36,9 @@
         <div class="nav_bar">
             <a routerLink="/home">Home</a>
             <a routerLink="/allocation">Allocation</a>
-            <a routerLink="/approve">Approve</a>
+            <a routerLink="/approve" *ngIf = "roleName == 'Admin'">Approve</a>
             <a routerLink="/report">Report</a>
-            <div class="dropdown d-flex">
+            <div class="dropdown d-flex" *ngIf = "roleName == 'Admin'">
                 <button class="dropdown_btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Master <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </button>
@@ -124,7 +124,7 @@
         <div class="modal-footer">
             <button type="button" class="btn back-btn close" aria-label="Close"
                 (click)="d('Cross click')">Cancel</button>
-            <button type="button" class="btn back-btn" (click)="AddSuggestionBox()">Submit</button>
+            <button type="button" class="btn back-btn" (click)="AddSuggestionBox()" [disabled]="!suggestion">Submit</button>
         </div>
     </div>
 </ng-template>
