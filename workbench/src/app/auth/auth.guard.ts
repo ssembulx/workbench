@@ -56,6 +56,7 @@ export class AuthGuard implements CanActivate {
     let userInfo = this.service.GetUser();
     console.log(userInfo, 'res userInfo');
     if (userInfo == undefined || typeof userInfo !== 'object') {
+      console.log(userInfo, 'if res userInfo');
       const tokenData: any = await this.service.getWindowsAuthP();
       const resAuth: any = await this.service.getUserDetailP({
         token: tokenData.token,
@@ -74,6 +75,7 @@ export class AuthGuard implements CanActivate {
         return false;
       }
     } else {
+      console.log(userInfo, 'else res userInfo');
       return true;
     }
 
