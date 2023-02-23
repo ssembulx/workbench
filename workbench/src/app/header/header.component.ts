@@ -82,21 +82,23 @@ export class HeaderComponent implements OnInit {
  */
     // **** Server Code ****** //
     // **** Calling API for to get token and user details ***//
-    this.service.getWindowsAuth().subscribe((res: any) => {
-      this.token = res.token;
-      this.service
-        .getUserDetail({ token: this.token })
-        .subscribe((data: any) => {
-          this.userName = data.displayName;
-          this.userImage = data.avatarURL;
-          this.userIDSID = data.idsid;
-          this.roleName = data.Role;
-          this.userWWID = data.wwid;
-          this.mailId = data.emailId;
-          console.log(data);
+    let userInfo = this.service.GetUser();
+    console.log("userdeatils",userInfo)
+    // this.service.getWindowsAuth().subscribe((res: any) => {
+    //   this.token = res.token;
+    //   this.service
+    //     .getUserDetail({ token: this.token })
+    //     .subscribe((data: any) => {
+          // this.userName = userInfo.displayName;
+          // this.userImage = data.avatarURL;
+          // this.userIDSID = data.idsid;
+          // this.roleName = data.Role;
+          // this.userWWID = data.wwid;
+          // this.mailId = data.emailId;
+          // console.log(data);
           sessionStorage.setItem('display_name', JSON.stringify(this.userName));
-        });
-    });
+    //     });
+    // });
   }
 
   //*** calling add suggestion data modal popup ****//
