@@ -86,7 +86,7 @@ export class VendorStackedChartComponentComponent implements OnInit {
       am5xy.ValueAxis.new(root, {
         maxDeviation: 0.3,
         min: 0,
-        max: 100,
+        // max: 100,
         // strictMinMax: true,
         renderer: am5xy.AxisRendererY.new(root, {}),
       })

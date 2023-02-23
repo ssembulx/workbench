@@ -68,7 +68,7 @@ export class HeaderComponent implements OnInit {
     sessionStorage.setItem('display_name',JSON.stringify(this.userName));
 
     this.RoleName = this.userDetails.Role;
-    if( this.RoleName != 'User'  &&  this.RoleName != 'Admin'){
+    if( this.RoleName != 'User'  &&  this.RoleName != 'Admin' &&  this.RoleName != 'Manager' &&  this.RoleName != 'View'){
       debugger
       this.router.navigate(['/access-ristrict']);
       console.log(this.userDetails.Role,"sfdghjk")

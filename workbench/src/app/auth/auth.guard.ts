@@ -41,7 +41,7 @@ export class AuthGuard implements CanActivate {
         "programAccesses": null,
         "Role": "Admin"
     }
-    if (resAuth.Role == 'Admin' || resAuth.Role == 'User' || resAuth.Role == 'Manager') {
+    if (resAuth.Role == 'Admin' || resAuth.Role == 'User' || resAuth.Role == 'Manager' || resAuth.Role == 'View') {
         debugger
       this.service.setValue(true);
       return true
@@ -60,7 +60,8 @@ export class AuthGuard implements CanActivate {
     // if (
     //   resAuth.Role == 'Admin' ||
     //   resAuth.Role == 'User' ||
-    //   resAuth.Role == 'Manager'
+    //   resAuth.Role == 'Manager' ||
+    //   resAuth.Role == 'View'
     // ) {
     //   this.service.setValue(true);
     //   return true;
