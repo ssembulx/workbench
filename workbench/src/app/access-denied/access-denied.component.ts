@@ -111,25 +111,22 @@ export class AccessDeniedComponent implements OnInit {
     // this.badge = this.userDetails.employeeBadgeType;
     // sessionStorage.setItem('display_name',JSON.stringify(this.userName));
 
-    // **** Server Code ****** //  
-   // **** Calling API for to get token and user details ***//
-    //  this.userLoader = false;
-    this.service.getWindowsAuth().subscribe((res: any) => {
-      this.token = res.token;
-      this.service.getUserDetail({ 'token': this.token }).subscribe((data: any) => {
-        this.userName = data.displayName;
-        this.name= data.name;
-        this.idsid = data.idsid;
-        this.roleName = data.Role;
-        this.avatarURL = data.avatarURL;
-        this.userIDSID = data.idsid;
-        this.userWWID = data.wwid;
-        this.mailId = data.emailId;
-        this.badge = data.employeeBadgeType;
-        console.log(data)
-        sessionStorage.setItem('display_name',JSON.stringify(this.userName));
-      })
-      // this.userLoader = true;
-    })
+        // **** Getting user details ***//
+        this.service.GetUser().subscribe((res:any) =>{
+          debugger
+          console.log("userdeatils",res)
+          this.userName = res?.displayName;
+          this.name= res?.name;
+          this.idsid = res?.idsid;
+          this.roleName = res?.Role;
+          this.avatarURL = res?.avatarURL;
+          this.userIDSID = res?.idsid;
+          this.userWWID = res?.wwid;
+          this.mailId = res?.emailId;
+          this.badge = res?.employeeBadgeType;
+          console.log(res);
+          sessionStorage.setItem('display_name', JSON.stringify(this.userName));
+    
+        });
     }
 }

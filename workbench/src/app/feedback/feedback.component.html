@@ -21,7 +21,11 @@
                         <th class="v-align" (click)="setOrderRelease('EMAIL')"><span class="sort-by">EMAIL</span></th>
                          <th class="v-align" (click)="setOrderRelease('SUGGESTION')"><span class="sort-by">FEEDBACK</span></th>
                        <!-- <th class="v-align" (click)="setOrderRelease('BADGE')"><span class="sort-by">BADGE</span></th> -->
-                        <th class="v-align" (click)="setOrderRelease('LAST LOGGED ON')"><span class="sort-by">DATE TIME</span></th>
+                        <th class="v-align" (click)="setOrderRelease('LAST LOGGED ON')"><span class="sort-by">CREATED DATE</span></th>
+                        <th class="v-align" (click)="setOrderRelease('STATUS')"><span class="sort-by">STATUS</span></th>
+                        <th class="v-align" (click)="setOrderRelease('LAST LOGGED ON')"><span class="sort-by">RESOLVED DATE</span></th> 
+                        <th class="v-align" (click)="setOrderRelease('LAST LOGGED ON')"><span class="sort-by">COMMENTS</span></th>
+                        <th class="v-align">ACTION</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,7 +38,12 @@
                         <td>{{data.suggestion}}</td>
                         <!-- <td>{{data.Badge}}</td> -->
                         <td>{{data.created_date}}</td>
-                        
+                        <td>{{data.status}}</td>
+                        <td>{{data.resolved_date}}</td>
+                        <td>{{data.closing_comments}}</td>
+                        <td>                        
+                            <a (click)="EditRow(editmodal,data.id)">Edit</a> 
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -46,6 +55,74 @@
       </div>
     </div>
 </div>
+
+<!-- =========***** Modal popup for Edit row*****=============-->
+<ng-template #editmodal let-c="close" let-d="dismiss">
+    <div class="modal-edit">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="testModalLabel">Update Table</h1>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <i class='fas fa-times'></i></button>
+        </div>
+        <div class="modal-body">
+                <div class="form-group row label-style">
+                    <label for="testId" class="col-4 col-form-label">WWID :</label>
+                    <div class="col-8">
+                        <input type="text" [(ngModel)]="modal.wwid" class="col-8 form-control shadow-none i-field" readonly>
+                    </div>
+                </div>
+                <div class="form-group row label-style">
+                    <label for="testId" class="col-4 col-form-label">Dislay Name :</label>
+                    <div class="col-8">
+                        <input type="text" [(ngModel)]="modal.Name" class="col-8 form-control shadow-none i-field" readonly>
+                    </div>
+                </div>
+                <div class="form-group row label-style">
+                    <label for="testId" class="col-4 col-form-label">Email :</label>
+                    <div class="col-8">
+                        <input type="text" [(ngModel)]="modal.email" class="col-8 form-control shadow-none i-field" readonly>
+                    </div>
+                </div>
+                <div class="form-group row label-style">
+                    <label for="testId" class="col-4 col-form-label">Feedback :</label>
+                    <div class="col-8">
+                        <input type="text" [(ngModel)]="modal.feedback" class="col-8 form-control shadow-none i-field" readonly>
+                    </div>
+                </div>
+                <div class="form-group row label-style">
+                    <label for="testId" class="col-4 col-form-label"> Created Date :</label>
+                    <div class="col-8">
+                        <input type="text" [(ngModel)]="modal.Created_date" class="col-8 form-control shadow-none i-field" required>
+                    </div>
+                </div>
+                <div class="float-role">
+                    <label>Status</label>
+                    <select class="form-select" aria-label="Default select example" [(ngModel)]="modal.status">
+                        <option selected value="">Select Role</option>
+                        <option>Open</option>
+                        <option>Closed</option>
+                        <option>InProgress</option>
+                    </select>
+                </div> 
+                <div class="form-group row label-style">
+                    <label for="testId" class="col-4 col-form-label"> Resolved Date :</label>
+                    <div class="col-8">
+                        <input type="text" [(ngModel)]="modal.Resolved_date" class="col-8 form-control shadow-none i-field" required>
+                    </div>
+                </div>
+                <div class="form-group row label-style">
+                    <label for="testId" class="col-4 col-form-label">Comments :</label>
+                    <div class="col-8">
+                        <input type="text" [(ngModel)]="modal.Comments" class="col-8 form-control shadow-none i-field" readonly>
+                    </div>
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Close</button>
+            <button type="button" class="btn back-btn" (click)="UpdateTable()">Update</button>
+        </div>
+    </div>
+    </ng-template>
 
 <!-- ****** vendor table loader option ****** -->
 <div class="overlay-main" *ngIf="!feedbackdataLoader">

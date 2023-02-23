@@ -253,14 +253,21 @@ export class SummaryService {
       .toPromise();
   }
 
-  // ***** API for  new user data for approve request ******//
+  // ***** API for  give suggestion ******//
   public getSuggestion(req: any): Observable<any> {
     return this.http.post(this.ServiceURL + 'home/GiveSuggestions/', req);
   }
-  // ***** API for  new user data for approve request ******//
-  public getFeedbackData(): Observable<any> {
-    return this.http.get(this.ServiceURL + 'home/GiveSuggestions/');
+
+  // ***** API for  suggestion table******//
+  public getFeedbackData(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + '/home/GetSuggestions/', req);
   }
+
+   // ***** API for update feedbacktable  ******//
+   public getFeedbackUpdateData(req: any): Observable<any> {
+    return this.http.put(this.ServiceURL + 'home/GiveSuggestions/', req);
+  }
+  
   // constructor(private http: HttpClient) {}
 
   // public LabProgramVendorSummary(): Observable<any> {

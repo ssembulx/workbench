@@ -80,10 +80,21 @@ export class HeaderComponent implements OnInit {
       this.router.navigate(['']);
     } 
  */
-    // **** Server Code ****** //
-    // **** Calling API for to get token and user details ***//
-    let userInfo = this.service.GetUser();
-    console.log("userdeatils",userInfo)
+    // **** Getting user details ***//
+    this.service.GetUser().subscribe((res:any) =>{
+      debugger
+      console.log("userdeatils",res)
+      this.userName = res?.displayName;
+      this.userImage = res?.avatarURL;
+      this.userIDSID = res?.idsid;
+      this.roleName = res?.Role;
+      this.userWWID = res?.wwid;
+      this.mailId = res?.emailId;
+      console.log(res);
+      sessionStorage.setItem('display_name', JSON.stringify(this.userName));
+
+    });
+    
     // this.service.getWindowsAuth().subscribe((res: any) => {
     //   this.token = res.token;
     //   this.service
@@ -96,7 +107,7 @@ export class HeaderComponent implements OnInit {
           // this.userWWID = data.wwid;
           // this.mailId = data.emailId;
           // console.log(data);
-          sessionStorage.setItem('display_name', JSON.stringify(this.userName));
+          // sessionStorage.setItem('display_name', JSON.stringify(this.userName));
     //     });
     // });
   }

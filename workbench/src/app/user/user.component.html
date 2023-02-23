@@ -74,15 +74,15 @@
                                 <option *ngFor="let roledata of roleList?.Roles" [ngValue]="roledata">
                                     {{roledata}}
                                 </option>
-                                <!-- <option>Admin</option>
-                                <option>Super Admin</option>
-                                <option>Manager</option> -->
                            </select>
                         </td>
-                        <!-- <td><input type="text" class="text-box" [(ngModel)]="modal.role"></td> -->
                     </tr>
                 </tbody>
             </table>
+                <p class="para-text" *ngIf = "role == 'View'"> Note: View role can view only home,report and feedback pages</p>
+                <p class="para-text" *ngIf = "role == 'User'"> Note: User can view only home,allocation,report and feedback pages</p>
+                <p class="para-text" *ngIf = "role == 'Admin'"> Note: Admin can access completely</p>
+                <p class="para-text" *ngIf = "role == 'Manager'">Note: Manger can view only home, allocation, approve, report, master, publish and feedback pages</p>      
         </div>
         <div class="modal-footer">
             <button type="button" class="btn back-btn" (click)="clearInput()">Clear</button>
