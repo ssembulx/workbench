@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     // ***** Local code ***** //
-        const resAuth: any = {
+    /*   const resAuth: any = {
         "emailId": "arundathix.manjunath@intel.com",
         "name": "Manjunath, ArundathiX",
         "idsid": "arundatx",
@@ -44,31 +44,40 @@ export class AuthGuard implements CanActivate {
     if (resAuth.Role == 'Admin' || resAuth.Role == 'User' || resAuth.Role == 'Manager' || resAuth.Role == 'View') {
         debugger
       this.service.setValue(true);
+      this.service.SetUser(resAuth);
       return true
     } else {
         debugger
       this.router.navigate(['/access-ristrict']);
       return false
-    } 
+    }  */
 
     // ******  Server code ****** //
-    // const tokenData: any = await this.service.getWindowsAuthP();
-    // const resAuth: any = await this.service.getUserDetailP({
-    //   token: tokenData.token,
-    // });
-    // console.log(resAuth, 'res Auth');
-    // if (
-    //   resAuth.Role == 'Admin' ||
-    //   resAuth.Role == 'User' ||
-    //   resAuth.Role == 'Manager' ||
-    //   resAuth.Role == 'View'
-    // ) {
-    //   this.service.setValue(true);
-    //   return true;
-    // } else {
-    //   this.router.navigate(['/access-ristrict']);
-    //   return false;
-    // }
+    let userInfo = this.service.GetUser();
+    console.log(userInfo, 'res userInfo');
+    if (userInfo == undefined || typeof userInfo !== 'object') {
+      console.log(userInfo, 'if res userInfo');
+      const tokenData: any = await this.service.getWindowsAuthP();
+      const resAuth: any = await this.service.getUserDetailP({
+        token: tokenData.token,
+      });
+      console.log(resAuth, 'res Auth');
+      if (
+        resAuth.Role == 'Admin' ||
+        resAuth.Role == 'User' ||
+        resAuth.Role == 'Manager'
+      ) {
+        this.service.setValue(true);
+        this.service.SetUser(resAuth);
+        return true;
+      } else {
+        this.router.navigate(['/access-ristrict']);
+        return false;
+      }
+    } else {
+      console.log(userInfo, 'else res userInfo');
+      return true;
+    }
 
     //   if (!this.helper.token) {
     //     let userToken:any = await this.service.getWindowsAuthP();

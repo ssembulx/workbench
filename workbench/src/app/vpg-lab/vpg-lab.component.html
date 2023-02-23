@@ -1,6 +1,8 @@
 <div class="row" *ngIf="seatmap?.length>0">
     <div class="col-12 seat-container">
-        <div class="lab_block col-7" style="padding-left: 20px;padding-right: 30px;">
+        <div class="lab_block col-7" [ngClass]="{  'crd_11' : defaultValue == 'SRR-2-CRD-11' }"
+            style="padding-left: 20px;padding-right: 30px;">
+
             <div class="wall">
                 <ng-container>
                     <div class="new_wall">
