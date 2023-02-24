@@ -7,12 +7,15 @@ import {
   EventEmitter,
   OnChanges,
   SimpleChanges,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { SummaryService } from '../shared/service';
 import moment from 'moment';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-vpg-lab',
   templateUrl: './vpg-lab.component.html',
@@ -48,7 +51,8 @@ export class VPGLabComponent implements OnInit, OnChanges {
     private modalService: NgbModal,
     config: NgbModalConfig,
     private toastrService: ToastrService,
-    private dataSvc: SummaryService
+    private dataSvc: SummaryService,
+    private route: ActivatedRoute
   ) {
     this.labViewLoader = false;
     config.backdrop = 'static';
@@ -309,7 +313,56 @@ export class VPGLabComponent implements OnInit, OnChanges {
       this.processSeatChart(this.seatConfig);
     } */
   }
+  extendBenchApply() {
+    let payload = {
+      id: this.extendLabDetails[0]?.id,
+      LabName: this.extendLabDetails[0]?.Location__Name,
+      ToWW: this.toformatWWExtend,
+      Duration: this.Durationextend,
+    };
+    this.dataSvc.extendBenchApply(payload).subscribe(
+      (res) => {
+        debugger;
+        if (res == 'Success') {
+          this.toastrService.success(
+            'Bench Extend Request Added Successfully',
+            'Success!'
+          );
+          this.modalReference.close();
+          this.toworkweekExtend = '';
+          this.Durationextend = 0;
+        }
+      },
+      (error: HttpErrorResponse) => {
+        // Handle error
+        // Use if conditions to check` error code, this depends on your api, how it sends error messages
+      }
+    );
+  }
+  extendLabDetails: any;
+  benchDataExtend: any;
   ngOnInit(): void {
+    this.route.queryParamMap.subscribe((params) => {
+      let extendID = this.route.snapshot.queryParams['id'];
+      if (extendID != undefined) {
+        let payload = {
+          id: extendID,
+        };
+        this.dataSvc.getExtandLabDetails(payload).subscribe(
+          (res) => {
+            this.openExtendBench();
+            this.extendLabDetails = res;
+            this.benchDataExtend = this.extendLabDetails[0]?.BenchData;
+            this.toworkweekExtend = '';
+            this.Durationextend = 0;
+          },
+          (error: HttpErrorResponse) => {
+            // Handle error
+            // Use if conditions to check` error code, this depends on your api, how it sends error messages
+          }
+        );
+      }
+    });
     this.getLabDetails();
     this.dataSvc.getProgram().subscribe((res) => {
       if (res) {
@@ -671,78 +724,99 @@ export class VPGLabComponent implements OnInit, OnChanges {
     this.modalReference = this.modalService.open(addmodal);
   }
   saveBooking() {
-    let bookingData = {
-      Program: this.programName,
+    if (this.cart?.selectedSeats?.length == 0) {
+      this.toastrService.success('Please select Bench', 'Warning!');
+    } else if (this.teamName == '') {
+      this.toastrService.success('Please select Team', 'Warning!');
+    } else if (this.programName == '') {
+      this.toastrService.success('Please select Program', 'Warning!');
+    } else if (this.skuName == '') {
+      this.toastrService.success('Please select SKU', 'Warning!');
+    } else if (this.vendorName == '') {
+      this.toastrService.success('Please select Vendor', 'Warning!');
+    } else if (this.fromworkweek == '') {
+      this.toastrService.success('Please select From WW', 'Warning!');
+    } else if (this.toworkweek == '') {
+      this.toastrService.success('Please select To WW', 'Warning!');
+    } else if (this.userDetails == undefined) {
+      this.toastrService.success(
+        'Please enter valid WWID/Email/Username and click search button',
+        'Warning!'
+      );
+    } else {
+      let bookingData = {
+        Program: this.programName,
 
-      LabName: this.defaultValue,
+        LabName: this.defaultValue,
 
-      Sku: this.skuName,
+        Sku: this.skuName,
 
-      Vendor: this.vendorName,
+        Vendor: this.vendorName,
 
-      AllocatedTo: [
-        {
-          WWID: this.userDetails?.wwid,
-          Name: this.userDetails?.name,
-          Email: this.userDetails?.emailId,
-        },
-      ],
-      NotifyTo:
-        this.notifyUserDetails == undefined
-          ? null
-          : [
-              {
-                WWID: this.notifyUserDetails?.wwid,
-                Name: this.notifyUserDetails?.name,
-                Email: this.notifyUserDetails?.emailId,
-              },
-            ],
+        AllocatedTo: [
+          {
+            WWID: this.userDetails?.wwid,
+            Name: this.userDetails?.name,
+            Email: this.userDetails?.emailId,
+          },
+        ],
+        NotifyTo:
+          this.notifyUserDetails == undefined
+            ? null
+            : [
+                {
+                  WWID: this.notifyUserDetails?.wwid,
+                  Name: this.notifyUserDetails?.name,
+                  Email: this.notifyUserDetails?.emailId,
+                },
+              ],
 
-      FromWW: this.fromformatWW,
+        FromWW: this.fromformatWW,
 
-      ToWW: this.toformatWW,
+        ToWW: this.toformatWW,
 
-      Remarks: this.remarks,
+        Remarks: this.remarks,
 
-      IsAllocated: false,
+        IsAllocated: false,
 
-      IsRequested: true,
+        IsRequested: true,
 
-      NumberOfBenches: this.cart?.selectedSeats?.length,
+        NumberOfBenches: this.cart?.selectedSeats?.length,
 
-      BenchData: this.cart.seatsLabelNo,
+        BenchData: this.cart.seatsLabelNo,
 
-      Team: this.teamName,
+        Team: this.teamName,
 
-      Duration: this.duration,
-    };
-    this.dataSvc.saveBooking(bookingData).subscribe((res) => {
-      if (res) {
-        //  this.skuList = res;
-        //  this.modalReference.close();
-        this.toastrService.success(
-          'Allocation Request Added Successfully',
-          'Success!'
-        );
-        this.getLabDetails();
-        this.cart = {
-          selectedSeatsNo: [],
+        Duration: this.duration,
+      };
+      this.dataSvc.saveBooking(bookingData).subscribe((res) => {
+        if (res) {
+          //  this.skuList = res;
+          //  this.modalReference.close();
+          this.toastrService.success(
+            'Allocation Request Added Successfully',
+            'Success!'
+          );
+          this.getLabDetails();
+          this.cart = {
+            selectedSeatsNo: [],
 
-          selectedSeats: [],
+            selectedSeats: [],
 
-          seatstoStore: [],
+            seatstoStore: [],
 
-          seatsLabelNo: [],
+            seatsLabelNo: [],
 
-          totalamount: 0,
+            totalamount: 0,
 
-          cartId: '',
+            cartId: '',
 
-          eventId: 0,
-        };
-        this.closePopup();
-      }
-    });
+            eventId: 0,
+          };
+          this.closePopup();
+        }
+      });
+    }
   }
   closePopup() {
     //  this.modalReference.close();
@@ -761,6 +835,11 @@ export class VPGLabComponent implements OnInit, OnChanges {
   trackByIds(index: number, item: any) {
     return item.id;
   }
+
+  @ViewChild('extendBench') rejectModel: ElementRef;
+  openExtendBench() {
+    this.modalReference = this.modalService.open(this.rejectModel);
+  }
   /* work week calendar */
   fromworkweek: any = '';
   fromformatWW: any = '';
@@ -768,15 +847,55 @@ export class VPGLabComponent implements OnInit, OnChanges {
   selectedFromWorkWeek: Date;
 
   toworkweek: any = '';
+  toworkweekExtend: any = '';
   toformatWW: any = '';
+  toformatWWExtend: any = '';
 
   selectedToWorkWeek: Date;
+  selectedToWorkWeekExtend: Date;
 
   bsValueFrom = new Date();
   bsRangeValueFrom: Date[];
   bsValueTo = new Date();
   bsRangeValueTo: Date[];
+  bsValueToExtend = new Date();
+  bsRangeValueToExtend: Date[];
+  toselWeekExtend: any;
   fromselWeek: any;
+  Durationextend: any = 0;
+  onDateSelectToExtend(date: any) {
+    debugger;
+    this.toselWeekExtend = '';
+    if (date !== undefined || date !== null || date !== '') {
+      var selDate = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate()
+      );
+      let week = moment(selDate).week();
+      let month = moment(selDate).month();
+      let year = moment(selDate).year();
+      /* let selWeek; */
+      if (week < 10) {
+        this.toselWeekExtend = ('0' + week).slice(-2);
+      } else {
+        this.toselWeekExtend = week;
+      }
+      if (month === 11 && week === 1) {
+        year = year + 1;
+      }
+      this.toworkweekExtend = this.toselWeekExtend + "'" + year.toString();
+      this.toformatWWExtend = (this.toselWeekExtend + "'" + year)
+        .toString()
+        .split("'")
+        .join()
+        .replace(',', '');
+    }
+    this.Durationextend =
+      this.toselWeekExtend -
+      this.extendLabDetails[0]?.FromWW.slice(0, 2) +
+      ' Week';
+  }
   onDateSelectFrom(date: any) {
     this.fromselWeek = '';
     if (date !== undefined && date !== null) {

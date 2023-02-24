@@ -15,60 +15,93 @@ import { TeamComponent } from './team/team.component';
 import { UserApproveComponent } from './user-approve/user-approve.component';
 import { UserComponent } from './user/user.component';
 import { VendorComponent } from './vendor/vendor.component';
-const routes: Routes = [{
-  path: '', component: HomeComponent, canActivate: [AuthGuard]
-},
-{
-  path: 'home', component: HomeComponent, canActivate: [AuthGuard]
-},
-{
-  path: 'allocation', component: AllocationComponent, canActivate: [AuthGuard]
-}, 
-{
-  path: 'approve', component: ApproveComponent, canActivate: [AuthGuard]
-},
-{
-  path: 'master', component: MasterComponent, canActivate: [AuthGuard]
-},
+const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'home',
+    component: HomeComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'allocation',
+    component: AllocationComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'allocation/:id',
+    component: AllocationComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'approve',
+    component: ApproveComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'master',
+    component: MasterComponent,
+    canActivate: [AuthGuard],
+  },
 
-{
-  path: 'program', component: PlatformComponent, canActivate: [AuthGuard]
-},
+  {
+    path: 'program',
+    component: PlatformComponent,
+    canActivate: [AuthGuard],
+  },
 
-// {
-//   path: 'sku', component: SkuComponent
-// },
+  // {
+  //   path: 'sku', component: SkuComponent
+  // },
 
-{
-  path: 'vendor', component: VendorComponent, canActivate: [AuthGuard]
-},
+  {
+    path: 'vendor',
+    component: VendorComponent,
+    canActivate: [AuthGuard],
+  },
 
-{
-  path: 'team', component: TeamComponent, canActivate: [AuthGuard]
-},
+  {
+    path: 'team',
+    component: TeamComponent,
+    canActivate: [AuthGuard],
+  },
 
-{
-  path: 'report', component: ReportComponent, canActivate: [AuthGuard]
-},
-{
-  path: 'user', component: UserComponent, canActivate: [AuthGuard]
-},
-{
-  path: 'approveuser', component: UserApproveComponent, canActivate: [AuthGuard]
-},
-{
-  path: 'publish', component: PublishComponent, canActivate: [AuthGuard]
-},
-{
-  path: 'feedback', component: FeedbackComponent, canActivate: [AuthGuard]
-},
-{
-  path: 'access-ristrict', component: AccessDeniedComponent
-}
+  {
+    path: 'report',
+    component: ReportComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'user',
+    component: UserComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'approveuser',
+    component: UserApproveComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'publish',
+    component: PublishComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'feedback',
+    component: FeedbackComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'access-ristrict',
+    component: AccessDeniedComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

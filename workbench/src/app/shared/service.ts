@@ -289,6 +289,24 @@ export class SummaryService {
     });
   }
 
+  getExtandLabDetails(lab: any) {
+    const serviceUrl = this.ServiceURL + 'home/GetAllocation/';
+    return this.http.post(serviceUrl, lab, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+
+  extendBenchApply(lab: any) {
+    const serviceUrl = this.ServiceURL + 'home/ExtendAllocation/';
+    return this.http.post(serviceUrl, lab, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+
   getProgram() {
     return this.http.get(this.ServiceURL + 'home/GetProgramDetails/');
   }

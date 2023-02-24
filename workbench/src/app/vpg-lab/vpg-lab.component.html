@@ -255,7 +255,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Remarks :- (<span style="color:red">*</span>)</td>
+                                        <td>Remarks :- </td>
                                         <td style="padding: 0px;"><input style="width: 100%;" type="text"
                                                 class=" form-control text-box" [(ngModel)]="remarks">
                                         </td>
@@ -270,9 +270,12 @@
                         </div>
                         <div class="col-lg-12 selected-seats">
                             <div class="col-lg-12 float_left no-padding" style="text-align: center;">
-                                <button
+                                <!-- <button
                                     [disabled]="cart?.selectedSeats?.length == 0 || programName =='' || skuName=='' || vendorName=='' || teamName =='' || userDetails ==undefined || fromworkweek =='' || toworkweek =='' ||remarks==''"
                                     type="button" (click)="saveBooking()" class="btn btn-primary" mdbWavesEffect>Book
+                                    Now</button> -->
+                                <button type="button" (click)="saveBooking()" class="btn btn-primary"
+                                    mdbWavesEffect>Book
                                     Now</button>
                             </div>
                         </div>
@@ -501,3 +504,116 @@
         <div class="proccessing-text">Loading ...</div>
     </div>
 </div>
+
+<!-- =========***** Modal popup for extend bench*****=============-->
+<ng-template #extendBench let-c="close" let-d="dismiss">
+    <div class="modal-add">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="testModalLabel">
+                <!-- <i class="fas fa-envelope"></i> -->
+                &nbsp; Extend Bench
+            </h1>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <i class='fas fa-times'></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <table class="table table-bordered user-table">
+                    <tbody>
+                        <tr>
+                            <td>Location :- (<span style="color:red">*</span>)</td>
+                            <td>{{extendLabDetails[0]?.Location__Name}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Team :- (<span style="color:red">*</span>)</td>
+                            <td style="padding: 0px;">{{extendLabDetails[0]?.Team}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#. Bench :- (<span style="color:red">*</span>)</td>
+                            <td>{{extendLabDetails[0]?.BenchData?.length}}</td>
+                        </tr>
+                        <tr>
+                            <td>Program :- (<span style="color:red">*</span>)</td>
+                            <td style="padding: 0px;">{{extendLabDetails[0]?.Program}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>SKU :- (<span style="color:red">*</span>)</td>
+                            <td style="padding: 0px;">{{extendLabDetails[0]?.Sku}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Vendor :- (<span style="color:red">*</span>)</td>
+                            <td style="padding: 0px;">{{extendLabDetails[0]?.Vendor}}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>From WW :- (<span style="color:red">*</span>)</td>
+                            <td style="padding: 0px;">{{extendLabDetails[0]?.FromWW | ww: 10}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>To WW :- (<span style="color:red">*</span>)</td>
+                            <td style="padding: 0px;">
+                                <!--  <input style="width: 100%;" type="text" class="text-box"
+                                placeholder="502022" [(ngModel)]="toWW"> -->
+                                <div class="fields-two">
+                                    <div class="form-group cal">
+                                        <input class="form-control ip1" name="dp" [(bsValue)]="toworkweekExtend"
+                                            #d1="bsDatepicker" bsDatepicker
+                                            (bsValueChange)="onDateSelectToExtend($event)">
+                                        <input type="text" placeholder="WW'YYYY" class="form-control cal-input"
+                                            [(ngModel)]="toworkweekExtend" />
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary datepicker_btn"
+                                                (click)="d1.toggle()" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Duration :- (<span style="color:red">*</span>)</td>
+                            <td>{{Durationextend}}</td>
+                        </tr>
+                        <tr>
+                            <td>Allocated To :- (<span style="color:red">*</span>)</td>
+                            <td style="padding: 0px;">{{extendLabDetails[0]?.AllocatedTo[0]?.Name}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Notify To :-</td>
+                            <td style="padding: 0px;">
+                                {{extendLabDetails[0]?.NotifyTo==null?extendLabDetails[0]?.NotifyTo:extendLabDetails[0]?.NotifyTo[0].Name}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Remarks :- </td>
+                            <td style="padding: 0px;">{{extendLabDetails[0]?.Remarks}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Bench :- (<span style="color:red">*</span>)</td>
+                            <td class="bench_list_div">
+                                <span *ngFor="let seatLabel of benchDataExtend"
+                                    class="badge badge-primary">{{seatLabel}}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn back-btn close" aria-label="Close"
+                (click)="d('Cross click')">Cancel</button>
+            <button type="button" class="btn back-btn" (click)="extendBenchApply()"
+                [disabled]="toworkweekExtend=='' || extendLabDetails[0]?.status!='allocated'">Extend</button>
+        </div>
+    </div>
+</ng-template>
