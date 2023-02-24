@@ -95,7 +95,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
-            <button type="button" class="btn back-btn" (click)="AddPlatform()">Save</button>
+            <button type="button" class="btn back-btn" (click)="AddPlatform()" [disabled]="!modal.programName || !modal.programShortName">Save</button>
         </div>
      </div>
 </ng-template>
@@ -180,13 +180,7 @@
                     </option>
                 </select>
             </div> 
-            <!-- <div class="form-group row label-style">
-                <label for="testId" class="col-4 col-form-label">Program :</label>
-                <div class="col-8">
-                    <input type="text" [(ngModel)]="modal.platformShortName" class="col-8 form-control shadow-none i-field" required>
-                </div>
-            </div> -->
-
+           
             <div class="form-group row label-style">
                 <label for="testId" class="col-4 col-form-label">SKU :</label>
                 <div class="col-8">
@@ -196,7 +190,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
-            <button type="button" class="btn back-btn" (click)="AddSku()">Save</button>
+            <button type="button" class="btn back-btn" (click)="AddSku()" [disabled]="!modal.platformShortName || !modal.skuName">Save</button>
         </div>
      </div>
 </ng-template>
