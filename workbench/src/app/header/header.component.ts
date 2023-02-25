@@ -71,7 +71,7 @@ export class HeaderComponent implements OnInit {
     sessionStorage.setItem('display_name',JSON.stringify(this.userName));
 
     this.RoleName = this.userDetails.Role;
-    if( this.RoleName != 'User'  &&  this.RoleName != 'Admin'){
+    if( this.RoleName != 'User'  &&  this.RoleName != 'Admin' &&  this.RoleName != 'Manager' &&  this.RoleName != 'View'){
       debugger
       this.router.navigate(['/access-ristrict']);
       console.log(this.userDetails.Role,"sfdghjk")
@@ -80,23 +80,36 @@ export class HeaderComponent implements OnInit {
       this.router.navigate(['']);
     } 
  */
-    // **** Server Code ****** //
-    // **** Calling API for to get token and user details ***//
-    this.service.getWindowsAuth().subscribe((res: any) => {
-      this.token = res.token;
-      this.service
-        .getUserDetail({ token: this.token })
-        .subscribe((data: any) => {
-          this.userName = data.displayName;
-          this.userImage = data.avatarURL;
-          this.userIDSID = data.idsid;
-          this.roleName = data.Role;
-          this.userWWID = data.wwid;
-          this.mailId = data.emailId;
-          console.log(data);
-          sessionStorage.setItem('display_name', JSON.stringify(this.userName));
-        });
+    // **** Getting user details ***//
+    this.service.GetUser().subscribe((res:any) =>{
+      debugger
+      console.log("userdeatils",res)
+      this.userName = res?.displayName;
+      this.userImage = res?.avatarURL;
+      this.userIDSID = res?.idsid;
+      this.roleName = res?.Role;
+      this.userWWID = res?.wwid;
+      this.mailId = res?.emailId;
+      console.log(res);
+      sessionStorage.setItem('display_name', JSON.stringify(this.userName));
+
     });
+    
+    // this.service.getWindowsAuth().subscribe((res: any) => {
+    //   this.token = res.token;
+    //   this.service
+    //     .getUserDetail({ token: this.token })
+    //     .subscribe((data: any) => {
+          // this.userName = userInfo.displayName;
+          // this.userImage = data.avatarURL;
+          // this.userIDSID = data.idsid;
+          // this.roleName = data.Role;
+          // this.userWWID = data.wwid;
+          // this.mailId = data.emailId;
+          // console.log(data);
+          // sessionStorage.setItem('display_name', JSON.stringify(this.userName));
+    //     });
+    // });
   }
 
   //*** calling add suggestion data modal popup ****//

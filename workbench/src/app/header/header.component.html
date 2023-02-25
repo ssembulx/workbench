@@ -32,13 +32,13 @@
             </div>
         </div>
     </section>
-    <section class="second-header" *ngIf="roleName == 'Admin' || roleName == 'User' || roleName == 'Manager'">
+    <section class="second-header" *ngIf="roleName == 'Admin' || roleName == 'User' || roleName == 'Manager' || roleName == 'View'">
         <div class="nav_bar">
             <a routerLink="/home">Home</a>
-            <a routerLink="/allocation">Allocation</a>
-            <a routerLink="/approve" *ngIf = "roleName == 'Admin'">Approve</a>
+            <a routerLink="/allocation" *ngIf="roleName == 'Admin' || roleName == 'User' || roleName == 'Manager'">Allocation</a>
+            <a routerLink="/approve" *ngIf = "roleName == 'Admin' || roleName == 'Manager'">Approve</a>
             <a routerLink="/report">Report</a>
-            <div class="dropdown d-flex" *ngIf = "roleName == 'Admin'">
+            <div class="dropdown d-flex" *ngIf = "roleName == 'Admin' || roleName == 'Manager'">
                 <button class="dropdown_btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Master <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </button>
@@ -53,7 +53,7 @@
             <a routerLink="/publish">Publish</a>
             <a routerLink="/user" *ngIf = "roleName == 'Admin'">User</a>
             <a routerLink="/approveuser" *ngIf = "roleName == 'Admin'">Approve User</a>
-            <div class="dropdown d-flex" *ngIf = "roleName == 'Admin'">
+            <div class="dropdown d-flex">
                 <button class="dropdown_btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Help <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </button>
@@ -109,8 +109,7 @@
     <div class="modal-add">
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="testModalLabel">
-                <i class="fas fa-envelope"></i>
-                &nbsp; Suggestion box
+               Feedback
             </h1>
             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <i class='fas fa-times'></i></button>
