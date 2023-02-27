@@ -1,58 +1,66 @@
 <div class="users">
     <div class="content">
-      <div class="user-content">
-        <div class="table-container" *ngIf="feedbackData?.length">
-            <div class="search-bar col-12">
-                <div class="input-group">
-                    <input type="search" name="search" placeholder="Search any field"
-                        class="form-control shadow-none" aria-label="search" [(ngModel)]="searchText">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn save-btn"><i class="fas fa-search"></i></button>
+        <div class="user-content">
+            <div class="table-container" *ngIf="feedbackData?.length">
+                <div class="search-bar col-12">
+                    <div class="input-group">
+                        <input type="search" name="search" placeholder="Search any field"
+                            class="form-control shadow-none" aria-label="search" [(ngModel)]="searchText">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn save-btn"><i class="fas fa-search"></i></button>
+                        </div>
                     </div>
                 </div>
+                <table class="table table-bordered user-table" *ngIf="feedbackdataLoader">
+                    <thead>
+                        <tr>
+                            <th class="v-align">SL NO.</th>
+                            <th class="v-align" (click)="setOrderRelease('WWID')"><span class="sort-by">WWID</span></th>
+                            <!-- <th class="v-align" (click)="setOrderRelease('IDSID')"><span class="sort-by">IDSID</span></th> -->
+                            <th class="v-align" (click)="setOrderRelease('DISPLAY NAME')"><span class="sort-by">DISPLAY
+                                    NAME</span></th>
+                            <th class="v-align" (click)="setOrderRelease('EMAIL')"><span class="sort-by">EMAIL</span>
+                            </th>
+                            <th class="v-align" (click)="setOrderRelease('SUGGESTION')"><span
+                                    class="sort-by">FEEDBACK</span></th>
+                            <!-- <th class="v-align" (click)="setOrderRelease('BADGE')"><span class="sort-by">BADGE</span></th> -->
+                            <th class="v-align" (click)="setOrderRelease('LAST LOGGED ON')"><span
+                                    class="sort-by">CREATED DATE</span></th>
+                            <th class="v-align" (click)="setOrderRelease('STATUS')"><span class="sort-by">STATUS</span>
+                            </th>
+                            <th class="v-align" (click)="setOrderRelease('LAST LOGGED ON')"><span
+                                    class="sort-by">RESOLVED DATE</span></th>
+                            <th class="v-align" (click)="setOrderRelease('LAST LOGGED ON')"><span
+                                    class="sort-by">COMMENTS</span></th>
+                            <th class="v-align">ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let data of feedbackData | searchFilterFeedback: searchText | orderBy: orderMappedRelease:reverseMappedRelease: true ; let i=index">
+                            <td>{{(i+1)}}</td>
+                            <td>{{data.suggestion_by[0].WWID}}</td>
+                            <td>{{data.suggestion_by[0].Name}}</td>
+                            <!-- <td>{{data.DisplayName}}       -->
+                            <td>{{data.suggestion_by[0].Email}}</td>
+                            <td>{{data.suggestion}}</td>
+                            <!-- <td>{{data.Badge}}</td> -->
+                            <td>{{data.created_date}}</td>
+                            <td>{{data.status}}</td>
+                            <td>{{data.resolved_date}}</td>
+                            <td>{{data.closing_comments}}</td>
+                            <td>
+                                <a (click)="EditRow(editmodal,data.id)">Edit</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <table class="table table-bordered user-table" *ngIf="feedbackdataLoader">
-                <thead>
-                    <tr>
-                        <th class="v-align">SL NO.</th>
-                        <th class="v-align" (click)="setOrderRelease('WWID')"><span class="sort-by">WWID</span></th>
-                        <!-- <th class="v-align" (click)="setOrderRelease('IDSID')"><span class="sort-by">IDSID</span></th> -->
-                        <th class="v-align" (click)="setOrderRelease('DISPLAY NAME')"><span class="sort-by">DISPLAY NAME</span></th>
-                        <th class="v-align" (click)="setOrderRelease('EMAIL')"><span class="sort-by">EMAIL</span></th>
-                         <th class="v-align" (click)="setOrderRelease('SUGGESTION')"><span class="sort-by">FEEDBACK</span></th>
-                       <!-- <th class="v-align" (click)="setOrderRelease('BADGE')"><span class="sort-by">BADGE</span></th> -->
-                        <th class="v-align" (click)="setOrderRelease('LAST LOGGED ON')"><span class="sort-by">CREATED DATE</span></th>
-                        <th class="v-align" (click)="setOrderRelease('STATUS')"><span class="sort-by">STATUS</span></th>
-                        <th class="v-align" (click)="setOrderRelease('LAST LOGGED ON')"><span class="sort-by">RESOLVED DATE</span></th> 
-                        <th class="v-align" (click)="setOrderRelease('LAST LOGGED ON')"><span class="sort-by">COMMENTS</span></th>
-                        <th class="v-align">ACTION</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let data of feedbackData | searchFilterFeedback: searchText | orderBy: orderMappedRelease:reverseMappedRelease: true ; let i=index">
-                        <td>{{(i+1)}}</td>
-                        <td>{{data.suggestion_by[0].WWID}}</td>
-                        <td>{{data.suggestion_by[0].Name}}</td>
-                        <!-- <td>{{data.DisplayName}}       -->
-                        <td>{{data.suggestion_by[0].Email}}</td>
-                        <td>{{data.suggestion}}</td>
-                        <!-- <td>{{data.Badge}}</td> -->
-                        <td>{{data.created_date}}</td>
-                        <td>{{data.status}}</td>
-                        <td>{{data.resolved_date}}</td>
-                        <td>{{data.closing_comments}}</td>
-                        <td>                        
-                            <a (click)="EditRow(editmodal,data.id)">Edit</a> 
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <!-- No data available display -->
+            <div class="no_data_block_display" *ngIf="feedbackData?.length == 0">
+                <h2 class="mt-2">No Data Available</h2>
+            </div>
         </div>
-         <!-- No data available display -->
-         <div class="no_data_block_display" *ngIf="feedbackData?.length == 0">
-            <h2 class="mt-2">No Data Available</h2>
-        </div>
-      </div>
     </div>
 </div>
 
@@ -60,69 +68,74 @@
 <ng-template #editmodal let-c="close" let-d="dismiss">
     <div class="modal-edit">
         <div class="modal-header">
-            <h1 class="modal-title fs-5" id="testModalLabel">Update Table</h1>
+            <h1 class="modal-title fs-5" id="testModalLabel">Update Feedback</h1>
             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <i class='fas fa-times'></i></button>
         </div>
         <div class="modal-body">
-                <div class="form-group row label-style">
-                    <label for="testId" class="col-4 col-form-label">WWID :</label>
-                    <div class="col-8">
-                        <input type="text" [(ngModel)]="modal.wwid" class="col-8 form-control shadow-none i-field" readonly>
-                    </div>
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">WWID :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.wwid" class="col-8 form-control shadow-none i-field" readonly>
                 </div>
-                <div class="form-group row label-style">
-                    <label for="testId" class="col-4 col-form-label">Dislay Name :</label>
-                    <div class="col-8">
-                        <input type="text" [(ngModel)]="modal.Name" class="col-8 form-control shadow-none i-field" readonly>
-                    </div>
+            </div>
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">Dislay Name :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.Name" class="col-8 form-control shadow-none i-field" readonly>
                 </div>
-                <div class="form-group row label-style">
-                    <label for="testId" class="col-4 col-form-label">Email :</label>
-                    <div class="col-8">
-                        <input type="text" [(ngModel)]="modal.email" class="col-8 form-control shadow-none i-field" readonly>
-                    </div>
+            </div>
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">Email :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.email" class="col-8 form-control shadow-none i-field"
+                        readonly>
                 </div>
-                <div class="form-group row label-style">
-                    <label for="testId" class="col-4 col-form-label">Feedback :</label>
-                    <div class="col-8">
-                        <input type="text" [(ngModel)]="modal.feedback" class="col-8 form-control shadow-none i-field" readonly>
-                    </div>
+            </div>
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">Feedback :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.feedback" class="col-8 form-control shadow-none i-field"
+                        readonly>
                 </div>
-                <div class="form-group row label-style">
-                    <label for="testId" class="col-4 col-form-label"> Created Date :</label>
-                    <div class="col-8">
-                        <input type="text" [(ngModel)]="modal.Created_date" class="col-8 form-control shadow-none i-field" required>
-                    </div>
+            </div>
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label"> Created Date :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.Created_date" class="col-8 form-control shadow-none i-field"
+                        required>
                 </div>
-                <div class="float-role">
-                    <label>Status</label>
-                    <select class="form-select" aria-label="Default select example" [(ngModel)]="modal.status">
-                        <option selected value="">Select Role</option>
-                        <option>Open</option>
-                        <option>Closed</option>
-                        <option>InProgress</option>
-                    </select>
-                </div> 
-                <div class="form-group row label-style">
+            </div>
+            <div class="float-role">
+                <label>Status</label>
+                <select class="form-select" aria-label="Default select example" [(ngModel)]="modal.Status">
+                    <option value="created">Select Role</option>
+                    <option value="open">Open</option>
+                    <option value="closed">Closed</option>
+                    <option value="inprogress">InProgress</option>
+                </select>
+            </div>
+            <!-- <div class="form-group row label-style">
                     <label for="testId" class="col-4 col-form-label"> Resolved Date :</label>
                     <div class="col-8">
                         <input type="text" [(ngModel)]="modal.Resolved_date" class="col-8 form-control shadow-none i-field" required>
                     </div>
+                </div> -->
+            <div class="form-group row label-style">
+                <label for="testId" class="col-4 col-form-label">Comments :</label>
+                <div class="col-8">
+                    <input type="text" [(ngModel)]="modal.Comments" class="col-8 form-control shadow-none i-field">
                 </div>
-                <div class="form-group row label-style">
-                    <label for="testId" class="col-4 col-form-label">Comments :</label>
-                    <div class="col-8">
-                        <input type="text" [(ngModel)]="modal.Comments" class="col-8 form-control shadow-none i-field" readonly>
-                    </div>
-                </div>
+            </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Close</button>
-            <button type="button" class="btn back-btn" (click)="UpdateTable()">Update</button>
+            <button type="button" class="btn back-btn close" aria-label="Close"
+                (click)="d('Cross click')">Close</button>
+            <button type="button" class="btn back-btn" (click)="UpdateTable()"
+                [disabled]="modal.Comments== ''">Update</button>
         </div>
     </div>
-    </ng-template>
+</ng-template>
 
 <!-- ****** vendor table loader option ****** -->
 <div class="overlay-main" *ngIf="!feedbackdataLoader">

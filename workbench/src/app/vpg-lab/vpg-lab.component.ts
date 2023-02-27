@@ -1085,8 +1085,8 @@ export class VPGLabComponent implements OnInit, OnChanges {
   deAllocateBenchLabelList: any = [];
   deSelectSeat(seatObject: any) {
     debugger;
-    if (seatObject?.AllocationData[0]?.who[0]?.WWID) {
-    }
+   /*  if (seatObject?.AllocationData[0]?.who[0]?.WWID) {
+    } */
     if (seatObject.status != 'deselected' && seatObject.IsAllocated === true) {
       seatObject.status = 'deselected';
 

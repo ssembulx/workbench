@@ -82,7 +82,6 @@ export class HeaderComponent implements OnInit {
  */
     // **** Getting user details ***//
     this.service.GetUser().subscribe((res:any) =>{
-      debugger
       console.log("userdeatils",res)
       this.userName = res?.displayName;
       this.userImage = res?.avatarURL;

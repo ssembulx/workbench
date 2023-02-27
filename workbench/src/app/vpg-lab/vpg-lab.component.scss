@@ -81,6 +81,10 @@ $seat-unavailable-color: white;
     border: 1px solid $seat-unavailable-bg;
 }
 
+.seat_not_available_color {
+    background-color: hsl(0deg 0% 87%);
+}
+
 .seat-unavailable h4 {
     margin-bottom: 0;
 }
@@ -102,7 +106,12 @@ $seat-unavailable-color: white;
     font-weight: bolder;
     /* background-color: $seat-booked-bg; */
     border: 1px solid #e6c472;
+    background-color: hsl(55deg 100% 71%);
 
+}
+
+.seat_not_available_deselect_color {
+    background-color: hsl(206deg 100% 80%);
 }
 
 .seat-requested h4 {
