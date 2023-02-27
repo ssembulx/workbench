@@ -11,6 +11,8 @@ import * as am5xy from '@amcharts/amcharts5/xy';
 import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
 import * as am5percent from '@amcharts/amcharts5/percent';
 import { SummaryService } from '../shared/service';
+import { fitAngleToRange } from '@amcharts/amcharts5/.internal/core/util/Math';
+import { left, right } from '@popperjs/core';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +23,7 @@ export class HomeComponent implements OnInit {
   orderMappedRelease: string = '';
   reverseMappedRelease: boolean = true;
   typeChart = 'Location chart';
+  //typeChart = 'Lab Chart';
   // typeChart:any
   fullScreenFlag = false;
   fullScreenBack: boolean = false;
@@ -36,6 +39,7 @@ export class HomeComponent implements OnInit {
   semiType = "Semi chart"
   pieChartLoader = false;
   semicircle :any=false;
+  fullcircle : any = false;
   setIconPossition: boolean = true;
   labList:any
   lab :string = "SRR-1";
@@ -43,9 +47,11 @@ export class HomeComponent implements OnInit {
   prgmList:any;
   vendorList:any;
   vendor :string = "All";
-
+  sliceHide : any = false;
+Value : any = false;
   // ChartData:any;
   labwiseChartLoader = false;
+  SIVtoggle: boolean = true;
 
   constructor(private service: SummaryService) {}
 
@@ -169,152 +175,559 @@ export class HomeComponent implements OnInit {
   }
     //****Calling API for summary pie chart ***//
     OverallAvailability() {
-      this.pieChartLoader = false;
-      this.service.OverallAvailability().subscribe((res) => {
-        this.ChartData = res.Data;
-        console.log('pie chart', this.ChartData);
-        this.getSemiPiechart();
-        this.pieChartLoader = true;
+      debugger
+      this.labwiseChartLoader = false;
+      // this.service.OverallAvailability().subscribe((res) => {
+      //   //this.ChartData = res.Data;
+      //   console.log('pie chart', this.ChartData);
+      //   //this.getSemiPiechart();
+      //   //this.getFullPiechart();
+      //   //this.pieChartLoader = true;
+      // });
+      this.service.getDrillDownChartData().subscribe((res) => {
+        if(!this.sliceHide){
+          let arr : any = [];
+          arr = res;
+          let arr1 : any = [];
+          for(let i=0,j=0;i<arr.length;i++){
+            if(arr[i].category != 'Non-SIV')
+            {
+              arr1[j] = arr[i];
+              j++;
+            }
+          }
+          this.ChartData = arr1;
+          this.getFullPiechart();
+          this.labwiseChartLoader = true;
+        }
+        else{
+          this.ChartData = res;
+          this.getFullPiechart();
+          this.labwiseChartLoader = true;
+        }
+        //this.labwiseChartLoader = true;
+        
+      })
+    }
+     // **** Calling Location Chart API ****//
+    Locationchart(){
+      debugger
+      this.labwiseChartLoader = false;
+      this.service.LabProgramVendorSummary().subscribe(res => {
+        this.Value = true;
+        //breakdown = res.Location;
+        this.ChartData = res.Location;
+        // console.log("stacked chart",this.ChartData)
+        // this.getLocationChartData();
+        // this.locationChartLoader = true;
+        this.getFullPiechart();
+        this.labwiseChartLoader = true;
+       })
+    }
+
+    // **** Calling Team/Program API ****//
+    LabProgramSummary(){
+      debugger
+      //this.programChartLoader = false;
+      this.labwiseChartLoader = false;
+      this.service.LabProgramSummary().subscribe(res => {
+        this.ChartData = res;
+        console.log("stacked chart",this.ChartData)
+        this.getFullPiechart();
+        this.labwiseChartLoader = true;
+       })
+    }
+
+    // **** Vendor API ****//
+    LabVendorSummary() {
+      debugger
+      this.labwiseChartLoader = false;
+      this.service.LabVendorSummary().subscribe((res) => {
+        //this.ChartData = res;
+        let arr : any = [];
+          arr = res;
+          let arr1 : any = [];
+          for(let i=0,j=0;i<arr.length;i++){
+            if(arr[i].category == 'Allocated')
+            {
+              arr1[j] = arr[i];
+              j++;
+            }
+          }
+          this.ChartData = arr1;
+          this.getFullPiechart();
+        //console.log('stacked chart', this.ChartData);
+        //this.getFullPiechart();
+        this.labwiseChartLoader = true;
       });
     }
 
-   //**** Chart data ****//
-   getSemiPiechart() {
-    var root = am5.Root.new('chartdiv');
-    //****** removing chart logo *****//
-    root._logo.dispose();
-    // Set themes
-    root.setThemes([am5themes_Animated.new(root)]);
+    // **** Calling Team Chart API ****//
+    TeamChart(){
+      this.labwiseChartLoader = false;
+      this.service.getTeamChartData().subscribe(res => {
+        this.ChartData = res;
+        //console.log("stacked chart",this.ChartData)
+        this.getFullPiechart();
+        this.labwiseChartLoader = true;
+       })
+    }
 
-    // Create chart
-    // start and end angle must be set both for chart and series
-    var chart = root.container.children.push(
-      am5percent.PieChart.new(root, {
-        startAngle: 180,
-        endAngle: 360,
-        layout: root.verticalLayout,
-        innerRadius: am5.percent(50),
-      })
-    );
+    // **** Calling Program API ****//
+    ProgramChart(){
+      this.labwiseChartLoader = false;
+      this.service.getProgramChartData().subscribe(res => {
+        this.ChartData = res;
+        //console.log("stacked chart",this.ChartData)
+        this.getFullPiechart();
+        this.labwiseChartLoader = true;
+       })
+    }
 
-    // Create series
-    // start and end angle must be set both for chart and series
-    var series = chart.series.push(
-      am5percent.PieSeries.new(root, {
-        startAngle: 180,
-        endAngle: 360,
-        valueField: 'values',
-        categoryField: 'Category',
-        alignLabels: false,
-      })
-    );
-
-    series.states.create('hidden', {
-      startAngle: 180,
-      endAngle: 180,
-    });
-
-    series.slices.template.setAll({
-      cornerRadius: 5,
-      strokeWidth: 2,
-    });
-
-    //**** for transperent color(opacity) ***//
-    series.slices.template.adapters.add("fillOpacity", function(fillOpacity, target:any) {
-      if (target.dataItem.get("category") == "Free") {
-          return 0.1;
+    // **** Full Pie-Chart Function ****//
+    getFullPiechart(){
+      am5.array.each(am5.registry.rootElements, function(root) {
+        if (root.dom.id == "chartdiv") {
+          root.dispose();
         }
-      }
-    );
-
-    //**** for dotted border ***//
-    series.slices.template.adapters.add("strokeDasharray", function(strokeDasharray, target:any) {
-      if (target.dataItem.get("category") == "Free") {
-          return [8,4];
-      }
-     }
-    );
-
-    //**** custom color for slices****//
-    series.slices.template.adapters.add("fill", function(fill, target:any) {
-      // if (target.dataItem.get("category") == "Non-SIV") {
-      //     return am5.color('#6794dc'); 
-      // }
-       if(target.dataItem.get("category") == "Allocated") {
-        // return am5.color('#67b7dc')
-        return am5.color('#FD7272')
-      }
-      else if(target.dataItem.get("category") == "Free") {
-        return am5.color('#FD7272')
-      }
-    });
-
-    //**** custom color for border(stroke)****//
-    series.slices.template.adapters.add("stroke", function(fill, target:any) {
-      // if (target.dataItem.get("category") == "Non-SIV") {
-      //   return am5.color('#6794dc'); 
-      // }
-      if(target.dataItem.get("category") == "Allocated") {
-        return am5.color('#FD7272')
-      }
-      else if(target.dataItem.get("category") == "Free") {
-        return am5.color('#FD7272')
-      }
-    });
-
-    series.ticks.template.setAll({
-      forceHidden: true,
-    });
-
-    //**** for removing % from labels ***//
-    series.labels.template.set('text', '{Category}:{values}');
-
-    //**** for removing % from tooltip ***//
-    series.slices.template.set('tooltipText', '{Category}:{values}');
-
-    //**** chart data ****//
-    series.data.setAll(this.ChartData);
-    // Set data
-    // series.data.setAll([
-    //   // { Value: 50, Category: "Non-Siv"},
-    //   { Value: 30, Category: "Allocated" },
-    //   { Value: 20, Category: "Free" }
-    // ]);
-
-    // **** Add legend ****//
-    var legend = chart.children.push(
-      am5.Legend.new(root, {
-        nameField: 'Category',
-        centerX: am5.percent(50),
-        x: am5.percent(55),
-      })
-    );
-
-    legend.data.setAll(series.dataItems);
-    // legend.data.setAll(chart.series.values);
-   
-    // let legend = chart.children.push(am5.Legend.new(root, {}));
-    // let legend = chart.children.push(am5.Legend.new(root, {
-    //   nameField: "name",
-    //   fillField: "color",
-    //   strokeField: "color",
-    //   centerX: am5.percent(50),
-    //   x: am5.percent(50)
-    // }));
+      });
+      // Create root element
+      // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+      let root = am5.Root.new("chartdiv");
+      root._logo.dispose();
     
-    // legend.data.setAll([{
-    //   name: "Allocated",
-    //   color: am5.color('#67b7dc')
-    // }, {
-    //   name: "Free",
-    //   color: am5.color('#67b7dc'),
-    //   fillOpacity: 0.7,
-    //   strokeWidth: 3,
-    //   strokeDasharray: [10, 5, 2, 5],
-    // }]);
+      
+      // Set themes
+      // https://www.amcharts.com/docs/v5/concepts/themes/
+      root.setThemes([
+        am5themes_Animated.new(root)
+      ]);
 
-    series.appear(1000, 100);
-  }
+      // root.defaultTheme.rule("ColorSet").set("colors", [
+      //   am5.color(0x095256),
+      //   am5.color(0x087f8c),
+      //   am5.color(0x5aaa95),
+      //   am5.color(0x86a873),
+      //   am5.color(0xbb9f06)
+      // ]);
+      
+      // Create wrapper container
+      let container = root.container.children.push(am5.Container.new(root, {
+        width: am5.p100,
+        height: am5.percent(90),
+        //x: am5.percent(100),
+
+        layout: root.horizontalLayout
+      }));
+      
+      
+      // ==============================================
+      // Column chart
+      // ==============================================
+      
+      // Create chart
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/
+      let columnChart = container.children.push(am5xy.XYChart.new(root, {
+        width: am5.p50,
+        panX: false,
+        panY: false,
+        wheelX: "none",
+        wheelY: "none",
+        layout: root.verticalLayout,
+        reverseChildren: true,
+          x : am5.percent(50),
+          //inverted : true
+        //rotation: 120
+      }));
+    
+      // Create axes
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+      let yRenderer = am5xy.AxisRendererY.new(root, {});
+      let yAxis = columnChart.yAxes.push(am5xy.CategoryAxis.new(root, {
+        categoryField: "category",
+        renderer: yRenderer,
+        y : am5.percent(0)
+        
+      }));
+      yRenderer.grid.template.setAll({
+        location: 0
+      })
+      
+      let xAxis = columnChart.xAxes.push(am5xy.ValueAxis.new(root, {
+        renderer: am5xy.AxisRendererX.new(root, {
+          strokeOpacity: 0.1,
+        })
+      }));
+      
+      
+      // Add series
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+      let columnSeries = columnChart.series.push(am5xy.ColumnSeries.new(root, {
+        //name: "name",
+        xAxis: xAxis,
+        yAxis: yAxis,
+        valueXField: "value",
+        categoryYField: "category",
+        // reverseChildren: true
+
+      }));
+      
+      columnSeries.columns.template.setAll({
+        tooltipText: "{categoryY}: {valueX}",
+        // minHeight: 150
+      });
+      columnSeries.bullets.push(function() {
+        return am5.Bullet.new(root, {
+          locationX: 1,
+          locationY: 0.5,
+          sprite: am5.Label.new(root, {
+            text: "{valueX}",
+            // fill: root.interfaceColors.get("alternativeText"),
+            centerY: am5.p50,
+            // centerX: am5.p50,
+            populateText: true,
+            fill : am5.color("#000000")
+          })
+        });
+      });
+    
+      
+      // Make stuff animate on load
+      // https://www.amcharts.com/docs/v5/concepts/animations/
+
+      columnChart.appear(1000, 100);
+      
+      
+      // ==============================================
+      // Column chart
+      // ==============================================
+    
+      let pieChart = container.children.push(
+
+        am5percent.PieChart.new(root, {
+          
+          width: am5.percent(50),
+          x: am5.percent(0),
+          y: am5.percent(-9.8),
+          innerRadius: am5.percent(50),
+          radius: am5.percent(65)
+        })
+      );
+
+     // pieChart.
+      
+      // Create series
+      let pieSeries = pieChart.series.push(
+        am5percent.PieSeries.new(root, {
+          valueField: "value",
+          categoryField: "category",
+          })
+          
+      );
+      if(this.ChartData.length == 2){
+        pieSeries.get("colors").set("colors", [
+        //am5.color(0xdc4534),
+        am5.color(0xd7a700),
+        am5.color(0x68ad5c),
+      ]);
+      }
+      else if(this.ChartData.length <= 1){
+          pieSeries.get("colors").set("colors", [
+            //am5.color(0xdc4534),
+            am5.color(0xd7a700),
+            //am5.color(0x68ad5c),
+          ]);
+      }
+      else{
+        pieSeries.get("colors").set("colors", [
+          am5.color(0xdc4534),
+          am5.color(0xd7a700),
+          am5.color(0x68ad5c),
+        ]);
+      }
+     
+
+      
+      pieSeries.slices.template.setAll({
+        templateField: "colors",
+        strokeOpacity: 0
+        });
+    
+      // Pre-select first slice
+      pieSeries.events.on("datavalidated", function() {
+        pieSeries.slices.getIndex(0).set("active", false);
+      });
+      
+      //pieSeries.slices.getIndex(0).set();
+      let currentSlice : am5.Slice;
+      pieSeries.slices.template.on("active", function(active, slice:any) {
+        if (currentSlice && currentSlice != slice && active) {
+          currentSlice.set("active", false)
+        }
+      
+        let color = slice.get("fill")
+
+        label1.setAll({
+          fill: color,
+          text: slice.dataItem.get("value"),
+        });
+      
+        label2.set("text", slice.dataItem.get("category"));
+      
+        columnSeries.columns.template.setAll({
+          fill: color,
+          stroke: slice.get("fill")
+        });
+        
+        columnSeries.data.setAll(slice.dataItem.dataContext.breakdown);
+          yAxis.data.setAll(slice.dataItem.dataContext.breakdown);
+          currentSlice = slice;
+
+        // if(slice.dataItem.dataContext.category == 'Free'){
+        //   debugger
+        //   if(slice.dataItem.dataContext.breakdown[0].length == 1){
+        //    // slice.dataItems[0].set("forceHidden",true);
+        //    currentSlice = slice;
+        //   }
+        //   else{
+        //     columnSeries.data.setAll(slice.dataItem.dataContext.breakdown);
+        //     yAxis.data.setAll(slice.dataItem.dataContext.breakdown);
+        //     currentSlice = slice;
+        //   }
+          
+        // }
+        // else{
+        //   columnSeries.data.setAll(slice.dataItem.dataContext.breakdown);
+        //   yAxis.data.setAll(slice.dataItem.dataContext.breakdown);
+        //   currentSlice = slice;
+        // }
+        
+      });
+    
+      pieSeries.labels.template.setAll({
+        text: "",
+        inside: true,
+        radius: 10
+      });
+      
+      pieSeries.labels.template.set("forceHidden", true);
+      pieSeries.ticks.template.set("forceHidden", true);
+      
+      //pieSeries.data.setAll(data);
+      pieSeries.data.setAll(this.ChartData);
+      
+      
+      // Add label
+      let label1 = pieChart.seriesContainer.children.push(am5.Label.new(root, {
+        text: "",
+        fontSize: 35,
+        fontWeight: "bold",
+        centerX: am5.p50,
+        centerY: am5.p50,
+        
+      }));
+      
+      let label2 = pieChart.seriesContainer.children.push(am5.Label.new(root, {
+        text: "",
+        fontSize: 12,
+        centerX: am5.p50,
+        centerY: am5.p50,
+        dy: 30
+      }));
+
+      // **** Add legend ****//
+      if(this.ChartData.length <= 1)
+      {
+        var legend = pieSeries.children.push(
+          am5.Legend.new(root, {
+            nameField: 'Category',
+            // centerX: am5.percent(-175),
+             x: am5.percent(-10),
+             y: am5.percent(44)
+          })
+        );
+      }
+      else if(this.ChartData.length == 2){
+        var legend = pieSeries.children.push(
+          am5.Legend.new(root, {
+            nameField: 'Category',
+            // centerX: am5.percent(-175),
+             x: am5.percent(-18),
+             y: am5.percent(44)
+          })
+        );
+      }
+      else if(this.ChartData.length == 3){
+        var legend = pieSeries.children.push(
+          am5.Legend.new(root, {
+            nameField: 'Category',
+            // centerX: am5.percent(-175),
+             x: am5.percent(-30),
+             y: am5.percent(44)
+          })
+        );
+      }
+      else{
+        var legend = pieSeries.children.push(
+          am5.Legend.new(root, {
+            nameField: 'Category',
+            // centerX: am5.percent(-175),
+             x: am5.percent(-35),
+             y: am5.percent(40),
+             layout: am5.GridLayout.new(root, {
+              maxColumns: 3,
+              fixedWidthGrid: true
+            })
+          })
+        );
+      }
+   
+      legend.data.setAll(pieSeries.dataItems);
+      
+    // legend.data.setAll(chart.series.values);   
+    pieSeries.appear(1000, 100);
+
+    
+
+    }
+
+   //**** Chart data ****//
+  //  getSemiPiechart() {
+  //   var root = am5.Root.new('chartdiv');
+  //   //****** removing chart logo *****//
+  //   root._logo.dispose();
+  //   // Set themes
+  //   root.setThemes([am5themes_Animated.new(root)]);
+
+  //   // Create chart
+  //   // start and end angle must be set both for chart and series
+  //   var chart = root.container.children.push(
+  //     am5percent.PieChart.new(root, {
+  //       startAngle: 180,
+  //       endAngle: 360,
+  //       layout: root.verticalLayout,
+  //       innerRadius: am5.percent(50),
+  //     })
+  //   );
+
+  //   // Create series
+  //   // start and end angle must be set both for chart and series
+  //   var series = chart.series.push(
+  //     am5percent.PieSeries.new(root, {
+  //       startAngle: 180,
+  //       endAngle: 360,
+  //       valueField: 'values',
+  //       categoryField: 'Category',
+  //       alignLabels: false,
+  //     })
+  //   );
+
+  //   series.states.create('hidden', {
+  //     startAngle: 180,
+  //     endAngle: 180,
+  //   });
+
+  //   series.slices.template.setAll({
+  //     cornerRadius: 5,
+  //     strokeWidth: 2,
+  //   });
+
+  //   //**** for transperent color(opacity) ***//
+  //   series.slices.template.adapters.add("fillOpacity", function(fillOpacity, target:any) {
+  //     if (target.dataItem.get("category") == "Free") {
+  //         return 0.1;
+  //       }
+  //     }
+  //   );
+
+  //   //**** for dotted border ***//
+  //   series.slices.template.adapters.add("strokeDasharray", function(strokeDasharray, target:any) {
+  //     if (target.dataItem.get("category") == "Free") {
+  //         return [8,4];
+  //     }
+  //    }
+  //   );
+
+  //   //**** custom color for slices****//
+  //   series.slices.template.adapters.add("fill", function(fill, target:any) {
+  //     // if (target.dataItem.get("category") == "Non-SIV") {
+  //     //     return am5.color('#6794dc'); 
+  //     // }
+  //      if(target.dataItem.get("category") == "Allocated") {
+  //       // return am5.color('#67b7dc')
+  //       return am5.color('#FD7272')
+  //     }
+  //     else if(target.dataItem.get("category") == "Free") {
+  //       return am5.color('#FD7272')
+  //     }
+  //   });
+
+  //   //**** custom color for border(stroke)****//
+  //   series.slices.template.adapters.add("stroke", function(fill, target:any) {
+  //     // if (target.dataItem.get("category") == "Non-SIV") {
+  //     //   return am5.color('#6794dc'); 
+  //     // }
+  //     if(target.dataItem.get("category") == "Allocated") {
+  //       return am5.color('#FD7272')
+  //     }
+  //     else if(target.dataItem.get("category") == "Free") {
+  //       return am5.color('#FD7272')
+  //     }
+  //   });
+
+  //   series.ticks.template.setAll({
+  //     forceHidden: true,
+  //   });
+
+  //   //**** for removing % from labels ***//
+  //   series.labels.template.set('text', '{Category}:{values}');
+
+  //   //**** for removing % from tooltip ***//
+  //   series.slices.template.set('tooltipText', '{Category}:{values}');
+
+  //   //**** chart data ****//
+  //   series.data.setAll(this.ChartData);
+  //   // Set data
+  //   // series.data.setAll([
+  //   //   // { Value: 50, Category: "Non-Siv"},
+  //   //   { Value: 30, Category: "Allocated" },
+  //   //   { Value: 20, Category: "Free" }
+  //   // ]);
+
+  //   // **** Add legend ****//
+  //   var legend = chart.children.push(
+  //     am5.Legend.new(root, {
+  //       nameField: 'Category',
+  //       centerX: am5.percent(50),
+  //       x: am5.percent(55),
+  //     })
+  //   );
+
+  //   legend.data.setAll(series.dataItems);
+  //   // legend.data.setAll(chart.series.values);
+   
+  //   // let legend = chart.children.push(am5.Legend.new(root, {}));
+  //   // let legend = chart.children.push(am5.Legend.new(root, {
+  //   //   nameField: "name",
+  //   //   fillField: "color",
+  //   //   strokeField: "color",
+  //   //   centerX: am5.percent(50),
+  //   //   x: am5.percent(50)
+  //   // }));
+    
+  //   // legend.data.setAll([{
+  //   //   name: "Allocated",
+  //   //   color: am5.color('#67b7dc')
+  //   // }, {
+  //   //   name: "Free",
+  //   //   color: am5.color('#67b7dc'),
+  //   //   fillOpacity: 0.7,
+  //   //   strokeWidth: 3,
+  //   //   strokeDasharray: [10, 5, 2, 5],
+  //   // }]);
+
+  //   series.appear(1000, 100);
+  // }
 //   getSemiPiechart(){
 //     debugger
 //     var root = am5.Root.new("chartdiv6");
@@ -609,28 +1022,84 @@ export class HomeComponent implements OnInit {
   }
 
   // *** chart options according to click *** //
+  // Options(status: any) {
+  //   if (status == 'location') {
+  //     this.typeChart = 'Location chart';
+  //   } else if (status == 'program') {
+  //     this.typeChart = 'Program chart';
+  //   } else if (status == 'vendor') {
+  //     this.typeChart = 'Vendor chart';
+  //   }
+  // }
+
+  // *** chart options according to click *** //
   Options(status: any) {
-    if (status == 'location') {
+    // if (status == 'lab'){
+    //   this.typeChart = 'Lab Chart';
+    //   this.OverallAvailability()
+    // }
+     if (status == 'team'){
+      this.typeChart = 'Team chart';
+      this.SIVtoggle = false;
+      this.TeamChart()
+    }
+    else if (status == 'team/program'){
+      this.typeChart = 'Team/Program chart';
+      this.SIVtoggle = false;
+      this.LabProgramSummary();
+    }
+    else if (status == 'location') {
       this.typeChart = 'Location chart';
+      this.SIVtoggle = true;
+      this.OverallAvailability();
     } else if (status == 'program') {
       this.typeChart = 'Program chart';
+      this.SIVtoggle = false;
+      this.ProgramChart();
     } else if (status == 'vendor') {
       this.typeChart = 'Vendor chart';
+      this.SIVtoggle = false;
+      this.LabVendorSummary()
     }
   }
+
+
  
   // *** checkbox click functionality *** //
+  // getCheckbox(){
+  //   debugger
+  //   console.log("checked",this.semicircle)
+  //   if(!this.semicircle){
+  //     // this.getSemiPiechart()
+  //     setTimeout(() => {
+  //       debugger
+  //       this.OverallAvailability();
+  //     }, 100);
+  //   }
+  //   else{
+  //     this.ToggleOptions(this.changestatus);
+  //    }
+  // }
+
+  // *** checkbox click functionality for fullPiechart *** //
   getCheckbox(){
+    debugger
     console.log("checked",this.semicircle)
-    if(!this.semicircle){
+    if(!this.fullcircle){
       // this.getSemiPiechart()
+      this.sliceHide = false;
       setTimeout(() => {
         debugger
         this.OverallAvailability();
       }, 100);
     }
     else{
-      this.ToggleOptions(this.changestatus);
+      // this.ToggleOptions(this.changestatus);
+       this.sliceHide = true;
+      this.fullcircle = true
+      this.type = "pie chart";
+      this.OverallAvailability();
+      //this.OverallAvailability();
      }
   }
 
