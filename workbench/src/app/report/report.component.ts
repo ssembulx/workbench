@@ -25,6 +25,16 @@ export class ReportComponent implements OnInit {
   searchBenchDetails: '';
   reportData: any;
   reportdataLoader = false;
+  setIconPossition: boolean = true;
+  fullScreenFlag = false;
+  lab :string = "SRR-1";
+  program : string = "All";
+  vendor :string = "All";
+  prgmList:any;
+  vendorList:any;
+  ChartData1:any;
+  labList:any
+  Labtype = "Lab chart";
 
   constructor(
     private service: SummaryService,
@@ -49,6 +59,11 @@ export class ReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.getReportData();
+    this.getLabDetails();
+    this.getProgramDetails();
+    this.getVendorDetails();
+    this.LabwiseSummary();
+
   }
 
   //***** Calling Report Data API****//
@@ -92,11 +107,95 @@ export class ReportComponent implements OnInit {
     this.searchDuration = '';
   }
 
+  LabchartData = [
+    { slno: 1, labName: "CRD1", allocated: "45",Free:"55"},
+    { slno: 2, labName: "CRD2", allocated: "20",Free:"30"},
+    { slno: 3, labName: "CRD3", allocated: "15",Free:"10"},
+    { slno: 4, labName: "CRD4", allocated: "30",Free:"15"},
+    { slno: 5, labName: "CRD5", allocated: "12",Free:"32"},
+  ]
+
+  labwiseChartLoader = false;
+
+   //****Calling API for Labwsie summary chart ***//
+   LabwiseSummary(){
+    debugger
+    this.labwiseChartLoader = false;
+    let req = {"LabName":this.lab,
+    "Program":this.program,
+    "Vendor":this.vendor}
+   
+    this.service.LabwiseSummary(req).subscribe(res => {
+      debugger
+      this.ChartData1 = res.Location; 
+      console.log("stacked chart",this.ChartData1)
+      // this.getLabwiseStackedChart();
+      this.labwiseChartLoader = true;
+   })
+  }
+
+   //**** Calling labdetails API for select drop down in labwise program chart ***//
+   getLabDetails(){
+    this.service.getLabDetail().subscribe((res) => {
+      this.labList = res;
+      console.log(this.labList,"****")
+  });
+    
+  }
+
+  //**** Calling program details API for select drop down in labwise program chart ***//
+  getProgramDetails(){
+    this.service.getPrgmDetail().subscribe((res) => {
+     this.prgmList = res;
+     // console.log(this.labList,"****")
+ });
+ }
+
+  //**** Calling vendor details API for select drop down in labwise program chart ***//
+ getVendorDetails(){
+    this.service.getVendorDetail().subscribe((res) => {
+     if (res) {
+       this.vendorList = res;
+     }
+   });
+ }
+
+  //**** Change function for lab select drop down in labwise program chart ***//
+  labChange(){
+    this.LabwiseSummary();
+  }
+
+   //**** Change function for program select drop down in labwise program chart ***//
+   programChange(){
+    this.LabwiseSummary();
+  }
+
+    //**** Change function for vendor select drop down in labwise program chart ***//
+    vendorChange(){
+      this.LabwiseSummary();
+    }
+
+      // *** Labwise chart and table options according to click *** //
+  ChangeOption(Status:any){
+    if(Status == 'Labchart'){
+      debugger
+      this.Labtype = "Lab chart"
+    }
+    else if(Status == 'Labtable'){
+      this.Labtype = "Lab table"
+    }
+  }
+
   hideTestTrendSearch() {
     this.tollTipRef.close();
   }
 
   exportFile() {
     this.exportService.exportExcel(this.reportData, 'ReportData');
+  }
+
+  toggleFullScreen(){
+    this.fullScreenFlag = !this.fullScreenFlag;
+    this.setIconPossition = !this.setIconPossition;
   }
 }

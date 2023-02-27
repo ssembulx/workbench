@@ -78,6 +78,116 @@
                     </table>
                 </div>              
             </div> -->
+
+            
+            <!-- ******* Labwise chart  ******* -->
+    <div class="chart-block-title">
+        <div class="row" #fullscreen>
+            <div class="col-2">
+                <div class="caption">
+                    <i class="fa fa-chart-bar fa-2x barchart-icon"></i>
+                    <span class="chart-heading">Labwise Allocated</span>
+                </div>
+            </div>
+            <div class="col-2 float_left" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
+                <!-- <select class="form-select location_select" aria-label="Default select example">
+                    <option>SRR1</option>
+                    <option>SRR2</option>
+                    <option>SRR3</option>
+                </select> -->
+                <select class="form-select location_select" aria-label="Default select example" [(ngModel)]="lab" (change)="labChange()">
+                    <option value="" disabled selected>-- Select Lab --</option>
+                    <option *ngFor="let labdata of labList?.Data" [ngValue]="labdata">
+                        {{labdata}}
+                    </option>
+                    <!-- <option>Admin</option>
+                    <option>Super Admin</option>
+                    <option>Manager</option> -->
+               </select>
+            </div>
+            <div class="col-2 float-program" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
+                <select class="form-select location_select" aria-label="Default select example" [(ngModel)]="program" (change)="programChange()">
+                    <option value="" disabled selected>-- All Program --</option>
+                    <!-- <option value="">
+                        All
+                    </option> -->
+                    <option *ngFor="let prgmdata of prgmList?.Data" [ngValue]="prgmdata">
+                        {{prgmdata}}
+                    </option>
+                    <!-- <option>-- All Program --</option>
+                    <option>ADL-P</option>
+                    <option>MTL-P</option>
+                    <option>RPL-S</option> -->
+                </select>
+            </div>
+            <div class="col-2 float-vendor" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
+                <select class="form-select location_select" aria-label="Default select example" [(ngModel)]="vendor" (change)="vendorChange()">
+                    <option value="" disabled selected>-- All Vendor --</option>
+                    <!-- <option value="">
+                        All
+                    </option> -->
+                    <option *ngFor="let vendordata of vendorList?.Vendors" [ngValue]="vendordata">
+                        {{vendordata}}
+                    </option>
+                    <!-- <option>-- All Vendor --</option>
+                    <option> UST</option>
+                    <option>Wipro</option>
+                    <option>Infosys</option> -->
+                </select>
+            </div>
+
+            <!-- ******* Labwise chart and table view options ******* -->
+            <div class="btn-row mr-2 col-2" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
+                <div class="btn-dv2" [ngClass]="Labtype == 'Lab chart' ? 'active-btn' : ''"
+                    (click)="ChangeOption('Labchart')">
+                    <i class="fa fa-chart-bar fa-2x chart-icon"></i>
+                </div>
+                <div class="btn-dv" [ngClass]="Labtype == 'Lab table' ? 'active-btn' : ''"
+                    (click)="ChangeOption('Labtable')">
+                    <i class="fas fa-table chart-icon"></i>
+                </div>
+            </div>
+
+            <!-- ******* Fullscreen options ******* -->
+            <div class="col-2 float_left-info">
+                <i class="fas fa-expand expand-display fullscreen-icon" matTooltip="Fullscreen"
+                    (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreen"></i>
+                <i class="fas fa-compress remove-display" (click)="toggleFullScreen();" fullscreenmode
+                    [FullScreenView]="fullscreen"></i>
+            </div>
+            <hr class="box-hr">
+
+            <!-- ******* Labwise chart view  ******* -->
+            <div class="chart-item after-fullscreen" *ngIf="Labtype == 'Lab chart'">
+                <app-labwise-alloted-chart-component [widget]="ChartData1"></app-labwise-alloted-chart-component>
+            </div>
+
+            <!-- ******* Labwise chart table view ******* -->
+            <div class="table-container">
+                <table class="table table-bordered piechart-table" *ngIf="Labtype == 'Lab table'">
+                    <thead>
+                        <tr>
+                            <th class="v-align">#</th>
+                            <th class="v-align" (click)="setOrderRelease('Data')"><span class="sort-by">Lab Name</span>
+                            </th>
+                            <th class="v-align" (click)="setOrderRelease('Value')"><span
+                                    class="sort-by">Allocated</span></th>
+                            <th class="v-align" (click)="setOrderRelease('Value')"><span
+                                    class="sort-by">Free</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ele of LabchartData | orderBy: orderMappedRelease:reverseMappedRelease: true ;">
+                            <td>{{ele.slno}}</td>
+                            <td>{{ele.labName}}</td>
+                            <td>{{ele.allocated}}</td>
+                            <td>{{ele.Free}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
             <div class="table-container" *ngIf="reportData?.length">
                 <div class="search-bar col-12">
                     <div class="input-group">

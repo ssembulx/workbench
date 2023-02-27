@@ -87,6 +87,20 @@ export class SummaryService {
     return this.http.get(this.ServiceURL + 'home/OverallAvailability/');
   }
 
+  public getDrillDownChartData(): Observable<any>{
+    return this.http.get(this.ServiceURL + 'home/GetDrillDownChartData/');
+  }
+
+public getTeamChartData(): Observable<any>{
+    return this.http.get(this.ServiceURL + 'home/TeamDrillDownData/');
+  }
+
+  public getProgramChartData(): Observable<any>{
+    return this.http.get(this.ServiceURL + 'home/ProgramDrillDownData/');
+  }
+
+  
+
   // ***** Report view data API ******//
   public getReportData(): Observable<any> {
     return this.http.get(this.ServiceURL + 'home/ReportView/');
