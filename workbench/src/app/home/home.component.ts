@@ -52,6 +52,7 @@ Value : any = false;
   // ChartData:any;
   labwiseChartLoader = false;
   SIVtoggle: boolean = true;
+  ChartTitle : any = "Location Wise Chart"
 
   constructor(private service: SummaryService) {}
 
@@ -104,10 +105,11 @@ Value : any = false;
   ngOnInit() {
     // this.LabOverallSummary();
     this.getCheckbox();
-    this.getLabDetails();
-    this.getProgramDetails();
-    this.getVendorDetails();
-    this.LabwiseSummary();
+    // this.getLabDetails();
+    // this.getProgramDetails();
+    // this.getVendorDetails();
+    // this.LabwiseSummary();
+    //this.Locationchart()
 
     // this.lab = "SRR1";
     // this.program = "All";
@@ -243,18 +245,7 @@ Value : any = false;
       debugger
       this.labwiseChartLoader = false;
       this.service.LabVendorSummary().subscribe((res) => {
-        //this.ChartData = res;
-        let arr : any = [];
-          arr = res;
-          let arr1 : any = [];
-          for(let i=0,j=0;i<arr.length;i++){
-            if(arr[i].category == 'Allocated')
-            {
-              arr1[j] = arr[i];
-              j++;
-            }
-          }
-          this.ChartData = arr1;
+        this.ChartData = res;
           this.getFullPiechart();
         //console.log('stacked chart', this.ChartData);
         //this.getFullPiechart();
@@ -303,13 +294,12 @@ Value : any = false;
         am5themes_Animated.new(root)
       ]);
 
-      // root.defaultTheme.rule("ColorSet").set("colors", [
-      //   am5.color(0x095256),
-      //   am5.color(0x087f8c),
-      //   am5.color(0x5aaa95),
-      //   am5.color(0x86a873),
-      //   am5.color(0xbb9f06)
-      // ]);
+      //Number Format for both Pie and Bar Chart
+      root.numberFormatter.setAll({
+        numberFormat: "#,###.",
+        numericFields: ["valueY"]
+      });
+
       
       // Create wrapper container
       let container = root.container.children.push(am5.Container.new(root, {
@@ -322,7 +312,7 @@ Value : any = false;
       
       
       // ==============================================
-      // Column chart
+      // Column chart start
       // ==============================================
       
       // Create chart
@@ -342,11 +332,13 @@ Value : any = false;
     
       // Create axes
       // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
-      let yRenderer = am5xy.AxisRendererY.new(root, {});
+      let yRenderer = am5xy.AxisRendererY.new(root, {
+        
+      });
       let yAxis = columnChart.yAxes.push(am5xy.CategoryAxis.new(root, {
         categoryField: "category",
         renderer: yRenderer,
-        y : am5.percent(0)
+        y : am5.percent(0),
         
       }));
       yRenderer.grid.template.setAll({
@@ -371,11 +363,14 @@ Value : any = false;
         // reverseChildren: true
 
       }));
-      
+
+      //Bar chart Tooltip text      
       columnSeries.columns.template.setAll({
         tooltipText: "{categoryY}: {valueX}",
         // minHeight: 150
       });
+
+      //Bar chart bullet
       columnSeries.bullets.push(function() {
         return am5.Bullet.new(root, {
           locationX: 1,
@@ -399,8 +394,14 @@ Value : any = false;
       
       
       // ==============================================
-      // Column chart
+      // Column chart end
       // ==============================================
+
+      // ==============================================
+      // Pie chart start
+      // ==============================================
+
+      //Create wrapper container
     
       let pieChart = container.children.push(
 
@@ -408,22 +409,38 @@ Value : any = false;
           
           width: am5.percent(50),
           x: am5.percent(0),
-          y: am5.percent(-9.8),
+          y: am5.percent(-5.8),
           innerRadius: am5.percent(50),
-          radius: am5.percent(65)
+          radius: am5.percent(65),
         })
       );
-
-     // pieChart.
       
       // Create series
       let pieSeries = pieChart.series.push(
         am5percent.PieSeries.new(root, {
           valueField: "value",
           categoryField: "category",
+          legendValueText: "", // legend text format
           })
           
       );
+
+      //Create title 
+      pieSeries.children.unshift(am5.Label.new(root, {
+        text: this.ChartTitle,
+        fontSize: 18,
+        fontWeight: "400",
+        textAlign: "center",
+        x: am5.percent(0),
+        y: am5.percent(-3),
+        centerX: am5.percent(50),
+        paddingTop: -160,
+        paddingBottom: 0,
+        fill: am5.color("#9eacb4")
+        //paddingRight: 950
+      }));
+
+      //Color code for pie slices
       if(this.ChartData.length == 2){
         pieSeries.get("colors").set("colors", [
         //am5.color(0xdc4534),
@@ -446,11 +463,12 @@ Value : any = false;
         ]);
       }
      
-
       
+      //Pie-chart tooltip
       pieSeries.slices.template.setAll({
         templateField: "colors",
-        strokeOpacity: 0
+        strokeOpacity: 0,
+        tooltipText: "{category} ({value}) : {valuePercentTotal}%",
         });
     
       // Pre-select first slice
@@ -459,6 +477,8 @@ Value : any = false;
       });
       
       //pieSeries.slices.getIndex(0).set();
+
+      //Pie chart and bar chart integrating area
       let currentSlice : am5.Slice;
       pieSeries.slices.template.on("active", function(active, slice:any) {
         if (currentSlice && currentSlice != slice && active) {
@@ -482,32 +502,14 @@ Value : any = false;
         columnSeries.data.setAll(slice.dataItem.dataContext.breakdown);
           yAxis.data.setAll(slice.dataItem.dataContext.breakdown);
           currentSlice = slice;
-
-        // if(slice.dataItem.dataContext.category == 'Free'){
-        //   debugger
-        //   if(slice.dataItem.dataContext.breakdown[0].length == 1){
-        //    // slice.dataItems[0].set("forceHidden",true);
-        //    currentSlice = slice;
-        //   }
-        //   else{
-        //     columnSeries.data.setAll(slice.dataItem.dataContext.breakdown);
-        //     yAxis.data.setAll(slice.dataItem.dataContext.breakdown);
-        //     currentSlice = slice;
-        //   }
-          
-        // }
-        // else{
-        //   columnSeries.data.setAll(slice.dataItem.dataContext.breakdown);
-        //   yAxis.data.setAll(slice.dataItem.dataContext.breakdown);
-        //   currentSlice = slice;
-        // }
         
       });
-    
+
+      //pie-chart label
       pieSeries.labels.template.setAll({
         text: "",
         inside: true,
-        radius: 10
+        radius: 10,
       });
       
       pieSeries.labels.template.set("forceHidden", true);
@@ -542,7 +544,7 @@ Value : any = false;
           am5.Legend.new(root, {
             nameField: 'Category',
             // centerX: am5.percent(-175),
-             x: am5.percent(-10),
+             x: am5.percent(10),
              y: am5.percent(44)
           })
         );
@@ -552,7 +554,7 @@ Value : any = false;
           am5.Legend.new(root, {
             nameField: 'Category',
             // centerX: am5.percent(-175),
-             x: am5.percent(-18),
+             x: am5.percent(-14),
              y: am5.percent(44)
           })
         );
@@ -562,17 +564,32 @@ Value : any = false;
           am5.Legend.new(root, {
             nameField: 'Category',
             // centerX: am5.percent(-175),
-             x: am5.percent(-30),
+             x: am5.percent(-24),
              y: am5.percent(44)
           })
         );
+      }
+      else if(this.ChartData.length == 4){
+        var legend = pieSeries.children.push(
+          am5.Legend.new(root, {
+            nameField: 'Category',
+            // centerX: am5.percent(-175),
+             x: am5.percent(-15),
+             y: am5.percent(44),
+             layout: am5.GridLayout.new(root, {
+              maxColumns: 2,
+              fixedWidthGrid: true
+            })
+          })
+        );
+      
       }
       else{
         var legend = pieSeries.children.push(
           am5.Legend.new(root, {
             nameField: 'Category',
             // centerX: am5.percent(-175),
-             x: am5.percent(-35),
+             x: am5.percent(-30),
              y: am5.percent(40),
              layout: am5.GridLayout.new(root, {
               maxColumns: 3,
@@ -1040,24 +1057,29 @@ Value : any = false;
     // }
      if (status == 'team'){
       this.typeChart = 'Team chart';
+      this.ChartTitle = "Team Wise Chart";
       this.SIVtoggle = false;
       this.TeamChart()
     }
     else if (status == 'team/program'){
       this.typeChart = 'Team/Program chart';
+      this.ChartTitle = "Team/Program Wise Chart";
       this.SIVtoggle = false;
       this.LabProgramSummary();
     }
     else if (status == 'location') {
       this.typeChart = 'Location chart';
+      this.ChartTitle = "Location Wise Chart";
       this.SIVtoggle = true;
       this.OverallAvailability();
     } else if (status == 'program') {
       this.typeChart = 'Program chart';
+      this.ChartTitle = "Program Wise Chart";
       this.SIVtoggle = false;
       this.ProgramChart();
     } else if (status == 'vendor') {
       this.typeChart = 'Vendor chart';
+      this.ChartTitle = "Vendor Wise Chart";
       this.SIVtoggle = false;
       this.LabVendorSummary()
     }
