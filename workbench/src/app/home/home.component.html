@@ -11,7 +11,7 @@
                     </div>
                     <div class="caption-right">
                          <!-- ******* SIV checkbox option ******* -->
-                      <div *ngIf="SIVtoggle" class="form-group" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
+                      <div class="form-group" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                         <label class="switch">
                             <input type="checkbox" class="sivcheckbox" [(ngModel)]="fullcircle" unchecked
                                 (change)="getCheckbox()">
@@ -104,9 +104,9 @@
             </div>
 
             <!-- ******* Semi circle pie chart view ******* -->
-            <div class="pie-block after-fullscreen-pie" *ngIf="semicircle && type == 'pie chart'">
+            <!-- <div class="pie-block after-fullscreen-pie" *ngIf="semicircle && type == 'pie chart'">
                 <app-semicircle-pie-chart></app-semicircle-pie-chart>
-            </div>
+            </div> -->
 
             <!-- ******* Full circle pie chart view ******* -->
             <!-- <div class="pie-block after-fullscreen-pie" *ngIf="fullcircle">
@@ -146,7 +146,7 @@
 
 
 
-                    <!-- ******* Semi circle pie chart and table view options ******* 
+                     ******* Semi circle pie chart and table view options ******* 
                     <div class="btn-row mr-2" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                         <div class="btn-dv2" [ngClass]="type == 'pie chart' ? 'active-btn' : ''"
                             (click)="ToggleOptions('chart')">
@@ -158,7 +158,7 @@
                         </div>
                     </div>
 
-                    <!-- ******* SIV checkbox option ******* 
+                     ******* SIV checkbox option ******* 
                     <div class="form-group" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                         <label class="switch">
                             <input type="checkbox" class="sivcheckbox" [(ngModel)]="semicircle" unchecked
@@ -167,12 +167,12 @@
 
                         </label>
                         <span class="chart-siv-label">SIV</span>
-                        <!--   <input type="checkbox" class="sivcheckbox" [(ngModel)]="semicircle" unchecked
+                           <input type="checkbox" class="sivcheckbox" [(ngModel)]="semicircle" unchecked
                             (change)="getCheckbox();">
                         <label>SIV</label> 
                     </div>
 
-                    <!-- ******* Fullscreen options ******* 
+                     ******* Fullscreen options ******* 
                     <div class="float_left-info">
                         <i class="fas fa-expand expand-display fullscreen-icon" matTooltip="Fullscreen"
                             (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreenPie"></i>
@@ -184,22 +184,22 @@
 
             <hr class="box-hr">
 
-            <!-- ******* Semi circle pie chart view  Initial load ******* 
+             ******* Semi circle pie chart view  Initial load ******* 
             <div *ngIf="!semicircle">
                 <div id="chartdiv"></div>
             </div>
 
-            <!-- No data available display 
+             No data available display 
             <div class="no_data_block_display" *ngIf='ChartData?.length == 0'>
                 <h2 class="mt-2">No Data Available</h2>
             </div>
 
-            <!-- ******* Semi circle pie chart view ******* 
+             ******* Semi circle pie chart view ******* 
             <div class="pie-block after-fullscreen-pie" *ngIf="semicircle && type == 'pie chart'">
                 <app-semicircle-pie-chart></app-semicircle-pie-chart>
             </div>
 
-            <!-- ******* Semi circle pie chart table view ******* 
+             ******* Semi circle pie chart table view ******* 
             <div class="table-container">
                 <table class="table table-bordered piechart-table" *ngIf="semicircle && type == 'pie table'">
                     <thead>
@@ -246,7 +246,7 @@
                         </div>
                     </div>
 
-                    <!-- ******* Location chart and table view options ******* 
+                     ******* Location chart and table view options ******* 
                     <div class="btn-row-loc mr-2" *ngIf="typeChart == 'Location chart'" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                         <div class="btn-dv2" [ngClass]="Loctype == 'Loc chart' ? 'active-btn-loc' : ''"
                             (click)="LocationOptions('LocChart')">
@@ -258,7 +258,7 @@
                         </div>
                     </div>
 
-                    <!-- ******* Program chart and table view options ******* 
+                     ******* Program chart and table view options ******* 
                     <div class="btn-row-loc mr-2" *ngIf="typeChart == 'Program chart'" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                         <div class="btn-dv2" [ngClass]="Prgtype == 'Prg chart' ? 'active-btn-loc' : ''"
                             (click)="ProgramOptions('PrgChart')">
@@ -270,7 +270,7 @@
                         </div>
                     </div>
 
-                    <!-- ******* Vendor chart and table view options ******* 
+                     ******* Vendor chart and table view options ******* 
                     <div class="btn-row-loc mr-2" *ngIf="typeChart == 'Vendor chart'" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                         <div class="btn-dv2" [ngClass]="Ventype == 'Ven chart' ? 'active-btn-loc' : ''"
                             (click)="VendorOptions('VenChart')">
@@ -282,7 +282,7 @@
                         </div>
                     </div>
 
-                    <!-- ******* Fullscreen options ******* 
+                     ******* Fullscreen options ******* 
                     <div class="float_left-info">
                         <i class="fas fa-expand expand-display fullscreen-icon" matTooltip="Fullscreen"
                             (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreenStacked"></i>
@@ -293,12 +293,12 @@
             </div>
             <hr class="box-hr">
 
-            <!-- ******* Location chart view ******* 
+             ******* Location chart view ******* 
             <div *ngIf="typeChart == 'Location chart' && Loctype == 'Loc chart'">
                 <app-stacked-chart-component></app-stacked-chart-component>
             </div>
 
-            <!-- ******* Location chart table view ******* 
+             ******* Location chart table view ******* 
             <div class="table-container">
                 <table class="table table-bordered locchart-table"
                     *ngIf="Loctype == 'Loc table' && typeChart == 'Location chart'">
@@ -325,12 +325,12 @@
                 </table>
             </div>
 
-            <!-- ******* Program chart view  ******* 
+             ******* Program chart view  ******* 
             <div *ngIf="typeChart == 'Program chart' && Prgtype == 'Prg chart'">
                 <app-program-stacked-chart-component></app-program-stacked-chart-component>
             </div>
 
-            <!-- ******* Program chart table view ******* 
+             ******* Program chart table view ******* 
             <div class="table-container">
                 <table class="table table-bordered prgchart-table"
                     *ngIf="Prgtype == 'Prg table' && typeChart == 'Program chart'">
@@ -354,12 +354,12 @@
                 </table>
             </div>
 
-            <!-- ******* Vendor chart view ******* 
+             ******* Vendor chart view ******* 
             <div *ngIf="typeChart == 'Vendor chart' && Ventype == 'Ven chart'">
                 <app-vendor-stacked-chart-component></app-vendor-stacked-chart-component>
             </div>
 
-            <!-- ******* Vendor chart table view *******
+             ******* Vendor chart table view *******
             <div class="table-container">
                 <table class="table table-bordered venchart-table"
                     *ngIf="Ventype == 'Ven table' && typeChart == 'Vendor chart'">
@@ -399,7 +399,7 @@
                 </div>
             </div>
             <div class="col-2 float_left" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
-                <!-- <select class="form-select location_select" aria-label="Default select example">
+                 <select class="form-select location_select" aria-label="Default select example">
                     <option>SRR1</option>
                     <option>SRR2</option>
                     <option>SRR3</option>
@@ -409,7 +409,7 @@
                     <option *ngFor="let labdata of labList?.Data" [ngValue]="labdata">
                         {{labdata}}
                     </option>
-                    <!-- <option>Admin</option>
+                     <option>Admin</option>
                     <option>Super Admin</option>
                     <option>Manager</option> 
                </select>
@@ -417,13 +417,13 @@
             <div class="col-2 float-program" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                 <select class="form-select location_select" aria-label="Default select example" [(ngModel)]="program" (change)="programChange()">
                     <option value="" disabled selected>-- All Program --</option>
-                    <!-- <option value="">
+                     <option value="">
                         All
                     </option> 
                     <option *ngFor="let prgmdata of prgmList?.Data" [ngValue]="prgmdata">
                         {{prgmdata}}
                     </option>
-                    <!-- <option>-- All Program --</option>
+                     <option>-- All Program --</option>
                     <option>ADL-P</option>
                     <option>MTL-P</option>
                     <option>RPL-S</option> 
@@ -432,20 +432,20 @@
             <div class="col-2 float-vendor" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                 <select class="form-select location_select" aria-label="Default select example" [(ngModel)]="vendor" (change)="vendorChange()">
                     <option value="" disabled selected>-- All Vendor --</option>
-                    <!-- <option value="">
+                     <option value="">
                         All
                     </option> 
                     <option *ngFor="let vendordata of vendorList?.Vendors" [ngValue]="vendordata">
                         {{vendordata}}
                     </option>
-                    <!-- <option>-- All Vendor --</option>
+                     <option>-- All Vendor --</option>
                     <option> UST</option>
                     <option>Wipro</option>
                     <option>Infosys</option> 
                 </select>
             </div>
 
-            <!-- ******* Labwise chart and table view options ******* 
+             ******* Labwise chart and table view options ******* 
             <div class="btn-row mr-2 col-2" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                 <div class="btn-dv2" [ngClass]="Labtype == 'Lab chart' ? 'active-btn' : ''"
                     (click)="ChangeOption('Labchart')">
@@ -457,7 +457,7 @@
                 </div>
             </div>
 
-            <!-- ******* Fullscreen options ******* 
+             ******* Fullscreen options ******* 
             <div class="col-2 float_left-info">
                 <i class="fas fa-expand expand-display fullscreen-icon" matTooltip="Fullscreen"
                     (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreen"></i>
@@ -466,12 +466,12 @@
             </div>
             <hr class="box-hr">
 
-            <!-- ******* Labwise chart view  ******* 
+             ******* Labwise chart view  ******* 
             <div class="chart-item after-fullscreen" *ngIf="Labtype == 'Lab chart'">
                 <app-labwise-alloted-chart-component [widget]="ChartData1"></app-labwise-alloted-chart-component>
             </div>
 
-            <!-- ******* Labwise chart table view ******* 
+             ******* Labwise chart table view ******* 
             <div class="table-container">
                 <table class="table table-bordered piechart-table" *ngIf="Labtype == 'Lab table'">
                     <thead>
@@ -501,7 +501,7 @@
 </div>
 
 <!-- ****** loader option ****** -->
-<div class="overlay-main" *ngIf="!pieChartLoader">
+<!-- <div class="overlay-main" *ngIf="!pieChartLoader">
     <div class="spinner-container">
 
         <div class="spinner">
@@ -517,7 +517,7 @@
         </div>
         <div class="proccessing-text">Loading ...</div>
     </div>
-</div>
+</div> -->
 
 
 <!-- loader -->
