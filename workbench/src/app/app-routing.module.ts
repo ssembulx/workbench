@@ -95,7 +95,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'access-ristrict',
+    path: 'access-restrict',
     component: AccessDeniedComponent,
   },
 ];

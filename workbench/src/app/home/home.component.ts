@@ -14,6 +14,8 @@ import { SummaryService } from '../shared/service';
 import { fitAngleToRange } from '@amcharts/amcharts5/.internal/core/util/Math';
 import { left, right } from '@popperjs/core';
 
+import * as am5plugins_exporting from "@amcharts/amcharts5/plugins/exporting";
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -604,8 +606,11 @@ Value : any = false;
     // legend.data.setAll(chart.series.values);   
     pieSeries.appear(1000, 100);
 
-    
 
+   // **** for (download)exporting chart **** // 
+    var exporting = am5plugins_exporting.Exporting.new(root, {
+      menu: am5plugins_exporting.ExportingMenu.new(root, {}),
+     });
     }
 
    //**** Chart data ****//
