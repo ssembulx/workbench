@@ -15,7 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SummaryService } from '../shared/service';
 import moment from 'moment';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-vpg-lab',
   templateUrl: './vpg-lab.component.html',
@@ -52,7 +52,8 @@ export class VPGLabComponent implements OnInit, OnChanges {
     config: NgbModalConfig,
     private toastrService: ToastrService,
     private dataSvc: SummaryService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.labViewLoader = false;
     config.backdrop = 'static';
@@ -341,7 +342,12 @@ export class VPGLabComponent implements OnInit, OnChanges {
   }
   extendLabDetails: any;
   benchDataExtend: any;
+  userInfo: any;
   ngOnInit(): void {
+    this.dataSvc.GetUser().subscribe((res: any) => {
+      console.log('userdeatils', res);
+      this.userInfo = res;
+    });
     this.route.queryParamMap.subscribe((params) => {
       let extendID = this.route.snapshot.queryParams['id'];
       if (extendID != undefined) {
@@ -350,11 +356,23 @@ export class VPGLabComponent implements OnInit, OnChanges {
         };
         this.dataSvc.getExtandLabDetails(payload).subscribe(
           (res) => {
-            this.openExtendBench();
+            debugger;
             this.extendLabDetails = res;
-            this.benchDataExtend = this.extendLabDetails[0]?.BenchData;
-            this.toworkweekExtend = '';
-            this.Durationextend = 0;
+            if (
+              this.userInfo?.wwid ==
+              this.extendLabDetails[0].AllocatedTo[0].WWID
+            ) {
+              this.openExtendBench();
+              this.benchDataExtend = this.extendLabDetails[0]?.BenchData;
+              this.toworkweekExtend = '';
+              this.Durationextend = 0;
+            } else {
+              this.toastrService.error(
+                'Bench can only be extended by owner',
+                'Error'
+              );
+              this.router.navigate(['/allocation']);
+            }
           },
           (error: HttpErrorResponse) => {
             // Handle error
@@ -725,23 +743,23 @@ export class VPGLabComponent implements OnInit, OnChanges {
   }
   saveBooking() {
     if (this.cart?.selectedSeats?.length == 0) {
-      this.toastrService.success('Please select Bench', 'Warning!');
+      this.toastrService.warning('Please select Bench', 'Warning');
     } else if (this.teamName == '') {
-      this.toastrService.success('Please select Team', 'Warning!');
+      this.toastrService.warning('Please select Team', 'Warning');
     } else if (this.programName == '') {
-      this.toastrService.success('Please select Program', 'Warning!');
+      this.toastrService.warning('Please select Program', 'Warning');
     } else if (this.skuName == '') {
-      this.toastrService.success('Please select SKU', 'Warning!');
+      this.toastrService.warning('Please select SKU', 'Warning');
     } else if (this.vendorName == '') {
-      this.toastrService.success('Please select Vendor', 'Warning!');
+      this.toastrService.warning('Please select Vendor', 'Warning');
     } else if (this.fromworkweek == '') {
-      this.toastrService.success('Please select From WW', 'Warning!');
+      this.toastrService.warning('Please select From WW', 'Warning');
     } else if (this.toworkweek == '') {
-      this.toastrService.success('Please select To WW', 'Warning!');
+      this.toastrService.warning('Please select To WW', 'Warning');
     } else if (this.userDetails == undefined) {
-      this.toastrService.success(
+      this.toastrService.warning(
         'Please enter valid WWID/Email/Username and click search button',
-        'Warning!'
+        'Warning'
       );
     } else {
       let bookingData = {
@@ -1085,7 +1103,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
   deAllocateBenchLabelList: any = [];
   deSelectSeat(seatObject: any) {
     debugger;
-   /*  if (seatObject?.AllocationData[0]?.who[0]?.WWID) {
+    /*  if (seatObject?.AllocationData[0]?.who[0]?.WWID) {
     } */
     if (seatObject.status != 'deselected' && seatObject.IsAllocated === true) {
       seatObject.status = 'deselected';

@@ -70,7 +70,7 @@ $seat-unavailable-color: white;
 
 .seat-available:hover {
     color: $seat-available-color;
-    background-color: $seat-available-bg;
+    /* background-color: $seat-available-bg; */
     border: 1.5px solid $seat-available-color;
 }
 
@@ -113,6 +113,14 @@ $seat-unavailable-color: white;
 .seat_not_available_deselect_color {
     background-color: hsl(206deg 100% 80%);
 }
+
+.seat_available_selected_color {
+    background-color: hsl(102deg 100% 83%);
+}
+
+/* .seat_available_selected_color :hover {
+    background-color: hsl(102deg 100% 83%) !important;
+} */
 
 .seat-requested h4 {
     margin-bottom: 0;
