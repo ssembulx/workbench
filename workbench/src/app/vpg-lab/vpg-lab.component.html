@@ -41,12 +41,13 @@
                                         <!-- [ngClass]="{ 'seat-item' : true , 'seat-available' : seatobj.status == 'available' ,'seat-booked' : seatobj.status == 'booked' ,'seat-unavailable' : seatobj.status == 'unavailable' }" -->
                                         <div placement="top" ngbTooltip="Desk : {{seatobj.seatNo}}"
                                             class=" seat-item seat-available" (click)="selectSeat(seatobj)"
+                                            [ngClass]="{  'seat_available_selected_color' : seatobj.status == 'selected' }"
                                             *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested ==false && seatobj.seatLabel != ''  && seatobj.team == 'SIV'">
                                             <h4>{{seatobj.labelNo}}</h4>
                                             <img *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested == false  && seatobj.status != 'selected'"
                                                 src="./assets/image/Available.png">
                                             <img *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested == false  && seatobj.status == 'selected'"
-                                                src="./assets/image/Selected.png">
+                                                src="./assets/image/selected1.png">
                                         </div>
                                         <!-- Desk not available" -->
                                         <div ngbTooltip="Desk not available" placement="top"
@@ -68,11 +69,13 @@
                                             <img src="./assets/image/Requested.png">
                                         </div>
                                         <!-- Non - SIV -->
-                                        <div ngbTooltip="Non SIV" placement="top"
+                                        <div ngbTooltip="Non SIV" placement="top" style="position: relative;"
                                             [ngClass]="{ 'seat-item' : true , 'seat-unavailable' : true }"
                                             *ngIf="seatobj.team == 'Non-SIV' && seatobj.seatLabel != ''">
                                             <h4>{{seatobj.labelNo}}</h4>
-                                            <img src="./assets/image/non_siv.png">
+                                            <i class="fa fa-times fa-2x chart-icon"
+                                                style="font-size:44px;color:red;position: absolute;left:7px;top:0px"></i>
+                                            <img src="./assets/image/nobg.png">
                                             <!-- [ngClass]="{ 'rotate_90' : seatobj.dir=='l' , 'rotate_180' : seatobj.dir=='u', 'rotate_270' : seatobj.dir=='r'}" -->
                                             <!--  <img *ngIf="seatobj.dir=='u'" src="../../assets/image/Table_Unavailable.png">
                                 <img *ngIf="seatobj.dir=='r'" src="../../assets/image/Table_Unavailable.png">
