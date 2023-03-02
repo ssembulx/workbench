@@ -47,7 +47,7 @@
                         </div>
                         <div class="btn-dv" [ngClass]="typeChart == 'Team/Program chart' ? 'active-btn' : ''"
                             (click)="Options('team/program')">
-                            Team/Program
+                            Program/Team
                         </div>
                     </div>
                         <!-- ******* Fullscreen options ******* -->
@@ -89,9 +89,19 @@
                 <div id="chartdiv"></div>
             </div> -->
 
-            <div >
+            <div>
                 <div id="chartdiv"></div>
             </div>
+            
+            <div *ngIf="typeChart == 'Team/Program chart'">
+                <hr class="box-hr1">
+                <div id="chartdiv1"></div>
+            </div>
+           
+            <!-- <div *ngIf="typeChart == 'Team/Program chart'">
+                <hr class="box-hr2">
+                <div id="chartdiv2"></div>
+            </div> -->
 
             <!-- ******* Location chart view ******* -->
             <!-- <div *ngIf="typeChart == 'Location chart' && Loctype == 'Loc chart'">
