@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { AllocationComponent } from './allocation/allocation.component';
 import { ApproveComponent } from './approve/approve.component';
+import { AuhenticateComponent } from './auhenticate/auhenticate.component';
 import { AuthGuard } from './auth/auth.guard';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { HomeComponent } from './home/home.component';
@@ -97,6 +98,10 @@ const routes: Routes = [
   {
     path: 'access-restrict',
     component: AccessDeniedComponent,
+  },
+  {
+    path: 'User-authenticate',
+    component: AuhenticateComponent
   },
 ];
 

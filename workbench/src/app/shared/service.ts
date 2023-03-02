@@ -18,11 +18,23 @@ export class SummaryService {
   userAuth: any;
 
   private ServiceURL = environment.ServiceURL;
+  public authenticationValue =  new BehaviorSubject<any>(false);
+
 
   private options = { headers: this.headers };
 
   constructor(private http: HttpClient) {}
   private user: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+
+  public authenticationDone(value: boolean) {
+    this.authenticationValue.next(value);
+    
+  }
+  public getauthenticationDone() : any{
+   return this.authenticationValue.asObservable();
+    
+  }
+
   public SetUser(_user: any) {
     this.user.next(_user);
   }
@@ -37,10 +49,17 @@ export class SummaryService {
     );
   }
 
-  //**** Program Chart API  ****//
+  //**** Program/Team Chart API  ****//
   public LabProgramSummary(): Observable<any> {
     return this.http.get(
       this.ServiceURL + 'home/LabProgramVendorSummary/Program'
+    );
+  }
+
+  //**** Program/Vendor Chart API  ****//
+  public ProgramVendorSummary(): Observable<any> {
+    return this.http.get(
+      this.ServiceURL + 'home/ProgramVendorDrillDownData/'
     );
   }
 
@@ -50,6 +69,7 @@ export class SummaryService {
       this.ServiceURL + 'home/LabProgramVendorSummary/Vendor'
     );
   }
+  
 
   // ***** Labwise Chart API ******//
   public LabwiseSummary(req: any): Observable<any> {

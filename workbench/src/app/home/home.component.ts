@@ -201,12 +201,18 @@ Value : any = false;
             }
           }
           this.ChartData = arr1;
-          this.getFullPiechart();
+          let obj : any = [];
+          var totalCount : any = 0;
+          for(let i=0; i<this.ChartData.length;i++){
+            obj[i] = this.ChartData[i].value;
+            totalCount = totalCount + obj[i];
+          }
+          this.getFullPiechart(totalCount);
           this.labwiseChartLoader = true;
         }
         else{
           this.ChartData = res;
-          this.getFullPiechart();
+          this.getFullPiechart(0);
           this.labwiseChartLoader = true;
         }
         //this.labwiseChartLoader = true;
@@ -221,10 +227,13 @@ Value : any = false;
         this.Value = true;
         //breakdown = res.Location;
         this.ChartData = res.Location;
-        // console.log("stacked chart",this.ChartData)
-        // this.getLocationChartData();
-        // this.locationChartLoader = true;
-        this.getFullPiechart();
+        let obj : any = [];
+        var totalCount : any = 0;
+        for(let i=0; i<this.ChartData.length;i++){
+          obj[i] = this.ChartData[i].value;
+          totalCount = totalCount + obj[i];
+        }
+        this.getFullPiechart(totalCount);
         this.labwiseChartLoader = true;
        })
     }
@@ -237,7 +246,47 @@ Value : any = false;
       this.service.LabProgramSummary().subscribe(res => {
         this.ChartData = res;
         console.log("stacked chart",this.ChartData)
-        this.getFullPiechart();
+        this.ChartTitle = "Program/Team Wise Chart";
+        let obj : any = [];
+        var totalCount : any = 0;
+        for(let i=0; i<this.ChartData.length;i++){
+          obj[i] = this.ChartData[i].value;
+          totalCount = totalCount + obj[i];
+        }
+        this.getFullPiechart(totalCount);
+        this.labwiseChartLoader = true;
+       })
+    }
+
+    // ProgramLocationSummary(){
+    //   debugger
+    //   //this.programChartLoader = false;
+    //   this.labwiseChartLoader = false;
+    //   this.service.LabProgramSummary().subscribe(res => {
+    //     this.ChartData = res;
+    //     console.log("stacked chart",this.ChartData)
+    //     this.ChartTitle = "Program/Location Wise Chart";
+    //     this.getFullPiechartLocation();
+    //     this.labwiseChartLoader = true;
+    //    })
+    // }
+
+    //*** Calling program v/s Vendor chart ****/
+    ProgramVendorSummary(){
+      debugger
+      //this.programChartLoader = false;
+      this.labwiseChartLoader = false;
+      this.service.ProgramVendorSummary().subscribe(res => {
+        this.ChartData = res;
+        console.log("stacked chart",this.ChartData)
+        this.ChartTitle = "Program/Vendor Wise Chart";
+        let obj : any = [];
+        var totalCount : any = 0;
+        for(let i=0; i<this.ChartData.length;i++){
+          obj[i] = this.ChartData[i].value;
+          totalCount = totalCount + obj[i];
+        }
+        this.getFullPiechartVendor(totalCount);
         this.labwiseChartLoader = true;
        })
     }
@@ -248,7 +297,13 @@ Value : any = false;
       this.labwiseChartLoader = false;
       this.service.LabVendorSummary().subscribe((res) => {
         this.ChartData = res;
-          this.getFullPiechart();
+        let obj : any = [];
+        var totalCount : any = 0;
+        for(let i=0; i<this.ChartData.length;i++){
+          obj[i] = this.ChartData[i].value;
+          totalCount = totalCount + obj[i];
+        }
+      this.getFullPiechart(totalCount);
         //console.log('stacked chart', this.ChartData);
         //this.getFullPiechart();
         this.labwiseChartLoader = true;
@@ -257,11 +312,19 @@ Value : any = false;
 
     // **** Calling Team Chart API ****//
     TeamChart(){
+      debugger
       this.labwiseChartLoader = false;
       this.service.getTeamChartData().subscribe(res => {
         this.ChartData = res;
         //console.log("stacked chart",this.ChartData)
-        this.getFullPiechart();
+        let obj : any = [];
+        var totalCount : any = 0;
+        for(let i=0; i<this.ChartData.length;i++){
+          obj[i] = this.ChartData[i].value;
+          totalCount = totalCount + obj[i];
+        }
+        console.log("TotalCount",totalCount)
+        this.getFullPiechart(totalCount);
         this.labwiseChartLoader = true;
        })
     }
@@ -272,13 +335,19 @@ Value : any = false;
       this.service.getProgramChartData().subscribe(res => {
         this.ChartData = res;
         //console.log("stacked chart",this.ChartData)
-        this.getFullPiechart();
+        let obj : any = [];
+          var totalCount : any = 0;
+          for(let i=0; i<this.ChartData.length;i++){
+            obj[i] = this.ChartData[i].value;
+            totalCount = totalCount + obj[i];
+          }
+        this.getFullPiechart(totalCount);
         this.labwiseChartLoader = true;
        })
     }
 
     // **** Full Pie-Chart Function ****//
-    getFullPiechart(){
+    getFullPiechart(totalCount:any){
       am5.array.each(am5.registry.rootElements, function(root) {
         if (root.dom.id == "chartdiv") {
           root.dispose();
@@ -287,6 +356,344 @@ Value : any = false;
       // Create root element
       // https://www.amcharts.com/docs/v5/getting-started/#Root_element
       let root = am5.Root.new("chartdiv");
+      root._logo.dispose();
+    
+      
+      // Set themes
+      // https://www.amcharts.com/docs/v5/concepts/themes/
+      root.setThemes([
+        am5themes_Animated.new(root)
+      ]);
+
+      //Number Format for both Pie and Bar Chart
+      root.numberFormatter.setAll({
+        numberFormat: "#,###.",
+        numericFields: ["valueY"]
+      });
+
+      
+      // Create wrapper container
+      let container = root.container.children.push(am5.Container.new(root, {
+        width: am5.p100,
+        height: am5.percent(90),
+        //x: am5.percent(100),
+
+        layout: root.horizontalLayout
+      }));
+      
+      
+      // ==============================================
+      // Column chart start
+      // ==============================================
+      
+      // Create chart
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/
+      let columnChart = container.children.push(am5xy.XYChart.new(root, {
+        width: am5.p50,
+        panX: false,
+        panY: false,
+        wheelX: "none",
+        wheelY: "none",
+        layout: root.verticalLayout,
+        reverseChildren: true,
+          x : am5.percent(50),
+          //inverted : true
+        //rotation: 120
+      }));
+    
+      // Create axes
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+      let yRenderer = am5xy.AxisRendererY.new(root, {
+        
+      });
+      let yAxis = columnChart.yAxes.push(am5xy.CategoryAxis.new(root, {
+        categoryField: "category",
+        renderer: yRenderer,
+        y : am5.percent(0),
+        
+      }));
+      yRenderer.grid.template.setAll({
+        location: 0
+      })
+      
+      let xAxis = columnChart.xAxes.push(am5xy.ValueAxis.new(root, {
+        renderer: am5xy.AxisRendererX.new(root, {
+          strokeOpacity: 0.1,
+        })
+      }));
+      
+      
+      // Add series
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+      let columnSeries = columnChart.series.push(am5xy.ColumnSeries.new(root, {
+        //name: "name",
+        xAxis: xAxis,
+        yAxis: yAxis,
+        valueXField: "value",
+        categoryYField: "category",
+        // reverseChildren: true
+
+      }));
+
+      //Bar chart Tooltip text      
+      columnSeries.columns.template.setAll({
+        tooltipText: "{categoryY}: {valueX}",
+        // minHeight: 150
+      });
+
+      //Bar chart bullet
+      columnSeries.bullets.push(function() {
+        return am5.Bullet.new(root, {
+          locationX: 1,
+          locationY: 0.5,
+          sprite: am5.Label.new(root, {
+            text: "{valueX}",
+            // fill: root.interfaceColors.get("alternativeText"),
+            centerY: am5.p50,
+            // centerX: am5.p50,
+            populateText: true,
+            fill : am5.color("#000000")
+          })
+        });
+      });
+    
+      
+      // Make stuff animate on load
+      // https://www.amcharts.com/docs/v5/concepts/animations/
+
+      columnChart.appear(1000, 100);
+      
+      
+      // ==============================================
+      // Column chart end
+      // ==============================================
+
+      // ==============================================
+      // Pie chart start
+      // ==============================================
+
+      //Create wrapper container
+    
+      let pieChart = container.children.push(
+
+        am5percent.PieChart.new(root, {
+          
+          width: am5.percent(50),
+          x: am5.percent(0),
+          y: am5.percent(-5.8),
+          innerRadius: am5.percent(50),
+          radius: am5.percent(65),
+        })
+      );
+      
+      // Create series
+      let pieSeries = pieChart.series.push(
+        am5percent.PieSeries.new(root, {
+          valueField: "value",
+          categoryField: "category",
+          legendValueText: "", // legend text format
+          })
+          
+      );
+
+      //Create title 
+      pieSeries.children.unshift(am5.Label.new(root, {
+        text: this.ChartTitle,
+        fontSize: 18,
+        fontWeight: "400",
+        textAlign: "center",
+        x: am5.percent(0),
+        y: am5.percent(-3),
+        centerX: am5.percent(50),
+        paddingTop: -160,
+        paddingBottom: 0,
+        fill: am5.color("#9eacb4")
+        //paddingRight: 950
+      }));
+
+      //Color code for pie slices
+      if(this.ChartData.length == 2){
+        pieSeries.get("colors").set("colors", [
+        //am5.color(0xdc4534),
+        am5.color(0xd7a700),
+        am5.color(0x68ad5c),
+      ]);
+      }
+      else if(this.ChartData.length <= 1){
+          pieSeries.get("colors").set("colors", [
+            //am5.color(0xdc4534),
+            am5.color(0xd7a700),
+            //am5.color(0x68ad5c),
+          ]);
+      }
+      else{
+        pieSeries.get("colors").set("colors", [
+          am5.color(0xdc4534),
+          am5.color(0xd7a700),
+          am5.color(0x68ad5c),
+        ]);
+      }
+     
+      
+      //Pie-chart tooltip
+      pieSeries.slices.template.setAll({
+        templateField: "colors",
+        strokeOpacity: 0,
+        tooltipText: "{category} ({value}) : {valuePercentTotal}%",
+        });
+    
+      // Pre-select first slice
+      pieSeries.events.on("datavalidated", function() {
+        pieSeries.slices.getIndex(0).set("active", false);
+      });
+      
+      //pieSeries.slices.getIndex(0).set();
+
+      //Pie chart and bar chart integrating area
+      let currentSlice : am5.Slice;
+      pieSeries.slices.template.on("active", function(active, slice:any) {
+        if (currentSlice && currentSlice != slice && active) {
+          currentSlice.set("active", false)
+        }
+      
+        let color = slice.get("fill")
+        debugger
+        label1.setAll({
+          fill: am5.color(0x68ad5c),
+          text: totalCount,
+        });
+      
+        // label2.set("text", slice.dataItem.get("category"));
+        label2.set("text","Total")
+      
+        columnSeries.columns.template.setAll({
+          fill: color,
+          stroke: slice.get("fill")
+        });
+        
+        columnSeries.data.setAll(slice.dataItem.dataContext.breakdown);
+          yAxis.data.setAll(slice.dataItem.dataContext.breakdown);
+          currentSlice = slice;
+        
+      });
+
+      //pie-chart label
+      pieSeries.labels.template.setAll({
+        text: "",
+        inside: true,
+        radius: 10,
+      });
+      
+      pieSeries.labels.template.set("forceHidden", true);
+      pieSeries.ticks.template.set("forceHidden", true);
+      
+      //pieSeries.data.setAll(data);
+      pieSeries.data.setAll(this.ChartData);
+      
+      
+      // Add label
+      let label1 = pieChart.seriesContainer.children.push(am5.Label.new(root, {
+        text: "",
+        fontSize: 35,
+        fontWeight: "bold",
+        centerX: am5.p50,
+        centerY: am5.p50,
+        
+      }));
+      
+      let label2 = pieChart.seriesContainer.children.push(am5.Label.new(root, {
+        text: "",
+        fontSize: 12,
+        centerX: am5.p50,
+        centerY: am5.p50,
+        dy: 30
+      }));
+
+      // **** Add legend ****//
+      if(this.ChartData.length <= 1)
+      {
+        var legend = pieSeries.children.push(
+          am5.Legend.new(root, {
+            nameField: 'Category',
+            // centerX: am5.percent(-175),
+             x: am5.percent(10),
+             y: am5.percent(44)
+          })
+        );
+      }
+      else if(this.ChartData.length == 2){
+        var legend = pieSeries.children.push(
+          am5.Legend.new(root, {
+            nameField: 'Category',
+            // centerX: am5.percent(-175),
+             x: am5.percent(-14),
+             y: am5.percent(44)
+          })
+        );
+      }
+      else if(this.ChartData.length == 3){
+        var legend = pieSeries.children.push(
+          am5.Legend.new(root, {
+            nameField: 'Category',
+            // centerX: am5.percent(-175),
+             x: am5.percent(-24),
+             y: am5.percent(44)
+          })
+        );
+      }
+      else if(this.ChartData.length == 4){
+        var legend = pieSeries.children.push(
+          am5.Legend.new(root, {
+            nameField: 'Category',
+            // centerX: am5.percent(-175),
+             x: am5.percent(-15),
+             y: am5.percent(44),
+             layout: am5.GridLayout.new(root, {
+              maxColumns: 2,
+              fixedWidthGrid: true
+            })
+          })
+        );
+      
+      }
+      else{
+        var legend = pieSeries.children.push(
+          am5.Legend.new(root, {
+            nameField: 'Category',
+            // centerX: am5.percent(-175),
+             x: am5.percent(-30),
+             y: am5.percent(40),
+             layout: am5.GridLayout.new(root, {
+              maxColumns: 3,
+              fixedWidthGrid: true
+            })
+          })
+        );
+      }
+   
+      legend.data.setAll(pieSeries.dataItems);
+      
+    // legend.data.setAll(chart.series.values);   
+    pieSeries.appear(1000, 100);
+
+
+   // **** for (download)exporting chart **** // 
+    var exporting = am5plugins_exporting.Exporting.new(root, {
+      menu: am5plugins_exporting.ExportingMenu.new(root, {}),
+     });
+    }
+
+     // **** Full Pie-Chart Function ****//
+     getFullPiechartLocation(){
+      debugger
+      am5.array.each(am5.registry.rootElements, function(root) {
+        if (root.dom.id == "chartdiv1") {
+          root.dispose();
+        }
+      });
+      // Create root element
+      // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+      let root = am5.Root.new("chartdiv1");
       root._logo.dispose();
     
       
@@ -613,6 +1020,342 @@ Value : any = false;
      });
     }
 
+     // **** Full Pie-Chart Function ****//
+     getFullPiechartVendor(totalCount:any){
+      am5.array.each(am5.registry.rootElements, function(root) {
+        if (root.dom.id == "chartdiv1") {
+          root.dispose();
+        }
+      });
+      // Create root element
+      // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+      let root = am5.Root.new("chartdiv1");
+      root._logo.dispose();
+    
+      
+      // Set themes
+      // https://www.amcharts.com/docs/v5/concepts/themes/
+      root.setThemes([
+        am5themes_Animated.new(root)
+      ]);
+
+      //Number Format for both Pie and Bar Chart
+      root.numberFormatter.setAll({
+        numberFormat: "#,###.",
+        numericFields: ["valueY"]
+      });
+
+      
+      // Create wrapper container
+      let container = root.container.children.push(am5.Container.new(root, {
+        width: am5.p100,
+        height: am5.percent(90),
+        //x: am5.percent(100),
+
+        layout: root.horizontalLayout
+      }));
+      
+      
+      // ==============================================
+      // Column chart start
+      // ==============================================
+      
+      // Create chart
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/
+      let columnChart = container.children.push(am5xy.XYChart.new(root, {
+        width: am5.p50,
+        panX: false,
+        panY: false,
+        wheelX: "none",
+        wheelY: "none",
+        layout: root.verticalLayout,
+        reverseChildren: true,
+          x : am5.percent(50),
+          //inverted : true
+        //rotation: 120
+      }));
+    
+      // Create axes
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+      let yRenderer = am5xy.AxisRendererY.new(root, {
+        
+      });
+      let yAxis = columnChart.yAxes.push(am5xy.CategoryAxis.new(root, {
+        categoryField: "category",
+        renderer: yRenderer,
+        y : am5.percent(0),
+        
+      }));
+      yRenderer.grid.template.setAll({
+        location: 0
+      })
+      
+      let xAxis = columnChart.xAxes.push(am5xy.ValueAxis.new(root, {
+        renderer: am5xy.AxisRendererX.new(root, {
+          strokeOpacity: 0.1,
+        })
+      }));
+      
+      
+      // Add series
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+      let columnSeries = columnChart.series.push(am5xy.ColumnSeries.new(root, {
+        //name: "name",
+        xAxis: xAxis,
+        yAxis: yAxis,
+        valueXField: "value",
+        categoryYField: "category",
+        // reverseChildren: true
+
+      }));
+
+      //Bar chart Tooltip text      
+      columnSeries.columns.template.setAll({
+        tooltipText: "{categoryY}: {valueX}",
+        // minHeight: 150
+      });
+
+      //Bar chart bullet
+      columnSeries.bullets.push(function() {
+        return am5.Bullet.new(root, {
+          locationX: 1,
+          locationY: 0.5,
+          sprite: am5.Label.new(root, {
+            text: "{valueX}",
+            // fill: root.interfaceColors.get("alternativeText"),
+            centerY: am5.p50,
+            // centerX: am5.p50,
+            populateText: true,
+            fill : am5.color("#000000")
+          })
+        });
+      });
+    
+      
+      // Make stuff animate on load
+      // https://www.amcharts.com/docs/v5/concepts/animations/
+
+      columnChart.appear(1000, 100);
+      
+      
+      // ==============================================
+      // Column chart end
+      // ==============================================
+
+      // ==============================================
+      // Pie chart start
+      // ==============================================
+
+      //Create wrapper container
+    
+      let pieChart = container.children.push(
+
+        am5percent.PieChart.new(root, {
+          
+          width: am5.percent(50),
+          x: am5.percent(0),
+          y: am5.percent(-5.8),
+          innerRadius: am5.percent(50),
+          radius: am5.percent(65),
+        })
+      );
+      
+      // Create series
+      let pieSeries = pieChart.series.push(
+        am5percent.PieSeries.new(root, {
+          valueField: "value",
+          categoryField: "category",
+          legendValueText: "", // legend text format
+          })
+          
+      );
+
+      //Create title 
+      pieSeries.children.unshift(am5.Label.new(root, {
+        text: this.ChartTitle,
+        fontSize: 18,
+        fontWeight: "400",
+        textAlign: "center",
+        x: am5.percent(0),
+        y: am5.percent(-3),
+        centerX: am5.percent(50),
+        paddingTop: -160,
+        paddingBottom: 0,
+        fill: am5.color("#9eacb4")
+        //paddingRight: 950
+      }));
+
+      //Color code for pie slices
+      if(this.ChartData.length == 2){
+        pieSeries.get("colors").set("colors", [
+        //am5.color(0xdc4534),
+        am5.color(0xd7a700),
+        am5.color(0x68ad5c),
+      ]);
+      }
+      else if(this.ChartData.length <= 1){
+          pieSeries.get("colors").set("colors", [
+            //am5.color(0xdc4534),
+            am5.color(0xd7a700),
+            //am5.color(0x68ad5c),
+          ]);
+      }
+      else{
+        pieSeries.get("colors").set("colors", [
+          am5.color(0xdc4534),
+          am5.color(0xd7a700),
+          am5.color(0x68ad5c),
+        ]);
+      }
+     
+      
+      //Pie-chart tooltip
+      pieSeries.slices.template.setAll({
+        templateField: "colors",
+        strokeOpacity: 0,
+        tooltipText: "{category} ({value}) : {valuePercentTotal}%",
+        });
+    
+      // Pre-select first slice
+      pieSeries.events.on("datavalidated", function() {
+        pieSeries.slices.getIndex(0).set("active", false);
+      });
+      
+      //pieSeries.slices.getIndex(0).set();
+
+      //Pie chart and bar chart integrating area
+      let currentSlice : am5.Slice;
+      pieSeries.slices.template.on("active", function(active, slice:any) {
+        if (currentSlice && currentSlice != slice && active) {
+          currentSlice.set("active", false)
+        }
+      
+        let color = slice.get("fill")
+
+        label1.setAll({
+          fill: color,
+          text: totalCount,
+        });
+      
+        // label2.set("text", slice.dataItem.get("category"));
+        label2.set("text", "Total");
+      
+        columnSeries.columns.template.setAll({
+          fill: color,
+          stroke: slice.get("fill")
+        });
+        
+        columnSeries.data.setAll(slice.dataItem.dataContext.breakdown);
+          yAxis.data.setAll(slice.dataItem.dataContext.breakdown);
+          currentSlice = slice;
+        
+      });
+
+      //pie-chart label
+      pieSeries.labels.template.setAll({
+        text: "",
+        inside: true,
+        radius: 10,
+      });
+      
+      pieSeries.labels.template.set("forceHidden", true);
+      pieSeries.ticks.template.set("forceHidden", true);
+      
+      //pieSeries.data.setAll(data);
+      pieSeries.data.setAll(this.ChartData);
+      
+      
+      // Add label
+      let label1 = pieChart.seriesContainer.children.push(am5.Label.new(root, {
+        text: "",
+        fontSize: 35,
+        fontWeight: "bold",
+        centerX: am5.p50,
+        centerY: am5.p50,
+        
+      }));
+      
+      let label2 = pieChart.seriesContainer.children.push(am5.Label.new(root, {
+        text: "",
+        fontSize: 12,
+        centerX: am5.p50,
+        centerY: am5.p50,
+        dy: 30
+      }));
+
+      // **** Add legend ****//
+      if(this.ChartData.length <= 1)
+      {
+        var legend = pieSeries.children.push(
+          am5.Legend.new(root, {
+            nameField: 'Category',
+            // centerX: am5.percent(-175),
+             x: am5.percent(10),
+             y: am5.percent(44)
+          })
+        );
+      }
+      else if(this.ChartData.length == 2){
+        var legend = pieSeries.children.push(
+          am5.Legend.new(root, {
+            nameField: 'Category',
+            // centerX: am5.percent(-175),
+             x: am5.percent(-14),
+             y: am5.percent(44)
+          })
+        );
+      }
+      else if(this.ChartData.length == 3){
+        var legend = pieSeries.children.push(
+          am5.Legend.new(root, {
+            nameField: 'Category',
+            // centerX: am5.percent(-175),
+             x: am5.percent(-24),
+             y: am5.percent(44)
+          })
+        );
+      }
+      else if(this.ChartData.length == 4){
+        var legend = pieSeries.children.push(
+          am5.Legend.new(root, {
+            nameField: 'Category',
+            // centerX: am5.percent(-175),
+             x: am5.percent(-15),
+             y: am5.percent(44),
+             layout: am5.GridLayout.new(root, {
+              maxColumns: 2,
+              fixedWidthGrid: true
+            })
+          })
+        );
+      
+      }
+      else{
+        var legend = pieSeries.children.push(
+          am5.Legend.new(root, {
+            nameField: 'Category',
+            // centerX: am5.percent(-175),
+             x: am5.percent(-30),
+             y: am5.percent(40),
+             layout: am5.GridLayout.new(root, {
+              maxColumns: 3,
+              fixedWidthGrid: true
+            })
+          })
+        );
+      }
+   
+      legend.data.setAll(pieSeries.dataItems);
+      
+    // legend.data.setAll(chart.series.values);   
+    pieSeries.appear(1000, 100);
+
+
+   // **** for (download)exporting chart **** // 
+    var exporting = am5plugins_exporting.Exporting.new(root, {
+      menu: am5plugins_exporting.ExportingMenu.new(root, {}),
+     });
+    }
    //**** Chart data ****//
   //  getSemiPiechart() {
   //   var root = am5.Root.new('chartdiv');
@@ -1068,9 +1811,11 @@ Value : any = false;
     }
     else if (status == 'team/program'){
       this.typeChart = 'Team/Program chart';
-      this.ChartTitle = "Team/Program Wise Chart";
+      // this.ChartTitle = "Program/Team Wise Chart";
       this.SIVtoggle = false;
       this.LabProgramSummary();
+      // this.ProgramLocationSummary();
+      this.ProgramVendorSummary();
     }
     else if (status == 'location') {
       this.typeChart = 'Location chart';

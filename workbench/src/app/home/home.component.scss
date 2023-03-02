@@ -1,5 +1,15 @@
 #chartdiv{
     width: 100%;
+    height: 40rem;
+  }
+
+  #chartdiv1{
+    width: 100%;
+    height: 40rem;
+  }
+
+  #chartdiv2{
+    width: 100%;
     height: 34rem;
   }
     .content{
@@ -308,6 +318,20 @@
                 }
                 
                 .box-hr{
+                    width: 101.5%;
+                    color: #717171;
+                    margin-bottom: 6px;
+                    margin-top: 11px;
+                    margin-left: -10px;
+                }
+                .box-hr1{
+                    width: 101.5%;
+                    color: #717171;
+                    margin-bottom: 6px;
+                    margin-top: 11px;
+                    margin-left: -10px;
+                }
+                .box-hr2{
                     width: 101.5%;
                     color: #717171;
                     margin-bottom: 6px;
@@ -1081,6 +1105,7 @@ span.sort-by:after {
     border-radius: 0px !important;
     flex: 1;
     max-width: 100%;
+    overflow-y: auto;
 }
 
 
