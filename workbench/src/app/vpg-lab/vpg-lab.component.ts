@@ -47,6 +47,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
   labViewLoader = false;
   title = 'seat-chart-generator';
   reason: any = '';
+  minDate: Date;
   constructor(
     private modalService: NgbModal,
     config: NgbModalConfig,
@@ -58,6 +59,8 @@ export class VPGLabComponent implements OnInit, OnChanges {
     this.labViewLoader = false;
     config.backdrop = 'static';
     config.size = 'lg';
+    this.minDate = new Date();
+    this.minDate.setDate(this.minDate.getDate());
   }
   /* parentLabDetails: any = {}; */
   @Output() parentLabDetailsCreated = new EventEmitter<any>();
