@@ -32,37 +32,46 @@
             </div>
         </div>
     </section>
-    <section class="second-header" *ngIf="roleName == 'Admin' || roleName == 'User' || roleName == 'Manager' || roleName == 'View'">
+    <section class="second-header"
+        *ngIf="roleName == 'Admin' || roleName == 'User' || roleName == 'Manager' || roleName == 'View'">
         <div class="nav_bar">
             <a routerLink="/home">Home</a>
-            <a routerLink="/allocation" *ngIf="roleName == 'Admin' || roleName == 'User' || roleName == 'Manager'">Allocation</a>
-            <a routerLink="/approve" *ngIf = "roleName == 'Admin' || roleName == 'Manager'">Approve</a>
+            <a routerLink="/allocation"
+                *ngIf="roleName == 'Admin' || roleName == 'User' || roleName == 'Manager'">Allocation</a>
+            <a routerLink="/approve" *ngIf="roleName == 'Admin' || roleName == 'Manager'">Approve</a>
             <a routerLink="/report">Report</a>
-            <div class="dropdown d-flex" *ngIf = "roleName == 'Admin' || roleName == 'Manager'">
-                <button class="dropdown_btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="dropdown d-flex" *ngIf="roleName == 'Admin' || roleName == 'Manager'">
+                <button class="dropdown_btn dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Master <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </button>
-                <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuButton" style="margin-top: 28px;margin-left: -18px;">
-                  <a [routerLink]="['/program']" (click)="changeView()" class="dropdown-item">Platform</a>
-                  <!-- <a [routerLink]="['/sku']" (click)="changeView()" class="dropdown-item">SKU</a> -->
-                  <a [routerLink]="['/vendor']" (click)="changeView()" class="dropdown-item">Vendor</a>
-                  <a [routerLink]="['/team']" (click)="changeView()" class="dropdown-item">Team</a>
+                <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuButton"
+                    style="margin-top: 28px;margin-left: -18px;">
+                    <a [routerLink]="['/program']" (click)="changeView()" class="dropdown-item">Platform</a>
+                    <!-- <a [routerLink]="['/sku']" (click)="changeView()" class="dropdown-item">SKU</a> -->
+                    <a [routerLink]="['/vendor']" (click)="changeView()" class="dropdown-item">Vendor</a>
+                    <a [routerLink]="['/team']" (click)="changeView()" class="dropdown-item">Team</a>
                 </div>
-              </div>
+            </div>
             <!-- <a routerLink="/master">Master</a> -->
-            <a routerLink="/publish">Publish</a>
-            <a routerLink="/user" *ngIf = "roleName == 'Admin'">User</a>
-            <a routerLink="/approveuser" *ngIf = "roleName == 'Admin'">New User Approval</a>
+            <a routerLink="/organization" *ngIf="roleName == 'Admin'">Organization</a>
+            <a routerLink="/LabEfficiencyUtilization" *ngIf="roleName == 'Admin'">Lab Efficiency Utilization</a>
+            <a routerLink="/forecast" *ngIf="roleName == 'Admin'">Forecast</a>
+            <a routerLink="/publish" *ngIf="roleName == 'Admin'">Publish</a>
+            <a routerLink="/user" *ngIf="roleName == 'Admin'">User</a>
+            <a routerLink="/approveuser" *ngIf="roleName == 'Admin'">New User Approval</a>
             <div class="dropdown d-flex">
-                <button class="dropdown_btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="dropdown_btn dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Help <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </button>
-                <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuButton" style="margin-top: 28px;margin-left: -18px;">
-                  <a [routerLink]="['/feedback']" (click)="changeView()" class="dropdown-item">Feedback</a>
-                  <!-- <a [routerLink]="['/sku']" (click)="changeView()" class="dropdown-item">SKU</a> -->
+                <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuButton"
+                    style="margin-top: 28px;margin-left: -18px;">
+                    <a [routerLink]="['/feedback']" (click)="changeView()" class="dropdown-item">Feedback</a>
+                    <!-- <a [routerLink]="['/sku']" (click)="changeView()" class="dropdown-item">SKU</a> -->
 
                 </div>
-              </div>
+            </div>
             <!--  <ng-container *ngFor="let item of SideNavMenu; let i = index">
                 <a (click)="onSelectTab(item.url)" *ngIf="!item.isSubHeading">{{item.menu}}</a>
                 <div class="dropdown" *ngIf="item.isSubHeading">
@@ -85,10 +94,11 @@
                 </div>
             </ng-container> -->
             <div class="float-right">
-               <a (click)="AddSuggestion(suggestionmodal)"> <i class="fa fa-envelope icon-style" aria-hidden="true"></i></a>
+                <a (click)="AddSuggestion(suggestionmodal)"> <i class="fa fa-envelope icon-style"
+                        aria-hidden="true"></i></a>
             </div>
         </div>
-       
+
     </section>
     <!--  <section>
         <nav aria-label="breadcrumb">
@@ -105,11 +115,11 @@
 </div>
 
 <!-- =========***** Modal popup for reject user*****=============-->
-<ng-template #suggestionmodal let-c="close"  let-d="dismiss">
+<ng-template #suggestionmodal let-c="close" let-d="dismiss">
     <div class="modal-add">
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="testModalLabel">
-               Feedback
+                Feedback
             </h1>
             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <i class='fas fa-times'></i></button>
@@ -123,7 +133,8 @@
         <div class="modal-footer">
             <button type="button" class="btn back-btn close" aria-label="Close"
                 (click)="d('Cross click')">Cancel</button>
-            <button type="button" class="btn back-btn" (click)="AddSuggestionBox()" [disabled]="!suggestion">Submit</button>
+            <button type="button" class="btn back-btn" (click)="AddSuggestionBox()"
+                [disabled]="!suggestion">Submit</button>
         </div>
     </div>
 </ng-template>
@@ -163,5 +174,3 @@
         <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
     </div>
 </ng-template> -->
-
-

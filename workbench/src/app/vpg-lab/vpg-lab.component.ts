@@ -320,6 +320,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
       LabName: this.extendLabDetails[0]?.Location__Name,
       ToWW: this.toformatWWExtend,
       Duration: this.Durationextend,
+      Remarks: this.remarksExtend,
     };
     this.dataSvc.extendBenchApply(payload).subscribe(
       (res) => {
@@ -332,6 +333,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
           this.modalReference.close();
           this.toworkweekExtend = '';
           this.Durationextend = 0;
+          this.remarksExtend = '';
         }
       },
       (error: HttpErrorResponse) => {
@@ -343,6 +345,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
   extendLabDetails: any;
   benchDataExtend: any;
   userInfo: any;
+  remarksExtend: any = '';
   ngOnInit(): void {
     this.dataSvc.GetUser().subscribe((res: any) => {
       console.log('userdeatils', res);
@@ -364,6 +367,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
             ) {
               this.openExtendBench();
               this.benchDataExtend = this.extendLabDetails[0]?.BenchData;
+              this.remarksExtend = this.extendLabDetails[0]?.Remarks;
               this.toworkweekExtend = '';
               this.Durationextend = 0;
             } else {

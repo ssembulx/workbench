@@ -55,6 +55,9 @@ import { MultiplierPipe } from './ww';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { UserApproveComponent } from './user-approve/user-approve.component';
 import { FeedbackComponent } from './feedback/feedback.component';
+import { OrganizationComponent } from './organization/organization.component';
+import { LabEfficiencyUtilizationComponent } from './lab-efficiency-utilization/lab-efficiency-utilization.component';
+import { ForecastComponent } from './forecast/forecast.component';
 /* import { ToastrService } from 'ngx-toastr'; */
 @NgModule({
   declarations: [
@@ -96,6 +99,9 @@ import { FeedbackComponent } from './feedback/feedback.component';
     AccessDeniedComponent,
     UserApproveComponent,
     FeedbackComponent,
+    OrganizationComponent,
+    LabEfficiencyUtilizationComponent,
+    ForecastComponent,
   ],
   imports: [
     BrowserModule,
