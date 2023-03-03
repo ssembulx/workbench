@@ -39,7 +39,7 @@
                                             *ngIf="seatobj.seatLabel == ''"> &nbsp; </div>
                                         <!-- Desk not Unavailable -->
                                         <!-- [ngClass]="{ 'seat-item' : true , 'seat-available' : seatobj.status == 'available' ,'seat-booked' : seatobj.status == 'booked' ,'seat-unavailable' : seatobj.status == 'unavailable' }" -->
-                                        <div placement="top" ngbTooltip="Desk : {{seatobj.seatNo}}"
+                                        <div placement="top" ngbTooltip="Desk : {{seatobj.labelNo}}"
                                             class=" seat-item seat-available" (click)="selectSeat(seatobj)"
                                             [ngClass]="{  'seat_available_selected_color' : seatobj.status == 'selected' }"
                                             *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested ==false && seatobj.seatLabel != ''  && seatobj.team == 'SIV'">
@@ -47,7 +47,7 @@
                                             <img *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested == false  && seatobj.status != 'selected'"
                                                 src="./assets/image/Available.png">
                                             <img *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested == false  && seatobj.status == 'selected'"
-                                                src="./assets/image/selected1.png">
+                                                src="./assets/image/image.png">
                                         </div>
                                         <!-- Desk not available" -->
                                         <div ngbTooltip="Desk not available" placement="top"
@@ -62,7 +62,7 @@
                                                 src="./assets/image/deselect1.png">
                                         </div>
                                         <!-- Desk Requested -->
-                                        <div placement="top" ngbTooltip="Desk : {{seatobj.seatNo}} Approval pending"
+                                        <div placement="top" ngbTooltip="Desk : {{seatobj.labelNo}} Approval pending"
                                             class="seat-item seat-requested"
                                             *ngIf="seatobj.IsRequested ==true && seatobj.seatLabel != '' && seatobj.team == 'SIV'">
                                             <h4>{{seatobj.labelNo}}</h4>
@@ -193,7 +193,7 @@
                                                 <div class="form-group cal">
                                                     <input class="form-control ip1" name="dp" [(bsValue)]="fromworkweek"
                                                         #d="bsDatepicker" bsDatepicker
-                                                        (bsValueChange)="onDateSelectFrom($event)">
+                                                        (bsValueChange)="onDateSelectFrom($event)" [minDate]="minDate">
                                                     <input type="text" placeholder="WW'YYYY"
                                                         class="form-control cal-input" [(ngModel)]="fromworkweek" />
                                                     <div class="input-group-append">
@@ -215,7 +215,7 @@
                                                 <div class="form-group cal">
                                                     <input class="form-control ip1" name="dp" [(bsValue)]="toworkweek"
                                                         #d1="bsDatepicker" bsDatepicker
-                                                        (bsValueChange)="onDateSelectTo($event)">
+                                                        (bsValueChange)="onDateSelectTo($event)"  [minDate]="minDate">
                                                     <input type="text" placeholder="WW'YYYY"
                                                         class="form-control cal-input" [(ngModel)]="toworkweek" />
                                                     <div class="input-group-append">
@@ -238,8 +238,7 @@
                                         <td style="padding: 0px;">
                                             <div class="field-ctrl">
                                                 <input name="user" [(ngModel)]="allocatitedTo" type="text"
-                                                    class="form-control ww-input"
-                                                    placeholder="Search with WWID/Email/Username" />
+                                                    class="form-control ww-input" placeholder="Search with WWID" />
                                                 <i class="fa fa-search" (click)="getUserDetails()"></i>
                                             </div>
                                             <!--  <input style="width: 100%;" type="text" class="text-box"
@@ -251,8 +250,7 @@
                                         <td style="padding: 0px;">
                                             <div class="field-ctrl">
                                                 <input name="user" [(ngModel)]="notifyTo" type="text"
-                                                    class="form-control ww-input"
-                                                    placeholder="Search with WWID/Email/Username" />
+                                                    class="form-control ww-input" placeholder="Search with WWID" />
                                                 <i class="fa fa-search" (click)="getNotifyUserDetails()"></i>
                                             </div>
                                             <!--  <input style="width: 100%;" type="text" class="text-box"
@@ -303,7 +301,8 @@
                                         <td>Bench :- (<span style="color:red">*</span>)</td>
                                         <td class="bench_list_div"><span
                                                 *ngFor="let seatLabel of deAllocateBenchLabelList"
-                                                class="badge badge-primary">{{seatLabel}}</span></td>
+                                                class="badge badge-primary"
+                                                style="background-color: #99d3ff;">{{seatLabel}}</span></td>
                                     </tr>
                                     <tr>
                                         <td>Reason :- (<span style="color:red">*</span>)</td>
@@ -569,7 +568,7 @@
                                     <div class="form-group cal">
                                         <input class="form-control ip1" name="dp" [(bsValue)]="toworkweekExtend"
                                             #d1="bsDatepicker" bsDatepicker
-                                            (bsValueChange)="onDateSelectToExtend($event)">
+                                            (bsValueChange)="onDateSelectToExtend($event)"  [minDate]="minDate">
                                         <input type="text" placeholder="WW'YYYY" class="form-control cal-input"
                                             [(ngModel)]="toworkweekExtend" />
                                         <div class="input-group-append">
@@ -600,7 +599,9 @@
                         </tr>
                         <tr>
                             <td>Remarks :- </td>
-                            <td style="padding: 0px;">{{extendLabDetails[0]?.Remarks}}
+                            <td style="padding: 0px;">
+                                <input style="width: 100%;" type="text" class=" form-control text-box"
+                                    [(ngModel)]="remarksExtend">
                             </td>
                         </tr>
                         <tr>
@@ -618,7 +619,7 @@
             <button type="button" class="btn back-btn close" aria-label="Close"
                 (click)="d('Cross click')">Cancel</button>
             <button type="button" class="btn back-btn" (click)="extendBenchApply()"
-                [disabled]="toworkweekExtend=='' || extendLabDetails[0]?.status!='allocated'">Extend</button>
+                [disabled]="toworkweekExtend=='' || extendLabDetails[0]?.status!='allocated' || remarksExtend ==''">Extend</button>
         </div>
     </div>
 </ng-template>

@@ -6,8 +6,11 @@ import { ApproveComponent } from './approve/approve.component';
 import { AuhenticateComponent } from './auhenticate/auhenticate.component';
 import { AuthGuard } from './auth/auth.guard';
 import { FeedbackComponent } from './feedback/feedback.component';
+import { ForecastComponent } from './forecast/forecast.component';
 import { HomeComponent } from './home/home.component';
+import { LabEfficiencyUtilizationComponent } from './lab-efficiency-utilization/lab-efficiency-utilization.component';
 import { MasterComponent } from './master/master.component';
+import { OrganizationComponent } from './organization/organization.component';
 import { PlatformComponent } from './platform/platform.component';
 import { PublishComponent } from './publish/publish.component';
 import { ReportComponent } from './report/report.component';
@@ -69,7 +72,21 @@ const routes: Routes = [
     component: TeamComponent,
     canActivate: [AuthGuard],
   },
-
+  {
+    path: 'organization',
+    component: OrganizationComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'LabEfficiencyUtilization',
+    component: LabEfficiencyUtilizationComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'forecast',
+    component: ForecastComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'report',
     component: ReportComponent,
