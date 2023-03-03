@@ -41,6 +41,22 @@ export class AccessDeniedComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.service.GetUser().subscribe((res:any) =>{
+      debugger
+      console.log("userdeatils",res)
+      this.userName = res?.displayName;
+      this.name= res?.name;
+      this.idsid = res?.idsid;
+      this.roleName = res?.Role;
+      this.avatarURL = res?.avatarURL;
+      this.userIDSID = res?.idsid;
+      this.userWWID = res?.wwid;
+      this.mailId = res?.emailId;
+      this.badge = res?.employeeBadgeType;
+      console.log(res);
+      sessionStorage.setItem('display_name', JSON.stringify(this.userName));
+
+    });
 
       //**** Calling Role API for select drop down in add user modal popup ***//
       this.service.getRole().subscribe((res) => {
@@ -112,21 +128,6 @@ export class AccessDeniedComponent implements OnInit {
     // sessionStorage.setItem('display_name',JSON.stringify(this.userName));
 
         // **** Getting user details ***//
-        this.service.GetUser().subscribe((res:any) =>{
-          debugger
-          console.log("userdeatils",res)
-          this.userName = res?.displayName;
-          this.name= res?.name;
-          this.idsid = res?.idsid;
-          this.roleName = res?.Role;
-          this.avatarURL = res?.avatarURL;
-          this.userIDSID = res?.idsid;
-          this.userWWID = res?.wwid;
-          this.mailId = res?.emailId;
-          this.badge = res?.employeeBadgeType;
-          console.log(res);
-          sessionStorage.setItem('display_name', JSON.stringify(this.userName));
-    
-        });
+       
     }
 }

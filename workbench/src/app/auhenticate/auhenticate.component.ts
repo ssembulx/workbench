@@ -1,5 +1,6 @@
 import { cos } from '@amcharts/amcharts4/.internal/core/utils/Math';
 import { Component, OnInit } from '@angular/core';
+import { SummaryService } from '../shared/service';
 
 
 @Component({
@@ -11,11 +12,14 @@ export class AuhenticateComponent implements OnInit {
   // showMainContent: Boolean = true;
   authenticatorChartLoader = false;
 
-  constructor() { }
+  constructor(private service:SummaryService) { }
 //   ShowHideButton() {
 //     this.showMainContent = this.showMainContent ? false : true;
 //  }
 
   ngOnInit(): void {
+    this.service.getauthenticationDone().subscribe((res:any) =>{
+      debugger
+    })
   }
 }
