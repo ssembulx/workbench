@@ -67,9 +67,8 @@
                 </button>
                 <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuButton"
                     style="margin-top: 28px;margin-left: -18px;">
+                    <a [routerLink]="['/tutorial']" (click)="changeView()" class="dropdown-item">Tutorial</a>
                     <a [routerLink]="['/feedback']" (click)="changeView()" class="dropdown-item">Feedback</a>
-                    <!-- <a [routerLink]="['/sku']" (click)="changeView()" class="dropdown-item">SKU</a> -->
-
                 </div>
             </div>
             <!--  <ng-container *ngFor="let item of SideNavMenu; let i = index">

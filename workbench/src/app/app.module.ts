@@ -58,6 +58,7 @@ import { FeedbackComponent } from './feedback/feedback.component';
 import { OrganizationComponent } from './organization/organization.component';
 import { LabEfficiencyUtilizationComponent } from './lab-efficiency-utilization/lab-efficiency-utilization.component';
 import { ForecastComponent } from './forecast/forecast.component';
+import { TutorialComponent } from './tutorial/tutorial.component';
 /* import { ToastrService } from 'ngx-toastr'; */
 @NgModule({
   declarations: [
@@ -102,6 +103,7 @@ import { ForecastComponent } from './forecast/forecast.component';
     OrganizationComponent,
     LabEfficiencyUtilizationComponent,
     ForecastComponent,
+    TutorialComponent,
   ],
   imports: [
     BrowserModule,

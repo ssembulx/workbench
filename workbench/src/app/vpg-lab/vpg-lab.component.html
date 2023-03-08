@@ -69,7 +69,7 @@
                                             <img src="./assets/image/Requested.png">
                                         </div>
                                         <!-- Non - SIV -->
-                                        <div ngbTooltip="Non SIV" placement="top" style="position: relative;"
+                                        <div ngbTooltip="Non SIV : {{seatobj.labelNo}}" placement="top" style="position: relative;"
                                             [ngClass]="{ 'seat-item' : true , 'seat-unavailable' : true }"
                                             *ngIf="seatobj.team == 'Non-SIV' && seatobj.seatLabel != ''">
                                             <h4>{{seatobj.labelNo}}</h4>
