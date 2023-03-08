@@ -54,7 +54,7 @@ Value : any = false;
   // ChartData:any;
   labwiseChartLoader = false;
   SIVtoggle: boolean = true;
-  ChartTitle : any = "Location Wise Chart"
+  ChartTitle : any;
 
   constructor(private service: SummaryService) {}
 
@@ -212,7 +212,13 @@ Value : any = false;
         }
         else{
           this.ChartData = res;
-          this.getFullPiechart(0);
+          let obj : any = [];
+          var totalCount : any = 0;
+          for(let i=0; i<this.ChartData.length;i++){
+            obj[i] = this.ChartData[i].value;
+            totalCount = totalCount + obj[i];
+          }
+          this.getFullPiechart(totalCount);
           this.labwiseChartLoader = true;
         }
         //this.labwiseChartLoader = true;
@@ -246,7 +252,7 @@ Value : any = false;
       this.service.LabProgramSummary().subscribe(res => {
         this.ChartData = res;
         console.log("stacked chart",this.ChartData)
-        this.ChartTitle = "Program/Team Wise Chart";
+        // this.ChartTitle = "Program/Team Wise Chart";
         let obj : any = [];
         var totalCount : any = 0;
         for(let i=0; i<this.ChartData.length;i++){
@@ -279,7 +285,7 @@ Value : any = false;
       this.service.ProgramVendorSummary().subscribe(res => {
         this.ChartData = res;
         console.log("stacked chart",this.ChartData)
-        this.ChartTitle = "Program/Vendor Wise Chart";
+        // this.ChartTitle = "Program/Vendor Wise Chart";
         let obj : any = [];
         var totalCount : any = 0;
         for(let i=0; i<this.ChartData.length;i++){
@@ -559,7 +565,7 @@ Value : any = false;
         let color = slice.get("fill")
         debugger
         label1.setAll({
-          fill: am5.color(0x68ad5c),
+          fill: color,
           text: totalCount,
         });
       
@@ -1805,7 +1811,7 @@ Value : any = false;
     // }
      if (status == 'team'){
       this.typeChart = 'Team chart';
-      this.ChartTitle = "Team Wise Chart";
+      // this.ChartTitle = "Team Wise Chart";
       this.SIVtoggle = false;
       this.TeamChart()
     }
@@ -1819,17 +1825,17 @@ Value : any = false;
     }
     else if (status == 'location') {
       this.typeChart = 'Location chart';
-      this.ChartTitle = "Location Wise Chart";
+      // this.ChartTitle = "Location Wise Chart";
       this.SIVtoggle = true;
       this.OverallAvailability();
     } else if (status == 'program') {
       this.typeChart = 'Program chart';
-      this.ChartTitle = "Program Wise Chart";
+      // this.ChartTitle = "Program Wise Chart";
       this.SIVtoggle = false;
       this.ProgramChart();
     } else if (status == 'vendor') {
       this.typeChart = 'Vendor chart';
-      this.ChartTitle = "Vendor Wise Chart";
+      // this.ChartTitle = "Vendor Wise Chart";
       this.SIVtoggle = false;
       this.LabVendorSummary()
     }

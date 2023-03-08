@@ -88,13 +88,22 @@
             <!-- <div *ngIf="!semicircle">
                 <div id="chartdiv"></div>
             </div> -->
+            <div class="caption-title">
+                 <!-- <i class="fa fa-chart-bar fa-2x chart-icon"></i>  -->
+                <span class="chart-heading" *ngIf="typeChart == 'Location chart'">Location Wise Chart</span>
+                <span class="chart-heading" *ngIf="typeChart == 'Program chart'">Program Wise Chart</span>
+                <span class="chart-heading" *ngIf="typeChart == 'Vendor chart'">Vendor Wise Chart</span>
+                <span class="chart-heading" *ngIf="typeChart == 'Team chart'">Team Wise Chart</span>
+                <span class="chart-heading" *ngIf="typeChart == 'Team/Program chart'">Program/Team Wise Chart</span>
+            </div>
 
             <div>
                 <div id="chartdiv"></div>
             </div>
             
             <div *ngIf="typeChart == 'Team/Program chart'">
-                <hr class="box-hr1">
+                <hr class="box-hr1"><br/>
+                <span class="chart-title-heading" *ngIf="typeChart == 'Team/Program chart'">Program/Vendor Wise Chart</span>
                 <div id="chartdiv1"></div>
             </div>
            

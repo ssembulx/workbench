@@ -121,6 +121,7 @@ const routes: Routes = [
   {
     path: 'access-restrict',
     component: AccessDeniedComponent,
+   
   },
   {
     path: 'User-authenticate',
