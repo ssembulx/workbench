@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { SummaryService } from '../shared/service';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'cqi-header',
   templateUrl: './header.component.html',
@@ -26,7 +27,7 @@ export class HeaderComponent implements OnInit {
   suggestionData: any;
   suggestion = '';
   modalReference: any;
-
+  location = environment.location;
   constructor(
     private service: SummaryService,
     private router: Router,
@@ -81,8 +82,8 @@ export class HeaderComponent implements OnInit {
     } 
  */
     // **** Getting user details ***//
-    this.service.GetUser().subscribe((res:any) =>{
-      console.log("userdeatils",res)
+    this.service.GetUser().subscribe((res: any) => {
+      console.log('userdeatils', res);
       this.userName = res?.displayName;
       this.userImage = res?.avatarURL;
       this.userIDSID = res?.idsid;
@@ -91,22 +92,21 @@ export class HeaderComponent implements OnInit {
       this.mailId = res?.emailId;
       console.log(res);
       sessionStorage.setItem('display_name', JSON.stringify(this.userName));
-
     });
-    
+
     // this.service.getWindowsAuth().subscribe((res: any) => {
     //   this.token = res.token;
     //   this.service
     //     .getUserDetail({ token: this.token })
     //     .subscribe((data: any) => {
-          // this.userName = userInfo.displayName;
-          // this.userImage = data.avatarURL;
-          // this.userIDSID = data.idsid;
-          // this.roleName = data.Role;
-          // this.userWWID = data.wwid;
-          // this.mailId = data.emailId;
-          // console.log(data);
-          // sessionStorage.setItem('display_name', JSON.stringify(this.userName));
+    // this.userName = userInfo.displayName;
+    // this.userImage = data.avatarURL;
+    // this.userIDSID = data.idsid;
+    // this.roleName = data.Role;
+    // this.userWWID = data.wwid;
+    // this.mailId = data.emailId;
+    // console.log(data);
+    // sessionStorage.setItem('display_name', JSON.stringify(this.userName));
     //     });
     // });
   }

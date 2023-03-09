@@ -226,50 +226,58 @@ h3 {
     display: block;
     margin-top: 0;
     transition: all 0.3s;
-    -webkit-box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.75);
-    box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.75);
-  
-  }
-  .dropdown_btn{
-     background-color: #000;
-     color: #ffffff;
-     outline: none;
-     border: none;
-     margin: 4px 7px;
-     cursor: pointer !important;
-     /* z-index: 500; */
-  }
-  .dropdown-item{
+    -webkit-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.75);
+
+}
+
+.dropdown_btn {
+    background-color: #000;
+    color: #ffffff;
+    outline: none;
+    border: none;
+    margin: 4px 7px;
+    cursor: pointer !important;
+    /* z-index: 500; */
+}
+
+.dropdown-item {
     padding: 0.25rem 0.8rem !important;
     background-color: #0071c5;
     border: 1px solid #ffffff;
     color: #ffffff;
-  }
-  .dropdown-item:hover{
+}
+
+.dropdown-item:hover {
     background-color: #989898;
     color: #ffffff !important;
-  }
-  .dropdown-toggle::after{
+}
+
+.dropdown-toggle::after {
     display: none !important;
-  }
-  .fa-angle-down{
+}
+
+.fa-angle-down {
     font-size: 15px;
     margin-left: 2px;
     vertical-align: middle;
-  }
-  .dropdown-menu a{
+}
+
+.dropdown-menu a {
     color: #ffffff;
     cursor: pointer;
-  }
-::ng-deep .dropdown-menu{
+}
+
+::ng-deep .dropdown-menu {
     margin-top: 28px;
 }
 
-.float-right{
+.float-right {
     float: right;
 }
-.icon-style{
+
+.icon-style {
     margin-right: 3px;
     /* margin-top: 8px; */
     color: white;
@@ -281,7 +289,7 @@ h3 {
 
 .modal-header {
     background-color: #0071c5;
-    font-weight:bold ;
+    font-weight: bold;
     color: white;
     padding: 10px 18px;
 }
@@ -290,10 +298,12 @@ h3 {
     padding-bottom: 7px;
 
 }
+
 .text-box {
     outline: none;
     border: none;
 }
+
 .back-btn {
     font-family: "IntelOne Display AR Medium";
     background-color: #0071c5;
@@ -311,18 +321,26 @@ h3 {
     background-color: #0071c5;
     /* color: white; */
 }
+
 .back-btn {
     font-family: "IntelOne Display AR Medium";
     background-color: #0071c5;
     /* color: white; */
 }
+
 .modal-footer {
     padding: 7px;
-   
+
 }
 
 ::ng-deep .modal-content {
     /* margin-top: 17% !important;
     width: 65%;
     margin-left: 19%; */
+}
+
+.version {
+    color: white;
+    line-height: 29px;
+    padding-right: 5px;
 }

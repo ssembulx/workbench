@@ -18,8 +18,7 @@ export class SummaryService {
   userAuth: any;
 
   private ServiceURL = environment.ServiceURL;
-  public authenticationValue =  new BehaviorSubject<any>(false);
-
+  public authenticationValue = new BehaviorSubject<any>(false);
 
   private options = { headers: this.headers };
 
@@ -28,11 +27,9 @@ export class SummaryService {
 
   public authenticationDone(value: boolean) {
     this.authenticationValue.next(value);
-    
   }
-  public getauthenticationDone() : any{
-   return this.authenticationValue.asObservable();
-    
+  public getauthenticationDone(): any {
+    return this.authenticationValue.asObservable();
   }
 
   public SetUser(_user: any) {
@@ -58,9 +55,7 @@ export class SummaryService {
 
   //**** Program/Vendor Chart API  ****//
   public ProgramVendorSummary(): Observable<any> {
-    return this.http.get(
-      this.ServiceURL + 'home/ProgramVendorDrillDownData/'
-    );
+    return this.http.get(this.ServiceURL + 'home/ProgramVendorDrillDownData/');
   }
 
   //**** Vendor Chart API  ****//
@@ -69,7 +64,6 @@ export class SummaryService {
       this.ServiceURL + 'home/LabProgramVendorSummary/Vendor'
     );
   }
-  
 
   // ***** Labwise Chart API ******//
   public LabwiseSummary(req: any): Observable<any> {
@@ -107,19 +101,17 @@ export class SummaryService {
     return this.http.get(this.ServiceURL + 'home/OverallAvailability/');
   }
 
-  public getDrillDownChartData(): Observable<any>{
+  public getDrillDownChartData(): Observable<any> {
     return this.http.get(this.ServiceURL + 'home/GetDrillDownChartData/');
   }
 
-public getTeamChartData(): Observable<any>{
+  public getTeamChartData(): Observable<any> {
     return this.http.get(this.ServiceURL + 'home/TeamDrillDownData/');
   }
 
-  public getProgramChartData(): Observable<any>{
+  public getProgramChartData(): Observable<any> {
     return this.http.get(this.ServiceURL + 'home/ProgramDrillDownData/');
   }
-
-  
 
   // ***** Report view data API ******//
   public getReportData(): Observable<any> {
@@ -297,11 +289,11 @@ public getTeamChartData(): Observable<any>{
     return this.http.post(this.ServiceURL + '/home/GetSuggestions/', req);
   }
 
-   // ***** API for update feedbacktable  ******//
-   public getFeedbackUpdateData(req: any): Observable<any> {
+  // ***** API for update feedbacktable  ******//
+  public getFeedbackUpdateData(req: any): Observable<any> {
     return this.http.put(this.ServiceURL + 'home/GiveSuggestions/', req);
   }
-  
+
   // constructor(private http: HttpClient) {}
 
   // public LabProgramVendorSummary(): Observable<any> {
@@ -367,6 +359,16 @@ public getTeamChartData(): Observable<any>{
   }
   saveBooking(data: any) {
     const serviceUrl = this.ServiceURL + 'home/BookBench/';
+    return this.http.post(serviceUrl, data, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+
+  getContactData(data: any) {
+    const serviceUrl =
+      'https://cpprsandbox.intel.com/services/API/Account/GetUserAccount';
     return this.http.post(serviceUrl, data, {
       headers: {
         'Content-type': 'application/json',
