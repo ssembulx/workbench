@@ -16,6 +16,7 @@ import { PublishComponent } from './publish/publish.component';
 import { ReportComponent } from './report/report.component';
 // import { SkuComponent } from './sku/sku.component';
 import { TeamComponent } from './team/team.component';
+import { TutorialComponent } from './tutorial/tutorial.component';
 import { UserApproveComponent } from './user-approve/user-approve.component';
 import { UserComponent } from './user/user.component';
 import { VendorComponent } from './vendor/vendor.component';
@@ -110,6 +111,11 @@ const routes: Routes = [
   {
     path: 'feedback',
     component: FeedbackComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'tutorial',
+    component: TutorialComponent,
     canActivate: [AuthGuard],
   },
   {

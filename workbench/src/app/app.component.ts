@@ -1,20 +1,24 @@
 import { Component } from '@angular/core';
+import { SummaryService } from './shared/service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   title = 'workbench';
+  authenticaiton: boolean;
+  constructor(private service: SummaryService) {}
 
-  constructor(){}
-
-  ngOnInit(){
- 
+  ngOnInit() {
+    this.service.getauthenticationDone().subscribe((data: boolean) => {
+      debugger
+      this.authenticaiton = data;
+      // console.log(this.authenticaiton,'authenticaiton  data')
+    });
   }
 }
-
 
 if (typeof Worker !== 'undefined') {
   // Create a new

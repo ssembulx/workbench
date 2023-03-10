@@ -69,7 +69,8 @@
                                             <img src="./assets/image/Requested.png">
                                         </div>
                                         <!-- Non - SIV -->
-                                        <div ngbTooltip="Non SIV" placement="top" style="position: relative;"
+                                        <div ngbTooltip="Non SIV : {{seatobj.labelNo}}" placement="top"
+                                            style="position: relative;"
                                             [ngClass]="{ 'seat-item' : true , 'seat-unavailable' : true }"
                                             *ngIf="seatobj.team == 'Non-SIV' && seatobj.seatLabel != ''">
                                             <h4>{{seatobj.labelNo}}</h4>
@@ -215,7 +216,7 @@
                                                 <div class="form-group cal">
                                                     <input class="form-control ip1" name="dp" [(bsValue)]="toworkweek"
                                                         #d1="bsDatepicker" bsDatepicker
-                                                        (bsValueChange)="onDateSelectTo($event)"  [minDate]="minDate">
+                                                        (bsValueChange)="onDateSelectTo($event)" [minDate]="minDate">
                                                     <input type="text" placeholder="WW'YYYY"
                                                         class="form-control cal-input" [(ngModel)]="toworkweek" />
                                                     <div class="input-group-append">
@@ -248,11 +249,27 @@
                                     <tr>
                                         <td>Notify To :-</td>
                                         <td style="padding: 0px;">
-                                            <div class="field-ctrl">
+                                            <div [formGroup]="form" class="input-tags">
+                                                <div class="editor-tag">
+                                                    <span class="tag-item"
+                                                        *ngFor="let tag of contact.SIVExecutionTeamList; let i = index;">
+                                                        <span>
+                                                            {{tag.sivListMails}}
+                                                        </span>
+                                                        <span class="remove-tag"
+                                                            (click)="removeTag(tag.sivListMails, i , 'siv')">×</span>
+                                                    </span>
+                                                    <input placeholder="Enter Email" type="email"
+                                                        class="input-tag"
+                                                        (keyup)="onKeyUp($event, contact.SIVExecutionTeamList.length, 'siv')"
+                                                        formControlName="tag" (change)="valueChange('SIV Team')">
+                                                </div>
+                                            </div>
+                                            <!--  <div class="field-ctrl">
                                                 <input name="user" [(ngModel)]="notifyTo" type="text"
                                                     class="form-control ww-input" placeholder="Search with WWID" />
                                                 <i class="fa fa-search" (click)="getNotifyUserDetails()"></i>
-                                            </div>
+                                            </div> -->
                                             <!--  <input style="width: 100%;" type="text" class="text-box"
                                             placeholder="Srikanth Uppuluri" [(ngModel)]="allocatitedTo"> -->
                                         </td>
@@ -568,7 +585,7 @@
                                     <div class="form-group cal">
                                         <input class="form-control ip1" name="dp" [(bsValue)]="toworkweekExtend"
                                             #d1="bsDatepicker" bsDatepicker
-                                            (bsValueChange)="onDateSelectToExtend($event)"  [minDate]="minDate">
+                                            (bsValueChange)="onDateSelectToExtend($event)" [minDate]="minDate">
                                         <input type="text" placeholder="WW'YYYY" class="form-control cal-input"
                                             [(ngModel)]="toworkweekExtend" />
                                         <div class="input-group-append">

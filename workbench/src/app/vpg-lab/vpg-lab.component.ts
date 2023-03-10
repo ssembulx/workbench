@@ -16,6 +16,7 @@ import { SummaryService } from '../shared/service';
 import moment from 'moment';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-vpg-lab',
   templateUrl: './vpg-lab.component.html',
@@ -54,7 +55,8 @@ export class VPGLabComponent implements OnInit, OnChanges {
     private toastrService: ToastrService,
     private dataSvc: SummaryService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private fb: FormBuilder
   ) {
     this.labViewLoader = false;
     config.backdrop = 'static';
@@ -184,7 +186,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
        this.getLabDetails();
     } */
     /* let lab = changes?.['defaultValue']?.['currentValue'];
-    if (lab.toString() == 'SRR-1-CRD-14') {
+    if (lab.toString() == 'SRR-2-CRD-4') {
       this.labViewLoader = true;
       this.seatmap = [];
       this.seatConfig = [
@@ -193,123 +195,123 @@ export class VPGLabComponent implements OnInit, OnChanges {
           seat_map: [
             {
               seat_label: 'A',
-              layout: '______ggggggg',
-              direction: 'ddddddddddddd',
-              labelNo: '_,_,_,_,_,_,T1,T2,T3,T4,T5,T6,T7',
-              Team: '_,_,_,_,_,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
-              IsSpace: false,
+              layout: 'gggggggg___',
+              direction: 'dddddddd___',
+              labelNo: 'A8,A7,A6,A5,A4,A3,A2,A1,_,_,_',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,_,_',
             },
             {
               seat_label: 'B',
-              layout: '______ggggggg',
-              direction: 'ddddddddddddd',
-              labelNo: '_,_,_,_,_,_,T14,T13,T12,T11,T10,T9,T8',
-              Team: '_,_,_,_,_,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
-              IsSpace: true,
+              layout: 'gggggggg___',
+              direction: 'uuuuuuuu___',
+              labelNo: 'A9,A10,A11,A12,A13,A14,A15,A16,_,_,_',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,_,_',
             },
             {
               seat_label: 'C',
-              layout: '______ggggggg',
-              direction: 'ddddddddddddd',
-              labelNo: '_,_,_,_,_,_,T15,T16,T17,T18,T19,T20,T21',
-              Team: '_,_,_,_,_,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
-              IsSpace: false,
+              layout: 'ggggggggg__',
+              direction: 'uuuuuuuuu__',
+              labelNo: 'B9,B8,B7,B6,B5,B4,B3,B2,B1,_,_',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,_',
             },
             {
               seat_label: 'D',
-              layout: '______ggggggg',
-              direction: 'ddddddddddddd',
-              labelNo: '_,_,_,_,_,_,T28,T27,T26,T25,T24,T23,T22',
-              Team: '_,_,_,_,_,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
-              IsSpace: true,
+              layout: 'ggggggggggg',
+              direction: 'ddddddddddd',
+              labelNo: 'B10,B11,B12,B13,B14,B15,B16,B17,B18,B19,B20',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
             },
             {
               seat_label: 'E',
-              layout: 'g_____ggggggg',
-              direction: 'ddddddddddddd',
-              labelNo: 'T151,_,_,_,_,_,T29,T30,T31,T32,T33,T34,T35',
-              Team: 'Non-SIV,_,_,_,_,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
-              IsSpace: false,
+              layout: 'ggggg_ggggg',
+              direction: 'uuuuu_uuuuu',
+              labelNo: 'C9,C8,C7,C6,C5,_,C4,C3,C2,C1,C0',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
             },
             {
               seat_label: 'F',
-              layout: 'ggggg_ggggggg',
-              direction: 'ddddddddddddd',
-              labelNo: 'T150,T46,T45,T44,T43,_,T42,T41,T40,T39,T38,T37,T36',
-              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
-              IsSpace: true,
+              layout: 'ggggggggggg',
+              direction: 'ddddddddddd',
+              labelNo: 'C10,C11,C12,C13,C14,C15,C16,C17,C18,C19,C20',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,SIV,SIV,SIV,SIV,SIV,SIV',
             },
             {
               seat_label: 'G',
-              layout: 'g_ggggggggggg',
-              direction: 'ddddddddddddd',
-              labelNo: 'T149,_,T47,T48,T49,T50,T51,T52,T53,T54,T55,T56,T57',
-              Team: 'Non-SIV,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
-              IsSpace: false,
+              layout: 'ggggggggggg',
+              direction: 'ddddddddddd',
+              labelNo: 'D10,D9,D8,D7,D6,D5,D4,D3,D2,D1,D0',
+              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
             },
             {
               seat_label: 'H',
-              layout: 'g_ggggggggggg',
-              direction: 'ddddddddddddd',
-              labelNo: 'T148,_,T68,T67,T66,T65,T64,T63,T62,T61,T60,T59,T58',
-              Team: 'Non-SIV,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
-              IsSpace: true,
+              layout: 'ggggggggggg',
+              direction: 'uuuuuuuuuuu',
+              labelNo: 'D11,D12,D13,D14,D15,D16,D17,D18,D19,D20,D21',
+              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
             },
             {
               seat_label: 'I',
-              layout: 'g_ggggggggggg',
-              direction: 'ddddddddddddd',
-              labelNo: 'T147,_,E11,E10,E9,E8,E7,E6,E5,E4,E3,E2,E1',
-              Team: 'Non-SIV,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,SIV,SIV,SIV,SIV,SIV',
-              IsSpace: false,
+              layout: 'ggggg______',
+              direction: 'uuuuu______',
+              labelNo: 'D22,D23,D24,D25,D26,_,_,_,_,_,_',
+              Team: 'SIV,SIV,SIV,SIV,SIV,_,_,_,_,_,_',
             },
             {
               seat_label: 'J',
-              layout: 'g_ggggggggggg',
-              direction: 'ddddddddddddd',
-              labelNo: 'T146,_,E12,E13,E14,E15,E16,E17,E18,E19,E20,E21,E22',
-              Team: 'Non-SIV,_,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
-              IsSpace: true,
+              layout: 'gggg_gggggg',
+              direction: 'dddd_dddddd',
+              labelNo: 'E11,E10,E9,E8,_,E6,E5,E4,E3,E2,E1',
+              Team: 'SIV,SIV,SIV,SIV,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
             },
             {
               seat_label: 'K',
-              layout: 'g_ggg_ggggggg',
-              direction: 'ddddddddddddd',
-              labelNo: 'T145,_,E11,E10,E9,_,F07,F06,F05,F04,F03,F02,F1',
-              Team: 'Non-SIV,_,SIV,SIV,SIV,_,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
-              IsSpace: false,
+              layout: 'ggggggggggg',
+              direction: 'ddddddddddd',
+              labelNo: 'E12,E13,E14,E15,E16,E17,E18,E19,E20,E21,E22',
+              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
             },
             {
               seat_label: 'L',
-              layout: 'g_ggggggggggg',
-              direction: 'ddddddddddddd',
-              labelNo: 'T144,_,F10,F11,F12,F13,F14,F15,F16,F17,F18,F19,F20',
-              Team: 'Non-SIV,_,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
-              IsSpace: true,
+              layout: 'ggggggggggg',
+              direction: 'ddddddddddd',
+              labelNo: 'F11,F10,F9,F8,F7,F6,F5,F4,F3,F2,F1',
+              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
             },
             {
               seat_label: 'M',
-              layout: '___gggggggggg',
-              direction: 'ddddddddddddd',
-              labelNo: '_,_,_,G10,G09,G08,G07,G06,G05,G04,G03,G02,G01',
-              Team: '_,_,_,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
-              IsSpace: false,
+              layout: 'ggggg_ggggg',
+              direction: 'ddddd_ddddd',
+              labelNo: 'F12,F13,F14,F15,F16,_,F17,F18,F19,F20,F21',
+              Team: 'SIV,SIV,SIV,SIV,SIV,_,SIV,SIV,SIV,SIV,SIV',
             },
             {
               seat_label: 'N',
-              layout: '___gggggggggg',
-              direction: 'ddddddddddddd',
-              labelNo: '_,_,_,G11,G12,G13,G14,G15,G16,G17,G18,G19,G20',
-              Team: '_,_,_,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
-              IsSpace: true,
+              layout: 'ggggggggggg',
+              direction: 'ddddddddddd',
+              labelNo: 'G11,G10,G9,G8,G7,G6,G5,G4,G3,G2,G1',
+              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
             },
+
             {
               seat_label: 'O',
-              layout: 'ggggggggggggg',
-              direction: 'ddddddddddddd',
-              labelNo: 'H13,H12,H11,H10,H9,H8,H7,H6,H5,H4,H3,H2,H1',
-              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
-              IsSpace: true,
+              layout: 'ggggggggggg',
+              direction: 'ddddddddddd',
+              labelNo: 'G12,G13,G14,G15,G16,G17,G18,G19,G20,G21,G22',
+              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+            },
+            {
+              seat_label: 'P',
+              layout: 'ggggggggggg',
+              direction: 'ddddddddddd',
+              labelNo: 'H11,H10,H9,H8,H7,H6,H5,H4,H3,H2,H1',
+              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+            },
+            {
+              seat_label: 'Q',
+              layout: 'ggggggggggg',
+              direction: 'ddddddddddd',
+              labelNo: 'H12,H13,H14,H15,H16,H17,H18,H19,H20,H21,H22',
+              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
             },
           ],
         },
@@ -349,7 +351,11 @@ export class VPGLabComponent implements OnInit, OnChanges {
   benchDataExtend: any;
   userInfo: any;
   remarksExtend: any = '';
+  form: FormGroup;
   ngOnInit(): void {
+    this.form = this.fb.group({
+      tag: [undefined],
+    });
     this.dataSvc.GetUser().subscribe((res: any) => {
       console.log('userdeatils', res);
       this.userInfo = res;
@@ -749,6 +755,15 @@ export class VPGLabComponent implements OnInit, OnChanges {
     this.modalReference = this.modalService.open(addmodal);
   }
   saveBooking() {
+    let notifyToArray: any[] = [];
+    if (
+      this.contact.SIVExecutionTeamList != undefined ||
+      this.contact.SIVExecutionTeamList.length != 0
+    ) {
+      this.contact.SIVExecutionTeamList.forEach((element: any) => {
+        notifyToArray.push(element.sivListMails);
+      });
+    }
     if (this.cart?.selectedSeats?.length == 0) {
       this.toastrService.warning('Please select Bench', 'Warning');
     } else if (this.teamName == '') {
@@ -785,7 +800,8 @@ export class VPGLabComponent implements OnInit, OnChanges {
             Email: this.userDetails?.emailId,
           },
         ],
-        NotifyTo:
+        NotifyTo: notifyToArray,
+        /*   NotifyTo:
           this.notifyUserDetails == undefined
             ? null
             : [
@@ -794,7 +810,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
                   Name: this.notifyUserDetails?.name,
                   Email: this.notifyUserDetails?.emailId,
                 },
-              ],
+              ], */
 
         FromWW: this.fromformatWW,
 
@@ -816,8 +832,6 @@ export class VPGLabComponent implements OnInit, OnChanges {
       };
       this.dataSvc.saveBooking(bookingData).subscribe((res) => {
         if (res) {
-          //  this.skuList = res;
-          //  this.modalReference.close();
           this.toastrService.success(
             'Allocation Request Added Successfully',
             'Success!'
@@ -838,6 +852,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
 
             eventId: 0,
           };
+          this.contact.SIVExecutionTeamList = [];
           this.closePopup();
         }
       });
@@ -1166,5 +1181,276 @@ export class VPGLabComponent implements OnInit, OnChanges {
     /* else if (status == 'vendor') {
       this.typeChart = 'Vendor chart';
     } */
+  }
+
+  /* search mail id */
+  extractEmails(text: any) {
+    return text.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
+  }
+  getUserDet(arg: any) {
+    let promise: any = new Promise((resolve, reject) => {
+      var email = null;
+      /* let obj = {
+        indentifier: arg,
+      }; */
+      var obj = {
+        type: 'CorporateEmailTxt',
+        values: arg,
+      };
+      this.dataSvc
+        .getUserDetails(obj)
+        .toPromise()
+        .then(
+          (res: any) => {
+            debugger;
+            email = res['emailId'];
+            resolve(email);
+          },
+          (err: any) => {
+            this.toastrService.warning(
+              'No users found with entered details, Kindly enter correct details!',
+              'Warning'
+            );
+            reject(err);
+          }
+        );
+    });
+    return promise;
+
+    // .subscribe(res => {
+    //   if (res['Name'] === null || res['Name'] === undefined) {
+    //     this.pageService.showWarning('No users found with entered details, Kindly enter correct details!');
+    //   } else {
+    //     debugger;
+    //     email = res['EmailId'];
+    //   };
+    // });
+  }
+  contact: any = {
+    publishReportDistributionList: '',
+    SIVExecutionTeamList: [],
+    IntermediateList: '',
+  };
+  checkDuplicateEmailTag(tag: any, index: any, type: any) {
+    let flag = false;
+    if (type === 'publish') {
+      this.contact.publishReportDistributionList.forEach((el: any) => {
+        if (el.publishListMails === tag.toString().trim()) {
+          flag = true;
+        }
+      });
+      return flag;
+    } else if (type === 'siv') {
+      debugger;
+      if (this.contact.SIVExecutionTeamList.length == 0) {
+        return flag;
+      } else {
+        this.contact.SIVExecutionTeamList.forEach((el: any) => {
+          if (el.sivListMails === tag.toString().trim()) {
+            flag = true;
+          }
+        });
+        return flag;
+      }
+    } else if (type === 'interm') {
+      this.contact.IntermediateList.forEach((el: any) => {
+        if (el.IntermediatetMails === tag.toString().trim()) {
+          flag = true;
+        }
+      });
+      return flag;
+    }
+  }
+  addTag(tag: string, index: any, type: any): void {
+    if (tag[tag.length - 1] === ',' || tag[tag.length - 1] === ' ') {
+      if (type === 'publish') {
+        this.contact.publishReportDistributionList[index].slice(0, -1);
+      } else if (type === 'siv') {
+        this.contact.SIVExecutionTeamList[index].slice(0, -1);
+      } else if (type === 'interm') {
+        this.contact.IntermediateList[index].slice(0, -1);
+      }
+    }
+    if (tag.length > 0) {
+      if (type === 'publish') {
+        this.contact.publishReportDistributionList.push({
+          publishListMails: tag.toString().trim(),
+        });
+      } else if (type === 'siv') {
+        this.contact.SIVExecutionTeamList.push({
+          sivListMails: tag.toString().trim(),
+        });
+      } else if (type === 'interm') {
+        this.contact.IntermediateList.push({
+          IntermediatetMails: tag.toString().trim(),
+        });
+      }
+    }
+  }
+  onKeyUp(event: KeyboardEvent, index: any, type: any): void {
+    debugger;
+    let emailRegex =
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const inputValue = this.form.controls['tag'].value.trim().toString();
+    if (event.code === 'Backspace' && !inputValue) {
+      this.removeTag(inputValue, index, type);
+      return;
+    } else if ((event.ctrlKey || event.metaKey) && event.code === 'KeyV') {
+      let emails = this.extractEmails(inputValue);
+      if (emails === null || emails === undefined) {
+        this.getUserDet(inputValue).then((data: string) => {
+          let flag = this.checkDuplicateEmailTag(data, index, type);
+          if (data === null || data === '' || data === undefined) {
+            this.toastrService.warning(
+              'No users found with entered details, Kindly enter correct details!',
+              'Warning'
+            );
+          } else if (flag) {
+            this.toastrService.warning('Duplicate Email id.', 'Warning');
+            this.form.controls['tag'].setValue('');
+          } else {
+            this.addTag(data, index, type);
+            this.form.controls['tag'].setValue('');
+          }
+        });
+      } else {
+        let invalidMailList: any = [];
+        emails.forEach((el: any) => {
+          this.getUserDet(el).then((data: any) => {
+            if (data !== null) {
+              let flag = this.checkDuplicateEmailTag(data, index, type);
+              if (flag) {
+                this.toastrService.warning('Duplicate Email id.', 'Warning');
+                this.form.controls['tag'].setValue('');
+              } else {
+                this.addTag(data, index, type);
+                this.form.controls['tag'].setValue('');
+              }
+            } else {
+              // this.pageService.showWarning('No users found with entered details, Kindly enter correct details!');
+              invalidMailList.push(el);
+              this.toastrService.warning(
+                'No users found with entered detail : ' +
+                  invalidMailList +
+                  ', Kindly enter correct details!',
+                'Warning'
+              );
+            }
+          });
+        });
+      }
+      this.form.controls['tag'].setValue('');
+    } else if (event.code === 'Space' || event.code === 'Enter') {
+      let validEmail = emailRegex.test(inputValue);
+      if (validEmail) {
+        let flag = this.checkDuplicateEmailTag(inputValue, index, type);
+        if (flag) {
+          this.toastrService.warning('Duplicate Email id.', 'Warning');
+          this.form.controls['tag'].setValue('');
+        } else {
+          this.getUserDet(inputValue).then((data: string) => {
+            if (data === null || data === '' || data === undefined) {
+              this.toastrService.warning(
+                'No users found with entered details, Kindly enter correct details!',
+                'Warning'
+              );
+            } else {
+              this.addTag(data, index, type);
+              this.form.controls['tag'].setValue('');
+            }
+          });
+          this.form.controls['tag'].setValue('');
+        }
+      } else {
+        this.getUserDet(inputValue).then((data: any) => {
+          if (data !== null) {
+            let flag = this.checkDuplicateEmailTag(data, index, type);
+            if (flag) {
+              this.toastrService.warning('Duplicate Email id.', 'Warning');
+              this.form.controls['tag'].setValue('');
+            } else {
+              this.addTag(data, index, type);
+              this.form.controls['tag'].setValue('');
+            }
+          } else {
+            this.toastrService.warning(
+              'No users found with entered details, Kindly enter correct details!',
+              'Warning'
+            );
+          }
+        });
+        this.form.controls['tag'].setValue('');
+      }
+    }
+  }
+  indexItem: any;
+  listIndex(index: any) {
+    this.indexItem = index;
+  }
+  /*Changes Flag*/
+  projectDefChangeFlag: boolean = false;
+  highLevelTargetChangeFlag: boolean = false;
+  componentBreakupChangeFlag: boolean = false;
+  voltageRailGroupChangeFlag: boolean = false;
+  pathToGoalChangeFlag: boolean = false;
+  keyContactChangeFlag: boolean = false;
+  valueChange(arg: string) {
+    if (arg === 'KPI') {
+      this.projectDefChangeFlag = true;
+    } else if (arg === 'Type') {
+      // this.projectDefChangeFlag = true;
+    } else if (arg === 'UOMName') {
+      this.projectDefChangeFlag = true;
+    } else if (arg === 'Comments') {
+      this.projectDefChangeFlag = true;
+    } else if (
+      arg === 'HLT Target' ||
+      arg === 'HLT UOMName' ||
+      arg === 'HLT VRConstant' ||
+      arg === 'HLT JellyBeans' ||
+      arg === 'HLT Comments'
+    ) {
+      this.highLevelTargetChangeFlag = true;
+    } else if (
+      arg === 'CB Target' ||
+      arg === 'CB UOMName' ||
+      arg === 'CB Comments'
+    ) {
+      this.componentBreakupChangeFlag = true;
+    } else if (
+      arg === 'VRG Component' ||
+      arg === 'VRG Alias' ||
+      arg === 'VRG Check'
+    ) {
+      this.voltageRailGroupChangeFlag = true;
+    } else if (arg === 'PTG Power Save') {
+      this.pathToGoalChangeFlag = true;
+    } else if (
+      arg === 'SIV Team' ||
+      arg === 'IPDL Team' ||
+      arg === 'FPDL Team'
+    ) {
+      this.keyContactChangeFlag = true;
+    }
+  }
+
+  removeTag(tag: any, index: any, type: string): void {
+    if (!!tag) {
+      if (type === 'publish') {
+        this.contact.publishReportDistributionList.splice(index, 1);
+      } else if (type === 'siv') {
+        this.contact.SIVExecutionTeamList.splice(index, 1);
+      } else if (type === 'interm') {
+        this.contact.IntermediateList.splice(index, 1);
+      }
+    } else {
+      if (type === 'publish') {
+        this.contact.publishReportDistributionList.splice(-1);
+      } else if (type === 'siv') {
+        this.contact.SIVExecutionTeamList.splice(-1);
+      } else if (type === 'interm') {
+        this.contact.IntermediateList.splice(-1);
+      }
+    }
   }
 }
