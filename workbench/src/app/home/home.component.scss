@@ -22,6 +22,11 @@
             // .col-6{
             //     width: 99%;
             // }
+            .no_data_block_display{
+                margin-top: -327px;
+                text-align: center;
+                color: #9eacb4;
+            }
             .semi-pie-chart{
                 border: 2px solid #e7ecf1;      
                 // margin-left: 10px;
@@ -317,11 +322,15 @@
     
                 }
                 .caption-title{
-                    margin-left: 19%;
+                    margin-left: 20%;
                     font-size: 19px;
                     color: #9eacb4;
                     margin-bottom: -10px;
                     // font-weight: 600;
+                    .chart-heading-loc{
+                        margin-left: 5%;
+                    }
+                    
                 }
                 .chart-title-heading{
                     margin-left: 18%;
