@@ -832,28 +832,33 @@ export class VPGLabComponent implements OnInit, OnChanges {
       };
       this.dataSvc.saveBooking(bookingData).subscribe((res) => {
         if (res) {
-          this.toastrService.success(
-            'Allocation Request Added Successfully',
-            'Success!'
-          );
-          this.getLabDetails();
-          this.cart = {
-            selectedSeatsNo: [],
+          if (res == 'Benches Not Available') {
+            this.toastrService.warning('Benches Not Available', 'Warning!');
+            this.router.navigate(['/allocation']);
+          } else {
+            this.toastrService.success(
+              'Allocation Request Added Successfully',
+              'Success!'
+            );
+            this.getLabDetails();
+            this.cart = {
+              selectedSeatsNo: [],
 
-            selectedSeats: [],
+              selectedSeats: [],
 
-            seatstoStore: [],
+              seatstoStore: [],
 
-            seatsLabelNo: [],
+              seatsLabelNo: [],
 
-            totalamount: 0,
+              totalamount: 0,
 
-            cartId: '',
+              cartId: '',
 
-            eventId: 0,
-          };
-          this.contact.SIVExecutionTeamList = [];
-          this.closePopup();
+              eventId: 0,
+            };
+            this.contact.SIVExecutionTeamList = [];
+            this.closePopup();
+          }
         }
       });
     }
@@ -1123,6 +1128,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
   }
   deAllocateBenchList: any = [];
   deAllocateBenchLabelList: any = [];
+  deSelectBenchAllocationList: any = [];
   deSelectSeat(seatObject: any) {
     debugger;
     /*  if (seatObject?.AllocationData[0]?.who[0]?.WWID) {
@@ -1132,6 +1138,13 @@ export class VPGLabComponent implements OnInit, OnChanges {
 
       this.deAllocateBenchList.push(seatObject?.BenchName);
       this.deAllocateBenchLabelList.push(seatObject?.labelNo);
+      this.deSelectBenchAllocationList.push(seatObject?.AllocationData[0]?.id);
+      /*  this.deSelectBenchList.push({
+        id: seatObject?.AllocationData[0]?.id,
+        LabName: this.defaultValue,
+        Reason: this.reason,
+        BenchData: [seatObject?.labelNo],
+      }); */
     } else if (
       seatObject.status == 'deselected' &&
       seatObject.IsAllocated === true
@@ -1142,33 +1155,44 @@ export class VPGLabComponent implements OnInit, OnChanges {
         // only splice array when item is found
         this.deAllocateBenchList.splice(index, 1); // 2nd parameter means remove one item only
         this.deAllocateBenchLabelList.splice(index, 1); // 2nd parameter means remove one item only
+        this.deSelectBenchAllocationList.splice(index, 1);
       }
     }
   }
+  deSelectBenchList: any = [];
   deallocateBooking() {
-    let deallocationData = [
+    debugger;
+    /*  let deallocationData = [
       {
         id: this.labId,
         LabName: this.defaultValue,
         BenchData: this.deAllocateBenchLabelList,
         Reason: this.reason,
       },
-    ];
-    this.dataSvc.deallocationBooking(deallocationData).subscribe((res) => {
-      if (res) {
-        //  this.skuList = res;
-        //  this.modalReference.close();
-        this.toastrService.success(
-          'Deallocation Request Added Successfully',
-          'Success!'
-        );
-        this.reason = '';
-        this.getLabDetails();
-        this.deAllocateBenchList = [];
-        this.deAllocateBenchLabelList = [];
-        this.closePopup();
-      }
+    ]; */
+    this.deAllocateBenchLabelList.forEach((element: any, index: any) => {
+      this.deSelectBenchList.push({
+        id: this.deSelectBenchAllocationList[index],
+        LabName: this.defaultValue,
+        Reason: this.reason,
+        BenchData: [element],
+      });
     });
+    this.dataSvc
+      .deallocationBooking(this.deSelectBenchList)
+      .subscribe((res) => {
+        if (res) {
+          this.toastrService.success(
+            'Deallocation Request Added Successfully',
+            'Success!'
+          );
+          this.reason = '';
+          this.getLabDetails();
+          this.deAllocateBenchList = [];
+          this.deAllocateBenchLabelList = [];
+          this.closePopup();
+        }
+      });
   }
   typeChart = 'Location chart';
   // *** chart options according to click *** //
