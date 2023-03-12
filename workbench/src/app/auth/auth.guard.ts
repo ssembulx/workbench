@@ -90,7 +90,7 @@ export class AuthGuard implements CanActivate {
       } else {
         this.service.authenticationDone(true);
         this.service.SetUser(resAuth);
-        this.router.navigate(['/access-ristrict']);
+        this.router.navigate(['/access-restrict']);
         return false;
       }
     } else {

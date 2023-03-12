@@ -15,6 +15,7 @@ import { fitAngleToRange } from '@amcharts/amcharts5/.internal/core/util/Math';
 import { left, right } from '@popperjs/core';
 
 import * as am5plugins_exporting from "@amcharts/amcharts5/plugins/exporting";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -55,8 +56,10 @@ Value : any = false;
   labwiseChartLoader = false;
   SIVtoggle: boolean = true;
   ChartTitle : any;
-
-  constructor(private service: SummaryService) {}
+  Count : any = 0;
+  team_program : any = false;
+  chartlength : any = true;
+  constructor(private service: SummaryService, private toastrService: ToastrService) {}
 
   chartData = [
     { slno: 1, data: "Non-SIV Allocated", value: "50"},
@@ -178,7 +181,7 @@ Value : any = false;
    })
   }
     //****Calling API for summary pie chart ***//
-    OverallAvailability() {
+    OverallAvailability(charttype : any) {
       debugger
       this.labwiseChartLoader = false;
       // this.service.OverallAvailability().subscribe((res) => {
@@ -188,42 +191,73 @@ Value : any = false;
       //   //this.getFullPiechart();
       //   //this.pieChartLoader = true;
       // });
-      this.service.getDrillDownChartData().subscribe((res) => {
-        if(!this.sliceHide){
-          let arr : any = [];
-          arr = res;
-          let arr1 : any = [];
-          for(let i=0,j=0;i<arr.length;i++){
-            if(arr[i].category != 'Non-SIV')
-            {
-              arr1[j] = arr[i];
-              j++;
+      if(charttype == 'Location chart'){
+        this.Count = this.Count + 1;
+        this.service.getDrillDownChartData().subscribe((res) => {
+          if(this.sliceHide){
+            let arr : any = [];
+            arr = res;
+            let arr1 : any = [];
+            for(let i=0,j=0;i<arr.length;i++){
+              if(arr[i].category != 'Non-SIV')
+              {
+                arr1[j] = arr[i];
+                j++;
+              }
+              
             }
+            this.ChartData = arr1;
+            if(this.ChartData.length == 0){
+              this.chartlength = false
+            }
+            else{
+              this.chartlength = true;
+            }
+
+            let obj : any = [];
+            var totalCount : any = 0;
+            for(let i=0; i<this.ChartData.length;i++){
+              obj[i] = this.ChartData[i].value;
+              totalCount = totalCount + obj[i];
+            }
+            this.getFullPiechart(totalCount,this.typeChart);
+            this.labwiseChartLoader = true;
           }
-          this.ChartData = arr1;
-          let obj : any = [];
-          var totalCount : any = 0;
-          for(let i=0; i<this.ChartData.length;i++){
-            obj[i] = this.ChartData[i].value;
-            totalCount = totalCount + obj[i];
+          else{
+            this.ChartData = res;
+            if(this.ChartData.length == 0){
+              this.chartlength = false
+            }
+            else{
+              this.chartlength = true;
+            }
+            let obj : any = [];
+            var totalCount : any = 0;
+            for(let i=0; i<this.ChartData.length;i++){
+              obj[i] = this.ChartData[i].value;
+              totalCount = totalCount + obj[i];
+            }
+            this.getFullPiechart(totalCount,this.typeChart);
+            this.labwiseChartLoader = true;
           }
-          this.getFullPiechart(totalCount);
-          this.labwiseChartLoader = true;
-        }
-        else{
-          this.ChartData = res;
-          let obj : any = [];
-          var totalCount : any = 0;
-          for(let i=0; i<this.ChartData.length;i++){
-            obj[i] = this.ChartData[i].value;
-            totalCount = totalCount + obj[i];
-          }
-          this.getFullPiechart(totalCount);
-          this.labwiseChartLoader = true;
-        }
-        //this.labwiseChartLoader = true;
-        
-      })
+          //this.labwiseChartLoader = true;
+          
+        })
+      }
+      else if(charttype == 'Program chart'){
+        this.ProgramChart();
+      }
+      else if(charttype == 'Vendor chart'){
+        this.LabVendorSummary();
+      }
+      else if(charttype == 'Team chart'){
+        this.TeamChart();
+      }
+      else if(charttype == 'Team/Program chart'){
+        this.Count = this.Count + 1;
+        this.LabProgramSummary();
+      }
+      
     }
      // **** Calling Location Chart API ****//
     Locationchart(){
@@ -233,13 +267,19 @@ Value : any = false;
         this.Value = true;
         //breakdown = res.Location;
         this.ChartData = res.Location;
+        if(this.ChartData.length == 0){
+          this.chartlength = false
+        }
+        else{
+          this.chartlength = true;
+        }
         let obj : any = [];
         var totalCount : any = 0;
         for(let i=0; i<this.ChartData.length;i++){
           obj[i] = this.ChartData[i].value;
           totalCount = totalCount + obj[i];
         }
-        this.getFullPiechart(totalCount);
+        this.getFullPiechart(totalCount,this.typeChart);
         this.labwiseChartLoader = true;
        })
     }
@@ -251,6 +291,12 @@ Value : any = false;
       this.labwiseChartLoader = false;
       this.service.LabProgramSummary().subscribe(res => {
         this.ChartData = res;
+        if(this.ChartData.length == 0){
+          this.chartlength = false
+        }
+        else{
+          this.chartlength = true;
+        }
         console.log("stacked chart",this.ChartData)
         // this.ChartTitle = "Program/Team Wise Chart";
         let obj : any = [];
@@ -259,23 +305,38 @@ Value : any = false;
           obj[i] = this.ChartData[i].value;
           totalCount = totalCount + obj[i];
         }
-        this.getFullPiechart(totalCount);
+        this.getFullPiechart(totalCount,this.typeChart);
+        this.ProgramVendorSummary();
+        this.ProgramLocationSummary();
         this.labwiseChartLoader = true;
        })
     }
 
-    // ProgramLocationSummary(){
-    //   debugger
-    //   //this.programChartLoader = false;
-    //   this.labwiseChartLoader = false;
-    //   this.service.LabProgramSummary().subscribe(res => {
-    //     this.ChartData = res;
-    //     console.log("stacked chart",this.ChartData)
-    //     this.ChartTitle = "Program/Location Wise Chart";
-    //     this.getFullPiechartLocation();
-    //     this.labwiseChartLoader = true;
-    //    })
-    // }
+    //*** Calling program v/s location chart ****/
+    ProgramLocationSummary(){
+      debugger
+      //this.programChartLoader = false;
+      this.labwiseChartLoader = false;
+      this.service.getProgramChartData().subscribe(res => {
+        this.ChartData = res;
+        if(this.ChartData.length == 0){
+          this.chartlength = false
+        }
+        else{
+          this.chartlength = true;
+        }
+        console.log("stacked chart",this.ChartData)
+        // this.ChartTitle = "Program/Location Wise Chart";
+        let obj : any = [];
+        var totalCount : any = 0;
+        for(let i=0; i<this.ChartData.length;i++){
+          obj[i] = this.ChartData[i].value;
+          totalCount = totalCount + obj[i];
+        }
+        this.getFullPiechartLocation(totalCount);
+        this.labwiseChartLoader = true;
+       })
+    }
 
     //*** Calling program v/s Vendor chart ****/
     ProgramVendorSummary(){
@@ -284,6 +345,12 @@ Value : any = false;
       this.labwiseChartLoader = false;
       this.service.ProgramVendorSummary().subscribe(res => {
         this.ChartData = res;
+        if(this.ChartData.length == 0){
+          this.chartlength = false
+        }
+        else{
+          this.chartlength = true;
+        }
         console.log("stacked chart",this.ChartData)
         // this.ChartTitle = "Program/Vendor Wise Chart";
         let obj : any = [];
@@ -303,13 +370,19 @@ Value : any = false;
       this.labwiseChartLoader = false;
       this.service.LabVendorSummary().subscribe((res) => {
         this.ChartData = res;
+        if(this.ChartData.length == 0){
+          this.chartlength = false
+        }
+        else{
+          this.chartlength = true;
+        }
         let obj : any = [];
         var totalCount : any = 0;
         for(let i=0; i<this.ChartData.length;i++){
           obj[i] = this.ChartData[i].value;
           totalCount = totalCount + obj[i];
         }
-      this.getFullPiechart(totalCount);
+      this.getFullPiechart(totalCount,this.typeChart);
         //console.log('stacked chart', this.ChartData);
         //this.getFullPiechart();
         this.labwiseChartLoader = true;
@@ -322,6 +395,12 @@ Value : any = false;
       this.labwiseChartLoader = false;
       this.service.getTeamChartData().subscribe(res => {
         this.ChartData = res;
+        if(this.ChartData.length == 0){
+          this.chartlength = false
+        }
+        else{
+          this.chartlength = true;
+        }
         //console.log("stacked chart",this.ChartData)
         let obj : any = [];
         var totalCount : any = 0;
@@ -330,7 +409,7 @@ Value : any = false;
           totalCount = totalCount + obj[i];
         }
         console.log("TotalCount",totalCount)
-        this.getFullPiechart(totalCount);
+        this.getFullPiechart(totalCount,this.typeChart);
         this.labwiseChartLoader = true;
        })
     }
@@ -340,6 +419,12 @@ Value : any = false;
       this.labwiseChartLoader = false;
       this.service.getProgramChartData().subscribe(res => {
         this.ChartData = res;
+        if(this.ChartData.length == 0){
+          this.chartlength = false
+        }
+        else{
+          this.chartlength = true;
+        }
         //console.log("stacked chart",this.ChartData)
         let obj : any = [];
           var totalCount : any = 0;
@@ -347,18 +432,20 @@ Value : any = false;
             obj[i] = this.ChartData[i].value;
             totalCount = totalCount + obj[i];
           }
-        this.getFullPiechart(totalCount);
+        this.getFullPiechart(totalCount,this.typeChart);
         this.labwiseChartLoader = true;
        })
     }
 
     // **** Full Pie-Chart Function ****//
-    getFullPiechart(totalCount:any){
-      am5.array.each(am5.registry.rootElements, function(root) {
-        if (root.dom.id == "chartdiv") {
-          root.dispose();
-        }
-      });
+    getFullPiechart(totalCount:any, chartType: any){
+      debugger
+          am5.array.each(am5.registry.rootElements, function(root) {
+            if (root?.dom.id == "chartdiv") {
+              root.dispose();
+            }
+          });
+         
       // Create root element
       // https://www.amcharts.com/docs/v5/getting-started/#Root_element
       let root = am5.Root.new("chartdiv");
@@ -509,7 +596,7 @@ Value : any = false;
         fontWeight: "400",
         textAlign: "center",
         x: am5.percent(0),
-        y: am5.percent(-3),
+        y: am5.percent(-7),
         centerX: am5.percent(50),
         paddingTop: -160,
         paddingBottom: 0,
@@ -684,22 +771,29 @@ Value : any = false;
 
 
    // **** for (download)exporting chart **** // 
+   if(this.chartlength){
     var exporting = am5plugins_exporting.Exporting.new(root, {
-      menu: am5plugins_exporting.ExportingMenu.new(root, {}),
-     });
-    }
+        menu: am5plugins_exporting.ExportingMenu.new(root, {}),
+       });
+      }
+  
+   }
+    // var exporting = am5plugins_exporting.Exporting.new(root, {
+    //   menu: am5plugins_exporting.ExportingMenu.new(root, {}),
+    //  });
+    // }
 
      // **** Full Pie-Chart Function ****//
-     getFullPiechartLocation(){
+     getFullPiechartLocation(totalCount:any){
       debugger
       am5.array.each(am5.registry.rootElements, function(root) {
-        if (root.dom.id == "chartdiv1") {
+        if (root?.dom.id == "chartdiv2") {
           root.dispose();
         }
       });
       // Create root element
       // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-      let root = am5.Root.new("chartdiv1");
+      let root = am5.Root.new("chartdiv2");
       root._logo.dispose();
     
       
@@ -756,9 +850,12 @@ Value : any = false;
         y : am5.percent(0),
         
       }));
+
       yRenderer.grid.template.setAll({
-        location: 0
+        location: 0,
       })
+
+      
       
       let xAxis = columnChart.xAxes.push(am5xy.ValueAxis.new(root, {
         renderer: am5xy.AxisRendererX.new(root, {
@@ -902,13 +999,21 @@ Value : any = false;
       
         let color = slice.get("fill")
 
+        // label1.setAll({
+        //   fill: color,
+        //   text: slice.dataItem.get("value"),
+        // });
+      
+        // label2.set("text", slice.dataItem.get("category"));
+      
         label1.setAll({
           fill: color,
-          text: slice.dataItem.get("value"),
+          text: totalCount,
         });
       
-        label2.set("text", slice.dataItem.get("category"));
-      
+        // label2.set("text", slice.dataItem.get("category"));
+        label2.set("text", "Total");
+
         columnSeries.columns.template.setAll({
           fill: color,
           stroke: slice.get("fill")
@@ -1021,15 +1126,17 @@ Value : any = false;
 
 
    // **** for (download)exporting chart **** // 
+   if(this.chartlength){
     var exporting = am5plugins_exporting.Exporting.new(root, {
       menu: am5plugins_exporting.ExportingMenu.new(root, {}),
      });
     }
+  }
 
      // **** Full Pie-Chart Function ****//
      getFullPiechartVendor(totalCount:any){
       am5.array.each(am5.registry.rootElements, function(root) {
-        if (root.dom.id == "chartdiv1") {
+        if (root?.dom.id == "chartdiv1") {
           root.dispose();
         }
       });
@@ -1358,10 +1465,14 @@ Value : any = false;
 
 
    // **** for (download)exporting chart **** // 
+   if(this.chartlength){
     var exporting = am5plugins_exporting.Exporting.new(root, {
       menu: am5plugins_exporting.ExportingMenu.new(root, {}),
      });
     }
+  }
+
+    
    //**** Chart data ****//
   //  getSemiPiechart() {
   //   var root = am5.Root.new('chartdiv');
@@ -1805,39 +1916,49 @@ Value : any = false;
 
   // *** chart options according to click *** //
   Options(status: any) {
-    // if (status == 'lab'){
-    //   this.typeChart = 'Lab Chart';
-    //   this.OverallAvailability()
-    // }
-     if (status == 'team'){
+     if (status == 'team' && this.fullcircle){
       this.typeChart = 'Team chart';
       // this.ChartTitle = "Team Wise Chart";
       this.SIVtoggle = false;
+      this.team_program = false;
       this.TeamChart()
     }
-    else if (status == 'team/program'){
+    else if (status == 'team/program' && this.fullcircle){
       this.typeChart = 'Team/Program chart';
+      this.Count = 0;
       // this.ChartTitle = "Program/Team Wise Chart";
       this.SIVtoggle = false;
+      this.team_program = true;
       this.LabProgramSummary();
-      // this.ProgramLocationSummary();
-      this.ProgramVendorSummary();
+      // this.ProgramLocationSummary(); 
     }
     else if (status == 'location') {
       this.typeChart = 'Location chart';
       // this.ChartTitle = "Location Wise Chart";
       this.SIVtoggle = true;
-      this.OverallAvailability();
-    } else if (status == 'program') {
+      this.team_program = false;
+      this.OverallAvailability(this.typeChart);
+    } 
+    else if (status == 'program' && this.fullcircle) {
       this.typeChart = 'Program chart';
       // this.ChartTitle = "Program Wise Chart";
       this.SIVtoggle = false;
+      this.team_program = false;
       this.ProgramChart();
-    } else if (status == 'vendor') {
+    } 
+    else if (status == 'vendor' && this.fullcircle) {
       this.typeChart = 'Vendor chart';
       // this.ChartTitle = "Vendor Wise Chart";
+      this.team_program = false;
       this.SIVtoggle = false;
       this.LabVendorSummary()
+    }
+    else{
+      // alert("please turn on siv toggle")
+      this.toastrService.warning(
+        'Please turn on SIV toggle button',
+        'Warning!'
+      );
     }
   }
 
@@ -1866,9 +1987,11 @@ Value : any = false;
     if(!this.fullcircle){
       // this.getSemiPiechart()
       this.sliceHide = false;
+      this.typeChart = 'Location chart';
+      // this.OverallAvailability(this.typeChart);
       setTimeout(() => {
         debugger
-        this.OverallAvailability();
+        this.OverallAvailability(this.typeChart);
       }, 100);
     }
     else{
@@ -1876,7 +1999,13 @@ Value : any = false;
        this.sliceHide = true;
       this.fullcircle = true
       this.type = "pie chart";
-      this.OverallAvailability();
+      if(this.team_program == false){
+        this.OverallAvailability('Location chart');
+      }
+      else{
+        this.OverallAvailability(this.typeChart);
+      }
+      
       //this.OverallAvailability();
      }
   }
