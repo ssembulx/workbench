@@ -51,7 +51,7 @@ export class AllocationComponent implements OnInit {
     config.size = 'lg';
   }
   locationList: any;
-  defaultValue = 'SRR-2-CRD-4';
+  defaultValue = 'SRR-1-CRD-14';
   labDetails: any;
   parentLabDetailsAdded(eventData: any) {
     this.labDetails = eventData;

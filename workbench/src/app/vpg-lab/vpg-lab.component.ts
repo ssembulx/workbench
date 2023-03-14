@@ -186,7 +186,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
        this.getLabDetails();
     } */
     /* let lab = changes?.['defaultValue']?.['currentValue'];
-    if (lab.toString() == 'SRR-2-CRD-4') {
+    if (lab.toString() == 'SRR-1-TOE-C-Wing') {
       this.labViewLoader = true;
       this.seatmap = [];
       this.seatConfig = [
@@ -195,123 +195,224 @@ export class VPGLabComponent implements OnInit, OnChanges {
           seat_map: [
             {
               seat_label: 'A',
-              layout: 'gggggggg___',
-              direction: 'dddddddd___',
-              labelNo: 'A8,A7,A6,A5,A4,A3,A2,A1,_,_,_',
-              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,_,_',
+              layout: 'ggggggg_gggg_____',
+              direction: 'dddddddddddddddddd',
+              labelNo:
+                'R2500,R2499,R2498,R2497,R2496,R2495,R2494,_,R2493,R2492,R2491,R2490,_,_,_,_,_',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,_,_,_,_',
+              IsSpace: false,
             },
             {
               seat_label: 'B',
-              layout: 'gggggggg___',
-              direction: 'uuuuuuuu___',
-              labelNo: 'A9,A10,A11,A12,A13,A14,A15,A16,_,_,_',
-              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,_,_',
+              layout: 'ggggggg_gggg_____',
+              direction: 'dddddddddddddddddd',
+              labelNo:
+                'R2473,R2474,R2475,R2476,R2477,R2478,R2479,_,R2480,R2481,R2482,R2483,_,_,_,_,_',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,_,_,_,_',
+              IsSpace: true,
             },
             {
               seat_label: 'C',
-              layout: 'ggggggggg__',
-              direction: 'uuuuuuuuu__',
-              labelNo: 'B9,B8,B7,B6,B5,B4,B3,B2,B1,_,_',
-              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,_',
+              layout: 'ggggggg_gggg_____',
+              direction: 'dddddddddddddddddd',
+              labelNo:
+                'Q2472,Q2471,Q2470,Q2469,Q2468,Q2467,Q2466,_,Q2465,Q2464,Q2463,Q2462,_,_,_,_,_',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,_,_,_,_',
+              IsSpace: false,
             },
             {
               seat_label: 'D',
-              layout: 'ggggggggggg',
-              direction: 'ddddddddddd',
-              labelNo: 'B10,B11,B12,B13,B14,B15,B16,B17,B18,B19,B20',
-              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
+              layout: 'ggggggg_gggg_____',
+              direction: 'dddddddddddddddddd',
+              labelNo:
+                'Q2446,Q2447,Q2448,Q2449,Q2450,Q2451,Q2452,_,Q2453,Q2454,Q2455,Q2456,_,_,_,_,_',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,_,_,_,_',
+              IsSpace: true,
             },
             {
               seat_label: 'E',
-              layout: 'ggggg_ggggg',
-              direction: 'uuuuu_uuuuu',
-              labelNo: 'C9,C8,C7,C6,C5,_,C4,C3,C2,C1,C0',
-              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
+              layout: 'ggggggg_ggggggggg',
+              direction: 'ddddddddddddddddd',
+              labelNo:
+                'P2445,P2444,P2443,P2442,P2441,P2440,P2439,_,P2438,P2437,P2436,P2435,P2434,P2433,P2432,P2089,P2092',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
+              IsSpace: false,
             },
             {
               seat_label: 'F',
-              layout: 'ggggggggggg',
-              direction: 'ddddddddddd',
-              labelNo: 'C10,C11,C12,C13,C14,C15,C16,C17,C18,C19,C20',
-              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+              layout: '________gggg___gg',
+              direction: 'ddddddddddddddddd',
+              labelNo: '_,_,_,_,_,_,_,_,O,O,O,P2428/A,_,_,_,P2088,P2091',
+              Team: '_,_,_,_,_,_,_,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,_,_,Non-SIV,Non-SIV',
+              IsSpace: false,
             },
             {
               seat_label: 'G',
-              layout: 'ggggggggggg',
-              direction: 'ddddddddddd',
-              labelNo: 'D10,D9,D8,D7,D6,D5,D4,D3,D2,D1,D0',
-              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+              layout: 'ggggggg_ggggggggg',
+              direction: 'ddddddddddddddddd',
+              labelNo:
+                'P2418,P2419,P2420,P2421,P2422,P2423,P2424,_,P2425,P2426,P2427,P2428,P2429,P2430,P2431,P2087,P2090',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
+              IsSpace: true,
             },
             {
               seat_label: 'H',
-              layout: 'ggggggggggg',
-              direction: 'uuuuuuuuuuu',
-              labelNo: 'D11,D12,D13,D14,D15,D16,D17,D18,D19,D20,D21',
-              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+              layout: 'ggggggg_ggggggggg',
+              direction: 'ddddddddddddddddd',
+              labelNo:
+                'O2417,O2416,O2415,O2414,O2413,O2412,O2411,_,O2410,O2409,O2408,O2407,O2406,O2405,O2404,O2083,O2086',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
+              IsSpace: false,
             },
             {
               seat_label: 'I',
-              layout: 'ggggg______',
-              direction: 'uuuuu______',
-              labelNo: 'D22,D23,D24,D25,D26,_,_,_,_,_,_',
-              Team: 'SIV,SIV,SIV,SIV,SIV,_,_,_,_,_,_',
+              layout: '_______________gg',
+              direction: 'ddddddddddddddddd',
+              labelNo: '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,O2082,O2085',
+              Team: '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,Non-SIV,Non-SIV',
+              IsSpace: false,
             },
             {
               seat_label: 'J',
-              layout: 'gggg_gggggg',
-              direction: 'dddd_dddddd',
-              labelNo: 'E11,E10,E9,E8,_,E6,E5,E4,E3,E2,E1',
-              Team: 'SIV,SIV,SIV,SIV,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
+              layout: 'ggggggg_ggggggggg',
+              direction: 'ddddddddddddddddd',
+              labelNo:
+                'O2390,O2391,O2392,O2393,O2394,O2395,O2396,_,O2397,O2398,O2399,O2400,O2401,O2402,O2403,O2081,O2084',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
+              IsSpace: true,
             },
             {
               seat_label: 'K',
-              layout: 'ggggggggggg',
-              direction: 'ddddddddddd',
-              labelNo: 'E12,E13,E14,E15,E16,E17,E18,E19,E20,E21,E22',
-              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+              layout: 'ggggggg_ggggggggg',
+              direction: 'ddddddddddddddddd',
+              labelNo:
+                'N2389,N2388,N2387,N2386,N2385,N2384,N2383,_,N2382,N2381,N2380,N2379,N2378,N2377,N2376,N2077,N2080',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
+              IsSpace: false,
             },
             {
               seat_label: 'L',
-              layout: 'ggggggggggg',
-              direction: 'ddddddddddd',
-              labelNo: 'F11,F10,F9,F8,F7,F6,F5,F4,F3,F2,F1',
-              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+              layout: '_______________gg',
+              direction: 'ddddddddddddddddd',
+              labelNo: '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,N2076,N2079',
+              Team: '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,Non-SIV,Non-SIV',
+              IsSpace: false,
             },
             {
               seat_label: 'M',
-              layout: 'ggggg_ggggg',
-              direction: 'ddddd_ddddd',
-              labelNo: 'F12,F13,F14,F15,F16,_,F17,F18,F19,F20,F21',
-              Team: 'SIV,SIV,SIV,SIV,SIV,_,SIV,SIV,SIV,SIV,SIV',
+              layout: 'ggggggg_ggggggggg',
+              direction: 'ddddddddddddddddd',
+              labelNo:
+                'N2362,N2363,N2364,N2365,N2366,N2367,N2368,_,N2369,N2370,N2371,N2372,N2373,N2374,N2375,N2075,N2078',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
+              IsSpace: true,
             },
             {
               seat_label: 'N',
-              layout: 'ggggggggggg',
-              direction: 'ddddddddddd',
-              labelNo: 'G11,G10,G9,G8,G7,G6,G5,G4,G3,G2,G1',
-              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+              layout: 'ggggggg_ggggggggg',
+              direction: 'ddddddddddddddddd',
+              labelNo:
+                'M2361,M2360,M2359,M2358,M2357,M2356,M2355,_,M2354,M2353,M2352,M2351,M2350,M2349,M2348,M2071,M2074',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,SIV,SIV,SIV,SIV,SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV',
+              IsSpace: false,
+            },
+            {
+              seat_label: 'O',
+              layout: '_______________gg',
+              direction: 'ddddddddddddddddd',
+              labelNo: '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,M2070,M2073',
+              Team: '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,Non-SIV,Non-SIV',
+              IsSpace: false,
             },
 
             {
-              seat_label: 'O',
-              layout: 'ggggggggggg',
-              direction: 'ddddddddddd',
-              labelNo: 'G12,G13,G14,G15,G16,G17,G18,G19,G20,G21,G22',
-              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
-            },
-            {
               seat_label: 'P',
-              layout: 'ggggggggggg',
-              direction: 'ddddddddddd',
-              labelNo: 'H11,H10,H9,H8,H7,H6,H5,H4,H3,H2,H1',
-              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+              layout: 'ggggggg_ggggggggg',
+              direction: 'ddddddddddddddddd',
+              labelNo:
+                'M2334,M2335,M2336,M2337,M2338,M2339,M2340,_,M2341,M2342,M2343,M2344,M2345,M2346,M2347,M2069,M2072',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,SIV,SIV,SIV,SIV,SIV,SIV,Non-SIV,Non-SIV,Non-SIV',
+              IsSpace: true,
             },
             {
               seat_label: 'Q',
-              layout: 'ggggggggggg',
-              direction: 'ddddddddddd',
-              labelNo: 'H12,H13,H14,H15,H16,H17,H18,H19,H20,H21,H22',
-              Team: 'SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV,SIV',
+              layout: 'ggggggg_ggggggggg',
+              direction: 'ddddddddddddddddd',
+              labelNo:
+                'L2333,L2332,L2331,L2330,L2329,L2328,L2327,_,L2326,L2325,L2324,L2323,L2322,L2321,L2320,L2065,L2068',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,SIV,SIV,SIV,SIV,SIV,SIV,SIV,Non-SIV,Non-SIV',
+              IsSpace: false,
+            },
+            {
+              seat_label: 'R',
+              layout: '_______________gg',
+              direction: 'ddddddddddddddddd',
+              labelNo: '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,L2064,L2067',
+              Team: '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,Non-SIV,Non-SIV',
+              IsSpace: false,
+            },
+
+            {
+              seat_label: 'S',
+              layout: 'ggggggg_ggggggggg',
+              direction: 'ddddddddddddddddd',
+              labelNo:
+                'L2306,L2307,L2308,L2309,L2310,L2311,L2312,_,L2313,L2314,L2315,L2316,L2317,L2318,L2319,L2063,L2066',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,SIV,SIV,SIV,SIV,SIV,SIV,SIV,Non-SIV,Non-SIV',
+              IsSpace: true,
+            },
+            {
+              seat_label: 'T',
+              layout: 'ggggggg_ggggggggg',
+              direction: 'ddddddddddddddddd',
+              labelNo:
+                'K2305,K2304,K2303,K2302,K2301,K2300,K2299,_,Printer,K2298,K2297,K2296,K2295,K2294,K2293,K2059,K2062',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,Non-SIV,SIV,SIV,SIV,SIV,SIV,SIV,Non-SIV,Non-SIV',
+              IsSpace: false,
+            },
+            {
+              seat_label: 'U',
+              layout: '_______________gg',
+              direction: 'ddddddddddddddddd',
+              labelNo: '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,K2058,K2061',
+              Team: '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,Non-SIV,Non-SIV',
+              IsSpace: false,
+            },
+
+            {
+              seat_label: 'V',
+              layout: 'ggggggg_ggggggggg',
+              direction: 'ddddddddddddddddd',
+              labelNo:
+                'K2279,K2280,K2281,K2282,K2283,K2284,K2285,_,K2286,K2287,K2288,K2289,K2290,K2291,K2292,K2057,K2060',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,SIV,SIV,SIV,SIV,Non-SIV,SIV,SIV,Non-SIV,Non-SIV',
+              IsSpace: true,
+            },
+            {
+              seat_label: 'W',
+              layout: 'ggggggg_ggggggggg',
+              direction: 'ddddddddddddddddd',
+              labelNo:
+                'J2278,J2277,J2276,J2275,J2274,J2273,J2272,_,J2271,J2270,J2269,J2268,J2267,J2266,J2265,J2253,J2256',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,SIV,SIV,SIV,SIV,SIV,SIV,SIV,Non-SIV,Non-SIV',
+              IsSpace: false,
+            },
+            {
+              seat_label: 'X',
+              layout: '_______________gg',
+              direction: 'ddddddddddddddddd',
+              labelNo: '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,O,O',
+              Team: '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,Non-SIV,Non-SIV',
+              IsSpace: false,
+            },
+            {
+              seat_label: 'Y',
+              layout: 'ggggggg_ggggggggg',
+              direction: 'ddddddddddddddddd',
+              labelNo:
+                'J2251,J2252,J2253,J2254,J2255,J2256,J2257,_,J2258,J2259,J2260,J2261,J2262,J2263,J2264,J2254,J2255',
+              Team: 'Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,Non-SIV,_,SIV,SIV,Non-SIV,SIV,SIV,SIV,SIV,Non-SIV,Non-SIV',
+              IsSpace: true,
             },
           ],
         },
@@ -1217,12 +1318,13 @@ export class VPGLabComponent implements OnInit, OnChanges {
       /* let obj = {
         indentifier: arg,
       }; */
-      var obj = {
+      /*  var obj = {
         type: 'CorporateEmailTxt',
         values: arg,
-      };
+      }; */
+      var obj = { mail: arg };
       this.dataSvc
-        .getUserDetails(obj)
+        .ValidateUserMail(obj)
         .toPromise()
         .then(
           (res: any) => {
