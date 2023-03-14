@@ -1955,9 +1955,9 @@ Value : any = false;
     }
     else{
       // alert("please turn on siv toggle")
-      this.toastrService.warning(
-        'Please turn on SIV toggle button',
-        'Warning!'
+      this.toastrService.info(
+        'Please toggle SIV button to view this feature'
+        // 'Warning!'
       );
     }
   }
