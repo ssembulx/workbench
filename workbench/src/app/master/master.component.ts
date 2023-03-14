@@ -121,7 +121,7 @@ export class MasterComponent implements OnInit {
    
     this.modalReference.close();
     // **** to clearing the values *** //
-    // this.modal.vendor = '';
+    this.modal.vendor = '';
   }
 
   //**** Edit Row functionality for vendor ****//
@@ -151,7 +151,7 @@ export class MasterComponent implements OnInit {
     });
      this.modalReference.close();
      // **** to clearing the values *** //
-    //  this.modal.vendor = '';
+     this.modal.vendor = '';
    }
 
     //***** Calling Vendor Data API****//
@@ -181,7 +181,7 @@ export class MasterComponent implements OnInit {
     
     this.modalReference.close();
     // **** to clearing the values *** //
-    // this.modal.team = '';
+    this.modal.team = '';
   }
 
     
@@ -210,7 +210,7 @@ export class MasterComponent implements OnInit {
     //  })
      this.modalReference.close();
        // **** to clearing the values *** //
-      //  this.modal.team = '';
+       this.modal.team = '';
    }
 
 

@@ -2247,10 +2247,10 @@ $seat-unavailable-color: white;
     border: 0px;
 }
 
-::ng-deep .modal-dialog {
-    min-width: 640px!important;
-    max-width: 84vw!important;
-}
+// ::ng-deep .modal-dialog {
+//     min-width: 640px!important;
+//     max-width: 84vw!important;
+// }
 
 .tab-content {
     margin-top: 21px;
