@@ -412,4 +412,13 @@ export class SummaryService {
       }
     );
   }
+
+  ValidateUserMail(data: any) {
+    const serviceUrl = this.ServiceURL + 'home/ValidateUserMail/';
+    return this.http.post(serviceUrl, data, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
 }

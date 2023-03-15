@@ -218,7 +218,7 @@
 
                             td {
                                 text-align: center;
-
+                                word-wrap: break-word;
                                 &:first-child {
                                     width: 2%;
                                 }
@@ -573,7 +573,7 @@
 
                     td {
                         text-align: center;
-
+                        word-wrap: break-word;
                         &:first-child,
                         &:nth-child(2),
                         &:nth-child(3) {
