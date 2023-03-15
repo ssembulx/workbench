@@ -879,6 +879,11 @@ export class VPGLabComponent implements OnInit, OnChanges {
       this.toastrService.warning('Please select From WW', 'Warning');
     } else if (this.toworkweek == '') {
       this.toastrService.warning('Please select To WW', 'Warning');
+    } else if (this.durationNum < 0) {
+      this.toastrService.warning(
+        'The duration should not be negative',
+        'Warning'
+      );
     } else if (this.userDetails == undefined) {
       this.toastrService.warning(
         'Please enter valid WWID/Email/Username and click search button',
@@ -1009,6 +1014,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
   toselWeekExtend: any;
   fromselWeek: any;
   Durationextend: any = 0;
+  durationNum: any;
   onDateSelectToExtend(date: any) {
     debugger;
     this.toselWeekExtend = '';
@@ -1099,6 +1105,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
         .join()
         .replace(',', '');
     }
+    this.durationNum = this.toselWeek - this.fromselWeek;
     this.duration = this.toselWeek - this.fromselWeek + ' Week';
   }
   modal: any = {
