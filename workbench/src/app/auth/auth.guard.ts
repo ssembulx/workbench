@@ -26,40 +26,40 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     // ***** Local code ***** //
-    // const resAuth: any = {
-    //   emailId: 'arundathix.manjunath@intel.com',
-    //   name: 'Manjunath, ArundathiX',
-    //   idsid: 'arundatx',
-    //   wwid: 12035082,
-    //   employeeBadgeType: 'GB',
-    //   avatarURL: 'https://photos.intel.com/images/12035082.jpg',
-    //   role: null,
-    //   domain: null,
-    //   comments: null,
-    //   displayName: 'Manjunath, ArundathiX',
-    //   isApplicationAccess: false,
-    //   programAccesses: null,
-    //   Role: 'Admin',
-    // };
-    // if (
-    //   resAuth.Role == 'Admin' ||
-    //   resAuth.Role == 'User' ||
-    //   resAuth.Role == 'Lead' ||
-    //   resAuth.Role == 'View'
-    // ) {
-    //   this.service.authenticationDone(true);
-    //   this.service.setValue(true);
-    //   this.service.SetUser(resAuth);
-    //   return true;
-    // } else if (resAuth.Role == 'View') {
-    //   this.router.navigate(['/home']);
-    // } else {
-    //   debugger;
-    //   this.service.authenticationDone(true);
-    //   this.service.SetUser(resAuth);
-    //   this.router.navigate(['/access-restrict']);
-    //   return false;
-    // } 
+ /*   const resAuth: any = {
+      emailId: 'arundathix.manjunath@intel.com',
+      name: 'Manjunath, ArundathiX',
+      idsid: 'arundatx',
+      wwid: 12035082,
+      employeeBadgeType: 'GB',
+      avatarURL: 'https://photos.intel.com/images/12035082.jpg',
+      role: null,
+      domain: null,
+      comments: null,
+      displayName: 'Manjunath, ArundathiX',
+      isApplicationAccess: false,
+      programAccesses: null,
+      Role: 'Admin',
+    };
+    if (
+      resAuth.Role == 'Admin' ||
+      resAuth.Role == 'User' ||
+      resAuth.Role == 'Lead' ||
+      resAuth.Role == 'View'
+    ) {
+      this.service.authenticationDone(true);
+      this.service.setValue(true);
+      this.service.SetUser(resAuth);
+      return true;
+    } else if (resAuth.Role == 'View') {
+      this.router.navigate(['/home']);
+    } else {
+      debugger;
+      this.service.authenticationDone(true);
+      this.service.SetUser(resAuth);
+      this.router.navigate(['/access-restrict']);
+      return false;
+    } */
 
     // ******  Server code ****** //
     //
