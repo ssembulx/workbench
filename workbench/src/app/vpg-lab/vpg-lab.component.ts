@@ -114,6 +114,26 @@ export class VPGLabComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges) {
     if (!changes?.['defaultValue']?.['firstChange']) {
+      this.cart = {
+        selectedSeatsNo: [],
+
+        selectedSeats: [],
+
+        seatstoStore: [],
+
+        seatsLabelNo: [],
+
+        totalamount: 0,
+
+        cartId: '',
+
+        eventId: 0,
+      };
+      this.contact.SIVExecutionTeamList = [];
+      this.closePopup();
+      this.reason = '';
+      this.deAllocateBenchList = [];
+      this.deAllocateBenchLabelList = [];
       this.getLabDetails();
     }
     /* this.labViewLoader = true;
@@ -890,6 +910,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
         'Warning'
       );
     } else {
+      this.labViewLoader = false;
       let bookingData = {
         Program: this.programName,
 
@@ -938,6 +959,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
       };
       this.dataSvc.saveBooking(bookingData).subscribe((res) => {
         if (res) {
+          this.labViewLoader = true;
           if (res == 'Benches Not Available') {
             this.toastrService.warning('Benches Not Available', 'Warning!');
             this.router.navigate(['/allocation']);
@@ -971,6 +993,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
   }
   closePopup() {
     //  this.modalReference.close();
+    this.teamName = '';
     this.programName = '';
     this.skuName = '';
     this.vendorName = '';
@@ -1048,9 +1071,11 @@ export class VPGLabComponent implements OnInit, OnChanges {
       this.extendLabDetails[0]?.FromWW.slice(0, 2) +
       ' Week';
   }
+  onDateSelectFromDate: any;
   onDateSelectFrom(date: any) {
     this.fromselWeek = '';
     if (date !== undefined && date !== null) {
+      this.onDateSelectFromDate = moment(date);
       var selDate = new Date(
         date.getFullYear(),
         date.getMonth(),
@@ -1078,9 +1103,12 @@ export class VPGLabComponent implements OnInit, OnChanges {
   }
   duration: any;
   toselWeek: any;
+  onDateSelectToDate: any;
   onDateSelectTo(date: any) {
+    debugger;
     this.toselWeek = '';
     if (date !== undefined && date !== null) {
+      this.onDateSelectToDate = moment(date);
       var selDate = new Date(
         date.getFullYear(),
         date.getMonth(),
@@ -1089,6 +1117,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
       let week = moment(selDate).week();
       let month = moment(selDate).month();
       let year = moment(selDate).year();
+      let day = moment(selDate).day();
       /* let selWeek; */
       if (week < 10) {
         this.toselWeek = ('0' + week).slice(-2);
@@ -1106,7 +1135,26 @@ export class VPGLabComponent implements OnInit, OnChanges {
         .replace(',', '');
     }
     this.durationNum = this.toselWeek - this.fromselWeek;
-    this.duration = this.toselWeek - this.fromselWeek + ' Week';
+    if (this.durationNum == 0) {
+      this.duration = this.onDateSelectToDate.diff(
+        this.onDateSelectFromDate,
+        'days'
+      );
+      if (this.duration < 0) {
+        this.toastrService.warning(
+          'The duration should not be negative',
+          'Warning'
+        );
+        this.toworkweek = '';
+        this.duration = '';
+      } else if (this.duration == 0) {
+        this.duration = this.duration + 1 + ' day';
+      } else {
+        this.duration = this.duration + 1 + ' days';
+      }
+    } else {
+      this.duration = this.toselWeek - this.fromselWeek + ' Week';
+    }
   }
   modal: any = {
     flag: '',
@@ -1164,9 +1212,10 @@ export class VPGLabComponent implements OnInit, OnChanges {
     // let obj = {
     //   indentifier: this.modal.user.trim()
     // };
-
+    this.labViewLoader = false;
     this.dataSvc.getUserDetails(obj).subscribe((res) => {
       if (res['name'] === null || res['name'] === undefined) {
+        this.labViewLoader = true;
         this.toastrService.success(
           'No users found with entered details, Kindly enter correct details!',
           'Success!'
@@ -1175,6 +1224,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
           'No users found with entered details, Kindly enter correct details!'
         ); */
       } else {
+        this.labViewLoader = true;
         this.userDetails = res;
         this.allocatitedTo = res['name'];
       }
@@ -1278,29 +1328,43 @@ export class VPGLabComponent implements OnInit, OnChanges {
         Reason: this.reason,
       },
     ]; */
-    this.deAllocateBenchLabelList.forEach((element: any, index: any) => {
-      this.deSelectBenchList.push({
-        id: this.deSelectBenchAllocationList[index],
-        LabName: this.defaultValue,
-        Reason: this.reason,
-        BenchData: [element],
+    if (this.deAllocateBenchLabelList?.length == 0) {
+      this.toastrService.warning(
+        'To deallocate the desk, please select the allocated desk',
+        'Warning'
+      );
+    } else if (this.reason == '') {
+      this.toastrService.warning(
+        'Please provide a reason for the deallocation of the desk',
+        'Warning'
+      );
+    } else {
+      this.labViewLoader = false;
+      this.deAllocateBenchLabelList.forEach((element: any, index: any) => {
+        this.deSelectBenchList.push({
+          id: this.deSelectBenchAllocationList[index],
+          LabName: this.defaultValue,
+          Reason: this.reason,
+          BenchData: [element],
+        });
       });
-    });
-    this.dataSvc
-      .deallocationBooking(this.deSelectBenchList)
-      .subscribe((res) => {
-        if (res) {
-          this.toastrService.success(
-            'Deallocation Request Added Successfully',
-            'Success!'
-          );
-          this.reason = '';
-          this.getLabDetails();
-          this.deAllocateBenchList = [];
-          this.deAllocateBenchLabelList = [];
-          this.closePopup();
-        }
-      });
+      this.dataSvc
+        .deallocationBooking(this.deSelectBenchList)
+        .subscribe((res) => {
+          this.labViewLoader = true;
+          if (res) {
+            this.toastrService.success(
+              'Deallocation Request Added Successfully',
+              'Success!'
+            );
+            this.reason = '';
+            this.deAllocateBenchList = [];
+            this.deAllocateBenchLabelList = [];
+            this.closePopup();
+            this.getLabDetails();
+          }
+        });
+    }
   }
   typeChart = 'Location chart';
   // *** chart options according to click *** //
@@ -1330,16 +1394,19 @@ export class VPGLabComponent implements OnInit, OnChanges {
         values: arg,
       }; */
       var obj = { mail: arg };
+      this.labViewLoader = false;
       this.dataSvc
         .ValidateUserMail(obj)
         .toPromise()
         .then(
           (res: any) => {
             debugger;
+            this.labViewLoader = true;
             email = res['emailId'];
             resolve(email);
           },
           (err: any) => {
+            this.labViewLoader = true;
             this.toastrService.warning(
               'No users found with entered details, Kindly enter correct details!',
               'Warning'

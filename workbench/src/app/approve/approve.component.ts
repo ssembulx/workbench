@@ -21,9 +21,11 @@ export class ApproveComponent implements OnInit {
     config.size = 'md';
   }
   approvallist: any;
+  labViewLoader = false;
   viewApprovalRequests() {
     this.dataSvc.viewApprovalRequests().subscribe((res) => {
       if (res) {
+        this.labViewLoader = true;
         this.approvallist = res;
       }
     });
@@ -40,6 +42,7 @@ export class ApproveComponent implements OnInit {
   }
   reason = '';
   rejectBench() {
+    this.labViewLoader = false;
     let finalResult: any = {};
     this.finalResultList = [];
     this.approveBenchList.forEach((element: any, index: any) => {
@@ -67,6 +70,7 @@ export class ApproveComponent implements OnInit {
     });
     this.dataSvc.rejectBenchList(this.finalResultList).subscribe((res) => {
       if (res) {
+        this.labViewLoader = true;
         this.closeReject();
         this.viewApprovalRequests();
         this.approveBenchList = [];
@@ -80,6 +84,7 @@ export class ApproveComponent implements OnInit {
   finalResultList: any = [];
 
   approveBench() {
+    this.labViewLoader = false;
     let finalResult: any = {};
     this.finalResultList = [];
     this.approveBenchList.forEach((element: any, index: any) => {
@@ -106,6 +111,7 @@ export class ApproveComponent implements OnInit {
     });
     this.dataSvc.approveBenchList(this.finalResultList).subscribe((res) => {
       if (res) {
+        this.labViewLoader = true;
         this.viewApprovalRequests();
         this.approveBenchList = [];
         this.toastrService.success(
