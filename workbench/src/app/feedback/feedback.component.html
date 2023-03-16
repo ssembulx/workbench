@@ -32,7 +32,7 @@
                                     class="sort-by">RESOLVED DATE</span></th>
                             <th class="v-align" (click)="setOrderRelease('LAST LOGGED ON')"><span
                                     class="sort-by">COMMENTS</span></th>
-                            <th class="v-align">ACTION</th>
+                            <th class="v-align" *ngIf="roleName == 'Admin'">ACTION</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,7 +49,7 @@
                             <td>{{data.status}}</td>
                             <td>{{data.resolved_date}}</td>
                             <td>{{data.closing_comments}}</td>
-                            <td>
+                            <td *ngIf="roleName == 'Admin'">
                                 <a (click)="EditRow(editmodal,data.id)">Edit</a>
                             </td>
                         </tr>
