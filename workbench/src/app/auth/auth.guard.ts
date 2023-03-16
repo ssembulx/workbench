@@ -39,7 +39,7 @@ export class AuthGuard implements CanActivate {
       displayName: 'Manjunath, ArundathiX',
       isApplicationAccess: false,
       programAccesses: null,
-      Role: 'User',
+      Role: 'Admin',
     };
     if (
       resAuth.Role == 'Admin' ||
@@ -64,7 +64,7 @@ export class AuthGuard implements CanActivate {
     // ******  Server code ****** //
     //
     //   //  let userInfo = this.service.GetUser();
-   let userInfo;
+    let userInfo;
     this.service.GetUser().subscribe((res: any) => {
       console.log('userdeatils-auth', res);
       userInfo = res;
