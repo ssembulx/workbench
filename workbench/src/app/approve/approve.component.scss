@@ -203,15 +203,16 @@
                                 &:nth-child(13) {
                                     width: 8.3%;
                                 }
+
                                 &:nth-child(14) {
                                     width: 3%;
                                 }
 
                                 .chcekbox-style {
                                     width: 14px;
-                                    margin-top: 4px;
+                                    /* margin-top: 4px; */
                                     height: 14px;
-                                    margin-right: 6px;
+                                    /* margin-right: 6px; */
                                 }
                             }
                         }
@@ -220,7 +221,7 @@
 
                     tbody {
                         display: block;
-                      /*   max-height: 48.5vh;
+                        /*   max-height: 48.5vh;
                         overflow-y: auto; */
 
                         tr {
@@ -231,6 +232,7 @@
                             td {
                                 text-align: center;
                                 word-wrap: break-word;
+
                                 &:first-child {
                                     width: 3%;
                                 }
@@ -284,6 +286,7 @@
                                 &:nth-child(13) {
                                     width: 8.3%;
                                 }
+
                                 &:nth-child(14) {
                                     width: 3%;
                                 }

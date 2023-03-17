@@ -117,8 +117,9 @@
                             <th class="v-align" (click)="setOrderRelease('Allocated To')"><span
                                     class="sort-by">Allocated To</span></th>
                             <th class="v-align">Remarks</th>
-                            <th class="v-align"><!-- <input class="form-check-input chcekbox-style" type="checkbox" value=""
-                                    id="flexCheckChecked" />Select All --></th>
+                            <th class="v-align"><input class="form-check-input chcekbox-style" type="checkbox"
+                                    id="flexCheckChecked" ngbTooltip="Select / Deselect All" placement="left"
+                                    (click)="checkAll($event)" [(ngModel)]="isCheckedAll"/></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -137,7 +138,7 @@
                             <td>{{data.Duration}}</td>
                             <td>{{data.AllocatedTo[0]?.Name}}</td>
                             <td>{{data.Remarks}}</td>
-                            <td><input class="form-check-input chcekbox-style" type="checkbox"
+                            <td><input class="form-check-input chcekbox-style" type="checkbox" [checked]="isChecked"
                                     (click)="checkRow(data,data.id,$event)" id="flexCheckChecked" /></td>
                         </tr>
                     </tbody>
