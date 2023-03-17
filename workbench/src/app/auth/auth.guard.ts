@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     // ***** Local code ***** //
-    /*  const resAuth: any = {
+     const resAuth: any = {
       emailId: 'arundathix.manjunath@intel.com',
       name: 'Manjunath, ArundathiX',
       idsid: 'arundatx',
@@ -59,11 +59,11 @@ export class AuthGuard implements CanActivate {
       this.service.SetUser(resAuth);
       this.router.navigate(['/access-restrict']);
       return false;
-    } */
+    } 
     // ******  Server code ****** //
     //
     //   //  let userInfo = this.service.GetUser();
-   let userInfo;
+  /* let userInfo;
     this.service.GetUser().subscribe((res: any) => {
       console.log('userdeatils-auth', res);
       userInfo = res;
@@ -96,7 +96,7 @@ export class AuthGuard implements CanActivate {
       console.log(userInfo, 'else res userInfo');
       return true;
     }
-
+*/
     //   if (!this.helper.token) {
     //     let userToken:any = await this.service.getWindowsAuthP();
     //     const payload = { "userToken": userToken.token }
