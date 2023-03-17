@@ -13,7 +13,6 @@ export class AppComponent {
 
   ngOnInit() {
     this.service.getauthenticationDone().subscribe((data: boolean) => {
-      debugger
       this.authenticaiton = data;
       // console.log(this.authenticaiton,'authenticaiton  data')
     });

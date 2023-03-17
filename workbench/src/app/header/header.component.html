@@ -33,14 +33,14 @@
         </div>
     </section>
     <section class="second-header"
-        *ngIf="roleName == 'Admin' || roleName == 'User' || roleName == 'Manager' || roleName == 'View'">
+        *ngIf="roleName == 'Admin' || roleName == 'User' || roleName == 'Lead' || roleName == 'View'">
         <div class="nav_bar">
             <a routerLink="/home">Home</a>
             <a routerLink="/allocation"
-                *ngIf="roleName == 'Admin' || roleName == 'User' || roleName == 'Manager'">Allocation</a>
-            <a routerLink="/approve" *ngIf="roleName == 'Admin' || roleName == 'Manager'">Approve</a>
+                *ngIf="roleName == 'Admin' || roleName == 'User' || roleName == 'Lead'">Allocation</a>
+            <a routerLink="/approve" *ngIf="roleName == 'Admin' || roleName == 'Lead'">Approve</a>
             <a routerLink="/report">Report</a>
-            <div class="dropdown d-flex" *ngIf="roleName == 'Admin' || roleName == 'Manager'">
+            <div class="dropdown d-flex" *ngIf="roleName == 'Admin' || roleName == 'Lead'">
                 <button class="dropdown_btn dropdown-toggle" type="button" id="dropdownMenuButton"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Master <i class="fa fa-angle-down" aria-hidden="true"></i>

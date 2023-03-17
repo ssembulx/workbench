@@ -167,4 +167,17 @@ export class ApproveComponent implements OnInit {
     this.reason = '';
     this.modalReference.close();
   }
+
+  isChecked = false;
+  checkAll(event: any) {
+    if (event.currentTarget.checked == true) {
+      this.isChecked = true;
+      this.approvallist.forEach((element: any) => {
+        this.approveBenchList.push(element.id);
+      });
+    } else if (event.currentTarget.checked == false) {
+      this.isChecked = false;
+      this.approveBenchList = [];
+    }
+  }
 }
