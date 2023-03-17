@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     // ***** Local code ***** //
-   /* const resAuth: any = {
+    /*  const resAuth: any = {
       emailId: 'arundathix.manjunath@intel.com',
       name: 'Manjunath, ArundathiX',
       idsid: 'arundatx',
@@ -60,7 +60,6 @@ export class AuthGuard implements CanActivate {
       this.router.navigate(['/access-restrict']);
       return false;
     } */
-
     // ******  Server code ****** //
     //
     //   //  let userInfo = this.service.GetUser();
@@ -80,7 +79,7 @@ export class AuthGuard implements CanActivate {
       if (
         resAuth.Role == 'Admin' ||
         resAuth.Role == 'User' ||
-        resAuth.Role == 'Manager' ||
+        resAuth.Role == 'Lead' ||
         resAuth.Role == 'View'
       ) {
         this.service.authenticationDone(true);

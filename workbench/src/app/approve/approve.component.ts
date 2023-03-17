@@ -45,7 +45,7 @@ export class ApproveComponent implements OnInit {
     this.labViewLoader = false;
     let finalResult: any = {};
     this.finalResultList = [];
-    this.approveBenchList.forEach((element: any, index: any) => {
+    /*  this.approveBenchList.forEach((element: any, index: any) => {
       finalResult = {
         Program: element.Program,
         Sku: element.Sku,
@@ -67,11 +67,16 @@ export class ApproveComponent implements OnInit {
       };
       // delete element['id'];
       this.finalResultList.push(finalResult);
-    });
-    this.dataSvc.rejectBenchList(this.finalResultList).subscribe((res) => {
+    }); */
+    let requestIdList = {
+      requestIdList: this.approveBenchList,
+      Reason: this.reason,
+    };
+    this.closeReject();
+    this.dataSvc.rejectBenchList(requestIdList).subscribe((res) => {
       if (res) {
         this.labViewLoader = true;
-        this.closeReject();
+        // this.closeReject();
         this.viewApprovalRequests();
         this.approveBenchList = [];
         this.toastrService.success(
@@ -87,7 +92,7 @@ export class ApproveComponent implements OnInit {
     this.labViewLoader = false;
     let finalResult: any = {};
     this.finalResultList = [];
-    this.approveBenchList.forEach((element: any, index: any) => {
+    /*  this.approveBenchList.forEach((element: any, index: any) => {
       finalResult = {
         Program: element.Program,
         Sku: element.Sku,
@@ -108,8 +113,11 @@ export class ApproveComponent implements OnInit {
       };
       // delete element['id'];
       this.finalResultList.push(finalResult);
-    });
-    this.dataSvc.approveBenchList(this.finalResultList).subscribe((res) => {
+    }); */
+    let requestIdList = {
+      requestIdList: this.approveBenchList,
+    };
+    this.dataSvc.approveBenchList(requestIdList).subscribe((res) => {
       if (res) {
         this.labViewLoader = true;
         this.viewApprovalRequests();
@@ -123,11 +131,14 @@ export class ApproveComponent implements OnInit {
   }
   approveBenchList: any = [];
   checkRow(data: any, id: any, event: any) {
+    debugger;
     if (event.currentTarget.checked == true) {
-      this.approveBenchList.push(data);
+      // this.approveBenchList.push(data);
+      this.approveBenchList.push(id);
     } else if (event.currentTarget.checked == false) {
       this.approveBenchList.forEach((element: any, index: any) => {
-        if (element.id == id) {
+        /* if (element.id == id) { */
+        if (element == id) {
           this.approveBenchList.splice(index, 1);
         }
       });
