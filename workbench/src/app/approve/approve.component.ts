@@ -135,6 +135,11 @@ export class ApproveComponent implements OnInit {
     if (event.currentTarget.checked == true) {
       // this.approveBenchList.push(data);
       this.approveBenchList.push(id);
+      if (this.approvallist.length == this.approveBenchList.length) {
+        this.isCheckedAll = true;
+      } else {
+        this.isCheckedAll = false;
+      }
     } else if (event.currentTarget.checked == false) {
       this.approveBenchList.forEach((element: any, index: any) => {
         /* if (element.id == id) { */
@@ -142,6 +147,11 @@ export class ApproveComponent implements OnInit {
           this.approveBenchList.splice(index, 1);
         }
       });
+      if (this.approvallist.length == this.approveBenchList.length) {
+        this.isCheckedAll = true;
+      } else {
+        this.isCheckedAll = false;
+      }
     }
     /*   if (this.approveBenchList.length === 0) {
       this.approveBenchList.push(data);
@@ -169,6 +179,7 @@ export class ApproveComponent implements OnInit {
   }
 
   isChecked = false;
+  isCheckedAll = false;
   checkAll(event: any) {
     if (event.currentTarget.checked == true) {
       this.isChecked = true;
