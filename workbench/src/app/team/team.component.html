@@ -49,6 +49,14 @@
             </div>
         </div>
         <div class="modal-footer">
+            <div *ngIf="isAddpopupmsg == true" class="alert alert-success fade show" role="alert" style="left: -28%;">
+                {{Addpopupmsg}}
+              <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+          </div>
+          <div *ngIf="isAddErrorpopupmsg == true" class="alert alert-danger fade show" role="alert" style="left: -34%;">
+              {{AddErrorpopupmsg}}
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+          </div>
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
             <button type="button" class="btn back-btn" (click)="AddTeam()" [disabled]="!modal.team">Save</button>
         </div>
@@ -79,8 +87,16 @@
             </div>
         </div>
         <div class="modal-footer">
+            <div *ngIf="isUpdatepopupmsg == true" class="alert alert-success fade show" role="alert" style="left: -47%;">
+                {{Updatepopupmsg}}
+              <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+          </div>
+          <div *ngIf="isUpdateErrorpopupmsg == true" class="alert alert-danger fade show" role="alert" style="left: -47%;">
+              {{UpdateErrorpopupmsg}}
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+          </div>
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Close</button>
-            <button type="button" class="btn back-btn" (click)="UpdateTeamTable()">Update</button>
+            <button type="button" class="btn back-btn" (click)="UpdateTeamTable()" [disabled]="!modal.team">Update</button>
         </div>
     </div>
 </ng-template>
@@ -102,6 +118,14 @@
         </form>
         </div>
         <div class="modal-footer">
+            <div *ngIf="isDeletepopupmsg == true" class="alert alert-success fade show" role="alert" style="left: -17.5rem;">
+                {{Deletepopupmsg}}
+              <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+            </div>
+            <div *ngIf="isDeleteErrorpopupmsg == true" class="alert alert-danger fade show" role="alert">
+              {{DeleteErrorpopupmsg}}
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+            </div>
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
             <button type="button" (click)="ConfirmTeamDelete()" class="btn delete-btn btn-danger">Delete</button>
         </div>

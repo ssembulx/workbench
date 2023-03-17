@@ -94,6 +94,14 @@
             </div>
         </div>
         <div class="modal-footer">
+          <div *ngIf="isAddpopupmsg == true" class="alert alert-success fade show" role="alert" style="left: -34%;">
+                {{Addpopupmsg}}
+              <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+          </div>
+          <div *ngIf="isAddErrorpopupmsg == true" class="alert alert-danger fade show" role="alert" style="left: -30%;">
+              {{AddErrorpopupmsg}}
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+          </div>
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
             <button type="button" class="btn back-btn" (click)="AddPlatform()" [disabled]="!modal.programName || !modal.programShortName">Save</button>
         </div>
@@ -112,7 +120,7 @@
             <div class="form-group row label-style">
                 <label for="testId" class="col-4 col-form-label">ID </label>
                 <div class="col-8">
-                    <input type="text" [(ngModel)]="modal.id" class="col-8 form-control shadow-none i-field" required>
+                    <input type="text" [(ngModel)]="modal.id" class="col-8 form-control shadow-none i-field" required readonly>
                 </div>
             </div>
 
@@ -131,8 +139,16 @@
             </div>
         </div>
         <div class="modal-footer">
+            <div *ngIf="isUpdatepopupmsg == true" class="alert alert-success fade show" role="alert" style="left: -47%;">
+                {{Updatepopupmsg}}
+              <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+          </div>
+          <div *ngIf="isUpdateErrorpopupmsg == true" class="alert alert-danger fade show" role="alert" style="left: -47%;">
+              {{UpdateErrorpopupmsg}}
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+        </div>
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Close</button>
-            <button type="button" class="btn back-btn" (click)="UpdatePlatformTable()">Update</button>
+            <button type="button" class="btn back-btn" (click)="UpdatePlatformTable()" [disabled]="!modal.programName || !modal.programShortName">Update</button>
         </div>
     </div>
 </ng-template>
@@ -155,6 +171,14 @@
         </form>
         </div>
         <div class="modal-footer">
+            <div *ngIf="isDeletepopupmsg == true" class="alert alert-success fade show" role="alert" style="left: -17.5rem;">
+                {{Deletepopupmsg}}
+              <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+            </div>
+            <div *ngIf="isDeleteErrorpopupmsg == true" class="alert alert-danger fade show" role="alert">
+              {{DeleteErrorpopupmsg}}
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+            </div>
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
             <button type="button" (click)="ConfirmPlatformDelete()" class="btn delete-btn btn-danger">Delete</button>
         </div>
@@ -189,6 +213,14 @@
             </div>
         </div>
         <div class="modal-footer">
+            <div *ngIf="isAddSkupopupmsg == true" class="alert alert-success fade show" role="alert" style="left: -34%;">
+                {{AddSkupopupmsg}}
+              <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+          </div>
+          <div *ngIf="isAddSkuErrorpopupmsg == true" class="alert alert-danger fade show" role="alert" style="left: -34%;">
+              {{AddSkuErrorpopupmsg}}
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+          </div>
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
             <button type="button" class="btn back-btn" (click)="AddSku()" [disabled]="!modal.platformShortName || !modal.skuName">Save</button>
         </div>
@@ -225,8 +257,16 @@
             </div>
         </div>
         <div class="modal-footer">
+            <div *ngIf="isUpdateSkupopupmsg == true" class="alert alert-success fade show" role="alert" style="left: -47%;">
+                {{UpdateSkupopupmsg}}
+              <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+          </div>
+          <div *ngIf="isUpdateSkuErrorpopupmsg == true" class="alert alert-danger fade show" role="alert" style="left: -47%;">
+              {{UpdateSkuErrorpopupmsg}}
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+        </div>
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Close</button>
-            <button type="button" class="btn back-btn" (click)="UpdateSkuTable()">Update</button>
+            <button type="button" class="btn back-btn" (click)="UpdateSkuTable()" [disabled]="!modal.platformShortName || !modal.skuName">Update</button>
         </div>
     </div>
 </ng-template>
@@ -249,6 +289,14 @@
         </form>
         </div>
         <div class="modal-footer">
+            <div *ngIf="isDeleteSkupopupmsg == true" class="alert alert-success fade show" role="alert" style="left: -17.5rem;">
+                {{DeleteSkupopupmsg}}
+              <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+            </div>
+            <div *ngIf="isDeleteSkuErrorpopupmsg == true" class="alert alert-danger fade show" role="alert">
+              {{DeleteSkuErrorpopupmsg}}
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+            </div>
             <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
             <button type="button" (click)="ConfirmSkuDelete()" class="btn delete-btn btn-danger">Delete</button>
         </div>
