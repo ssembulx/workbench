@@ -670,15 +670,23 @@ Value : any = false;
         
       });
 
-      //pie-chart label
-      pieSeries.labels.template.setAll({
-        text: "",
-        inside: true,
-        radius: 10,
+      if(chartType == 'Team/Program chart'){
+          //pie-chart label
+          pieSeries.labels.template.setAll({
+          text: "{category}",
+          inside: true,
+          textType: "adjusted",
+          radius: 10,
       });
-      
-      pieSeries.labels.template.set("forceHidden", true);
+
+      }else{
+         pieSeries.labels.template.set("forceHidden", true);
       pieSeries.ticks.template.set("forceHidden", true);
+      }
+
+      
+      // pieSeries.labels.template.set("forceHidden", true);
+      // pieSeries.ticks.template.set("forceHidden", true);
       
       //pieSeries.data.setAll(data);
       pieSeries.data.setAll(this.ChartData);
@@ -764,7 +772,9 @@ Value : any = false;
         );
       }
    
-      legend.data.setAll(pieSeries.dataItems);
+      if(chartType != 'Team/Program chart'){
+         legend.data.setAll(pieSeries.dataItems);
+      }
       
     // legend.data.setAll(chart.series.values);   
     pieSeries.appear(1000, 100);
@@ -1027,13 +1037,14 @@ Value : any = false;
 
       //pie-chart label
       pieSeries.labels.template.setAll({
-        text: "",
+        text: "{category}",
         inside: true,
+        textType: "adjusted",
         radius: 10,
       });
       
-      pieSeries.labels.template.set("forceHidden", true);
-      pieSeries.ticks.template.set("forceHidden", true);
+      // pieSeries.labels.template.set("forceHidden", true);
+      // pieSeries.ticks.template.set("forceHidden", true);
       
       //pieSeries.data.setAll(data);
       pieSeries.data.setAll(this.ChartData);
@@ -1119,7 +1130,7 @@ Value : any = false;
         );
       }
    
-      legend.data.setAll(pieSeries.dataItems);
+      // legend.data.setAll(pieSeries.dataItems);
       
     // legend.data.setAll(chart.series.values);   
     pieSeries.appear(1000, 100);
@@ -1365,14 +1376,15 @@ Value : any = false;
       });
 
       //pie-chart label
-      pieSeries.labels.template.setAll({
-        text: "",
+       pieSeries.labels.template.setAll({
+        text: "{category}",
         inside: true,
+        textType: "adjusted",
         radius: 10,
       });
       
-      pieSeries.labels.template.set("forceHidden", true);
-      pieSeries.ticks.template.set("forceHidden", true);
+      // pieSeries.labels.template.set("forceHidden", true);
+      // pieSeries.ticks.template.set("forceHidden", true);
       
       //pieSeries.data.setAll(data);
       pieSeries.data.setAll(this.ChartData);
@@ -1458,7 +1470,7 @@ Value : any = false;
         );
       }
    
-      legend.data.setAll(pieSeries.dataItems);
+      // legend.data.setAll(pieSeries.dataItems);
       
     // legend.data.setAll(chart.series.values);   
     pieSeries.appear(1000, 100);

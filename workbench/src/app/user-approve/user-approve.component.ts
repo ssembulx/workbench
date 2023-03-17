@@ -60,15 +60,8 @@ export class UserApproveComponent implements OnInit {
     let finalResult: any = {};
     this.finalResultList = [];
     let username: any = sessionStorage.getItem('display_name');
-    this.userList.forEach((element: any, index: any) => {
+    this.userList.forEach((element: any) => {
       finalResult = {
-        // wwid: element.wwid,
-        // idsid: element.idsid,
-        // name: element.name,
-        // emailId: element.emailId,
-        // displayName: element.displayName,
-        // role: element.role,
-        // employeeBadgeType: element.employeeBadgeType,
         RequestId:element.RequestId,
         ApprovedBy:JSON.parse(username)
       };

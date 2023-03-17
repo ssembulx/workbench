@@ -59,12 +59,12 @@ export class AuthGuard implements CanActivate {
       this.service.SetUser(resAuth);
       this.router.navigate(['/access-restrict']);
       return false;
-    } */
-
+    } 
+*/
     // ******  Server code ****** //
     //
     //   //  let userInfo = this.service.GetUser();
-    let userInfo;
+   let userInfo;
     this.service.GetUser().subscribe((res: any) => {
       console.log('userdeatils-auth', res);
       userInfo = res;
@@ -80,7 +80,7 @@ export class AuthGuard implements CanActivate {
       if (
         resAuth.Role == 'Admin' ||
         resAuth.Role == 'User' ||
-        resAuth.Role == 'Manager' ||
+        resAuth.Role == 'Lead' ||
         resAuth.Role == 'View'
       ) {
         this.service.authenticationDone(true);

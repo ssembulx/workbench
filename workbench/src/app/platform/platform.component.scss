@@ -223,7 +223,7 @@
             .form-select{
                 width: 65%;
                 height: 32px;
-                margin-left: 46px;
+                margin-left: 52px;
                 margin-bottom: 10px;
             }
         }
@@ -236,7 +236,9 @@
 
     .modal-footer {
         padding: 7px;
-
+        // .alert-danger{
+        //     background-color: red;
+        // }
         .back-btn {
             font-family: "IntelOne Display AR Medium";
             background-color: #0071c5;

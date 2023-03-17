@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { SummaryService } from '../shared/service';
 
 @Component({
@@ -20,7 +21,22 @@ export class VendorComponent implements OnInit {
   vendordataLoader = false;
   vendorData: any;
 
-  constructor(private modalService:NgbModal,config: NgbModalConfig, private service: SummaryService,) { 
+  Addpopupmsg:any;
+  AddErrorpopupmsg:any;
+  isAddpopupmsg:boolean = false;
+  isAddErrorpopupmsg:boolean = false;
+
+  Updatepopupmsg:any;
+  UpdateErrorpopupmsg:any;
+  isUpdatepopupmsg:boolean = false;
+  isUpdateErrorpopupmsg:boolean = false;
+
+  Deletepopupmsg:any;
+  DeleteErrorpopupmsg:any;
+  isDeletepopupmsg:boolean = false;
+  isDeleteErrorpopupmsg:boolean = false;
+
+  constructor(private modalService:NgbModal,config: NgbModalConfig, private service: SummaryService,private toastrService: ToastrService) { 
     config.backdrop = 'static';
     config.size = 'md';
   }
@@ -50,13 +66,27 @@ export class VendorComponent implements OnInit {
 
     // **** Calling Add row API***** //
     this.service.getVendorAddData(req).subscribe((res) => {
+      // this.toastrService.success('Vendor Added Successfully', 'Success!');
+      if(res.result.status == false){
+        this.AddErrorpopupmsg = res.result.message;
+        this.isAddErrorpopupmsg = true;
+       }
+       else{
+        this.Addpopupmsg = res.result.message;
+        this.isAddpopupmsg = true; 
+        setTimeout(() =>{
+          this.isAddpopupmsg = false; 
+          this.modalReference.close();
+         },3000); 
+         
+       }
       this.getVendorData();
       // this.vendorData.push({
       //   VendorName:this.modal.vendor
       // })
     });
-   
-    this.modalReference.close();
+   this.closeResponseMessage();
+    // this.modalReference.close();
     // **** to clearing the values *** //
     this.modal.vendor = '';
   }
@@ -80,9 +110,29 @@ export class VendorComponent implements OnInit {
 
     // **** Calling Update row API***** //
     this.service.getVendorUpdateData(req).subscribe((res) => {
+      // this.toastrService.success('Vendor Updated Successfully', 'Success!');
+      if(res.result.status == false){
+        this.UpdateErrorpopupmsg = res.result.message;
+        this.isUpdateErrorpopupmsg = true;
+        setTimeout(() =>{
+          this.isUpdateErrorpopupmsg = false; 
+          this.modalReference.close();
+         },3000);
+       }
+     
+       else{
+        this.isUpdatepopupmsg = true; 
+        this.Updatepopupmsg = res.result.message;
+        setTimeout(() =>{
+          this.isUpdatepopupmsg = false; 
+          this.modalReference.close();
+         },3000); 
+       
+       }
       this.getVendorData();
     });
-     this.modalReference.close();
+    this.closeResponseMessage();
+    //  this.modalReference.close();
      // **** to clearing the values *** //
      this.modal.vendor = '';
    }
@@ -100,12 +150,43 @@ export class VendorComponent implements OnInit {
       let req = {"id":this.rowValue}
       // **** Calling Delete row API***** //
       this.service.getVendordelete(req).subscribe((res)=> {
-        // this.vendorData.splice(this.rowValue);
+        // this.toastrService.success('Vendor Deleted Successfully', 'Success!');
+        if(res.result.status == false){
+          this.DeleteErrorpopupmsg = res.result.message;
+          this.isDeleteErrorpopupmsg = true;
+          setTimeout(() =>{
+            this.isDeleteErrorpopupmsg = false; 
+            this.modalReference.close();
+           },3000); 
+         }
+         else{
+          this.isDeletepopupmsg = true; 
+          this.Deletepopupmsg = res.result.message;
+          setTimeout(() =>{
+            this.isDeletepopupmsg = false; 
+            this.modalReference.close();
+           },3000); 
+         
+         }
         this.getVendorData();
       })
-     
-      this.modalReference.close();
+      this.closeResponseMessage();
+      // this.modalReference.close();
     }
+
+    //**** Close response message method****//
+   closeResponseMessage(){
+    setTimeout(() =>{
+      this.isAddpopupmsg = false; 
+      this.isAddErrorpopupmsg = false;
+      this.isUpdatepopupmsg = false;
+      this.isUpdateErrorpopupmsg = false;
+      this.isDeletepopupmsg = false;
+      this.isDeleteErrorpopupmsg = false;
+     //  this.modalReference.close()
+     },3000); 
+    }
+
 
    //**** Sorting functionality in table(ascending descending order) ****//
    setOrderRelease(value: string) {
