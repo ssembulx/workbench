@@ -84,6 +84,14 @@ export class SummaryService {
     return this.http.get(this.ServiceURL + 'home/GetProgramSkuDropdownNames/');
   }
 
+  // ***** get prgoram details  API for labwsie summary chart in report page ******//
+  public getPrgmDetailPost(req: any): Observable<any> {
+    return this.http.post(
+      this.ServiceURL + 'home/GetProgramSkuVendorDropdownNames/',
+      req
+    );
+  }
+
   // ***** get vendor details  API for labwsie summary chart in home page ******//
   public getVendorDetail(): Observable<any> {
     return this.http.get(

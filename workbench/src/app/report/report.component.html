@@ -98,7 +98,7 @@
                 </select> -->
                         <select class="form-select location_select" aria-label="Default select example"
                             [(ngModel)]="lab" (change)="labChange()">
-                            <option value="" disabled selected>-- Select Lab --</option>
+                            <!-- <option value="" disabled selected>-- Select Lab --</option> -->
                             <option *ngFor="let labdata of labList?.Data" [ngValue]="labdata">
                                 {{labdata}}
                             </option>
@@ -111,11 +111,12 @@
                         [ngStyle]="setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                         <select class="form-select location_select" aria-label="Default select example"
                             [(ngModel)]="program" (change)="programChange()">
-                            <option value="" disabled selected>-- All Program --</option>
+                            <!-- <option value="" disabled selected>-- All Program --</option> -->
+                            <option value="All">All</option>
                             <!-- <option value="">
                         All
                     </option> -->
-                            <option *ngFor="let prgmdata of prgmList?.Data" [ngValue]="prgmdata">
+                            <option *ngFor="let prgmdata of prgmList" [ngValue]="prgmdata">
                                 {{prgmdata}}
                             </option>
                             <!-- <option>-- All Program --</option>
@@ -128,11 +129,12 @@
                         [ngStyle]="setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
                         <select class="form-select location_select" aria-label="Default select example"
                             [(ngModel)]="vendor" (change)="vendorChange()">
-                            <option value="" disabled selected>-- All Vendor --</option>
+                            <option value="All">All</option>
+                            <!-- <option value="" disabled selected>-- All Vendor --</option> -->
                             <!-- <option value="">
                         All
                     </option> -->
-                            <option *ngFor="let vendordata of vendorList?.Vendors" [ngValue]="vendordata">
+                            <option *ngFor="let vendordata of vendorList" [ngValue]="vendordata">
                                 {{vendordata}}
                             </option>
                             <!-- <option>-- All Vendor --</option>

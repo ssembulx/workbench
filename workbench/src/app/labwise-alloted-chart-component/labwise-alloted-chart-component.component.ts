@@ -40,7 +40,6 @@ export class LabwiseAllotedChartComponentComponent implements OnInit{
   ngOnInit(): void {
     console.log("ngOnInit", this.bookingmodalHome);
     // this.LabwiseSummary();
-    debugger
     // this.chartData = this.widget
     console.log("widget ----",this.chartData)
     this.getLabwiseStackedChart();
@@ -48,7 +47,6 @@ export class LabwiseAllotedChartComponentComponent implements OnInit{
 
  //**** Passing the chart data for labwise program chart ***//
 ngOnChanges(changes: SimpleChanges) {
-  debugger
   this.chartData = this.widget
   this.getLabwiseStackedChart();
 }
@@ -56,7 +54,6 @@ ngOnChanges(changes: SimpleChanges) {
   //****Chart data****/
   getLabwiseStackedChart() {
     // this.ChartData = this.widget
-    debugger
     am4core.useTheme(am4themes_animated);
     // Themes end
 

@@ -62,16 +62,14 @@ export class ReportComponent implements OnInit {
     this.getReportData();
     this.getLabDetails();
     this.getProgramDetails();
-    this.getVendorDetails();
+    //  this.getVendorDetails();
     this.LabwiseSummary();
   }
 
   //***** Calling Report Data API****//
   getReportData() {
-    debugger;
     this.reportdataLoader = false;
     this.service.getReportData().subscribe((res) => {
-      debugger;
       this.reportData = res;
       console.log(this.reportData);
       this.reportdataLoader = true;
@@ -119,16 +117,14 @@ export class ReportComponent implements OnInit {
 
   //****Calling API for Labwsie summary chart ***//
   LabwiseSummary() {
-    debugger;
-    this.labwiseChartLoader = false;
+    this.reportdataLoader = false;
     let req = { LabName: this.lab, Program: this.program, Vendor: this.vendor };
 
     this.service.LabwiseSummary(req).subscribe((res) => {
-      debugger;
       this.ChartData1 = res.Location;
       console.log('stacked chart', this.ChartData1);
       // this.getLabwiseStackedChart();
-      this.labwiseChartLoader = true;
+      this.reportdataLoader = true;
     });
   }
 
@@ -142,8 +138,15 @@ export class ReportComponent implements OnInit {
 
   //**** Calling program details API for select drop down in labwise program chart ***//
   getProgramDetails() {
-    this.service.getPrgmDetail().subscribe((res) => {
-      this.prgmList = res;
+    this.reportdataLoader = false;
+    let payload = { location: this.lab };
+    this.program = 'All';
+    this.vendor = 'All';
+    this.service.getPrgmDetailPost(payload).subscribe((res) => {
+      this.reportdataLoader = true;
+      let result = res?.Data;
+      this.prgmList = result?.ProgramSkuList;
+      this.vendorList = result?.VendorList;
       // console.log(this.labList,"****")
     });
   }
@@ -160,6 +163,7 @@ export class ReportComponent implements OnInit {
   //**** Change function for lab select drop down in labwise program chart ***//
   labChange() {
     this.LabwiseSummary();
+    this.getProgramDetails();
   }
 
   //**** Change function for program select drop down in labwise program chart ***//
@@ -175,7 +179,6 @@ export class ReportComponent implements OnInit {
   // *** Labwise chart and table options according to click *** //
   ChangeOption(Status: any) {
     if (Status == 'Labchart') {
-      debugger;
       this.Labtype = 'Lab chart';
     } else if (Status == 'Labtable') {
       this.Labtype = 'Lab table';
