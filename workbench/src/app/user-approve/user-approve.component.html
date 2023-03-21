@@ -3,8 +3,8 @@
       <div class="user-content">
         <div class="table-container" *ngIf="userData?.length">
             <div class="btn-add-user">
-                <button class="btn add-btn" (click)="openReject()" [disabled]="userList?.length == 0">Reject</button>
-                <button class="btn add-btn" (click)="approveUser()" [disabled]="userList?.length == 0">Approve</button>
+                <button class="btn add-btn" (click)="openReject()" [disabled]="approveUserList?.length == 0">Reject</button>
+                <button class="btn add-btn" (click)="approveUser()" [disabled]="approveUserList?.length == 0">Approve</button>
             </div>
             <table class="table table-bordered user-table" *ngIf="userdataLoader">
                 <thead>
@@ -35,7 +35,7 @@
                         <td>{{data.ApprovedOn}}</td>
                         <td>{{data.CreatedOn}}</td>
                         <td>
-                            <input class="form-check-input chcekbox-style" type="checkbox" (click)="checkRow(data,data.WWID,$event)" id="flexCheckChecked" />
+                            <input class="form-check-input chcekbox-style" type="checkbox" [checked]="isChecked" (click)="checkRow(data,data.RequestId,$event)" id="flexCheckChecked" />
                         </td>
                         <!-- <td>
                             <a (click)="EditRow(editmodal,data.WWID,data.Role__role_name)">Edit</a> |

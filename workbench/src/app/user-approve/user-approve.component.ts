@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { SummaryService } from '../shared/service';
@@ -21,7 +21,7 @@ export class UserApproveComponent implements OnInit {
   finalResultList :any = [];
   reason = '';
 
-  constructor(private service: SummaryService,private toastrService: ToastrService,private modalService:NgbModal,config: NgbModalConfig,) { }
+  constructor(private service: SummaryService,private toastrService: ToastrService,private modalService:NgbModal,config: NgbModalConfig,private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.getuserData();
@@ -39,12 +39,12 @@ export class UserApproveComponent implements OnInit {
   
   //****** Select a row for approval using checkbox ******//
   approveUserList: any = [];
-  checkRow(data: any, wwid: any, event: any) {
+  checkRow(data: any, requestId: any, event: any) {
     debugger
     if (event.currentTarget.checked == true) {
       // this.approveBenchList.push(data);
-      this.approveUserList.push(wwid);
-      if (this.userList.length == this.approveUserList.length) {
+      this.approveUserList.push(requestId);
+      if (this.userData.length == this.approveUserList.length) {
         this.isCheckedAll = true;
       } else {
         this.isCheckedAll = false;
@@ -52,11 +52,11 @@ export class UserApproveComponent implements OnInit {
     } else if (event.currentTarget.checked == false) {
       this.approveUserList.forEach((element: any, index: any) => {
         /* if (element.id == id) { */
-        if (element == wwid) {
+        if (element == requestId) {
           this.approveUserList.splice(index, 1);
         }
       });
-      if (this.userList.length == this.approveUserList.length) {
+      if (this.userData.length == this.approveUserList.length) {
         this.isCheckedAll = true;
       } else {
         this.isCheckedAll = false;
@@ -82,9 +82,9 @@ export class UserApproveComponent implements OnInit {
     let finalResult: any = {};
     this.finalResultList = [];
     let username: any = sessionStorage.getItem('display_name');
-    this.userList.forEach((element: any) => {
+    this.approveUserList.forEach((element: any) => {
       finalResult = {
-        RequestId:element.RequestId,
+        RequestId:element,
         ApprovedBy:JSON.parse(username)
       };
       console.log(this.userList,"dsfds")
@@ -116,16 +116,9 @@ export class UserApproveComponent implements OnInit {
     //   ApprovedBy:JSON.parse(username),
     //   Reason:this.reason
     // }
-    this.userList.forEach((element: any, index: any) => {
+    this.approveUserList.forEach((element: any, index: any) => {
       finalResult = {
-        // wwid: element.wwid,
-        // idsid: element.idsid,
-        // name: element.name,
-        // emailId: element.emailId,
-        // displayName: element.displayName,
-        // role: element.role,
-        // employeeBadgeType: element.employeeBadgeType,
-        RequestId:element.RequestId,
+        RequestId:element,
         ApprovedBy:JSON.parse(username),
         Reason:this.reason
       };
@@ -160,12 +153,17 @@ export class UserApproveComponent implements OnInit {
   isChecked = false;
   isCheckedAll = false;
   checkAll(event: any) {
+    debugger
     if (event.currentTarget.checked == true) {
-      this.isChecked = true;
-      this.userList.forEach((element: any) => {
-        this.approveUserList.push(element.id);
+      this.isChecked = false;
+      this.cd.detectChanges();
+     this.approveUserList = [];
+      this.userData.forEach((element: any) => {
+        this.approveUserList.push(element.RequestId);
       });
-    } else if (event.currentTarget.checked == false) {
+      this.isChecked = true;
+    }
+     else if (event.currentTarget.checked == false) {
       this.isChecked = false;
       this.approveUserList = [];
     }
