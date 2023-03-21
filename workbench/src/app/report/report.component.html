@@ -293,12 +293,17 @@
                                     <i class="fas fa-search"></i>&nbsp;&nbsp;Duration</span>
                             </th>
                             <th class="v-align">Remarks</th>
+                            <th class="v-align" (click)="setOrderRelease('Approved By')"><span class="sort-by"
+                                    [ngbTooltip]="ApprovedBySearch" placement="top" tooltipClass="custom-tooltip"
+                                    [autoClose]="false" triggers="manual" #ts16="ngbTooltip"
+                                    (click)="showTestTrendSearch(ts16)">
+                                    <i class="fas fa-search"></i>&nbsp;&nbsp;Approved By</span></th>
                             <!-- <th class="v-align"><input class="form-check-input chcekbox-style" type="checkbox" value="" id="flexCheckChecked"/>Select All</th> -->
                         </tr>
                     </thead>
                     <tbody>
                         <tr
-                            *ngFor="let data of reportData | searchFilter: searchText | searchFilterLocation: searchLocation | searchFilterTeam: searchTeam | searchFilterProgram: searchProgram |  searchFilterSku: searchSku | searchFilterVendor : searchVendor | searchFilterAllocated : searchAllocated | searchFilterFromWW : searchfromWW | searchFilterToWW : searchtoWW | searchFilterBench : searchBench | searchFilterDetails : searchBenchDetails | searchFilterDuration : searchDuration  let i=index">
+                            *ngFor="let data of reportData | searchFilter: searchText | searchFilterLocation: searchLocation | searchFilterTeam: searchTeam | searchFilterProgram: searchProgram |  searchFilterSku: searchSku | searchFilterVendor : searchVendor | searchFilterAllocated : searchAllocated | searchFilterFromWW : searchfromWW | searchFilterToWW : searchtoWW | searchFilterBench : searchBench | searchFilterDetails : searchBenchDetails | searchFilterDuration : searchDuration | searchFilterApprovedBy : searchApprovedBy  let i=index">
                             <td>{{i+1}}</td>
                             <td>{{data.Location__Name}}</td>
                             <td>{{data.Team}}</td>
@@ -313,6 +318,7 @@
                             <td>{{data.ToWW | ww: 10}}</td>
                             <td>{{data.Duration}}</td>
                             <td>{{data.Remarks}}</td>
+                            <td>{{data.approvedBy}}</td>
                             <!-- <td><input class="form-check-input chcekbox-style" type="checkbox" value="" id="flexCheckChecked"/></td> -->
                         </tr>
                     </tbody>
@@ -472,6 +478,19 @@
             <input name="target" [(ngModel)]="searchDuration" placeholder="Search Duration" type="text"
                 class="form-control" />
             <i class="fas fa-times" (click)="clearInput()" *ngIf="searchDuration !== ''"></i>
+            <i class="flaticon-search fas fa-search"></i>
+        </div>
+    </div>
+</ng-template>
+<ng-template #ApprovedBySearch>
+    <div class="search-tooltip">
+        <div class="tooltip-header">
+            <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
+        </div>
+        <div class="form-group search-ctrl">
+            <input name="target" [(ngModel)]="searchApprovedBy" placeholder="Search ApprovedBy" type="text"
+                class="form-control" />
+            <i class="fas fa-times" (click)="clearInput()" *ngIf="searchApprovedBy !== ''"></i>
             <i class="flaticon-search fas fa-search"></i>
         </div>
     </div>

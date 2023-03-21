@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { SummaryService } from '../shared/service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -15,7 +21,8 @@ export class ApproveComponent implements OnInit {
     private dataSvc: SummaryService,
     private toastrService: ToastrService,
     private modalService: NgbModal,
-    config: NgbModalConfig
+    config: NgbModalConfig,
+    private cd: ChangeDetectorRef
   ) {
     config.backdrop = 'static';
     config.size = 'md';
@@ -30,7 +37,25 @@ export class ApproveComponent implements OnInit {
       }
     });
   }
+  userName: any;
+  roleName: any;
+  userWWID: any;
+  avatarURL: string;
+  mailId: any;
+  userIDSID: any;
+  badge: any;
+  userImage: any;
   ngOnInit(): void {
+    this.dataSvc.GetUser().subscribe((res: any) => {
+      console.log('userdeatils', res);
+      this.userName = res?.displayName;
+      this.userImage = res?.avatarURL;
+      this.userIDSID = res?.idsid;
+      this.roleName = res?.Role;
+      this.userWWID = res?.wwid;
+      this.mailId = res?.emailId;
+      console.log(res);
+    });
     this.viewApprovalRequests();
   }
   //**** Sorting functionality in table(ascending descending order) ****//
@@ -71,6 +96,7 @@ export class ApproveComponent implements OnInit {
     let requestIdList = {
       requestIdList: this.approveBenchList,
       Reason: this.reason,
+      rejectedBy: this.userName,
     };
     this.closeReject();
     this.dataSvc.rejectBenchList(requestIdList).subscribe((res) => {
@@ -116,6 +142,7 @@ export class ApproveComponent implements OnInit {
     }); */
     let requestIdList = {
       requestIdList: this.approveBenchList,
+      approvedBy: this.userName,
     };
     this.dataSvc.approveBenchList(requestIdList).subscribe((res) => {
       if (res) {
@@ -182,10 +209,13 @@ export class ApproveComponent implements OnInit {
   isCheckedAll = false;
   checkAll(event: any) {
     if (event.currentTarget.checked == true) {
-      this.isChecked = true;
+      this.isChecked = false;
+      this.cd.detectChanges();
+      this.approveBenchList = [];
       this.approvallist.forEach((element: any) => {
         this.approveBenchList.push(element.id);
       });
+      this.isChecked = true;
     } else if (event.currentTarget.checked == false) {
       this.isChecked = false;
       this.approveBenchList = [];

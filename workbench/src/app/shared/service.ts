@@ -213,6 +213,16 @@ export class SummaryService {
     return this.http.post(this.ServiceURL + 'home/AddUser/', req);
   }
 
+  // ***** approver view add user data API ******//
+  public getAddApproverData(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/AddApproverUser/', req);
+  }
+
+  // *****  user data API ******//
+  public getApproverUserData(): Observable<any> {
+    return this.http.get(this.ServiceURL + 'home/AddApproverUser/');
+  }
+
   // ***** User view update user data API ******//
   public getUserUpdateData(req: any): Observable<any> {
     return this.http.put(this.ServiceURL + 'home/AddUser/', req);
@@ -221,6 +231,11 @@ export class SummaryService {
   // ***** User view delete team data API ******//
   public getUserDelete(req: any): Observable<any> {
     return this.http.post(this.ServiceURL + 'home/DeleteUser/', req);
+  }
+
+  // ***** User view delete team data API ******//
+  public getApproverUserDelete(req: any): Observable<any> {
+    return this.http.post(this.ServiceURL + 'home/DeleteApproverUser/', req);
   }
 
   // ***** API for  new user data for request access ******//

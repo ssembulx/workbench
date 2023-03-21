@@ -37,6 +37,7 @@ import {
   SearchDuration,
   SearchBenchdetails,
   SearchPipeFeedback,
+  SearchApprovedBy,
 } from './search.pipe';
 import { SummaryService } from './shared/service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -60,6 +61,7 @@ import { LabEfficiencyUtilizationComponent } from './lab-efficiency-utilization/
 import { ForecastComponent } from './forecast/forecast.component';
 import { TutorialComponent } from './tutorial/tutorial.component';
 import { AuhenticateComponent } from './auhenticate/auhenticate.component';
+import { ApproverComponent } from './approver/approver.component';
 /* import { ToastrService } from 'ngx-toastr'; */
 @NgModule({
   declarations: [
@@ -92,6 +94,7 @@ import { AuhenticateComponent } from './auhenticate/auhenticate.component';
     SearchBenchdetails,
     SearchDuration,
     SearchPipeFeedback,
+    SearchApprovedBy,
     SemicirclePieChartComponent,
     PublishComponent,
     PlatformComponent,
@@ -105,7 +108,8 @@ import { AuhenticateComponent } from './auhenticate/auhenticate.component';
     LabEfficiencyUtilizationComponent,
     ForecastComponent,
     TutorialComponent,
-    AuhenticateComponent
+    AuhenticateComponent,
+    ApproverComponent,
   ],
   imports: [
     BrowserModule,
