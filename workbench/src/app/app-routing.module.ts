@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { AllocationComponent } from './allocation/allocation.component';
 import { ApproveComponent } from './approve/approve.component';
+import { ApproverComponent } from './approver/approver.component';
 import { AuhenticateComponent } from './auhenticate/auhenticate.component';
 import { AuthGuard } from './auth/auth.guard';
 import { FeedbackComponent } from './feedback/feedback.component';
@@ -119,13 +120,17 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'approver',
+    component: ApproverComponent,
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'access-restrict',
     component: AccessDeniedComponent,
-   
   },
   {
     path: 'User-authenticate',
-    component: AuhenticateComponent
+    component: AuhenticateComponent,
   },
 ];
 

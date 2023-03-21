@@ -1,0 +1,559 @@
+.users {
+    display: flex;
+    padding: 83px 0 6px;
+    height: 100vh;
+
+    .content {
+        // width: 100%;
+        background-color: #ffff;
+        // box-shadow: 0 0 13px 11px #dfd4d4;;
+        width: 98%;
+        margin: 7px 12px 7px 17px;
+        border-radius: 10px;
+        .user-content{
+            .table-container {
+                width: 98%;
+                overflow: auto;
+                margin: 0px 15px 0px 15px;
+
+                .user-table {
+                    max-width: 150%;
+                    margin-top: 8px;
+
+                    thead {
+                        background-color: #d5cbd7;
+                        display: table;
+                        width: 100%;
+                        table-layout: fixed;
+
+                        tr {
+                            th {
+                                    text-align: center;
+                                    &:first-child {
+                                        width: 5%;
+                                    }
+                                    &:nth-child(2) {
+                                        width: 8.6%;
+                                    }
+    
+                                    &:nth-child(3) {
+                                        width: 7.3%;
+                                    }
+    
+                                    &:nth-child(4) {
+                                        width: 12.3%;
+                                    }
+    
+                                    &:nth-child(5) {
+                                        width: 19.3%;
+                                    }
+                                    &:nth-child(6) {
+                                        width: 10.3%;
+                                    }
+                                    &:nth-child(7) {
+                                        width: 9.3%;
+                                    }
+                                    &:nth-child(8) {
+                                        width: 19.3%;
+                                    }
+                                }
+                        }
+
+                    }
+
+                    tbody {
+                        display: block;
+                        max-height: 70vh;
+                        overflow-y: auto;
+
+                        tr {
+                            display: table;
+                            width: 100%;
+                            table-layout: fixed;
+
+                            td {
+                            
+                                &:first-child {
+                                    width: 5%;
+                                }
+
+                                &:nth-child(2) {
+                                    width: 8.6%;
+                                }
+
+                                &:nth-child(3) {
+                                    width: 7.3%;
+                                }
+
+                                &:nth-child(4) {
+                                    width: 12.3%;
+                                }
+
+                                &:nth-child(5) {
+                                    width: 19.4%;
+                                }
+
+                                &:nth-child(6) {
+                                    width: 10.2%;
+                                }
+
+                                &:nth-child(7) {
+                                    width: 9.3%;
+                                }
+                                &:nth-child(8) {
+                                    width: 19.3%;
+                                }
+                               a{
+                                cursor: pointer;
+                               }
+                            }
+                        }
+                    }
+
+                }
+
+                .search-bar {
+                    .input-group {
+                        width: 19%;
+                        // float: right;
+                        margin-left: 72%;
+
+                        input {
+                            height: 35px;
+                            padding: 5px;
+                        }
+
+                        input[type=text] {
+                            padding: 3px 0px;
+                            padding-left: 10px;
+
+                            input[type=text]::placeholder {
+                                text-align: center;
+                            }
+
+                        }
+                    }
+
+                    .save-btn {
+                        float: right;
+                        font-family: "IntelOne Display AR Medium";
+                        background-color: #0071c5;
+                        padding: 3px 0px;
+                        color: white;
+                        border-top-right-radius: 5px;
+                        border-bottom-right-radius: 5px;
+                        border-top-left-radius: 0;
+                        border-bottom-left-radius: 0;
+                        box-shadow: #7f9fff 3px 3px 6px 0px inset, #350d33 -3px -3px 6px 1px inset;
+                        width: 40px;
+                        text-align: center;
+                        height: 35px;
+
+                        i {
+                            font-size: 16px;
+                            margin-top: 4px;
+                        }
+                    }
+
+                    .save-btn:hover {
+                        float: right;
+                        font-family: "IntelOne Display AR Medium";
+                        background-color: #0071c5;
+                        padding: 3px 0px;
+                        color: white;
+                        border-top-right-radius: 5px;
+                        border-bottom-right-radius: 5px;
+                        border-top-left-radius: 0;
+                        border-bottom-left-radius: 0;
+                        box-shadow: #7f9fff 3px 3px 6px 0px inset, #350d33 -3px -3px 6px 1px inset;
+                        width: 40px;
+                        text-align: center;
+                    }
+                }
+
+            }
+        }
+
+        .btn-add-user {
+            text-align: right;
+            margin-top: 3px;
+             
+                button {
+                    border: none;
+                    padding: 2px 7px 2px 6px;
+                    border-top-right-radius: 4px;
+                    border-bottom-right-radius: 4px;
+                } 
+                .add-btn {
+                    font-family: "IntelOne Display AR Medium";
+                    background-color: #0071c5;
+                    padding: 4px;
+                    color: white;
+                    font-size: 13px;
+                    border-radius: 0px;
+                    box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
+                    width: 105px;
+                    text-align: center;
+                    margin-top: 6px;
+                }             
+        }
+    }
+}
+
+// =========== add user modal popup =============== //
+.modal-add {
+   
+
+            .modal-header {
+                background-color: #0071c5;
+                font-weight: 600;
+                color: white;
+                padding: 10px 18px;
+            }
+
+            .modal-body {
+                padding-bottom: 7px;
+
+                .user-table {
+                    max-width: 150%;
+                    margin-top: 6px;
+                    // border: 1px solid grey;
+                    tbody {
+                        td {
+                            text-align: center;
+                            font-weight: bold;
+                            &:first-child {
+                                width: 50%;
+                            }
+                          .text-box{
+                            outline: none;
+                            border: none;
+                            width: 100%;
+                          }
+                          .wwid-text-box{
+                            outline: none;
+                            border: none;
+                            width: 68%;
+                          }
+                          .form-select{
+                            margin-left: 0.5%;
+                            width: 99%;
+                            border: none;
+                          }
+                          i {
+                            right: -10px;
+                            bottom: -1px;
+                            height: 24px;
+                            text-align: center;
+                            width: 25px;
+                            border-radius: 3px;
+                            font-size: 15px;
+                            font-weight: bold;
+                            line-height: 25px;
+                            color: #fff;
+                            cursor: pointer;
+                            background: #0071c5;
+                            margin-left: 20%;
+                        }
+                        }
+                    }
+                  
+                }
+                .para-text{
+                  font-weight: 600;
+                  color:red;
+                //   font-size: 14px;
+                }
+            }
+
+            .modal-footer {
+                padding: 7px;
+
+                .back-btn {
+                    font-family: "IntelOne Display AR Medium";
+                    background-color: #0071c5;
+                    padding: 4px 10px;
+                    color: white;
+                    font-size: 14px;
+                    border-radius: 0px;
+                    box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
+                    width: 87px;
+                    text-align: center;
+                }
+
+                .back-btn:hover {
+                    font-family: "IntelOne Display AR Medium";
+                    background-color: #0071c5;
+                    color: white;
+                }
+            }
+        }
+    
+
+
+::ng-deep .modal-content{
+    margin-top:150px;
+    // width: 100%;
+    // margin-left: 7%;
+}
+
+// =========== delete modal popup =============== //
+.modal-delete {
+    border: none;
+
+    .modal-header {
+        background-color: #0071c5;
+        font-weight: 600;
+        color: white;
+        padding: 10px 18px;
+    }
+
+    .modal-body {
+        padding-bottom: 7px;
+
+        .container{
+            .para-style{
+                font-size: 18px;
+            }
+        }
+    }
+
+    .modal-footer {
+        padding: 7px;
+
+        .back-btn {
+            font-family: "IntelOne Display AR Medium";
+            background-color: #0071c5;
+            padding: 4px 10px;
+            color: white;
+            font-size: 14px;
+            border-radius: 0px;
+            box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
+            width: 87px;
+            text-align: center;
+        }
+
+        .back-btn:hover {
+            font-family: "IntelOne Display AR Medium";
+            background-color: #0071c5;
+            color: white;
+        }
+        .delete-btn{
+            font-family: "IntelOne Display AR Medium";
+            padding: 4px 10px;
+            color: white;
+            font-size: 14px;
+            border-radius: 0px;
+            box-shadow: #842029 3px 3px 6px 0px inset, #842029 -3px -3px 6px 1px inset;
+            width: 87px;
+            text-align: center;
+        }
+        .delete-btn:hover {
+            font-family: "IntelOne Display AR Medium";
+            color: white;
+        }
+
+    }
+}
+
+// =========== edit modal popup =============== //
+.modal-edit{
+    border: none;
+
+    .modal-header {
+        background-color: #0071c5;
+        font-weight: 600;
+        color: white;
+        padding: 10px 18px;
+    }
+
+    .modal-body {
+        padding-bottom: 7px;
+
+        .label-style{
+            margin-bottom: 10px;
+        }
+        .float-role{
+            display: flex;
+            label{
+                margin-top: 5px;
+            }
+            .form-select{
+                margin-left: 29.5%;
+                width: 65%;
+                margin-bottom: 10px;
+            }
+        }
+
+    }
+
+    .modal-footer {
+        padding: 7px;
+
+        .back-btn {
+            font-family: "IntelOne Display AR Medium";
+            background-color: #0071c5;
+            padding: 4px 10px;
+            color: white;
+            font-size: 14px;
+            border-radius: 0px;
+            box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
+            width: 87px;
+            text-align: center;
+        }
+
+        .back-btn:hover {
+            font-family: "IntelOne Display AR Medium";
+            background-color: #0071c5;
+            color: white;
+        }
+    }
+}
+
+
+th span.sort-by {
+  cursor: pointer; 
+	padding-right: 18px;
+	position: relative;
+}
+span.sort-by:before,
+span.sort-by:after {
+	border: 4px solid transparent;
+	content: "";
+	display: block;
+	height: 0;
+	right: 5px;
+	top: 50%;
+	position: absolute;
+	width: 0;
+}
+span.sort-by:before {
+	border-bottom-color: #0071c5;
+	margin-top: -9px;
+}
+span.sort-by:after {
+	border-top-color: #0071c5;
+	margin-top: 1px;
+}
+
+  /* Spinner */
+  .chart-loader {
+    position: relative;
+}
+
+.spinner-container {
+    display: flex;
+    flex-direction: column;
+    height: 11vh;
+    justify-content: center;
+    align-items: center;
+    margin-top: 12%;
+}
+
+.proccessing-text {
+    margin-top: 13px;
+    color: #0070c0;
+    font-weight: bolder;
+    font-size: 15px;
+    font-family: Intel Clear, tahoma, Helvetica, Arial, sans-serif;
+    margin-left: -32px;
+}
+
+.spinner {
+    width: 100px;
+    height: 55px;
+    /* text-align: center; */
+    font-size: inherit;
+    margin-left: -3%;
+}
+
+.spinner>div {
+    background-color: #0070c0;
+    height: 100%;
+    width: 7px;
+    margin-right: 3px;
+    display: inline-block;
+
+    -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+    animation: sk-stretchdelay 1.2s infinite ease-in-out;
+}
+
+.spinner .rect2 {
+    -webkit-animation-delay: -1.1s;
+    animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+}
+
+.spinner .rect4 {
+    -webkit-animation-delay: -0.9s;
+    animation-delay: -0.9s;
+}
+
+.spinner .rect5 {
+    -webkit-animation-delay: -0.8s;
+    animation-delay: -0.8s;
+}
+
+.spinner .rect6 {
+    -webkit-animation-delay: -0.7s;
+    animation-delay: -0.7s;
+}
+
+.spinner .rect7 {
+    -webkit-animation-delay: -0.6s;
+    animation-delay: -0.6s;
+}
+
+.spinner .rect8 {
+    -webkit-animation-delay: -0.5s;
+    animation-delay: -0.5s;
+}
+
+.spinner .rect9 {
+    -webkit-animation-delay: -0.4s;
+    animation-delay: -0.4s;
+}
+
+.spinner .rect10 {
+    -webkit-animation-delay: -0.3s;
+    animation-delay: -0.3s;
+}
+
+.spinner .rect11 {
+    -webkit-animation-delay: -0.2s;
+    animation-delay: -0.2s;
+}
+
+.spinner .rect12 {
+    -webkit-animation-delay: -0.1s;
+    animation-delay: -0.1s;
+}
+
+.overlay-main {
+    position: absolute;
+    width: 98%;
+    height: 59vh;
+    margin-left: 1%;
+    background: none no-repeat scroll 0 0 white;
+    opacity: 0.85;
+    margin-top: -559px;
+}
+
+@-webkit-keyframes sk-stretchdelay {
+
+    0%,
+    40%,
+    100% {
+        -webkit-transform: scaleY(0.5)
+    }
+  }
+
+  .no_data_block_display{
+    margin-top: 17%;
+    text-align: center;
+    color: #9eacb4;
+}

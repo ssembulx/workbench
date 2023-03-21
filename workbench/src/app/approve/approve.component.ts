@@ -37,7 +37,25 @@ export class ApproveComponent implements OnInit {
       }
     });
   }
+  userName: any;
+  roleName: any;
+  userWWID: any;
+  avatarURL: string;
+  mailId: any;
+  userIDSID: any;
+  badge: any;
+  userImage: any;
   ngOnInit(): void {
+    this.dataSvc.GetUser().subscribe((res: any) => {
+      console.log('userdeatils', res);
+      this.userName = res?.displayName;
+      this.userImage = res?.avatarURL;
+      this.userIDSID = res?.idsid;
+      this.roleName = res?.Role;
+      this.userWWID = res?.wwid;
+      this.mailId = res?.emailId;
+      console.log(res);
+    });
     this.viewApprovalRequests();
   }
   //**** Sorting functionality in table(ascending descending order) ****//
@@ -78,6 +96,7 @@ export class ApproveComponent implements OnInit {
     let requestIdList = {
       requestIdList: this.approveBenchList,
       Reason: this.reason,
+      rejectedBy: this.userName,
     };
     this.closeReject();
     this.dataSvc.rejectBenchList(requestIdList).subscribe((res) => {
@@ -123,6 +142,7 @@ export class ApproveComponent implements OnInit {
     }); */
     let requestIdList = {
       requestIdList: this.approveBenchList,
+      approvedBy: this.userName,
     };
     this.dataSvc.approveBenchList(requestIdList).subscribe((res) => {
       if (res) {

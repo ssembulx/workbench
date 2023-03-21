@@ -58,7 +58,18 @@
             <a routerLink="/LabEfficiencyUtilization" *ngIf="roleName == 'Admin'">Lab Efficiency Utilization</a>
             <a routerLink="/forecast" *ngIf="roleName == 'Admin'">Forecast</a>
             <a routerLink="/publish" *ngIf="roleName == 'Admin'">Publish</a> -->
-            <a routerLink="/user" *ngIf="roleName == 'Admin'">User</a>
+            <!-- <a routerLink="/user" *ngIf="roleName == 'Admin'">User</a> -->
+            <div class="dropdown d-flex" *ngIf="roleName == 'Admin'">
+                <button class="dropdown_btn dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    User <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuButton"
+                    style="margin-top: 28px;margin-left: -18px;">
+                    <a [routerLink]="['/user']" (click)="changeView()" class="dropdown-item">User Details</a>
+                    <a [routerLink]="['/approver']" (click)="changeView()" class="dropdown-item">Approver Details</a>
+                </div>
+            </div>
             <a routerLink="/approveuser" *ngIf="roleName == 'Admin'">New User Approval</a>
             <div class="dropdown d-flex" *ngIf="roleName == 'Admin'">
                 <button class="dropdown_btn dropdown-toggle" type="button" id="dropdownMenuButton"
