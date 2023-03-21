@@ -670,10 +670,10 @@ Value : any = false;
         
       });
 
-      if(chartType == 'Team/Program chart'){
+      if(chartType != 'Location chart'){
           //pie-chart label
           pieSeries.labels.template.setAll({
-          text: "{category}",
+          text: "{category} ({value}) : {valuePercentTotal}%",
           inside: true,
           textType: "adjusted",
           radius: 10,
@@ -772,7 +772,7 @@ Value : any = false;
         );
       }
    
-      if(chartType != 'Team/Program chart'){
+      if(chartType == 'Location chart'){
          legend.data.setAll(pieSeries.dataItems);
       }
       
@@ -1037,7 +1037,7 @@ Value : any = false;
 
       //pie-chart label
       pieSeries.labels.template.setAll({
-        text: "{category}",
+        text: "{category} ({value}) : {valuePercentTotal}%",
         inside: true,
         textType: "adjusted",
         radius: 10,
@@ -1377,7 +1377,7 @@ Value : any = false;
 
       //pie-chart label
        pieSeries.labels.template.setAll({
-        text: "{category}",
+        text: "{category} ({value}) : {valuePercentTotal}%",
         inside: true,
         textType: "adjusted",
         radius: 10,

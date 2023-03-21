@@ -38,19 +38,41 @@ export class UserApproveComponent implements OnInit {
     }
   
   //****** Select a row for approval using checkbox ******//
-  checkRow(data: any, wwid: any) {
+  approveUserList: any = [];
+  checkRow(data: any, wwid: any, event: any) {
     debugger
-    if (this.userList.length === 0) {
-      this.userList.push(data);
-    } else {
-      this.userList.forEach((element: any, index: any) => {
-        if (element.wwid == wwid) {
-          this.userList.splice(index, 1);
-        } else {
-          this.userList.push(data);
+    if (event.currentTarget.checked == true) {
+      // this.approveBenchList.push(data);
+      this.approveUserList.push(wwid);
+      if (this.userList.length == this.approveUserList.length) {
+        this.isCheckedAll = true;
+      } else {
+        this.isCheckedAll = false;
+      }
+    } else if (event.currentTarget.checked == false) {
+      this.approveUserList.forEach((element: any, index: any) => {
+        /* if (element.id == id) { */
+        if (element == wwid) {
+          this.approveUserList.splice(index, 1);
         }
       });
+      if (this.userList.length == this.approveUserList.length) {
+        this.isCheckedAll = true;
+      } else {
+        this.isCheckedAll = false;
+      }
     }
+    // if (this.userList.length === 0) {
+    //   this.userList.push(data);
+    // } else {
+    //   this.userList.forEach((element: any, index: any) => {
+    //     if (element.wwid == wwid) {
+    //       this.userList.splice(index, 1);
+    //     } else {
+    //       this.userList.push(data);
+    //     }
+    //   });
+    // }
     console.log(this.userList,"checked");
   }
 
@@ -69,13 +91,8 @@ export class UserApproveComponent implements OnInit {
       // delete element['id'];
       this.finalResultList.push(finalResult);
     });
-    // let obj = {
-    //   RequestId:this.userList[0].RequestId,
-    //   ApprovedBy:JSON.parse(username)
-    // }
     this.service.userApproveList(this.finalResultList).subscribe((res) => {
       if (res) {
-        // this.viewApprovalRequests();
         this.userList = [];
         this.toastrService.success(
           'Approved Successfully',
@@ -140,6 +157,19 @@ export class UserApproveComponent implements OnInit {
     this.modalReference.close();
   }
 
+  isChecked = false;
+  isCheckedAll = false;
+  checkAll(event: any) {
+    if (event.currentTarget.checked == true) {
+      this.isChecked = true;
+      this.userList.forEach((element: any) => {
+        this.approveUserList.push(element.id);
+      });
+    } else if (event.currentTarget.checked == false) {
+      this.isChecked = false;
+      this.approveUserList = [];
+    }
+  }
   //**** Sorting functionality in table(ascending descending order) ****//
   setOrderRelease(value: string) {
   if (this.orderMappedRelease === value) {

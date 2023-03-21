@@ -18,7 +18,9 @@
                         <th class="v-align" (click)="setOrderRelease('BADGE')"><span class="sort-by">BADGE</span></th>
                         <th class="v-align" (click)="setOrderRelease('APPROVED ON')"><span class="sort-by">APPROVED ON</span></th>
                         <th class="v-align" (click)="setOrderRelease('CREATED ON')"><span class="sort-by">CREATED ON</span></th>
-                        <th class="v-align"></th>
+                        <th class="v-align"><input class="form-check-input chcekbox-style" type="checkbox"
+                            id="flexCheckChecked" ngbTooltip="Select / Deselect All" placement="left"
+                            (click)="checkAll($event)" [(ngModel)]="isCheckedAll"/></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,7 +34,9 @@
                         <td>{{data.Badge}}</td>
                         <td>{{data.ApprovedOn}}</td>
                         <td>{{data.CreatedOn}}</td>
-                        <td><input class="form-check-input chcekbox-style" type="checkbox" (click)="checkRow(data,data.WWID)" id="flexCheckChecked" /></td>
+                        <td>
+                            <input class="form-check-input chcekbox-style" type="checkbox" (click)="checkRow(data,data.WWID,$event)" id="flexCheckChecked" />
+                        </td>
                         <!-- <td>
                             <a (click)="EditRow(editmodal,data.WWID,data.Role__role_name)">Edit</a> |
                             <a (click)="DeleteRow(deletemodal,data.WWID)">Delete</a></td> -->
