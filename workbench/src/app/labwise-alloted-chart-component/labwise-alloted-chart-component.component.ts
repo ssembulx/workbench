@@ -117,8 +117,8 @@ ngOnChanges(changes: SimpleChanges) {
 
     var myEvent = series1.columns.template.events.on("hit", function (ev) {
       console.log("clicked on ", ev.target.dataItem.dataContext);
-      this.processBooking(this.bookingmodalHome);
-      this.openPopUp();
+    /*   this.processBooking(this.bookingmodalHome);
+      this.openPopUp(); */
     }, this);
 
     var series2 = chart.series.push(new am4charts.ColumnSeries());
