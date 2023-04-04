@@ -1152,3 +1152,9 @@ td:first-child {
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
+
+
+
+.fa-refresh:before {
+    content: "\f021";
+}

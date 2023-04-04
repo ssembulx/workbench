@@ -2,7 +2,7 @@
     <div class="row charts-content">
 
         <!-- ******* Semi circle pie chart ******* -->
-         <div class="semi-pie-chart col-12" #fullscreenPie >
+        <div class="semi-pie-chart col-12" #fullscreenPie>
             <div>
                 <div class="chart-style">
                     <div class="caption">
@@ -10,56 +10,58 @@
                         <span class="chart-heading">Summary</span>
                     </div>
                     <div class="caption-right">
-                         <!-- ******* SIV checkbox option ******* -->
-                      <div class="form-group" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
-                        <label class="switch">
-                            <input type="checkbox" class="sivcheckbox" [(ngModel)]="fullcircle" unchecked
-                                (change)="getCheckbox()">
-                            <span class=" slider round"></span>
+                        <!-- ******* SIV checkbox option ******* -->
+                        <div class="form-group"
+                            [ngStyle]="setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
+                            <label class="switch">
+                                <input type="checkbox" class="sivcheckbox" [(ngModel)]="fullcircle" unchecked
+                                    (change)="getCheckbox()">
+                                <span class=" slider round"></span>
 
-                        </label>
-                        <span class="chart-siv-label">SIV</span>
-                        <!--   <input type="checkbox" class="sivcheckbox" [(ngModel)]="semicircle" unchecked
+                            </label>
+                            <span class="chart-siv-label">SIV</span>
+                            <!--   <input type="checkbox" class="sivcheckbox" [(ngModel)]="semicircle" unchecked
                             (change)="getCheckbox();">
                         <label>SIV</label> -->
-                    </div>
+                        </div>
 
-                    <div class="btn-row mr-2" [ngStyle]= "setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
-                        <!-- <div class="btn-dv" [ngClass]="typeChart == 'Location chart' ? 'active-btn' : ''"
+                        <div class="btn-row mr-2"
+                            [ngStyle]="setIconPossition ? {'margin-left': '75% !important'} : {'display':'none'} ">
+                            <!-- <div class="btn-dv" [ngClass]="typeChart == 'Location chart' ? 'active-btn' : ''"
                             (click)="Options('lab')">
                             Lab
                         </div> -->
-                        <div class="btn-dv" [ngClass]="typeChart == 'Location chart' ? 'active-btn' : ''"
-                            (click)="Options('location')">
-                            Location
+                            <div class="btn-dv" [ngClass]="typeChart == 'Location chart' ? 'active-btn' : ''"
+                                (click)="Options('location')">
+                                Location
+                            </div>
+                            <div class="btn-dv" [ngClass]="typeChart == 'Team chart' ? 'active-btn' : ''"
+                                (click)="Options('team')">
+                                Team
+                            </div>
+                            <div class="btn-dv" [ngClass]="typeChart == 'Program chart' ? 'active-btn' : ''"
+                                (click)="Options('program')">
+                                Program
+                            </div>
+                            <div class="btn-dv" [ngClass]="typeChart == 'Vendor chart' ? 'active-btn' : ''"
+                                (click)="Options('vendor')">
+                                Vendor
+                            </div>
+                            <div class="btn-dv" [ngClass]="typeChart == 'Team/Program chart' ? 'active-btn' : ''"
+                                (click)="Options('team/program')">
+                                Program/Team
+                            </div>
                         </div>
-                        <div class="btn-dv" [ngClass]="typeChart == 'Team chart' ? 'active-btn' : ''"
-                            (click)="Options('team')">
-                            Team
-                        </div>
-                        <div class="btn-dv" [ngClass]="typeChart == 'Program chart' ? 'active-btn' : ''"
-                            (click)="Options('program')">
-                            Program
-                        </div>
-                        <div class="btn-dv" [ngClass]="typeChart == 'Vendor chart' ? 'active-btn' : ''"
-                            (click)="Options('vendor')">
-                            Vendor
-                        </div>
-                        <div class="btn-dv" [ngClass]="typeChart == 'Team/Program chart' ? 'active-btn' : ''"
-                            (click)="Options('team/program')">
-                            Program/Team
-                        </div>
-                    </div>
                         <!-- ******* Fullscreen options ******* -->
-                    <div class="float_left-info">
-                        <i class="fas fa-expand expand-display fullscreen-icon" matTooltip="Fullscreen"
-                            (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreenPie"></i>
-                        <i class="fas fa-compress remove-display" (click)="toggleFullScreen();" fullscreenmode
-                            [FullScreenView]="fullscreenPie"></i>
-                    </div>
+                        <div class="float_left-info">
+                            <i class="fas fa-expand expand-display fullscreen-icon" matTooltip="Fullscreen"
+                                (click)="toggleFullScreen();" fullscreenmode [FullScreenView]="fullscreenPie"></i>
+                            <i class="fas fa-compress remove-display" (click)="toggleFullScreen();" fullscreenmode
+                                [FullScreenView]="fullscreenPie"></i>
+                        </div>
 
                     </div>
-                     
+
 
 
 
@@ -75,10 +77,10 @@
                         </div>
                     </div> -->
 
-                  
-                    
 
-                    
+
+
+
                 </div>
             </div>
 
@@ -88,13 +90,18 @@
             <!-- <div *ngIf="!semicircle">
                 <div id="chartdiv"></div>
             </div> -->
-            <div class="caption-title" *ngIf = 'ChartData?.length != 0'>
-                 <!-- <i class="fa fa-chart-bar fa-2x chart-icon"></i>  -->
-                <span class="chart-heading-loc" *ngIf="typeChart == 'Location chart'">Location</span>
-                <span class="chart-heading" *ngIf="typeChart == 'Program chart'">Program/Location</span>
-                <span class="chart-heading" *ngIf="typeChart == 'Vendor chart'">Vendor/Location</span>
-                <span class="chart-heading" *ngIf="typeChart == 'Team chart'">Team/Location</span>
-                <span class="chart-heading" *ngIf="typeChart == 'Team/Program chart'">Program/Team</span>
+            <div class="caption-title" *ngIf='ChartData?.length != 0'>
+                <!-- <i class="fa fa-chart-bar fa-2x chart-icon"></i>  -->
+                <span class="chart-heading-loc" *ngIf="typeChart == 'Location chart'">Location
+                    <i class="fa fa-refresh refresh_icon" aria-hidden="true" ngbTooltip="Refresh Chart" placement="top" (click)="Options('location')"></i></span>
+                <span class="chart-heading" *ngIf="typeChart == 'Program chart'">Program/Location
+                    <i class="fa fa-refresh refresh_icon" aria-hidden="true" ngbTooltip="Refresh Chart" placement="top" (click)="Options('program')"></i></span>
+                <span class="chart-heading" *ngIf="typeChart == 'Vendor chart'">Vendor/Location
+                    <i class="fa fa-refresh refresh_icon" aria-hidden="true" ngbTooltip="Refresh Chart" placement="top" (click)="Options('vendor')"></i></span>
+                <span class="chart-heading" *ngIf="typeChart == 'Team chart'" >Team/Location
+                    <i class="fa fa-refresh refresh_icon" aria-hidden="true" ngbTooltip="Refresh Chart" placement="top" (click)="Options('team')"></i></span>
+                <span class="chart-heading" *ngIf="typeChart == 'Team/Program chart'">Program/Team
+                    <i class="fa fa-refresh refresh_icon" aria-hidden="true" ngbTooltip="Refresh Chart" placement="top" (click)="Options('team/program')"></i></span>
             </div>
 
             <div>
@@ -104,23 +111,23 @@
                 </div>    -->
             </div>
 
-           
-            
+
+
             <div *ngIf="typeChart == 'Team/Program chart'">
-                <hr class="box-hr1"><br/>
-                <div  *ngIf = 'ChartData?.length != 0'>
+                <hr class="box-hr1"><br />
+                <div *ngIf='ChartData?.length != 0'>
                     <span class="chart-title-heading" *ngIf="typeChart == 'Team/Program chart'">Program/Vendor</span>
                 </div>
-               
+
                 <div id="chartdiv1"></div>
 
-                <hr class="box-hr1"><br/>
-                <div  *ngIf = 'ChartData?.length != 0'>
-                 <span class="chart-title-heading" *ngIf="typeChart == 'Team/Program chart'">Program/Location</span>
+                <hr class="box-hr1"><br />
+                <div *ngIf='ChartData?.length != 0'>
+                    <span class="chart-title-heading" *ngIf="typeChart == 'Team/Program chart'">Program/Location</span>
                 </div>
                 <div id="chartdiv2"></div>
             </div>
-           
+
             <!-- <div *ngIf="typeChart == 'Team/Program chart'">
                 <hr class="box-hr2">
                 <div id="chartdiv2"></div>
@@ -131,7 +138,7 @@
                 <app-stacked-chart-component></app-stacked-chart-component>
             </div> -->
 
-           
+
 
             <!-- ******* Semi circle pie chart view ******* -->
             <!-- <div class="pie-block after-fullscreen-pie" *ngIf="semicircle && type == 'pie chart'">
@@ -163,7 +170,7 @@
                     </tbody>
                 </table>
             </div> -->
-        </div> 
+        </div>
         <!-- No data available display -->
         <div class="no_data_block_display" *ngIf='ChartData?.length == 0'>
             <h2 class="mt-2">No Data Available</h2>
@@ -419,7 +426,7 @@
     </div>
     <br />
 
-    
+
 
 
     <!-- ******* Labwise chart  ******* -->
@@ -504,32 +511,30 @@
                 <app-labwise-alloted-chart-component [widget]="ChartData1"></app-labwise-alloted-chart-component>
             </div> -->
 
-             <!-- ******* Labwise chart table view *******  -->
-            <div class="table-container">
-                <table class="table table-bordered piechart-table" *ngIf="Labtype == 'Lab table'">
-                    <thead>
-                        <tr>
-                            <th class="v-align">#</th>
-                            <th class="v-align" (click)="setOrderRelease('Data')"><span class="sort-by">Lab Name</span>
-                            </th>
-                            <th class="v-align" (click)="setOrderRelease('Value')"><span
-                                    class="sort-by">Allocated</span></th>
-                            <th class="v-align" (click)="setOrderRelease('Value')"><span
-                                    class="sort-by">Free</span></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let ele of LabchartData | orderBy: orderMappedRelease:reverseMappedRelease: true ;">
-                            <td>{{ele.slno}}</td>
-                            <td>{{ele.labName}}</td>
-                            <td>{{ele.allocated}}</td>
-                            <td>{{ele.Free}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <!-- ******* Labwise chart table view *******  -->
+    <div class="table-container">
+        <table class="table table-bordered piechart-table" *ngIf="Labtype == 'Lab table'">
+            <thead>
+                <tr>
+                    <th class="v-align">#</th>
+                    <th class="v-align" (click)="setOrderRelease('Data')"><span class="sort-by">Lab Name</span>
+                    </th>
+                    <th class="v-align" (click)="setOrderRelease('Value')"><span class="sort-by">Allocated</span></th>
+                    <th class="v-align" (click)="setOrderRelease('Value')"><span class="sort-by">Free</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ele of LabchartData | orderBy: orderMappedRelease:reverseMappedRelease: true ;">
+                    <td>{{ele.slno}}</td>
+                    <td>{{ele.labName}}</td>
+                    <td>{{ele.allocated}}</td>
+                    <td>{{ele.Free}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-    
+
 
 
 <!-- ****** loader option ****** -->
