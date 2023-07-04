@@ -355,3 +355,67 @@ export class SearchPipeFeedback implements PipeTransform {
     });
   }
 }
+
+@Pipe({
+  name: 'nonsivSearchFilterLab',
+  pure: false,
+})
+export class nonsivSearchLab implements PipeTransform {
+  transform(value: any, args?: any): any {
+    debugger;
+    if (!args) {
+      return value;
+    }
+    return value.filter((val: any) => {
+      return val.location === null
+        ? val.location
+        : val.location
+            .toString()
+            .trim()
+            .toLowerCase()
+            .includes(args.toString().trim().toLowerCase());
+    });
+  }
+}
+
+@Pipe({
+  name: 'nonsivSearchFilterLabDetails',
+  pure: false,
+})
+export class nonsivSearchLabDetails implements PipeTransform {
+  transform(value: any, args?: any): any {
+    debugger;
+    if (!args) {
+      return value;
+    }
+    return value.filter((val: any) => {
+      return val.lab === null
+        ? val.lab
+        : val.lab.toString()
+            .trim()
+            .toLowerCase()
+            .includes(args.toString().trim().toLowerCase());
+    });
+  }
+}
+
+@Pipe({
+  name: 'nonsivSearchFilterLabDetailsNo',
+  pure: false,
+})
+export class nonsivSearchLabDetailsNo implements PipeTransform {
+  transform(value: any, args?: any): any {
+    debugger;
+    if (!args) {
+      return value;
+    }
+    return value.filter((val: any) => {
+      return val.value === null
+        ? val.value
+        : val.value.toString()
+            .trim()
+            .toLowerCase()
+            .includes(args.toString().trim().toLowerCase());
+    });
+  }
+}

@@ -38,6 +38,9 @@ import {
   SearchBenchdetails,
   SearchPipeFeedback,
   SearchApprovedBy,
+  nonsivSearchLab,
+  nonsivSearchLabDetails,
+  nonsivSearchLabDetailsNo
 } from './search.pipe';
 import { SummaryService } from './shared/service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -110,6 +113,9 @@ import { ApproverComponent } from './approver/approver.component';
     TutorialComponent,
     AuhenticateComponent,
     ApproverComponent,
+    nonsivSearchLab,
+    nonsivSearchLabDetails,
+    nonsivSearchLabDetailsNo
   ],
   imports: [
     BrowserModule,

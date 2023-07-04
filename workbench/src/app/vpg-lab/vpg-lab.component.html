@@ -12,7 +12,7 @@
                             </div>
                             <div class="wall-legend">
                                 <img src="./assets/image/non_siv.png">
-                                <h5>Non SIV</h5>
+                                <h5>Non WSE</h5>
                                 <img src="./assets/image/Booked.png">
                                 <h5>Allocated</h5>
                                 <img src="./assets/image/Available.png">
@@ -43,7 +43,11 @@
                                             class=" seat-item seat-available" (click)="selectSeat(seatobj)"
                                             [ngClass]="{  'seat_available_selected_color' : seatobj.status == 'selected' }"
                                             *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested ==false && seatobj.seatLabel != ''  && seatobj.team == 'SIV'">
-                                            <h4>{{seatobj.labelNo}}</h4>
+                                            <!-- <h4>{{seatobj.labelNo}}</h4> -->
+                                            <h4 *ngIf="seatobj.labelNo !='A16-Rack'">
+                                                {{seatobj.labelNo}}</h4>
+                                            <h4 *ngIf="defaultValue=='SRR-2-CRD-5' && seatobj.labelNo =='A16-Rack'"
+                                                style="font-size: 10px;">{{seatobj.labelNo}}</h4>
                                             <img *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested == false  && seatobj.status != 'selected'"
                                                 src="./assets/image/Available.png">
                                             <img *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested == false  && seatobj.status == 'selected'"
@@ -55,7 +59,10 @@
                                             (click)="deSelectSeat(seatobj)"
                                             *ngIf="seatobj.IsAllocated == true && seatobj.seatLabel != '' && seatobj.team == 'SIV'"
                                             [ngClass]="{  'seat_not_available_deselect_color' : seatobj.status == 'deselected' }">
-                                            <h4>{{seatobj.labelNo}}</h4>
+                                            <h4 *ngIf="seatobj.labelNo !='A16-Rack'">
+                                                {{seatobj.labelNo}}</h4>
+                                            <h4 *ngIf="defaultValue=='SRR-2-CRD-5' && seatobj.labelNo =='A16-Rack'"
+                                                style="font-size: 10px;">{{seatobj.labelNo}}</h4>
                                             <img *ngIf="seatobj.IsAllocated == true  && seatobj.status != 'deselected'"
                                                 src="./assets/image/Booked.png">
                                             <img *ngIf="seatobj.IsAllocated == true  && seatobj.status == 'deselected'"
@@ -65,11 +72,15 @@
                                         <div placement="top" ngbTooltip="Desk : {{seatobj.labelNo}} Approval pending"
                                             class="seat-item seat-requested"
                                             *ngIf="seatobj.IsRequested ==true && seatobj.seatLabel != '' && seatobj.team == 'SIV'">
-                                            <h4>{{seatobj.labelNo}}</h4>
+                                            <h4 *ngIf="seatobj.labelNo !='A16-Rack'">
+                                                {{seatobj.labelNo}}</h4>
+                                            <h4 *ngIf="defaultValue=='SRR-2-CRD-5' && seatobj.labelNo =='A16-Rack'"
+                                                style="font-size: 10px;">
+                                                {{seatobj.labelNo}}</h4>
                                             <img src="./assets/image/Requested.png">
                                         </div>
                                         <!-- Non - SIV -->
-                                        <div ngbTooltip="Non SIV : {{seatobj.labelNo}}" placement="top"
+                                        <div ngbTooltip="Non WSE : {{seatobj.labelNo}}" placement="top"
                                             style="position: relative;"
                                             [ngClass]="{ 'seat-item' : true , 'seat-unavailable' : true }"
                                             *ngIf="seatobj.team == 'Non-SIV' && seatobj.seatLabel != ''">
@@ -298,8 +309,7 @@
                                     type="button" (click)="saveBooking()" class="btn btn-primary" mdbWavesEffect>Book
                                     Now</button> -->
                                 <button type="button" (click)="saveBooking()" class="btn btn-primary"
-                                    mdbWavesEffect>Book
-                                    Now</button>
+                                    mdbWavesEffect>Book the Bench</button>
                             </div>
                         </div>
                     </div>
@@ -338,7 +348,7 @@
                         <div class="col-lg-12 selected-seats">
                             <div class="col-lg-12 float_left no-padding" style="text-align: center;">
                                 <button type="button" (click)="deallocateBooking()" class="btn btn-primary"
-                                    mdbWavesEffect>Deallocate</button>
+                                    mdbWavesEffect>Deallocate the Bench</button>
                             </div>
                         </div>
                     </div>

@@ -190,7 +190,17 @@ export class ReportComponent implements OnInit {
   }
 
   exportFile() {
-    this.exportService.exportExcel(this.reportData, 'ReportData');
+    if(this.reportData?.length > 0) {
+      let allocatedDownloadData:any=[];
+      this.reportData.forEach((element:any) => {
+      if(element.status=="allocated"){
+        allocatedDownloadData.push(element);
+      }
+      });
+     // this.exportService.exportExcel(this.reportData, 'ReportData');
+     // console.log(allocatedDownloadData);
+     this.exportService.exportExcel(allocatedDownloadData, 'ReportData');
+    }
   }
 
   toggleFullScreen() {

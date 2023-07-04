@@ -16,6 +16,7 @@ import { left, right } from '@popperjs/core';
 
 import * as am5plugins_exporting from '@amcharts/amcharts5/plugins/exporting';
 import { ToastrService } from 'ngx-toastr';
+import { is } from '@amcharts/amcharts4/core';
 
 @Component({
   selector: 'app-home',
@@ -180,6 +181,7 @@ export class HomeComponent implements OnInit {
   }
   //****Calling API for summary pie chart ***//
   removeNonSIV = false;
+  charttype: any;
   OverallAvailability(charttype: any) {
     this.labwiseChartLoader = false;
     // this.service.OverallAvailability().subscribe((res) => {
@@ -189,13 +191,18 @@ export class HomeComponent implements OnInit {
     //   //this.getFullPiechart();
     //   //this.pieChartLoader = true;
     // });
+    debugger;
+    this.charttype = charttype;
     if (charttype == 'Location chart') {
       this.Count = this.Count + 1;
+      this.labwiseChartLoader = false;
       this.service.getDrillDownChartData().subscribe((res) => {
+        this.labwiseChartLoader = true;
         if (this.sliceHide) {
           let arr: any = [];
           arr = res;
           let arr1: any = [];
+          debugger;
           for (let i = 0, j = 0; i < arr.length; i++) {
             if (arr[i].category != 'Non-SIV') {
               this.removeNonSIV = true;
@@ -218,8 +225,12 @@ export class HomeComponent implements OnInit {
               totalCount = totalCount + obj[i];
             }
           }
+          for (let i = 0; i < this.ChartData.length; i++) {
+            if (this.ChartData[i].category == 'All') {
+              this.ChartData[i].value = totalCount;
+            }
+          }
           this.getFullPiechart(totalCount, this.typeChart);
-          this.labwiseChartLoader = true;
         } else {
           this.ChartData = res;
           this.removeNonSIV = false;
@@ -235,11 +246,12 @@ export class HomeComponent implements OnInit {
               obj[i] = this.ChartData[i].value;
               totalCount = totalCount + obj[i];
             }
+            if (this.ChartData[i].category == 'Non-SIV') {
+              this.ChartData[i].category = 'Non-WSE';
+            }
           }
           this.getFullPiechart(totalCount, this.typeChart);
-          this.labwiseChartLoader = true;
         }
-        //this.labwiseChartLoader = true;
       });
     } else if (charttype == 'Program chart') {
       this.ProgramChart();
@@ -252,12 +264,166 @@ export class HomeComponent implements OnInit {
       this.LabProgramSummary();
     }
   }
+  nonsivLabSearchM = '';
+  nonsivLabBenchSearchM = '';
+  nonsivLabBenchNoSearchM = '';
+  nonsivLabBenchLabelSearchM = '';
+  freeLabSearchM = '';
+  freeLabBenchSearchM = '';
+  freeLabBenchNoSearchM = '';
+  freeLabBenchLabelSearchM = '';
+  //**** Sorting functionality in table(ascending descending order) ****//
+  setOrderRelease(value: string) {
+    if (this.orderMappedRelease === value) {
+      this.reverseMappedRelease = !this.reverseMappedRelease;
+    }
+    this.orderMappedRelease = value;
+  }
+
+  showTestTrendSearch(tollTip: any) {
+    this.tollTipRef = tollTip;
+    tollTip.open();
+  }
+  hideTestTrendSearch() {
+    this.tollTipRef.close();
+  }
+  // showProgramSearch(tollTip:any){
+  //   this.tollTipRef = tollTip;
+  //   tollTip.open();
+  // }
+  searchText = '';
+  searchLocation = '';
+  searchProgram = '';
+  searchVendor = '';
+  searchSku = '';
+  searchAllocated = '';
+  searchfromWW = '';
+  tollTipRef: any;
+  searchtoWW: '';
+  searchBench: '';
+  searchTeam: '';
+  searchDuration: '';
+  searchApprovedBy: '';
+  searchBenchDetails: '';
+  clearInput() {
+    this.searchLocation = '';
+    this.searchProgram = '';
+    this.searchVendor = '';
+    this.searchSku = '';
+    this.searchAllocated = '';
+    this.searchfromWW = '';
+    this.searchtoWW = '';
+    this.searchBench = '';
+    this.searchBenchDetails = '';
+    this.searchTeam = '';
+    this.searchDuration = '';
+  }
+
+  allocatedList: any;
+  freeList: any;
+  nonSIVList: any;
+  typeSubTable: string;
+  reportSummary(param: any, type?: string) {
+    debugger;
+    this.allocatedList = [];
+    this.freeList = [];
+    this.nonSIVList = [];
+    this.typeSubTable = type;
+    if (this.typeChart != 'Location chart') {
+      this.allocatedList = param;
+    } else if (this.typeChart == 'Location chart' && type == 'All') {
+      for (let key in param) {
+        //console.log(key, yourobject[key]);
+        if (key == 'Allocated') {
+          this.allocatedList = param[key];
+        } else if (key == 'Free') {
+          //  this.freeList =
+          let tempList = param[key][0];
+          let tempArr = [];
+          for (let k in tempList) {
+            for (let ke in tempList[k][0]) {
+              let temp = {
+                location: k,
+                lab: ke,
+                value: tempList[k][0][ke],
+              };
+              tempArr.push(temp);
+            }
+          }
+          console.log('tempArr', tempArr);
+          this.freeList = tempArr;
+        } else if (key == 'Non-SIV') {
+          let tempList = param[key][0];
+          let tempArr = [];
+          for (let k in tempList) {
+            for (let ke in tempList[k][0]) {
+              let temp = {
+                location: k,
+                lab: ke,
+                value: tempList[k][0][ke],
+              };
+              tempArr.push(temp);
+            }
+          }
+          console.log('tempArr', tempArr);
+          this.nonSIVList = tempArr;
+        }
+      }
+    } else if (this.typeChart == 'Location chart' && type == 'Free') {
+      let tempArr = [];
+      for (let key in param) {
+        let tempList = param[key][0];
+        for (let k in tempList) {
+          let temp = {
+            location: key,
+            lab: k,
+            value: tempList[k],
+          };
+          tempArr.push(temp);
+        }
+        console.log('tempArr', tempArr);
+      }
+      this.freeList = tempArr;
+    } else if (this.typeChart == 'Location chart' && type == 'Allocated') {
+      /*  let tempArr = [];
+      for (let key in param) {
+        let tempList = param[key][0];
+        for (let k in tempList) {
+          let temp = {
+            location: key,
+            lab: k,
+            value: tempList[k],
+          };
+          tempArr.push(temp);
+        }
+        console.log('tempArr', tempArr);
+      }
+      this.allocatedList = tempArr; */
+      this.allocatedList = param;
+    } else if (this.typeChart == 'Location chart' && type == 'Non-WSE') {
+      let tempArr = [];
+      for (let key in param) {
+        let tempList = param[key][0];
+        for (let k in tempList) {
+          let temp = {
+            location: key,
+            lab: k,
+            value: tempList[k],
+          };
+          tempArr.push(temp);
+        }
+        console.log('tempArr', tempArr);
+      }
+      this.nonSIVList = tempArr;
+    }
+  }
   // **** Calling Location Chart API ****//
   Locationchart() {
     this.labwiseChartLoader = false;
     this.service.LabProgramVendorSummary().subscribe((res) => {
       this.Value = true;
       //breakdown = res.Location;
+      this.labwiseChartLoader = true;
       this.ChartData = res.Location;
       if (this.ChartData.length == 0) {
         this.chartlength = false;
@@ -271,7 +437,6 @@ export class HomeComponent implements OnInit {
         totalCount = totalCount + obj[i];
       }
       this.getFullPiechart(totalCount, this.typeChart);
-      this.labwiseChartLoader = true;
     });
   }
 
@@ -282,6 +447,7 @@ export class HomeComponent implements OnInit {
     this.labwiseChartLoader = false;
     this.service.LabProgramSummary().subscribe((res) => {
       this.ChartData = res;
+      this.labwiseChartLoader = true;
       if (this.ChartData.length == 0) {
         this.chartlength = false;
       } else {
@@ -300,7 +466,6 @@ export class HomeComponent implements OnInit {
       this.getFullPiechart(totalCount, this.typeChart);
       this.ProgramVendorSummary();
       this.ProgramLocationSummary();
-      this.labwiseChartLoader = true;
     });
   }
 
@@ -312,6 +477,7 @@ export class HomeComponent implements OnInit {
     this.service.getProgramChartData().subscribe((res) => {
       this.isProgramLocation = true;
       this.ChartData = res;
+      this.labwiseChartLoader = true;
       if (this.ChartData.length == 0) {
         this.chartlength = false;
       } else {
@@ -328,7 +494,6 @@ export class HomeComponent implements OnInit {
         }
       }
       this.getFullPiechartLocation(totalCount);
-      this.labwiseChartLoader = true;
     });
   }
 
@@ -338,6 +503,7 @@ export class HomeComponent implements OnInit {
     this.labwiseChartLoader = false;
     this.service.ProgramVendorSummary().subscribe((res) => {
       this.ChartData = res;
+      this.labwiseChartLoader = true;
       if (this.ChartData.length == 0) {
         this.chartlength = false;
       } else {
@@ -354,7 +520,6 @@ export class HomeComponent implements OnInit {
         }
       }
       this.getFullPiechartVendor(totalCount);
-      this.labwiseChartLoader = true;
     });
   }
 
@@ -365,6 +530,7 @@ export class HomeComponent implements OnInit {
     this.service.LabVendorSummary().subscribe((res) => {
       this.isVendor = true;
       this.ChartData = res;
+      this.labwiseChartLoader = true;
       if (this.ChartData.length == 0) {
         this.chartlength = false;
       } else {
@@ -381,7 +547,6 @@ export class HomeComponent implements OnInit {
       this.getFullPiechart(totalCount, this.typeChart);
       //console.log('stacked chart', this.ChartData);
       //this.getFullPiechart();
-      this.labwiseChartLoader = true;
     });
   }
 
@@ -392,6 +557,7 @@ export class HomeComponent implements OnInit {
     this.service.getTeamChartData().subscribe((res) => {
       this.isTeam = true;
       this.ChartData = res;
+      this.labwiseChartLoader = true;
       if (this.ChartData.length == 0) {
         this.chartlength = false;
       } else {
@@ -408,7 +574,6 @@ export class HomeComponent implements OnInit {
       }
       console.log('TotalCount', totalCount);
       this.getFullPiechart(totalCount, this.typeChart);
-      this.labwiseChartLoader = true;
     });
   }
 
@@ -419,6 +584,7 @@ export class HomeComponent implements OnInit {
     this.service.getProgramChartData().subscribe((res) => {
       this.isProgram = true;
       this.ChartData = res;
+      this.labwiseChartLoader = true;
       if (this.ChartData.length == 0) {
         this.chartlength = false;
       } else {
@@ -434,11 +600,11 @@ export class HomeComponent implements OnInit {
         }
       }
       this.getFullPiechart(totalCount, this.typeChart);
-      this.labwiseChartLoader = true;
     });
   }
 
   // **** Full Pie-Chart Function ****//
+  reportData: any;
   getFullPiechart(totalCount: any, chartType: any) {
     am5.array.each(am5.registry.rootElements, function (root) {
       if (root?.dom.id == 'chartdiv') {
@@ -678,7 +844,8 @@ export class HomeComponent implements OnInit {
     pieSeries.slices.template.setAll({
       templateField: 'colors',
       strokeOpacity: 0,
-      tooltipText: '{category} ({value}) : {valuePercentTotal}%',
+      tooltipText:
+        "{category} ({value}) : {valuePercentTotal.formatNumber('0.00')}%",
     });
 
     // Pre-select first slice
@@ -693,6 +860,7 @@ export class HomeComponent implements OnInit {
     //Pie chart and bar chart integrating area
     let currentSlice: am5.Slice;
     pieSeries.slices.template.on('active', (active, slice: any) => {
+      debugger;
       if (currentSlice && currentSlice != slice && active) {
         currentSlice.set('active', false);
       }
@@ -706,8 +874,6 @@ export class HomeComponent implements OnInit {
 
       // label2.set("text", slice.dataItem.get("category"));
       label2.set('text', 'Total');
-
-      debugger;
       if (
         this.isTeam == true ||
         this.isProgram == true ||
@@ -749,6 +915,9 @@ export class HomeComponent implements OnInit {
               }
             }
           );
+          this.reportData = slice.dataItem.dataContext.Report;
+          debugger;
+          this.reportSummary(this.reportData);
         } else {
           if (columnChart.series.length >= 1) {
             columnChart.series.clear();
@@ -760,6 +929,9 @@ export class HomeComponent implements OnInit {
             slice.get('fill'),
             false
           );
+          this.reportData = slice.dataItem.dataContext.Report;
+          debugger;
+          this.reportSummary(this.reportData);
         }
       } else {
         this.isTeam = false;
@@ -772,7 +944,7 @@ export class HomeComponent implements OnInit {
           }
           if (this.removeNonSIV == false) {
             createSeries(
-              'Non-SIV',
+              'Non-WSE',
               'Non-SIV',
               slice.dataItem.dataContext.breakdown,
               am5.color('#0xdc4534'),
@@ -793,7 +965,11 @@ export class HomeComponent implements OnInit {
             am5.color('#0x68ad5c'),
             true
           );
-        } else if (slice.dataItem.dataContext.category == 'Non-SIV') {
+
+          this.reportData = slice.dataItem.dataContext.Report[0];
+          debugger;
+          this.reportSummary(this.reportData, 'All');
+        } else if (slice.dataItem.dataContext.category == 'Non-WSE') {
           if (columnChart.series.length >= 1) {
             columnChart.series.clear();
           }
@@ -804,6 +980,10 @@ export class HomeComponent implements OnInit {
             am5.color('#0xdc4534'),
             false
           );
+
+          this.reportData = slice.dataItem.dataContext.Report;
+          debugger;
+          this.reportSummary(this.reportData, 'Non-WSE');
         } else if (slice.dataItem.dataContext.category == 'Allocated') {
           if (columnChart.series.length >= 1) {
             columnChart.series.clear();
@@ -815,6 +995,10 @@ export class HomeComponent implements OnInit {
             am5.color('#0xd7a700'),
             false
           );
+
+          this.reportData = slice.dataItem.dataContext.Report;
+          debugger;
+          this.reportSummary(this.reportData, 'Allocated');
         } else if (slice.dataItem.dataContext.category == 'Free') {
           if (columnChart.series.length >= 1) {
             columnChart.series.clear();
@@ -826,6 +1010,9 @@ export class HomeComponent implements OnInit {
             am5.color('#0x68ad5c'),
             false
           );
+          this.reportData = slice.dataItem.dataContext.Report;
+          debugger;
+          this.reportSummary(this.reportData, 'Free');
         }
       }
       /*  columnSeries.columns.template.setAll({
@@ -842,7 +1029,7 @@ export class HomeComponent implements OnInit {
     if (chartType != 'Location chart') {
       //pie-chart label
       pieSeries.labels.template.setAll({
-        text: '{category} ({value}) : {valuePercentTotal}%',
+        text: "{category} ({value}) : {valuePercentTotal.formatNumber('0.00')}%",
         inside: true,
         textType: 'adjusted',
         radius: 10,
@@ -902,21 +1089,27 @@ export class HomeComponent implements OnInit {
     } else if (this.ChartData.length == 3) {
       var legend = pieSeries.children.push(
         am5.Legend.new(root, {
-          nameField: 'Category',
+          /* nameField: 'Category', */
+          nameField: 'name',
+          fillField: 'color',
+          strokeField: 'color',
           // centerX: am5.percent(-175),
-          x: am5.percent(-24),
+          x: am5.percent(-15),
           y: am5.percent(44),
         })
       );
     } else if (this.ChartData.length == 4) {
       var legend = pieSeries.children.push(
         am5.Legend.new(root, {
-          nameField: 'Category',
+          //nameField: 'Category',
+          nameField: 'name',
+          fillField: 'color',
+          strokeField: 'color',
           // centerX: am5.percent(-175),
-          x: am5.percent(-15),
+          x: am5.percent(-25),
           y: am5.percent(44),
           layout: am5.GridLayout.new(root, {
-            maxColumns: 2,
+            maxColumns: 3,
             fixedWidthGrid: true,
           }),
         })
@@ -936,9 +1129,44 @@ export class HomeComponent implements OnInit {
       );
     }
 
+    /*     legend.labels.template.adapters.add('text', function (text, target,index) {
+      debugger;
+      if (target.dataItem) {
+        return '<5%';
+      }
+      return text;
+    });
+ */
     if (chartType == 'Location chart') {
       var legendDataItem = [...pieSeries.dataItems];
-      legend.data.setAll(legendDataItem);
+      //legend.data.setAll(legendDataItem);
+      if (this.sliceHide) {
+        legend.data.setAll([
+          {
+            name: 'Allocated',
+            color: am5.color(0xd7a700),
+          },
+          {
+            name: 'Free',
+            color: am5.color(0x68ad5c),
+          },
+        ]);
+      } else {
+        legend.data.setAll([
+          {
+            name: 'Non-WSE',
+            color: am5.color(0xdc4534),
+          },
+          {
+            name: 'Allocated',
+            color: am5.color(0xd7a700),
+          },
+          {
+            name: 'Free',
+            color: am5.color(0x68ad5c),
+          },
+        ]);
+      }
       //legend.dataItem.hide(0);
     }
 
@@ -1186,7 +1414,8 @@ export class HomeComponent implements OnInit {
     pieSeries.slices.template.setAll({
       templateField: 'colors',
       strokeOpacity: 0,
-      tooltipText: '{category} ({value}) : {valuePercentTotal}%',
+      tooltipText:
+        "{category} ({value}) : {valuePercentTotal.formatNumber('0.00')}%",
     });
 
     // Pre-select first slice
@@ -1280,7 +1509,7 @@ export class HomeComponent implements OnInit {
 
     //pie-chart label
     pieSeries.labels.template.setAll({
-      text: '{category} ({value}) : {valuePercentTotal}%',
+      text: "{category} ({value}) : {valuePercentTotal.formatNumber('0.00')}%",
       inside: true,
       textType: 'adjusted',
       radius: 10,
@@ -1611,7 +1840,8 @@ export class HomeComponent implements OnInit {
     pieSeries.slices.template.setAll({
       templateField: 'colors',
       strokeOpacity: 0,
-      tooltipText: '{category} ({value}) : {valuePercentTotal}%',
+      tooltipText:
+        "{category} ({value}) : {valuePercentTotal.formatNumber('0.00')}%",
     });
 
     // Pre-select first slice
@@ -1698,7 +1928,7 @@ export class HomeComponent implements OnInit {
 
     //pie-chart label
     pieSeries.labels.template.setAll({
-      text: '{category} ({value}) : {valuePercentTotal}%',
+      text: "{category} ({value}) : {valuePercentTotal.formatNumber('0.00')}%",
       inside: true,
       textType: 'adjusted',
       radius: 10,
@@ -2219,12 +2449,12 @@ export class HomeComponent implements OnInit {
   // }
 
   //**** Sorting functionality in table(ascending descending order) ****//
-  setOrderRelease(value: string) {
+  /*  setOrderRelease(value: string) {
     if (this.orderMappedRelease === value) {
       this.reverseMappedRelease = !this.reverseMappedRelease;
     }
     this.orderMappedRelease = value;
-  }
+  } */
 
   // *** chart options according to click *** //
   // Options(status: any) {
@@ -2305,7 +2535,7 @@ export class HomeComponent implements OnInit {
     } else {
       // alert("please turn on siv toggle")
       this.toastrService.info(
-        'Please toggle SIV button to view this feature'
+        'Please toggle WSE button to view this feature'
         // 'Warning!'
       );
     }
