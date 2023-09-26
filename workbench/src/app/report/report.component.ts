@@ -72,6 +72,15 @@ export class ReportComponent implements OnInit {
     this.service.getReportData().subscribe((res) => {
       this.reportData = res;
       console.log(this.reportData);
+      let allocatedDownloadData: any = [];
+      if (this.reportData?.length > 0) {
+        this.reportData.forEach((element: any) => {
+          if (element.status == 'allocated') {
+            allocatedDownloadData.push(element);
+          }
+        });
+      }
+      this.reportData = allocatedDownloadData;
       this.reportdataLoader = true;
     });
   }
@@ -190,16 +199,16 @@ export class ReportComponent implements OnInit {
   }
 
   exportFile() {
-    if(this.reportData?.length > 0) {
-      let allocatedDownloadData:any=[];
-      this.reportData.forEach((element:any) => {
-      if(element.status=="allocated"){
-        allocatedDownloadData.push(element);
-      }
+    if (this.reportData?.length > 0) {
+      let allocatedDownloadData: any = [];
+      this.reportData.forEach((element: any) => {
+        if (element.status == 'allocated') {
+          allocatedDownloadData.push(element);
+        }
       });
-     // this.exportService.exportExcel(this.reportData, 'ReportData');
-     // console.log(allocatedDownloadData);
-     this.exportService.exportExcel(allocatedDownloadData, 'ReportData');
+      // this.exportService.exportExcel(this.reportData, 'ReportData');
+      // console.log(allocatedDownloadData);
+      this.exportService.exportExcel(allocatedDownloadData, 'ReportData');
     }
   }
 

@@ -17,6 +17,8 @@ import { left, right } from '@popperjs/core';
 import * as am5plugins_exporting from '@amcharts/amcharts5/plugins/exporting';
 import { ToastrService } from 'ngx-toastr';
 import { is } from '@amcharts/amcharts4/core';
+import { ExcelService } from '../shared/excel.service';
+import { ExportService } from '../shared/export.service';
 
 @Component({
   selector: 'app-home',
@@ -62,7 +64,9 @@ export class HomeComponent implements OnInit {
   chartlength: any = true;
   constructor(
     private service: SummaryService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private exportService: ExcelService,
+    private exportService1: ExportService
   ) {}
 
   chartData = [
@@ -603,6 +607,47 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  /* download xl */
+  downloadnonSIVList() {
+    let dataList: any = [];
+    this.nonSIVList.forEach((element: any) => {
+      let temp = {
+        Lab: element.location,
+        Lab_Details: element.lab,
+        Bench: element.value?.length,
+        Bench_Details: element.value.join(','),
+      };
+      dataList.push(temp);
+    });
+    this.exportService.exportAsExcelFile(dataList, 'Non WSE Bench Details');
+  }
+
+  downloadfreeList() {
+    debugger;
+    let dataList: any = [];
+    this.freeList.forEach((element: any) => {
+      let temp = {
+        Lab: element.location,
+        Lab_Details: element.lab,
+        Bench: element.value?.length,
+        Bench_Details: element.value.join(','),
+      };
+      dataList.push(temp);
+    });
+    this.exportService.exportAsExcelFile(dataList, 'Free Bench Details');
+  }
+
+  downloadallocatedList() {
+    this.exportService1.exportExcel(
+      this.allocatedList,
+      'Allocated Bench Details'
+    );
+  }
+
+  downloadallocatedListbench() {
+    this.exportService1.exportExcel(this.allocatedList, 'Bench Details');
+  }
+
   // **** Full Pie-Chart Function ****//
   reportData: any;
   getFullPiechart(totalCount: any, chartType: any) {
@@ -899,7 +944,21 @@ export class HomeComponent implements OnInit {
             }
           );
           /* create series first time */
-          Object.keys(slice.dataItem.dataContext.breakdown[0]).forEach(
+          let keyList: any = [];
+          slice.dataItem.dataContext.breakdown.forEach(
+            (element: any, index: any) => {
+              Object.keys(element).forEach(function (key, index) {
+                //console.log(key, obj[key]);
+                if (key == 'category') {
+                } else {
+                  keyList.push(key);
+                }
+              });
+            }
+          );
+          let uniqeKeyList = [...new Set(keyList)];
+          uniqeKeyList.forEach(
+            //Object.keys(slice.dataItem.dataContext.breakdown[0]).forEach(
             function (key, index) {
               //console.log(key, obj[key]);
               if (key == 'category') {
@@ -1467,10 +1526,21 @@ export class HomeComponent implements OnInit {
             });
           }
         );
-        Object.keys(slice.dataItem.dataContext.breakdown[0]).forEach(function (
-          key,
-          index
-        ) {
+        /* create series first time */
+        let keyList: any = [];
+        slice.dataItem.dataContext.breakdown.forEach(
+          (element: any, index: any) => {
+            Object.keys(element).forEach(function (key, index) {
+              //console.log(key, obj[key]);
+              if (key == 'category') {
+              } else {
+                keyList.push(key);
+              }
+            });
+          }
+        );
+        let uniqeKeyList = [...new Set(keyList)];
+        uniqeKeyList.forEach(function (key, index) {
           //console.log(key, obj[key]);
           if (key == 'category') {
           } else {
@@ -1885,10 +1955,21 @@ export class HomeComponent implements OnInit {
             });
           }
         );
-        Object.keys(slice.dataItem.dataContext.breakdown[0]).forEach(function (
-          key,
-          index
-        ) {
+        /* create series first time */
+        let keyList: any = [];
+        slice.dataItem.dataContext.breakdown.forEach(
+          (element: any, index: any) => {
+            Object.keys(element).forEach(function (key, index) {
+              //console.log(key, obj[key]);
+              if (key == 'category') {
+              } else {
+                keyList.push(key);
+              }
+            });
+          }
+        );
+        let uniqeKeyList = [...new Set(keyList)];
+        uniqeKeyList.forEach(function (key, index) {
           //console.log(key, obj[key]);
           if (key == 'category') {
           } else {

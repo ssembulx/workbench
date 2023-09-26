@@ -362,7 +362,6 @@ export class SearchPipeFeedback implements PipeTransform {
 })
 export class nonsivSearchLab implements PipeTransform {
   transform(value: any, args?: any): any {
-    debugger;
     if (!args) {
       return value;
     }
@@ -384,7 +383,6 @@ export class nonsivSearchLab implements PipeTransform {
 })
 export class nonsivSearchLabDetails implements PipeTransform {
   transform(value: any, args?: any): any {
-    debugger;
     if (!args) {
       return value;
     }
@@ -405,7 +403,6 @@ export class nonsivSearchLabDetails implements PipeTransform {
 })
 export class nonsivSearchLabDetailsNo implements PipeTransform {
   transform(value: any, args?: any): any {
-    debugger;
     if (!args) {
       return value;
     }

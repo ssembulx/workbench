@@ -37,6 +37,7 @@
                                         <!-- Empty space -->
                                         <div class="seat-item seat-space" style="color:white ; background-color:white"
                                             *ngIf="seatobj.seatLabel == ''"> &nbsp; </div>
+
                                         <!-- Desk not Unavailable -->
                                         <!-- [ngClass]="{ 'seat-item' : true , 'seat-available' : seatobj.status == 'available' ,'seat-booked' : seatobj.status == 'booked' ,'seat-unavailable' : seatobj.status == 'unavailable' }" -->
                                         <div placement="top" ngbTooltip="Desk : {{seatobj.labelNo}}"
@@ -53,8 +54,9 @@
                                             <img *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested == false  && seatobj.status == 'selected'"
                                                 src="./assets/image/image.png">
                                         </div>
+
                                         <!-- Desk not available" -->
-                                        <div ngbTooltip="Desk not available" placement="top"
+                                        <div [autoClose]="true" [ngbTooltip]="list" placement="top"
                                             class="seat-item seat-unavailable seat_not_available_color"
                                             (click)="deSelectSeat(seatobj)"
                                             *ngIf="seatobj.IsAllocated == true && seatobj.seatLabel != '' && seatobj.team == 'SIV'"
@@ -68,6 +70,19 @@
                                             <img *ngIf="seatobj.IsAllocated == true  && seatobj.status == 'deselected'"
                                                 src="./assets/image/deselect1.png">
                                         </div>
+                                        <ng-template #list>
+                                            <div class="d-flex flex-column">
+                                                <span class="float_left" style="margin-right: auto;order: 2;">Program :
+                                                    {{seatobj?.AllocationData[0]?.Program}}</span>
+                                                <span class="float_left" style="margin-right: auto;order: 2;">Team :
+                                                    {{seatobj?.AllocationData[0]?.Team}}</span>
+                                                <span class="float_left" style="margin-right: auto;order: 2;">Owner :
+                                                    {{seatobj?.AllocationData[0]?.Who[0]?.Name}}</span>
+                                                <span class="float_left" style="margin-right: auto;order: 2;">Booked
+                                                    Till : {{seatobj?.AllocationData[0]?.ToWW | ww: 10}}</span>
+                                            </div>
+                                        </ng-template>
+
                                         <!-- Desk Requested -->
                                         <div placement="top" ngbTooltip="Desk : {{seatobj.labelNo}} Approval pending"
                                             class="seat-item seat-requested"
@@ -79,11 +94,12 @@
                                                 {{seatobj.labelNo}}</h4>
                                             <img src="./assets/image/Requested.png">
                                         </div>
-                                        <!-- Non - SIV -->
+
+                                        <!-- Non - SIV not Admin Desk available-->
                                         <div ngbTooltip="Non WSE : {{seatobj.labelNo}}" placement="top"
                                             style="position: relative;"
-                                            [ngClass]="{ 'seat-item' : true , 'seat-unavailable' : true }"
-                                            *ngIf="seatobj.team == 'Non-SIV' && seatobj.seatLabel != ''">
+                                            [ngClass]="{ 'seat-item' : true , 'seat-unavailable' : true }" *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested ==false && seatobj.team == 'Non-SIV' && seatobj.seatLabel != '' &&
+                                            userInfo.Role!='Admin'">
                                             <h4>{{seatobj.labelNo}}</h4>
                                             <i class="fa fa-times fa-2x chart-icon"
                                                 style="font-size:44px;color:red;position: absolute;left:7px;top:0px"></i>
@@ -92,6 +108,123 @@
                                             <!--  <img *ngIf="seatobj.dir=='u'" src="../../assets/image/Table_Unavailable.png">
                                 <img *ngIf="seatobj.dir=='r'" src="../../assets/image/Table_Unavailable.png">
                                 <img *ngIf="seatobj.dir=='l'" src="../../assets/image/Table_Unavailable.png"> -->
+                                        </div>
+
+                                        <!-- Non - SIV not Admin Desk not available" -->
+                                        <div [autoClose]="true" [ngbTooltip]="list" placement="top"
+                                            style="position: relative;"
+                                            class="seat-item seat-unavailable seat_not_available_color" *ngIf="seatobj.IsAllocated == true && seatobj.seatLabel != '' && seatobj.team == 'Non-SIV' &&
+                                         userInfo.Role!='Admin'"
+                                            [ngClass]="{  'seat_not_available_deselect_color' : seatobj.status == 'deselected' }">
+                                            <h4 *ngIf="seatobj.labelNo !='A16-Rack'">
+                                                {{seatobj.labelNo}}</h4>
+                                            <i class="fa fa-times fa-2x chart-icon"
+                                                style="font-size:44px;color:red;position: absolute;left:7px;top:0px"></i>
+                                            <h4 *ngIf="defaultValue=='SRR-2-CRD-5' && seatobj.labelNo =='A16-Rack'"
+                                                style="font-size: 10px;">{{seatobj.labelNo}}</h4>
+                                            <img *ngIf="seatobj.IsAllocated == true  && seatobj.status != 'deselected'"
+                                                src="./assets/image/Booked.png">
+                                            <img *ngIf="seatobj.IsAllocated == true  && seatobj.status == 'deselected'"
+                                                src="./assets/image/deselect1.png">
+                                        </div>
+                                        <ng-template #list>
+                                            <div class="d-flex flex-column">
+                                                <span class="float_left" style="margin-right: auto;order: 2;">Program :
+                                                    {{seatobj?.AllocationData[0]?.Program}}</span>
+                                                <span class="float_left" style="margin-right: auto;order: 2;">Team :
+                                                    {{seatobj?.AllocationData[0]?.Team}}</span>
+                                                <span class="float_left" style="margin-right: auto;order: 2;">Owner :
+                                                    {{seatobj?.AllocationData[0]?.Who[0]?.Name}}</span>
+                                                <span class="float_left" style="margin-right: auto;order: 2;">Booked
+                                                    Till : {{seatobj?.AllocationData[0]?.ToWW | ww: 10}}</span>
+                                            </div>
+                                        </ng-template>
+
+                                        <!--Non - SIV not Admin Desk Requested -->
+                                        <div placement="top" ngbTooltip="Desk : {{seatobj.labelNo}} Approval pending"
+                                            class="seat-item seat-requested" style="position: relative;" *ngIf="seatobj.IsRequested ==true && seatobj.seatLabel != '' && seatobj.team == 'Non-SIV' &&
+                                         userInfo.Role!='Admin'">
+                                            <h4 *ngIf="seatobj.labelNo !='A16-Rack'">
+                                                {{seatobj.labelNo}}</h4>
+                                            <i class="fa fa-times fa-2x chart-icon"
+                                                style="font-size:44px;color:red;position: absolute;left:7px;top:0px"></i>
+                                            <h4 *ngIf="defaultValue=='SRR-2-CRD-5' && seatobj.labelNo =='A16-Rack'"
+                                                style="font-size: 10px;">
+                                                {{seatobj.labelNo}}</h4>
+                                            <img src="./assets/image/Requested.png">
+                                        </div>
+
+                                        <!-- Non - SIV Admin Desk available-->
+                                        <div ngbTooltip="Non WSE : {{seatobj.labelNo}}" placement="top"
+                                            style="position: relative;" (click)="selectSeat(seatobj)"
+                                            [ngClass]="{ 'seat-item' : true , 'seat-unavailable' : true , 'seat_available_selected_color' : seatobj.status == 'selected'}"
+                                            *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested ==false && seatobj.team == 'Non-SIV' && seatobj.seatLabel != '' &&
+                                         userInfo.Role=='Admin'">
+                                            <h4>{{seatobj.labelNo}}</h4>
+                                            <i class="fa fa-times fa-2x chart-icon"
+                                                style="font-size:44px;color:red;position: absolute;left:7px;top:0px"></i>
+                                            <img *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested == false  && seatobj.status != 'selected'"
+                                                src="./assets/image/nobg.png">
+                                            <img *ngIf="seatobj.IsAllocated == false && seatobj.IsRequested == false  && seatobj.status == 'selected'"
+                                                src="./assets/image/image.png">
+                                            <!-- <img src="./assets/image/nobg.png"> -->
+                                            <!-- [ngClass]="{ 'rotate_90' : seatobj.dir=='l' , 'rotate_180' : seatobj.dir=='u', 'rotate_270' : seatobj.dir=='r'}" -->
+                                            <!--  <img *ngIf="seatobj.dir=='u'" src="../../assets/image/Table_Unavailable.png">
+                             <img *ngIf="seatobj.dir=='r'" src="../../assets/image/Table_Unavailable.png">
+                             <img *ngIf="seatobj.dir=='l'" src="../../assets/image/Table_Unavailable.png"> -->
+                                        </div>
+
+                                        <!-- Non - SIV Admin Desk not available" -->
+                                        <div [autoClose]="true" [ngbTooltip]="list" placement="top"
+                                            style="position: relative;"
+                                            class="seat-item seat-unavailable seat_not_available_color"
+                                            (click)="deSelectSeat(seatobj)" *ngIf="seatobj.IsAllocated == true && seatobj.seatLabel != '' && seatobj.team == 'Non-SIV' &&
+                                            userInfo.Role=='Admin'"
+                                            [ngClass]="{  'seat_not_available_deselect_color' : seatobj.status == 'deselected' }">
+                                            <h4 *ngIf="seatobj.labelNo !='A16-Rack'">
+                                                {{seatobj.labelNo}}</h4>
+                                            <i class="fa fa-times fa-2x chart-icon"
+                                                style="font-size:44px;color:red;position: absolute;left:7px;top:0px"></i>
+                                            <h4 *ngIf="defaultValue=='SRR-2-CRD-5' && seatobj.labelNo =='A16-Rack'"
+                                                style="font-size: 10px;">{{seatobj.labelNo}}</h4>
+                                            <img *ngIf="seatobj.IsAllocated == true  && seatobj.status != 'deselected'"
+                                                src="./assets/image/Booked.png">
+                                            <img *ngIf="seatobj.IsAllocated == true  && seatobj.status == 'deselected'"
+                                                src="./assets/image/deselect1.png">
+                                        </div>
+                                        <ng-template #list>
+                                            <div class="d-flex flex-column">
+                                                <span class="float_left" style="margin-right: auto;order: 2;">Program :
+                                                    {{seatobj?.AllocationData[0]?.Program}}</span>
+                                                <span class="float_left" style="margin-right: auto;order: 2;">Team :
+                                                    {{seatobj?.AllocationData[0]?.Team}}</span>
+                                                <span class="float_left" style="margin-right: auto;order: 2;">Owner :
+                                                    {{seatobj?.AllocationData[0]?.Who[0]?.Name}}</span>
+                                                <span class="float_left" style="margin-right: auto;order: 2;">Booked
+                                                    Till : {{seatobj?.AllocationData[0]?.ToWW | ww: 10}}</span>
+                                            </div>
+                                        </ng-template>
+
+                                        <!--Non - SIV Admin Desk Requested -->
+                                        <div placement="top" ngbTooltip="Desk : {{seatobj.labelNo}} Approval pending"
+                                            class="seat-item seat-requested" style="position: relative;" *ngIf="seatobj.IsRequested ==true && seatobj.seatLabel != '' && seatobj.team == 'Non-SIV' &&
+                                            userInfo.Role=='Admin'">
+                                            <h4 *ngIf="seatobj.labelNo !='A16-Rack'">
+                                                {{seatobj.labelNo}}</h4>
+                                            <i class="fa fa-times fa-2x chart-icon"
+                                                style="font-size:44px;color:red;position: absolute;left:7px;top:0px"></i>
+                                            <h4 *ngIf="defaultValue=='SRR-2-CRD-5' && seatobj.labelNo =='A16-Rack'"
+                                                style="font-size: 10px;">
+                                                {{seatobj.labelNo}}</h4>
+                                            <img src="./assets/image/Requested.png">
+                                        </div>
+
+                                        <!-- Pillar -->
+                                        <div ngbTooltip="Pillar" placement="top" style="position: relative;"
+                                            [ngStyle]="{ 'width' : seatobj.seatLabel == 'Piller_2'?'95px':'45px'}"
+                                            [ngClass]="{ 'seat-item' : true , 'seat-unavailable' : true }"
+                                            *ngIf="seatobj.team == 'Piller' && seatobj.seatLabel != ''">
+                                            <h4 style="padding-top: 12px;">{{seatobj.labelNo}}</h4>
                                         </div>
                                     </div>
                                 </ng-container>
@@ -206,7 +339,7 @@
                                                     <input class="form-control ip1" name="dp" [(bsValue)]="fromworkweek"
                                                         #d="bsDatepicker" bsDatepicker
                                                         (bsValueChange)="onDateSelectFrom($event)" [minDate]="minDate"
-                                                        disabled>
+                                                        [maxDate]="maxDate" disabled>
                                                     <input type="text" placeholder="WW'YYYY"
                                                         class="form-control cal-input" [(ngModel)]="fromworkweek"
                                                         disabled />
@@ -230,7 +363,7 @@
                                                     <input class="form-control ip1" name="dp" [(bsValue)]="toworkweek"
                                                         #d1="bsDatepicker" bsDatepicker
                                                         (bsValueChange)="onDateSelectTo($event)" [minDate]="minDate"
-                                                        disabled>
+                                                        [maxDate]="maxDate" disabled>
                                                     <input type="text" placeholder="WW'YYYY"
                                                         class="form-control cal-input" [(ngModel)]="toworkweek"
                                                         disabled />
