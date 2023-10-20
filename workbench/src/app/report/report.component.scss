@@ -133,9 +133,9 @@
             }
 
             .table-container {
-                width: 98%;
+                width: 100%;
                 overflow: auto;
-                margin: 0px 15px 0px 15px;
+              /*   margin: 0px 15px 0px 15px; */
                 margin-top: 10px;
 
                 .user-table {
@@ -293,9 +293,9 @@
 
                 .search-bar {
                     .input-group {
-                        width: 19%;
+                       /*  width: 19%;
                         // float: right;
-                        margin-left: 72%;
+                        margin-left: 72%; */
 
                         input {
                             height: 35px;
@@ -360,10 +360,10 @@
                         font-size: 13px;
                         border-radius: 0px;
                         box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
-                        width: 105px;
+                        /* width: 105px; */
                         text-align: center;
-                        margin-left: 92% !important;
-                        margin-top: -58px;
+                      /*   margin-left: 92% !important;
+                        margin-top: -58px; */
                         border-radius: 4px;
 
                         i {
@@ -551,9 +551,9 @@
     }
 
     .table-container {
-        width: 98%;
+        width: 100%;
         overflow: auto;
-        margin: 0px 51px 0px 9px;
+        /* margin: 0px 51px 0px 9px; */
 
         .piechart-table {
             max-width: 150%;
@@ -1315,8 +1315,8 @@ span.sort-by:after {
 
                     .search-bar {
                         .input-group {
-                            width: 19%;
-                            margin-left: 71% !important;
+                           /*  width: 19%;
+                            margin-left: 71% !important; */
                         }
                     }
 
@@ -1328,10 +1328,10 @@ span.sort-by:after {
                             font-size: 13px;
                             border-radius: 0px;
                             box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
-                            width: 105px;
+                           /*  width: 105px; */
                             text-align: center;
-                            margin-left: 91% !important;
-                            margin-top: -58px;
+                          /*   margin-left: 91% !important;
+                            margin-top: -58px; */
                             border-radius: 4px;
                         }
                     }
@@ -1398,8 +1398,8 @@ span.sort-by:after {
 
                     .search-bar {
                         .input-group {
-                            width: 19%;
-                            margin-left: 67% !important;
+                          /*   width: 19%;
+                            margin-left: 67% !important; */
                         }
                     }
 
@@ -1411,10 +1411,10 @@ span.sort-by:after {
                             font-size: 13px;
                             border-radius: 0px;
                             box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
-                            width: 105px;
+                           /*  width: 105px; */
                             text-align: center;
-                            margin-left: 87% !important;
-                            margin-top: -58px;
+                           /*  margin-left: 87% !important;
+                            margin-top: -58px; */
                             border-radius: 4px;
                         }
                     }

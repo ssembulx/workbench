@@ -417,6 +417,14 @@ export class SummaryService {
       },
     });
   }
+  editApprovalRequests(data: any){
+    const serviceUrl = this.ServiceURL + 'home/EditApprovalRequests/';
+    return this.http.post(serviceUrl, data, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
   rejectBenchList(data: any) {
     const serviceUrl = this.ServiceURL + 'home/RejectApprovalRequests/';
     return this.http.post(serviceUrl, data, {

@@ -25,6 +25,7 @@ export class ReportComponent implements OnInit {
   searchApprovedBy: '';
   searchBenchDetails: '';
   reportData: any;
+  reportDataAll: any;
   reportdataLoader = false;
   setIconPossition: boolean = true;
   fullScreenFlag = false;
@@ -39,7 +40,8 @@ export class ReportComponent implements OnInit {
 
   constructor(
     private service: SummaryService,
-    private exportService: ExportService
+    private exportService: ExportService,
+    private dataSvc: SummaryService
   ) {}
 
   //**** Static data for table ****//
@@ -57,8 +59,12 @@ export class ReportComponent implements OnInit {
   //     { slno: 11, LabDetails: "SRR1-1-M15 CRD2 - CSLP Lab2", program: "MTL", SKU: "S", vendor: "Vendor 3", AllocateTo: "Krishna Prasad M", FromWW:"WW33-2022", ToWW:"WW49-2022",Bench:"15",Remarks:""},
   //     { slno: 12, LabDetails: "SRR1-1F B Wing ADL-N PO Lab", program: "MTL", SKU: "M", vendor: "Vendor 4", AllocateTo: "Vijay B R", FromWW:"WW25-2022", ToWW:"WW52-2022",Bench:"18",Remarks:""}
   //   ]
-
+  userInfo: any;
   ngOnInit(): void {
+    this.dataSvc.GetUser().subscribe((res: any) => {
+      console.log('userdeatils', res);
+      this.userInfo = res;
+    });
     this.getReportData();
     this.getLabDetails();
     this.getProgramDetails();
@@ -70,6 +76,7 @@ export class ReportComponent implements OnInit {
   getReportData() {
     this.reportdataLoader = false;
     this.service.getReportData().subscribe((res) => {
+      this.reportDataAll = res;
       this.reportData = res;
       console.log(this.reportData);
       let allocatedDownloadData: any = [];
@@ -206,9 +213,46 @@ export class ReportComponent implements OnInit {
           allocatedDownloadData.push(element);
         }
       });
-      // this.exportService.exportExcel(this.reportData, 'ReportData');
-      // console.log(allocatedDownloadData);
-      this.exportService.exportExcel(allocatedDownloadData, 'ReportData');
+      this.exportService.exportExcel(
+        allocatedDownloadData,
+        'Allocated_Report_Data'
+      );
+    }
+  }
+
+  exportDeallocatedFile() {
+    if (this.reportDataAll?.length > 0) {
+      let deallocatedDownloadData: any = [];
+      this.reportDataAll.forEach((element: any) => {
+        if (element.IsRequested == false && element.IsAllocated == false && element.status == 'complete') {
+          deallocatedDownloadData.push(element);
+        }
+      });
+      this.exportService.exportExcelDeallocated(
+        deallocatedDownloadData,
+        'Deallocated_Report_Data'
+      );
+    }
+  }
+
+  exportAllFile() {
+    if (this.reportDataAll?.length > 0) {
+      this.exportService.exportExcelAll(this.reportDataAll, 'All_Report_Data');
+    }
+  }
+
+  exportRejectedFile() {
+    if (this.reportDataAll?.length > 0) {
+      let rejectedDownloadData: any = [];
+      this.reportDataAll.forEach((element: any) => {
+        if (element.status == 'rejected') {
+          rejectedDownloadData.push(element);
+        }
+      });
+      this.exportService.exportRejectedExcel(
+        rejectedDownloadData,
+        'Rejected_Report_Data'
+      );
     }
   }
 

@@ -1290,8 +1290,15 @@ export class VPGLabComponent implements OnInit, OnChanges {
   deSelectBenchAllocationList: any = [];
   deSelectSeat(seatObject: any) {
     debugger;
-    /*  if (seatObject?.AllocationData[0]?.who[0]?.WWID) {
-    } */
+    if (this.userInfo?.Role == 'User') {
+      if (seatObject?.AllocationData[0]?.Who[0]?.WWID == this.userInfo?.wwid) {
+        this.deSelectSeatFunclogic(seatObject);
+      }
+    } else if (this.userInfo?.Role == 'Admin' || this.userInfo?.Role == 'Lead') {
+      this.deSelectSeatFunclogic(seatObject);
+    }
+  }
+  deSelectSeatFunclogic(seatObject: any) {
     if (seatObject.status != 'deselected' && seatObject.IsAllocated === true) {
       seatObject.status = 'deselected';
 
@@ -1347,6 +1354,8 @@ export class VPGLabComponent implements OnInit, OnChanges {
           LabName: this.defaultValue,
           Reason: this.reason,
           BenchData: [element],
+          DeallcationUserInfo: this.userInfo,
+          DateandTime: new Date().toLocaleString(),
         });
       });
       this.dataSvc

@@ -26,18 +26,18 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     // ***** Local code ***** //
-    /*  const resAuth: any = {
-      emailId: 'arundathix.manjunath@intel.com',
-      name: 'Manjunath, ArundathiX',
-      idsid: 'arundatx',
-      wwid: 12035082,
+     const resAuth: any = {
+      emailId: 'sakthirajanx.sembulingam@intel.com',
+      name: 'Sembulingam, SakthirajanX',
+      idsid: 'ssembulx',
+      wwid: 11981339,
       employeeBadgeType: 'GB',
-      avatarURL: 'https://photos.intel.com/images/12035082.jpg',
-      role: null,
+      avatarURL: 'https://photos.intel.com/images/11981339.jpg',
+      role: 'Admin',
       domain: null,
       comments: null,
-      displayName: 'Manjunath, ArundathiX',
-      isApplicationAccess: false,
+      displayName: 'Sembulingam, SakthirajanX',
+      isApplicationAccess: true,
       programAccesses: null,
       Role: 'Admin',
     };
@@ -59,11 +59,11 @@ export class AuthGuard implements CanActivate {
       this.service.SetUser(resAuth);
       this.router.navigate(['/access-restrict']);
       return false;
-    }  */
+    }
     // ******  Server code ****** //
     //
     //   //  let userInfo = this.service.GetUser();
-  let userInfo;
+  /*   let userInfo;
     this.service.GetUser().subscribe((res: any) => {
       console.log('userdeatils-auth', res);
       userInfo = res;
@@ -95,7 +95,7 @@ export class AuthGuard implements CanActivate {
     } else {
       console.log(userInfo, 'else res userInfo');
       return true;
-    }
+    } */
 
     //   if (!this.helper.token) {
     //     let userToken:any = await this.service.getWindowsAuthP();

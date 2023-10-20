@@ -201,18 +201,47 @@
                 </div>
             </div>
             <div class="table-container" *ngIf="reportData?.length">
-                <div class="search-bar col-12">
-                    <div class="input-group">
-                        <input type="search" name="search" placeholder="Search any field"
-                            class="form-control shadow-none" aria-label="search" [(ngModel)]="searchText">
-                        <div class="input-group-append">
-                            <button type="submit" class="btn save-btn"><i class="fas fa-search"></i></button>
-                        </div>
+                <div class="search-bar col-12 float-right row mb-2">
+                    <div class="col-3 float-right"></div>
+                    <!--  <div class="col-3 float-right">
+                        
+                    </div> -->
+                    <div class="col-9 float-right p-0">
+                        <span class="downloadbtn" style="float: right;margin-left: 1rem!important;">
+                            <button class="btn download-btn" (click)="exportFile()" style="height: 35px;">
+                                <i class="fas fa-download i-download"></i>Download</button>
+                        </span>
+                        <span style="float: right;margin-left: 1rem!important;">
+                            <div class="input-group" style="width: 250px;">
+                                <input type="search" name="search" placeholder="Search any field"
+                                    class="form-control shadow-none" aria-label="search" [(ngModel)]="searchText">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn save-btn"><i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                        </span>
+                        <span class="downloadbtn" style="float: right;margin-left: 1rem!important;margin-top: 8px;"
+                            *ngIf="userInfo.Role=='Admin'">
+                            <a style="text-decoration: underline;color: green;cursor: pointer;"
+                                (click)="exportDeallocatedFile()">Download Deallocation Data </a>
+                            <!--  <button class="btn download-btn" (click)="exportDeallocatedFile()" style="height: 35px;">
+                                <i class="fas fa-download i-download"></i>Download Deallocation Data</button> -->
+                        </span>
+                        <span class="downloadbtn" style="float: right;margin-left: 1rem!important;margin-top: 8px;"
+                            *ngIf="userInfo.Role=='Admin'">
+                            <a style="text-decoration: underline;color: green;cursor: pointer;"
+                                (click)="exportRejectedFile()">Download Rejected Data </a>
+                            <!--  <button class="btn download-btn" (click)="exportDeallocatedFile()" style="height: 35px;">
+                                <i class="fas fa-download i-download"></i>Download Deallocation Data</button> -->
+                        </span>
+                        <span class="downloadbtn" style="float: right;margin-left: 1rem!important;margin-top: 8px;"
+                            *ngIf="userInfo.Role=='Admin'">
+                            <a style="text-decoration: underline;color: green;cursor: pointer;"
+                                (click)="exportAllFile()">Download All Data </a>
+                            <!--  <button class="btn download-btn" (click)="exportDeallocatedFile()" style="height: 35px;">
+                                <i class="fas fa-download i-download"></i>Download Deallocation Data</button> -->
+                        </span>
                     </div>
-                </div>
-                <div class="downloadbtn">
-                    <button class="btn download-btn" (click)="exportFile()">
-                        <i class="fas fa-download i-download"></i>Download</button>
                 </div>
                 <table class="table table-bordered user-table" *ngIf="reportdataLoader">
                     <thead>
