@@ -16,10 +16,14 @@ import { left, right } from '@popperjs/core';
 
 import * as am5plugins_exporting from '@amcharts/amcharts5/plugins/exporting';
 import { ToastrService } from 'ngx-toastr';
-import { is } from '@amcharts/amcharts4/core';
+import { is, number, string } from '@amcharts/amcharts4/core';
 import { ExcelService } from '../shared/excel.service';
 import { ExportService } from '../shared/export.service';
-
+interface dataForBarChart {
+  category: string;
+  subdata: any[];
+  value: number;
+}
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -234,6 +238,110 @@ export class HomeComponent implements OnInit {
               this.ChartData[i].value = totalCount;
             }
           }
+
+          //making JSON format for right side bar chart drill down data
+          this.ChartData.forEach((element: any, index: any) => {
+            debugger;
+            if (element.category == 'Free') {
+              this.freeTotal=element?.value;
+              for (let key in element?.Report) {
+                let tempList = element?.Report[key][0];
+                let tempArr: any = [];
+
+                for (let k in tempList) {
+                  element?.breakdown.forEach((ele: any, ind: any) => {
+                    if (ele.category == key) {
+                      let temp = {
+                        /* location: key, */
+                        category: k,
+                        value: tempList[k]?.length,
+                        subdata: [
+                          {
+                            category: k,
+                            value: tempList[k]?.length,
+                          },
+                        ],
+                      };
+                      tempArr.push(temp);
+                      ele['subdata'] = tempArr;
+                    }
+                  });
+                }
+              }
+            } else if (element.category == 'Non-WSE') {
+              this.nonwseTotal=element?.value;
+              for (let key in element?.Report) {
+                let tempList = element?.Report[key][0];
+                let tempArr: any = [];
+
+                for (let k in tempList) {
+                  element?.breakdown.forEach((ele: any, ind: any) => {
+                    if (ele.category == key) {
+                      let temp = {
+                        /* location: key, */
+                        category: k,
+                        value: tempList[k]?.length,
+                        subdata: [
+                          {
+                            category: k,
+                            value: tempList[k]?.length,
+                          },
+                        ],
+                      };
+                      tempArr.push(temp);
+                      ele['subdata'] = tempArr;
+                    }
+                  });
+                }
+              }
+            } else if (element.category == 'Allocated') {
+              debugger;
+              this.allocatedTotal=element?.value;
+              const groupedData = element?.Report.reduce(
+                (acc: any, obj: any) => {
+                  const key = obj.Location__Name;
+
+                  if (!acc[key]) {
+                    acc[key] = [];
+                  }
+
+                  acc[key].push(obj);
+
+                  return acc;
+                },
+                {}
+              );
+
+              console.log(groupedData);
+              for (let k in groupedData) {
+                let Count = 0;
+                groupedData[k].forEach((element: any) => {
+                  Count = Count + element?.BenchData?.length;
+                });
+                groupedData[k] = {
+                  category: k,
+                  value: Count,
+                  subdata: [
+                    {
+                      category: k,
+                      value: Count,
+                    },
+                  ],
+                };
+              }
+              console.log(groupedData);
+              element?.breakdown.forEach((elem: any) => {
+                let tempArr: any = [];
+                for (let key in groupedData) {
+                  if (key.includes(elem.category)) {
+                    tempArr.push(groupedData[key]);
+                  }
+                }
+                elem['subdata'] = tempArr;
+              });
+            }
+          });
+
           this.getFullPiechart(totalCount, this.typeChart);
         } else {
           this.ChartData = res;
@@ -254,6 +362,109 @@ export class HomeComponent implements OnInit {
               this.ChartData[i].category = 'Non-WSE';
             }
           }
+          //making JSON format for right side bar chart drill down data
+          this.ChartData.forEach((element: any, index: any) => {
+            debugger;
+            if (element.category == 'Free') {
+              this.freeTotal=element?.value;
+              for (let key in element?.Report) {
+                let tempList = element?.Report[key][0];
+                let tempArr: any = [];
+
+                for (let k in tempList) {
+                  element?.breakdown.forEach((ele: any, ind: any) => {
+                    if (ele.category == key) {
+                      let temp = {
+                        /* location: key, */
+                        category: k,
+                        value: tempList[k]?.length,
+                        subdata: [
+                          {
+                            category: k,
+                            value: tempList[k]?.length,
+                          },
+                        ],
+                      };
+                      tempArr.push(temp);
+                      ele['subdata'] = tempArr;
+                    }
+                  });
+                }
+              }
+            } else if (element.category == 'Non-WSE') {
+              this.nonwseTotal=element?.value;
+              for (let key in element?.Report) {
+                let tempList = element?.Report[key][0];
+                let tempArr: any = [];
+
+                for (let k in tempList) {
+                  element?.breakdown.forEach((ele: any, ind: any) => {
+                    if (ele.category == key) {
+                      let temp = {
+                        /* location: key, */
+                        category: k,
+                        value: tempList[k]?.length,
+                        subdata: [
+                          {
+                            category: k,
+                            value: tempList[k]?.length,
+                          },
+                        ],
+                      };
+                      tempArr.push(temp);
+                      ele['subdata'] = tempArr;
+                    }
+                  });
+                }
+              }
+            } else if (element.category == 'Allocated') {
+              debugger;
+              this.allocatedTotal=element?.value;
+              const groupedData = element?.Report.reduce(
+                (acc: any, obj: any) => {
+                  const key = obj.Location__Name;
+
+                  if (!acc[key]) {
+                    acc[key] = [];
+                  }
+
+                  acc[key].push(obj);
+
+                  return acc;
+                },
+                {}
+              );
+
+              console.log(groupedData);
+              for (let k in groupedData) {
+                let Count = 0;
+                groupedData[k].forEach((element: any) => {
+                  Count = Count + element?.BenchData?.length;
+                });
+                groupedData[k] = {
+                  category: k,
+                  value: Count,
+                  subdata: [
+                    {
+                      category: k,
+                      value: Count,
+                    },
+                  ],
+                };
+              }
+              console.log(groupedData);
+              element?.breakdown.forEach((elem: any) => {
+                let tempArr: any = [];
+                for (let key in groupedData) {
+                  if (key.includes(elem.category)) {
+                    tempArr.push(groupedData[key]);
+                  }
+                }
+                elem['subdata'] = tempArr;
+              });
+            }
+          });
+
           this.getFullPiechart(totalCount, this.typeChart);
         }
       });
@@ -497,6 +708,55 @@ export class HomeComponent implements OnInit {
           totalCount = totalCount + obj[i];
         }
       }
+      //making JSON format for right side bar chart drill down data
+      this.ChartData.forEach((element: any, index: any) => {
+        debugger;
+        /* if (element.category == 'Allocated') { */
+          debugger;
+          if(element.category == 'All'){
+            this.allocatedTotal=element?.value;
+          }
+          const groupedData = element?.Report.reduce((acc: any, obj: any) => {
+            const key = obj.Location__Name;
+
+            if (!acc[key]) {
+              acc[key] = [];
+            }
+
+            acc[key].push(obj);
+
+            return acc;
+          }, {});
+
+          console.log(groupedData);
+          for (let k in groupedData) {
+            let Count = 0;
+            groupedData[k].forEach((element: any) => {
+              Count = Count + element?.BenchData?.length;
+            });
+            groupedData[k] = {
+              category: k,
+              value: Count,
+              subdata: [
+                {
+                  category: k,
+                  value: Count,
+                },
+              ],
+            };
+          }
+          console.log(groupedData);
+          element?.breakdown.forEach((elem: any) => {
+            let tempArr: any = [];
+            for (let key in groupedData) {
+              if (key.includes(elem.category)) {
+                tempArr.push(groupedData[key]);
+              }
+            }
+            elem['subdata'] = tempArr;
+          });
+        /* } */
+      });
       this.getFullPiechartLocation(totalCount);
     });
   }
@@ -548,6 +808,55 @@ export class HomeComponent implements OnInit {
           totalCount = totalCount + obj[i];
         }
       }
+         //making JSON format for right side bar chart drill down data
+         this.ChartData.forEach((element: any, index: any) => {
+          debugger;
+          /* if (element.category == 'Allocated') { */
+            debugger;
+            if(element.category == 'All'){
+              this.allocatedTotal=element?.value;
+            }
+            const groupedData = element?.Report.reduce((acc: any, obj: any) => {
+              const key = obj.Location__Name;
+  
+              if (!acc[key]) {
+                acc[key] = [];
+              }
+  
+              acc[key].push(obj);
+  
+              return acc;
+            }, {});
+  
+            console.log(groupedData);
+            for (let k in groupedData) {
+              let Count = 0;
+              groupedData[k].forEach((element: any) => {
+                Count = Count + element?.BenchData?.length;
+              });
+              groupedData[k] = {
+                category: k,
+                value: Count,
+                subdata: [
+                  {
+                    category: k,
+                    value: Count,
+                  },
+                ],
+              };
+            }
+            console.log(groupedData);
+            element?.breakdown.forEach((elem: any) => {
+              let tempArr: any = [];
+              for (let key in groupedData) {
+                if (key.includes(elem.category)) {
+                  tempArr.push(groupedData[key]);
+                }
+              }
+              elem['subdata'] = tempArr;
+            });
+          /* } */
+        });
       this.getFullPiechart(totalCount, this.typeChart);
       //console.log('stacked chart', this.ChartData);
       //this.getFullPiechart();
@@ -577,6 +886,55 @@ export class HomeComponent implements OnInit {
         }
       }
       console.log('TotalCount', totalCount);
+      //making JSON format for right side bar chart drill down data
+      this.ChartData.forEach((element: any, index: any) => {
+        debugger;
+        /* if (element.category == 'Allocated') { */
+          debugger;
+          if(element.category == 'All'){
+            this.allocatedTotal=element?.value;
+          }
+          const groupedData = element?.Report.reduce((acc: any, obj: any) => {
+            const key = obj.Location__Name;
+
+            if (!acc[key]) {
+              acc[key] = [];
+            }
+
+            acc[key].push(obj);
+
+            return acc;
+          }, {});
+
+          console.log(groupedData);
+          for (let k in groupedData) {
+            let Count = 0;
+            groupedData[k].forEach((element: any) => {
+              Count = Count + element?.BenchData?.length;
+            });
+            groupedData[k] = {
+              category: k,
+              value: Count,
+              subdata: [
+                {
+                  category: k,
+                  value: Count,
+                },
+              ],
+            };
+          }
+          console.log(groupedData);
+          element?.breakdown.forEach((elem: any) => {
+            let tempArr: any = [];
+            for (let key in groupedData) {
+              if (key.includes(elem.category)) {
+                tempArr.push(groupedData[key]);
+              }
+            }
+            elem['subdata'] = tempArr;
+          });
+        /* } */
+      });
       this.getFullPiechart(totalCount, this.typeChart);
     });
   }
@@ -603,6 +961,55 @@ export class HomeComponent implements OnInit {
           totalCount = totalCount + obj[i];
         }
       }
+        //making JSON format for right side bar chart drill down data
+        this.ChartData.forEach((element: any, index: any) => {
+          debugger;
+          /* if (element.category == 'Allocated') { */
+            debugger;
+            if(element.category == 'All'){
+              this.allocatedTotal=element?.value;
+            }
+            const groupedData = element?.Report.reduce((acc: any, obj: any) => {
+              const key = obj.Location__Name;
+  
+              if (!acc[key]) {
+                acc[key] = [];
+              }
+  
+              acc[key].push(obj);
+  
+              return acc;
+            }, {});
+  
+            console.log(groupedData);
+            for (let k in groupedData) {
+              let Count = 0;
+              groupedData[k].forEach((element: any) => {
+                Count = Count + element?.BenchData?.length;
+              });
+              groupedData[k] = {
+                category: k,
+                value: Count,
+                subdata: [
+                  {
+                    category: k,
+                    value: Count,
+                  },
+                ],
+              };
+            }
+            console.log(groupedData);
+            element?.breakdown.forEach((elem: any) => {
+              let tempArr: any = [];
+              for (let key in groupedData) {
+                if (key.includes(elem.category)) {
+                  tempArr.push(groupedData[key]);
+                }
+              }
+              elem['subdata'] = tempArr;
+            });
+          /* } */
+        });
       this.getFullPiechart(totalCount, this.typeChart);
     });
   }
@@ -650,6 +1057,9 @@ export class HomeComponent implements OnInit {
 
   // **** Full Pie-Chart Function ****//
   reportData: any;
+  allocatedTotal:any;
+  freeTotal:any;
+  nonwseTotal:any;
   getFullPiechart(totalCount: any, chartType: any) {
     am5.array.each(am5.registry.rootElements, function (root) {
       if (root?.dom.id == 'chartdiv') {
@@ -720,6 +1130,7 @@ export class HomeComponent implements OnInit {
 
     let xAxis = columnChart.xAxes.push(
       am5xy.ValueAxis.new(root, {
+        min: 0,
         renderer: am5xy.AxisRendererX.new(root, {
           strokeOpacity: 0.1,
         }),
@@ -981,16 +1392,99 @@ export class HomeComponent implements OnInit {
           if (columnChart.series.length >= 1) {
             columnChart.series.clear();
           }
-          createSeries(
+          /*  createSeries(
             'value',
             'value',
             slice.dataItem.dataContext.breakdown,
             slice.get('fill'),
             false
-          );
+          ); */
+          this.allocatedTotal=slice.dataItem.dataContext.value;
           this.reportData = slice.dataItem.dataContext.Report;
           debugger;
           this.reportSummary(this.reportData);
+          let allBoolean = false;
+          // Add series
+          // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+          let columnSeries = columnChart.series.push(
+            am5xy.ColumnSeries.new(root, {
+              name: 'value',
+              xAxis: xAxis,
+              yAxis: yAxis,
+              stacked: true,
+              valueXField: 'value',
+              categoryYField: 'category',
+              // reverseChildren: true
+            })
+          );
+
+          //Bar chart Tooltip text
+          columnSeries.columns.template.setAll({
+            tooltipText: '{name}: {valueX}',
+            /* tooltipText: "{categoryY}: {name} - {valueX}", */
+            // minHeight: 150
+          });
+          if (allBoolean == false) {
+            //Bar chart bullet
+            columnSeries.bullets.push(function () {
+              return am5.Bullet.new(root, {
+                locationX: 1,
+                locationY: 0.5,
+                sprite: am5.Label.new(root, {
+                  text: '{valueX}',
+                  // fill: root.interfaceColors.get("alternativeText"),
+                  centerY: am5.p50,
+                  // centerX: am5.p50,
+                  populateText: true,
+                  fill: am5.color('#000000'),
+                }),
+              });
+            });
+          } else {
+            columnSeries.bullets.push(function () {
+              return am5.Bullet.new(root, {
+                sprite: am5.Label.new(root, {
+                  text: '{valueX}',
+                  fill: root.interfaceColors.get('alternativeText'),
+                  centerY: am5.p50,
+                  centerX: am5.p50,
+                  populateText: true,
+                }),
+              });
+            });
+          }
+
+          // let color = slice.get("fill")
+          columnSeries.columns.template.setAll({
+            fill: slice.get('fill'),
+            stroke: slice.get('fill'),
+          });
+
+          columnSeries.columns.template.events.on('click', (ev) => {
+            debugger;
+            const categoryData: any = ev.target.dataItem.dataContext;
+            if (categoryData.subdata != undefined) {
+              columnSeries.data.setAll(categoryData.subdata);
+              xAxis.data.setAll(categoryData.subdata);
+              yAxis.data.setAll(categoryData.subdata);
+              this.allocatedTotal=categoryData.value;
+              this.allocatedList = this.allocatedList.filter(
+                (item: any) =>
+                  item.Location__Name.toLowerCase().includes(
+                    categoryData.category.toLowerCase()
+                  )
+                /*  if (key.includes(elem.category)) {
+                  tempArr.push(groupedData[key]);sss
+                } */
+                /*  item.Location__Name.toLowerCase() ===
+                    categoryData.category.toLowerCase()  */
+              );
+              // filterData(categoryData.category);
+              columnSeries.appear();
+            }
+          });
+          columnSeries.data.setAll(slice.dataItem.dataContext.breakdown);
+          //  return columnSeries;
         }
       } else {
         this.isTeam = false;
@@ -1032,46 +1526,284 @@ export class HomeComponent implements OnInit {
           if (columnChart.series.length >= 1) {
             columnChart.series.clear();
           }
-          createSeries(
+          /*  createSeries(
             'value',
             'value',
             slice.dataItem.dataContext.breakdown,
             am5.color('#0xdc4534'),
             false
           );
-
+ */
+          this.nonwseTotal=slice.dataItem.dataContext.value;
           this.reportData = slice.dataItem.dataContext.Report;
           debugger;
           this.reportSummary(this.reportData, 'Non-WSE');
+          let allBoolean = false;
+          // Add series
+          // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+          let columnSeries = columnChart.series.push(
+            am5xy.ColumnSeries.new(root, {
+              name: 'value',
+              xAxis: xAxis,
+              yAxis: yAxis,
+              stacked: true,
+              valueXField: 'value',
+              categoryYField: 'category',
+              // reverseChildren: true
+            })
+          );
+
+          //Bar chart Tooltip text
+          columnSeries.columns.template.setAll({
+            tooltipText: '{name}: {valueX}',
+            /* tooltipText: "{categoryY}: {name} - {valueX}", */
+            // minHeight: 150
+          });
+          if (allBoolean == false) {
+            //Bar chart bullet
+            columnSeries.bullets.push(function () {
+              return am5.Bullet.new(root, {
+                locationX: 1,
+                locationY: 0.5,
+                sprite: am5.Label.new(root, {
+                  text: '{valueX}',
+                  // fill: root.interfaceColors.get("alternativeText"),
+                  centerY: am5.p50,
+                  // centerX: am5.p50,
+                  populateText: true,
+                  fill: am5.color('#000000'),
+                }),
+              });
+            });
+          } else {
+            columnSeries.bullets.push(function () {
+              return am5.Bullet.new(root, {
+                sprite: am5.Label.new(root, {
+                  text: '{valueX}',
+                  fill: root.interfaceColors.get('alternativeText'),
+                  centerY: am5.p50,
+                  centerX: am5.p50,
+                  populateText: true,
+                }),
+              });
+            });
+          }
+
+          // let color = slice.get("fill")
+          columnSeries.columns.template.setAll({
+            fill: am5.color('#0xdc4534'),
+            stroke: am5.color('#0xdc4534'),
+          });
+
+          columnSeries.columns.template.events.on('click', (ev) => {
+            debugger;
+            const categoryData: any = ev.target.dataItem.dataContext;
+            if (categoryData.subdata != undefined) {
+              columnSeries.data.setAll(categoryData.subdata);
+              xAxis.data.setAll(categoryData.subdata);
+              yAxis.data.setAll(categoryData.subdata);
+              this.nonwseTotal=categoryData.value;
+              this.nonSIVList = this.nonSIVList.filter(
+                (item: any) =>
+                  item.location.toLowerCase() ===
+                    categoryData.category.toLowerCase() ||
+                  item.lab.toLowerCase() === categoryData.category.toLowerCase()
+              );
+              // filterData(categoryData.category);
+              columnSeries.appear();
+            }
+          });
+          columnSeries.data.setAll(slice.dataItem.dataContext.breakdown);
+          //  return columnSeries;
         } else if (slice.dataItem.dataContext.category == 'Allocated') {
           if (columnChart.series.length >= 1) {
             columnChart.series.clear();
           }
-          createSeries(
+          /*  createSeries(
             'value',
             'value',
             slice.dataItem.dataContext.breakdown,
             am5.color('#0xd7a700'),
             false
-          );
-
+          ); */
+          this.allocatedTotal=slice.dataItem.dataContext.value;
           this.reportData = slice.dataItem.dataContext.Report;
           debugger;
           this.reportSummary(this.reportData, 'Allocated');
+          let allBoolean = false;
+          // Add series
+          // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+          let columnSeries = columnChart.series.push(
+            am5xy.ColumnSeries.new(root, {
+              name: 'value',
+              xAxis: xAxis,
+              yAxis: yAxis,
+              stacked: true,
+              valueXField: 'value',
+              categoryYField: 'category',
+              // reverseChildren: true
+            })
+          );
+
+          //Bar chart Tooltip text
+          columnSeries.columns.template.setAll({
+            tooltipText: '{name}: {valueX}',
+            /* tooltipText: "{categoryY}: {name} - {valueX}", */
+            // minHeight: 150
+          });
+          if (allBoolean == false) {
+            //Bar chart bullet
+            columnSeries.bullets.push(function () {
+              return am5.Bullet.new(root, {
+                locationX: 1,
+                locationY: 0.5,
+                sprite: am5.Label.new(root, {
+                  text: '{valueX}',
+                  // fill: root.interfaceColors.get("alternativeText"),
+                  centerY: am5.p50,
+                  // centerX: am5.p50,
+                  populateText: true,
+                  fill: am5.color('#000000'),
+                }),
+              });
+            });
+          } else {
+            columnSeries.bullets.push(function () {
+              return am5.Bullet.new(root, {
+                sprite: am5.Label.new(root, {
+                  text: '{valueX}',
+                  fill: root.interfaceColors.get('alternativeText'),
+                  centerY: am5.p50,
+                  centerX: am5.p50,
+                  populateText: true,
+                }),
+              });
+            });
+          }
+
+          // let color = slice.get("fill")
+          columnSeries.columns.template.setAll({
+            fill: am5.color('#0xd7a700'),
+            stroke: am5.color('#0xd7a700'),
+          });
+
+          columnSeries.columns.template.events.on('click', (ev) => {
+            debugger;
+            const categoryData: any = ev.target.dataItem.dataContext;
+            if (categoryData.subdata != undefined) {
+              columnSeries.data.setAll(categoryData.subdata);
+              xAxis.data.setAll(categoryData.subdata);
+              yAxis.data.setAll(categoryData.subdata);
+              this.allocatedTotal=categoryData.value;
+              this.allocatedList = this.allocatedList.filter(
+                (item: any) =>
+                  item.Location__Name.toLowerCase().includes(
+                    categoryData.category.toLowerCase()
+                  )
+                /*  if (key.includes(elem.category)) {
+                  tempArr.push(groupedData[key]);sss
+                } */
+                /*  item.Location__Name.toLowerCase() ===
+                    categoryData.category.toLowerCase()  */
+              );
+              // filterData(categoryData.category);
+              columnSeries.appear();
+            }
+          });
+          columnSeries.data.setAll(slice.dataItem.dataContext.breakdown);
+          //  return columnSeries;
         } else if (slice.dataItem.dataContext.category == 'Free') {
           if (columnChart.series.length >= 1) {
             columnChart.series.clear();
           }
-          createSeries(
+          /*  createSeries(
             'value',
             'value',
             slice.dataItem.dataContext.breakdown,
             am5.color('#0x68ad5c'),
             false
-          );
+          ); */
+          this.freeTotal=slice.dataItem.dataContext.value;
           this.reportData = slice.dataItem.dataContext.Report;
           debugger;
           this.reportSummary(this.reportData, 'Free');
+          let allBoolean = false;
+          // Add series
+          // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+          let columnSeries = columnChart.series.push(
+            am5xy.ColumnSeries.new(root, {
+              name: 'value',
+              xAxis: xAxis,
+              yAxis: yAxis,
+              stacked: true,
+              valueXField: 'value',
+              categoryYField: 'category',
+              // reverseChildren: true
+            })
+          );
+
+          //Bar chart Tooltip text
+          columnSeries.columns.template.setAll({
+            tooltipText: '{name}: {valueX}',
+            /* tooltipText: "{categoryY}: {name} - {valueX}", */
+            // minHeight: 150
+          });
+          if (allBoolean == false) {
+            //Bar chart bullet
+            columnSeries.bullets.push(function () {
+              return am5.Bullet.new(root, {
+                locationX: 1,
+                locationY: 0.5,
+                sprite: am5.Label.new(root, {
+                  text: '{valueX}',
+                  // fill: root.interfaceColors.get("alternativeText"),
+                  centerY: am5.p50,
+                  // centerX: am5.p50,
+                  populateText: true,
+                  fill: am5.color('#000000'),
+                }),
+              });
+            });
+          } else {
+            columnSeries.bullets.push(function () {
+              return am5.Bullet.new(root, {
+                sprite: am5.Label.new(root, {
+                  text: '{valueX}',
+                  fill: root.interfaceColors.get('alternativeText'),
+                  centerY: am5.p50,
+                  centerX: am5.p50,
+                  populateText: true,
+                }),
+              });
+            });
+          }
+
+          // let color = slice.get("fill")
+          columnSeries.columns.template.setAll({
+            fill: am5.color('#0x68ad5c'),
+            stroke: am5.color('#0x68ad5c'),
+          });
+
+          columnSeries.columns.template.events.on('click', (ev) => {
+            debugger;
+            const categoryData: any = ev.target.dataItem.dataContext;
+            if (categoryData.subdata != undefined) {
+              columnSeries.data.setAll(categoryData.subdata);
+              xAxis.data.setAll(categoryData.subdata);
+              yAxis.data.setAll(categoryData.subdata);
+              this.freeTotal=categoryData.value;
+              this.freeList = this.freeList.filter(
+                (item: any) =>
+                  item.location.toLowerCase() ===
+                    categoryData.category.toLowerCase() ||
+                  item.lab.toLowerCase() === categoryData.category.toLowerCase()
+              );
+              // filterData(categoryData.category);
+              columnSeries.appear();
+            }
+          });
+          columnSeries.data.setAll(slice.dataItem.dataContext.breakdown);
+          //  return columnSeries;
         }
       }
       /*  columnSeries.columns.template.setAll({
@@ -1315,6 +2047,7 @@ export class HomeComponent implements OnInit {
 
     let xAxis = columnChart.xAxes.push(
       am5xy.ValueAxis.new(root, {
+        min: 0,
         renderer: am5xy.AxisRendererX.new(root, {
           strokeOpacity: 0.1,
         }),
@@ -1558,13 +2291,90 @@ export class HomeComponent implements OnInit {
         if (columnChart.series.length >= 1) {
           columnChart.series.clear();
         }
-        createSeries(
+       /*  createSeries(
           'value',
           'value',
           slice.dataItem.dataContext.breakdown,
           slice.get('fill'),
           false
-        );
+        ); */
+        // Add series
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+      let allBoolean = false;
+      let columnSeries = columnChart.series.push(
+        am5xy.ColumnSeries.new(root, {
+          name: 'value',
+          xAxis: xAxis,
+          yAxis: yAxis,
+          stacked: true,
+          valueXField: 'value',
+          categoryYField: 'category',
+          // reverseChildren: true
+        })
+      );
+
+      //Bar chart Tooltip text
+      columnSeries.columns.template.setAll({
+        tooltipText: '{name}: {valueX}',
+        /* tooltipText: "{categoryY}: {name} - {valueX}", */
+        // minHeight: 150
+      });
+      if (allBoolean == false) {
+        //Bar chart bullet
+        columnSeries.bullets.push(function () {
+          return am5.Bullet.new(root, {
+            locationX: 1,
+            locationY: 0.5,
+            sprite: am5.Label.new(root, {
+              text: '{valueX}',
+              // fill: root.interfaceColors.get("alternativeText"),
+              centerY: am5.p50,
+              // centerX: am5.p50,
+              populateText: true,
+              fill: am5.color('#000000'),
+            }),
+          });
+        });
+      } else {
+        columnSeries.bullets.push(function () {
+          return am5.Bullet.new(root, {
+            sprite: am5.Label.new(root, {
+              text: '{valueX}',
+              fill: root.interfaceColors.get('alternativeText'),
+              centerY: am5.p50,
+              centerX: am5.p50,
+              populateText: true,
+            }),
+          });
+        });
+      }
+
+      // let color = slice.get("fill")
+      columnSeries.columns.template.setAll({
+        fill: slice.get('fill'),
+        stroke: slice.get('fill'),
+      });
+
+      columnSeries.columns.template.events.on('click', (ev) => {
+        debugger;
+        const categoryData: any = ev.target.dataItem.dataContext;
+        if (categoryData.subdata != undefined) {
+          columnSeries.data.setAll(categoryData.subdata);
+          xAxis.data.setAll(categoryData.subdata);
+          yAxis.data.setAll(categoryData.subdata);
+        /*   this.freeList = this.freeList.filter(
+            (item: any) =>
+              item.location.toLowerCase() ===
+                categoryData.category.toLowerCase() ||
+              item.lab.toLowerCase() === categoryData.category.toLowerCase()
+          ); */
+          // filterData(categoryData.category);
+          columnSeries.appear();
+        }
+      });
+
+      columnSeries.data.setAll(slice.dataItem.dataContext.breakdown);
+     // return columnSeries;
       }
 
       /*   columnSeries.columns.template.setAll({

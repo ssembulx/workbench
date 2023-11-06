@@ -297,6 +297,8 @@ export class ApproveComponent implements OnInit {
       .week(weekNumber)
       .startOf('isoWeek')
       .format('YYYY-MM-DD'); */
+    this.fromformatWW = this.editdata?.FromWW;
+    this.toformatWW = this.editdata?.ToWW;
     this.fromworkweek =
       this.editdata?.FromWW.slice(0, 2) + "'" + this.editdata?.FromWW.slice(2);
     this.toworkweek =
@@ -432,6 +434,7 @@ export class ApproveComponent implements OnInit {
   onDateSelectFrom(date: any) {
     this.fromselWeek = '';
     if (date !== undefined && date !== null) {
+      debugger;
       this.onDateSelectFromDate = moment(date);
       var selDate = new Date(
         date.getFullYear(),
@@ -464,9 +467,9 @@ export class ApproveComponent implements OnInit {
   onDateSelectToDate: any;
   yearonDateSelectTo: any;
   onDateSelectTo(date: any) {
-    debugger;
     this.toselWeek = '';
     if (date !== undefined && date !== null) {
+      debugger;
       this.onDateSelectToDate = moment(date);
       var selDate = new Date(
         date.getFullYear(),
