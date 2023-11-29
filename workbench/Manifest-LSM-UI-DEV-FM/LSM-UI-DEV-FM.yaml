@@ -1,0 +1,12 @@
+﻿applications:
+- name: LSM-UI-DEV-FM
+  env:
+    ENVIRONMENT: Development
+  instances: 3
+  memory: 512M
+  disk_quota: 512M
+  routes:
+  - route: LSM-UI-DEV-FM.apps1-fm-int.icloud.intel.com
+  buildpacks: 
+  - staticfile_buildpack
+  stack: cflinuxfs4

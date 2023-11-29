@@ -208,8 +208,10 @@
                     </div> -->
                     <div class="col-9 float-right p-0">
                         <span class="downloadbtn" style="float: right;margin-left: 1rem!important;">
-                            <button class="btn download-btn" (click)="exportFile()" style="height: 35px;">
-                                <i class="fas fa-download i-download"></i>Download</button>
+                            <i class="fa fa-download  fa-2x chart-icon" (click)="exportFile()" aria-hidden="true"
+                                style="color: #9eacb4;font-size: 22px;margin-top: 5px;margin-left: 0px;cursor: pointer;"></i>
+                            <!-- <button class="btn download-btn" (click)="exportFile()" style="height: 35px;">
+                                <i class="fas fa-download i-download"></i>Download</button> -->
                         </span>
                         <span style="float: right;margin-left: 1rem!important;">
                             <div class="input-group" style="width: 250px;">
@@ -323,7 +325,12 @@
                                     (click)="showTestTrendSearch(ts9)">
                                     <i class="fas fa-search"></i>&nbsp;&nbsp;Duration</span>
                             </th>
-                            <th class="v-align">Remarks</th>
+                            <!-- <th class="v-align">Remarks</th> -->
+                            <th class="v-align" (click)="setOrderRelease('Remarks')"><span class="sort-by"
+                                    [ngbTooltip]="remarksSearch" placement="top" tooltipClass="custom-tooltip"
+                                    [autoClose]="false" triggers="manual" #ts20="ngbTooltip"
+                                    (click)="showTestTrendSearch(ts20)">
+                                    <i class="fas fa-search"></i>&nbsp;&nbsp;Remarks</span></th>
                             <th class="v-align" (click)="setOrderRelease('Approved By')"><span class="sort-by"
                                     [ngbTooltip]="ApprovedBySearch" placement="top" tooltipClass="custom-tooltip"
                                     [autoClose]="false" triggers="manual" #ts16="ngbTooltip"
@@ -334,7 +341,7 @@
                     </thead>
                     <tbody>
                         <tr
-                            *ngFor="let data of reportData | searchFilter: searchText | searchFilterLocation: searchLocation | searchFilterTeam: searchTeam | searchFilterProgram: searchProgram |  searchFilterSku: searchSku | searchFilterVendor : searchVendor | searchFilterAllocated : searchAllocated | searchFilterFromWW : searchfromWW | searchFilterToWW : searchtoWW | searchFilterBench : searchBench | searchFilterDetails : searchBenchDetails | searchFilterDuration : searchDuration | searchFilterApprovedBy : searchApprovedBy  let i=index">
+                            *ngFor="let data of reportData | searchFilter: searchText | searchFilterLocation: searchLocation | searchFilterTeam: searchTeam | searchFilterProgram: searchProgram |  searchFilterSku: searchSku | searchFilterVendor : searchVendor | searchFilterAllocated : searchAllocated | searchFilterFromWW : searchfromWW | searchFilterToWW : searchtoWW | searchFilterBench : searchBench | searchFilterDetails : searchBenchDetails | searchFilterDuration : searchDuration | searchFilterApprovedBy : searchApprovedBy |searchFilterRemarks :searchRemarks  let i=index">
                             <td>{{i+1}}</td>
                             <td>{{data.Location__Name}}</td>
                             <td>{{data.Team}}</td>
@@ -509,6 +516,19 @@
             <input name="target" [(ngModel)]="searchDuration" placeholder="Search Duration" type="text"
                 class="form-control" />
             <i class="fas fa-times" (click)="clearInput()" *ngIf="searchDuration !== ''"></i>
+            <i class="flaticon-search fas fa-search"></i>
+        </div>
+    </div>
+</ng-template>
+<ng-template #remarksSearch>
+    <div class="search-tooltip">
+        <div class="tooltip-header">
+            <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
+        </div>
+        <div class="form-group search-ctrl">
+            <input name="target" [(ngModel)]="searchRemarks" placeholder="Search Remarks" type="text"
+                class="form-control" />
+            <i class="fas fa-times" (click)="clearInput()" *ngIf="searchRemarks !== ''"></i>
             <i class="flaticon-search fas fa-search"></i>
         </div>
     </div>

@@ -80,7 +80,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'LabEfficiencyUtilization',
+    path: 'utilization',
     component: LabEfficiencyUtilizationComponent,
     canActivate: [AuthGuard],
   },
@@ -105,7 +105,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'publish',
+    path: 'broadcast',
     component: PublishComponent,
     canActivate: [AuthGuard],
   },

@@ -69,6 +69,19 @@ export class SearchPipe implements PipeTransform {
           : val.Duration.toString()
               .trim()
               .toLowerCase()
+              .includes(args.toString().trim().toLowerCase())) ||
+        (val.Remarks === null
+          ? val.Remarks
+          : val.Remarks.toString()
+              .trim()
+              .toLowerCase()
+              .includes(args.toString().trim().toLowerCase())) ||
+        (val.approvedBy === null
+          ? val.approvedBy
+          : val.approvedBy
+              .toString()
+              .trim()
+              .toLowerCase()
               .includes(args.toString().trim().toLowerCase()))
       );
     });
@@ -275,6 +288,25 @@ export class SearchDuration implements PipeTransform {
   }
 }
 @Pipe({
+  name: 'searchFilterRemarks',
+  pure: false,
+})
+export class SearchRemarks implements PipeTransform {
+  transform(value: any, args?: any): any {
+    if (!args) {
+      return value;
+    }
+    return value.filter((val: any) => {
+      return val.Remarks === null
+        ? val.Remarks
+        : val.Remarks.toString()
+            .trim()
+            .toLowerCase()
+            .includes(args.toString().trim().toLowerCase());
+    });
+  }
+}
+@Pipe({
   name: 'searchFilterApprovedBy',
   pure: false,
 })
@@ -389,7 +421,8 @@ export class nonsivSearchLabDetails implements PipeTransform {
     return value.filter((val: any) => {
       return val.lab === null
         ? val.lab
-        : val.lab.toString()
+        : val.lab
+            .toString()
             .trim()
             .toLowerCase()
             .includes(args.toString().trim().toLowerCase());
@@ -409,7 +442,8 @@ export class nonsivSearchLabDetailsNo implements PipeTransform {
     return value.filter((val: any) => {
       return val.value === null
         ? val.value
-        : val.value.toString()
+        : val.value
+            .toString()
             .trim()
             .toLowerCase()
             .includes(args.toString().trim().toLowerCase());

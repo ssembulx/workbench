@@ -835,6 +835,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
     this.duration = '';
     this.modalReference = this.modalService.open(addmodal);
   }
+  isDisabledBooking: boolean = false;
   saveBooking() {
     let notifyToArray: any[] = [];
     if (
@@ -871,6 +872,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
       );
     } else {
       this.labViewLoader = false;
+      this.isDisabledBooking = true;
       let bookingData = {
         Program: this.programName,
 
@@ -920,6 +922,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
       this.dataSvc.saveBooking(bookingData).subscribe((res) => {
         if (res) {
           this.labViewLoader = true;
+          this.isDisabledBooking = false;
           if (res == 'Benches Not Available') {
             this.toastrService.warning('Benches Not Available', 'Warning!');
             this.router.navigate(['/allocation']);
@@ -1294,7 +1297,10 @@ export class VPGLabComponent implements OnInit, OnChanges {
       if (seatObject?.AllocationData[0]?.Who[0]?.WWID == this.userInfo?.wwid) {
         this.deSelectSeatFunclogic(seatObject);
       }
-    } else if (this.userInfo?.Role == 'Admin' || this.userInfo?.Role == 'Lead') {
+    } else if (
+      this.userInfo?.Role == 'Admin' ||
+      this.userInfo?.Role == 'Lead'
+    ) {
       this.deSelectSeatFunclogic(seatObject);
     }
   }
@@ -1326,6 +1332,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
     }
   }
   deSelectBenchList: any = [];
+  isDisabledDeallocation: boolean = false;
   deallocateBooking() {
     debugger;
     /*  let deallocationData = [
@@ -1348,6 +1355,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
       );
     } else {
       this.labViewLoader = false;
+      this.isDisabledDeallocation = true;
       this.deAllocateBenchLabelList.forEach((element: any, index: any) => {
         this.deSelectBenchList.push({
           id: this.deSelectBenchAllocationList[index],
@@ -1362,6 +1370,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
         .deallocationBooking(this.deSelectBenchList)
         .subscribe((res) => {
           this.labViewLoader = true;
+          this.isDisabledDeallocation = false;
           if (res) {
             this.toastrService.success(
               'Deallocation Request Added Successfully',

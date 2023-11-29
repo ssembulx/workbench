@@ -363,6 +363,79 @@ export class SummaryService {
     });
   }
 
+  /* get WorkWeekSummary list  */
+  getWorkWeekSummary() {
+    return this.http.get(this.ServiceURL + 'home/workWeek/');
+  }
+
+  /* get board list  */
+  getBoard() {
+    return this.http.get(this.ServiceURL + 'home/board-api/');
+  }
+  /* delete board  */
+  deleteBoard(id) {
+    return this.http.delete(this.ServiceURL + 'home/board-api/' + id + '/');
+  }
+  /* add board */
+  addBoard(param: any) {
+    const serviceUrl = this.ServiceURL + 'home/board-api/';
+    return this.http.post(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+
+  /* allocated API Call */
+  allocatedAPICall(param: any) {
+    const serviceUrl = this.ServiceURL + 'home/allocated/';
+    return this.http.post(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+
+  /* rvp year API Call */
+  rvpYearAPICall(param: any) {
+    const serviceUrl = this.ServiceURL + 'home/forecastRvp/';
+    return this.http.post(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+
+  /* rvp quarter API Call */
+  rvpQuarterAPICall(param: any) {
+    const serviceUrl = this.ServiceURL + 'home/quaterlyData/';
+    return this.http.post(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+
+  /* Forecast Table Summary API Call */
+  forecastTableSummary(param: any) {
+    const serviceUrl = this.ServiceURL + 'home/forecastTableSummary/';
+    return this.http.post(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+
+  /* update board */
+  updateBoard(id, param: any) {
+    const serviceUrl = this.ServiceURL + 'home/board-api/' + id + '/';
+    return this.http.put(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+
   getProgram() {
     return this.http.get(this.ServiceURL + 'home/GetProgramDetails/');
   }

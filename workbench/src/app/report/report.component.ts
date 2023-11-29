@@ -18,12 +18,13 @@ export class ReportComponent implements OnInit {
   searchAllocated = '';
   searchfromWW = '';
   tollTipRef: any;
-  searchtoWW: '';
-  searchBench: '';
-  searchTeam: '';
-  searchDuration: '';
-  searchApprovedBy: '';
-  searchBenchDetails: '';
+  searchtoWW = '';
+  searchBench = '';
+  searchTeam = '';
+  searchDuration = '';
+  searchRemarks = '';
+  searchApprovedBy = '';
+  searchBenchDetails = '';
   reportData: any;
   reportDataAll: any;
   reportdataLoader = false;
@@ -119,6 +120,8 @@ export class ReportComponent implements OnInit {
     this.searchBenchDetails = '';
     this.searchTeam = '';
     this.searchDuration = '';
+    this.searchRemarks = '';
+    this.searchApprovedBy = '';
   }
 
   LabchartData = [
@@ -213,8 +216,267 @@ export class ReportComponent implements OnInit {
           allocatedDownloadData.push(element);
         }
       });
+      debugger;
+      // Define filtering conditions
+      /* const conditions = (person) =>
+        person.Location__Name.toString().trim().toLowerCase() ==
+          this.searchLocation.toString().trim().toLowerCase() ||
+        person.Team.toString().trim().toLowerCase() ==
+          this.searchTeam.toString().trim().toLowerCase() ||
+        person.Program.toString().trim().toLowerCase() ==
+          this.searchProgram.toString().trim().toLowerCase() ||
+        person.Sku.toString().trim().toLowerCase() ==
+          this.searchSku.toString().trim().toLowerCase() ||
+        person.Vendor.toString().trim().toLowerCase() ==
+          this.searchVendor.toString().trim().toLowerCase() ||
+        person.AllocatedTo[0].Name.toString().trim().toLowerCase() ==
+          this.searchAllocated.toString().trim().toLowerCase() ||
+        person.FromWW.toString().trim().toLowerCase() ==
+          this.searchfromWW.toString().trim().toLowerCase() ||
+        person.ToWW.toString().trim().toLowerCase() ==
+          this.searchtoWW.toString().trim().toLowerCase() ||
+        person.BenchData.toString().trim().toLowerCase() ==
+          this.searchBench.toString().trim().toLowerCase() ||
+        person.BenchData.toString().trim().toLowerCase() ==
+          this.searchBenchDetails.toString().trim().toLowerCase() ||
+        person.Duration.toString().trim().toLowerCase() ==
+          this.searchDuration.toString().trim().toLowerCase() ||
+        person.Remarks.toString().trim().toLowerCase() ==
+          this.searchRemarks.toString().trim().toLowerCase() ||
+        person.approvedBy.toString().trim().toLowerCase() ==
+          this.searchApprovedBy.toString().trim().toLowerCase(); */
+
+      // Use the filter method to get a new array with filtered data
+      //   const filteredData = allocatedDownloadData.filter(conditions);
+      let filteredData = allocatedDownloadData;
+      if (this.searchLocation != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.Location__Name === null
+            ? val.Location__Name
+            : val.Location__Name.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchLocation.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchTeam != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.Team === null
+            ? val.Team
+            : val.Team.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchTeam.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchProgram != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.Program === null
+            ? val.Program
+            : val.Program.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchProgram.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchSku != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.Sku === null
+            ? val.Sku
+            : val.Sku.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchSku.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchVendor != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.Vendor === null
+            ? val.Vendor
+            : val.Vendor.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchVendor.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchAllocated != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.AllocatedTo[0].Name === null
+            ? val.AllocatedTo[0].Name
+            : val.AllocatedTo[0].Name.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchAllocated.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchfromWW != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.FromWW === null
+            ? val.FromWW
+            : val.FromWW.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchfromWW.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchtoWW != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.ToWW === null
+            ? val.ToWW
+            : val.ToWW.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchtoWW.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchBench != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.BenchData === null
+            ? val.BenchData
+            : val.BenchData.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchBench.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchBenchDetails != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.BenchData === null
+            ? val.BenchData
+            : val.BenchData.toString()
+                .trim()
+                .toLowerCase()
+                .includes(
+                  this.searchBenchDetails.toString().trim().toLowerCase()
+                );
+        });
+      }
+      if (this.searchDuration != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.Duration === null
+            ? val.Duration
+            : val.Duration.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchDuration.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchRemarks != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.Remarks === null
+            ? val.Remarks
+            : val.Remarks.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchRemarks.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchApprovedBy != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.approvedBy === null
+            ? val.approvedBy
+            : val.approvedBy
+                .toString()
+                .trim()
+                .toLowerCase()
+                .includes(
+                  this.searchApprovedBy.toString().trim().toLowerCase()
+                );
+        });
+      }
+      /*  filteredData = allocatedDownloadData.filter((val: any) => {
+        return (
+          (val.Location__Name === null
+            ? val.Location__Name
+            : val.Location__Name.toString()
+                .trim()
+                .toLowerCase()
+                .includes(
+                  this.searchLocation.toString().trim().toLowerCase()
+                )) ||
+          (val.Team === null
+            ? val.Team
+            : val.Team.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchTeam.toString().trim().toLowerCase())) ||
+          (val.Program === null
+            ? val.Program
+            : val.Program.toString()
+                .trim()
+                .toLowerCase()
+                .includes(
+                  this.searchProgram.toString().trim().toLowerCase()
+                )) ||
+          (val.Sku === null
+            ? val.Sku
+            : val.Sku.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchSku.toString().trim().toLowerCase())) ||
+          (val.Vendor === null
+            ? val.Vendor
+            : val.Vendor.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchVendor.toString().trim().toLowerCase())) ||
+          (val.AllocatedTo[0].Name === null
+            ? val.AllocatedTo[0].Name
+            : val.AllocatedTo[0].Name.toString()
+                .trim()
+                .toLowerCase()
+                .includes(
+                  this.searchAllocated.toString().trim().toLowerCase()
+                )) ||
+          (val.FromWW === null
+            ? val.FromWW
+            : val.FromWW.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchfromWW.toString().trim().toLowerCase())) ||
+          (val.ToWW === null
+            ? val.ToWW
+            : val.ToWW.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchtoWW.toString().trim().toLowerCase())) ||
+          (val.BenchData === null
+            ? val.BenchData
+            : val.BenchData.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchBench.toString().trim().toLowerCase())) ||
+          (val.Duration === null
+            ? val.Duration
+            : val.Duration.toString()
+                .trim()
+                .toLowerCase()
+                .includes(
+                  this.searchDuration.toString().trim().toLowerCase()
+                )) ||
+          (val.Remarks === null
+            ? val.Remarks
+            : val.Remarks.toString()
+                .trim()
+                .toLowerCase()
+                .includes(
+                  this.searchRemarks.toString().trim().toLowerCase()
+                )) ||
+          (val.approvedBy === null
+            ? val.approvedBy
+            : val.approvedBy
+                .toString()
+                .trim()
+                .toLowerCase()
+                .includes(
+                  this.searchApprovedBy.toString().trim().toLowerCase()
+                ))
+        );
+      }); */
+
+      console.log(filteredData);
       this.exportService.exportExcel(
-        allocatedDownloadData,
+        filteredData,
         'Allocated_Report_Data'
       );
     }
@@ -224,7 +486,11 @@ export class ReportComponent implements OnInit {
     if (this.reportDataAll?.length > 0) {
       let deallocatedDownloadData: any = [];
       this.reportDataAll.forEach((element: any) => {
-        if (element.IsRequested == false && element.IsAllocated == false && element.status == 'complete') {
+        if (
+          element.IsRequested == false &&
+          element.IsAllocated == false &&
+          element.status == 'complete'
+        ) {
           deallocatedDownloadData.push(element);
         }
       });
