@@ -1,7 +1,441 @@
-<div class="publish">
+<div class="users">
     <div class="content">
-        <div class="block_display">
-            <h2 class="mt-2">Under Development</h2>
+        <div class="user-content">
+            <div style="display: inline-flex;">
+                <div class="btn-dv2" [ngClass]="typeChart == 'Location chart' ? 'active-btn' : ''"
+                    (click)="Options('Allocation')">
+                    Summary
+                </div>
+                <div class="btn-dv" [ngClass]="typeChart == 'Program chart' ? 'active-btn' : ''"
+                    (click)="Options('Deallocation')">
+                    Add Forecast Data
+                </div>
+            </div>
+            <!-- Summary -->
+            <div class="col-12" [hidden]="typeChart != 'Location chart'">
+                <div class="content p-0 m-0" style=" width: 100%;">
+                    <div class="row charts-content">
+
+                        <!-- ******* Semi circle pie chart ******* -->
+                        <div class="semi-pie-chart col-12 mb-0" #fullscreenPie>
+                            <div>
+                                <div class="chart-style">
+                                    <div class="caption">
+                                        <i class="fa fa-chart-bar fa-2x chart-icon"></i>
+                                        <span class="chart-heading">Forecast Summary {{preSelectedYear}}</span>
+                                    </div>
+                                    <select class="form-select location_select" style="width: 120px;"
+                                        aria-label="Default select example" [(ngModel)]="preSelectedYear"  (change)="onItemSelected()">
+                                        <option selected value="">Select Year</option>
+                                        <option *ngFor="let locat of yearList" [ngValue]="locat">
+                                            {{locat}}
+                                        </option>
+                                    </select>
+                                    <!--  <i class="fa fa-download  fa-2x chart-icon" aria-hidden="true"
+                                    style="color: #9eacb4;font-size: 22px;margin-top: -1px;margin-left: 7px;cursor: pointer;"></i> -->
+                                </div>
+                            </div>
+
+                            <hr class="box-hr">
+
+                            <!-- ******* Labwise chart table view *******  -->
+                            <div id="chartdiv"></div>
+
+                        </div>
+                        <!-- No data available display -->
+                        <!--   <div class="no_data_block_display" *ngIf='ChartData?.length == 0'>
+                        <h2 class="mt-2">No Data Available</h2>
+                    </div> -->
+                    </div>
+                    <br />
+                </div>
+                <div class="content p-0 m-0" style=" width: 30%;float: left;">
+                    <div class="row charts-content">
+
+                        <!-- ******* Semi circle pie chart ******* -->
+                        <div class="semi-pie-chart col-12 mt-0 mb-0" #fullscreenPie>
+                            <div>
+                                <div class="chart-style">
+                                    <div class="caption">
+                                        <i class="fa fa-chart-bar fa-2x chart-icon"></i>
+                                        <span class="chart-heading">RVP Forecast 2023</span>
+                                    </div>
+                                    <select class="form-select location_select" style="width: 120px;"
+                                        aria-label="Default select example" [(ngModel)]="preSelectedQuarterRVP" (change)="onItemSelectedrvpQuarter()">
+                                        <option selected value="">Select Year</option>
+                                        <option *ngFor="let locat of yearList" [ngValue]="locat">
+                                            {{locat}}
+                                        </option>
+                                    </select>
+                                    <!--  <i class="fa fa-download  fa-2x chart-icon" aria-hidden="true"
+                                    style="color: #9eacb4;font-size: 22px;margin-top: -1px;margin-left: 7px;cursor: pointer;"></i> -->
+                                </div>
+                            </div>
+
+                            <hr class="box-hr">
+
+                            <!-- ******* Labwise chart table view *******  -->
+                            <div id="chartdiv1"></div>
+
+                        </div>
+                        <!-- No data available display -->
+                        <!--   <div class="no_data_block_display" *ngIf='ChartData?.length == 0'>
+                        <h2 class="mt-2">No Data Available</h2>
+                    </div> -->
+                    </div>
+                    <br />
+                </div>
+                <div class="content p-0 m-0" style=" width: 70%;float: left;">
+                    <div class="row charts-content">
+
+                        <!-- ******* Semi circle pie chart ******* -->
+                        <div class="semi-pie-chart col-12 mt-0 mb-0" #fullscreenPie>
+                            <div>
+                                <div class="chart-style">
+                                    <div class="caption">
+                                        <i class="fa fa-chart-bar fa-2x chart-icon"></i>
+                                        <span class="chart-heading">RVP Ramp Forecast @ {{preSelectedYearRVP}}</span>
+                                    </div>
+                                    <select class="form-select location_select" style="width: 120px;"
+                                        aria-label="Default select example" [(ngModel)]="preSelectedYearRVP" (change)="onItemSelectedrvpYear()">
+                                        <option selected value="">Select Year</option>
+                                        <option *ngFor="let locat of yearList" [ngValue]="locat">
+                                            {{locat}}
+                                        </option>
+                                    </select>
+                                    <!--  <i class="fa fa-download  fa-2x chart-icon" aria-hidden="true"
+                                    style="color: #9eacb4;font-size: 22px;margin-top: -1px;margin-left: 7px;cursor: pointer;"></i> -->
+                                </div>
+                            </div>
+
+                            <hr class="box-hr">
+
+                            <!-- ******* Labwise chart table view *******  -->
+                            <div id="chartdiv2"></div>
+
+                        </div>
+                        <!-- No data available display -->
+                        <!--   <div class="no_data_block_display" *ngIf='ChartData?.length == 0'>
+                        <h2 class="mt-2">No Data Available</h2>
+                    </div> -->
+                    </div>
+                    <br />
+                </div>
+                <div class="content p-0 m-0" style=" width: 100%;float:left">
+                    <div class="row charts-content">
+
+                        <!-- ******* Semi circle pie chart ******* -->
+                        <div class="semi-pie-chart col-12 mb-0 mt-0" #fullscreenPie>
+                            <div>
+                                <div class="chart-style">
+                                    <div class="caption">
+                                        <i class="fa fa-table fa-2x chart-icon"></i>
+                                        <span class="chart-heading">Bench & Rack Demand @ Intel & ODC
+                                            {{preSelectedForecastTableSummary}}</span>
+                                    </div>
+                                    <select class="form-select location_select" style="width: 120px;"
+                                        aria-label="Default select example"
+                                        [(ngModel)]="preSelectedForecastTableSummary" (change)="onItemSelectedforecastTableSummary()">
+                                        <option selected value="">Select Year</option>
+                                        <option *ngFor="let locat of yearList" [ngValue]="locat">
+                                            {{locat}}
+                                        </option>
+                                    </select>
+                                    <!--  <i class="fa fa-download  fa-2x chart-icon" aria-hidden="true"
+                                    style="color: #9eacb4;font-size: 22px;margin-top: -1px;margin-left: 7px;cursor: pointer;"></i> -->
+                                </div>
+                            </div>
+
+                            <hr class="box-hr">
+
+                            <!-- ******* Labwise chart table view *******  -->
+                            <!-- <div id="chartdiv"></div> -->
+
+                            <table class="table table-bordered" cellspacing=0 border=1>
+                                <!-- <ng-container *ngFor="let data of forecastTableSummaryList">
+                                    <tr>
+                                        <td style=min-width:50px></td>
+                                        <td style=min-width:50px>{{data.category}}</td>
+                                    </tr>
+                                </ng-container> -->
+                                <tr>
+                                    <td style=min-width:50px></td>
+                                    <td style=min-width:50px>JAN</td>
+                                    <td style=min-width:50px>FEB</td>
+                                    <td style=min-width:50px>MAR</td>
+                                    <td style=min-width:50px>APR</td>
+                                    <td style=min-width:50px>MAY</td>
+                                    <td style=min-width:50px>JUN</td>
+                                    <td style=min-width:50px>JUL</td>
+                                    <td style=min-width:50px>AUG</td>
+                                    <td style=min-width:50px>SEP</td>
+                                    <td style=min-width:50px>OCT</td>
+                                    <td style=min-width:50px>NOV</td>
+                                    <td style=min-width:50px>DEC</td>
+                                </tr>
+                                <tr>
+                                    <td style=min-width:50px>Bench Demand @ Intel</td>
+                                    <ng-container *ngFor="let data of forecastTableSummaryList">
+                                        <td style=min-width:50px>{{data.Bench_Demand_Intel}}</td>
+                                    </ng-container>
+                                </tr>
+                                <tr>
+                                    <td style=min-width:50px>Rack Demand @ Intel</td>
+                                    <ng-container *ngFor="let data of forecastTableSummaryList">
+                                        <td style=min-width:50px>{{data.Rack_Demand_Intel}}</td>
+                                    </ng-container>
+                                </tr>
+                                <tr>
+                                    <td style=min-width:50px>Bench Demand @ ODC</td>
+                                    <ng-container *ngFor="let data of forecastTableSummaryList">
+                                        <td style=min-width:50px>{{data.Bench_Demand_ODC}}</td>
+                                    </ng-container>
+                                </tr>
+                                <tr>
+                                    <td style=min-width:50px>Rack Demand @ ODC</td>
+                                    <ng-container *ngFor="let data of forecastTableSummaryList">
+                                        <td style=min-width:50px>{{data.Rack_Demand_ODC}}</td>
+                                    </ng-container>
+                                </tr>
+                                <tr>
+                                    <td style=min-width:50px>Total</td>
+                                    <ng-container *ngFor="let data of forecastTableSummaryList">
+                                        <td style=min-width:50px>{{data.Total}}</td>
+                                    </ng-container>
+                                </tr>
+                                <tr>
+                                    <td style=min-width:50px>Loading % Intel vs ODC -
+                                        {{preSelectedForecastTableSummary}}</td>
+                                    <td style=min-width:50px>JAN</td>
+                                    <td style=min-width:50px>FEB</td>
+                                    <td style=min-width:50px>MAR</td>
+                                    <td style=min-width:50px>APR</td>
+                                    <td style=min-width:50px>MAY</td>
+                                    <td style=min-width:50px>JUN</td>
+                                    <td style=min-width:50px>JUL</td>
+                                    <td style=min-width:50px>AUG</td>
+                                    <td style=min-width:50px>SEP</td>
+                                    <td style=min-width:50px>OCT</td>
+                                    <td style=min-width:50px>NOV</td>
+                                    <td style=min-width:50px>DEC</td>
+                                </tr>
+                                <tr>
+                                    <td style=min-width:50px>Intel %</td>
+                                    <ng-container *ngFor="let data of forecastTableSummaryList">
+                                        <td style=min-width:50px>{{data.Intel_percentage}}</td>
+                                    </ng-container>
+                                </tr>
+                                <tr>
+                                    <td style=min-width:50px>ODC % </td>
+                                    <ng-container *ngFor="let data of forecastTableSummaryList">
+                                        <td style=min-width:50px>{{data.ODC_percentage}}</td>
+                                    </ng-container>
+                                </tr>
+                            </table>
+                        </div>
+                        <!-- No data available display -->
+                        <!--   <div class="no_data_block_display" *ngIf='ChartData?.length == 0'>
+                        <h2 class="mt-2">No Data Available</h2>
+                    </div> -->
+                    </div>
+                    <br />
+                </div>
+            </div>
+            <!-- Add new forecast data -->
+            <div class="col-12" [hidden]="typeChart != 'Program chart'">
+
+                <div class="btn-add-user">
+                    <button class="btn add-btn" (click)="AddRow()"> Add New Forecast Data </button>
+                </div>
+                <div class="table-container">
+                    <table class="table table-bordered mt-3" *ngIf='tableData?.length'>
+                        <thead>
+                            <tr>
+                                <th>
+
+                                </th>
+                                <th>
+
+                                </th>
+                                <th>
+
+                                </th>
+                                <th>
+
+                                </th>
+                                <th>
+
+                                </th>
+                                <th>
+                                    Month
+                                </th>
+                                <th class="text_align_b_t" *ngFor="let column of monthsOfYear">{{ column }}</th>
+                                <th>
+
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    S.No
+                                </th>
+                                <th>
+                                    Program
+                                </th>
+                                <th>
+                                    SKU
+                                </th>
+                                <th>
+                                    Function
+                                </th>
+                                <th>
+                                    Vendor
+                                </th>
+                                <th>
+                                    TOTAL Board Count
+                                </th>
+                                <th class="text_align_b_t" *ngFor="let column of boardsHeaderColumns">{{ column }}</th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of tableData; let rowIndex = index">
+                                <td>{{rowIndex+1}}</td>
+                                <td *ngFor="let cell of row; let colIndex = index">
+                                    <ng-container *ngIf="cell.properties == 'Program'">
+                                        <div [hidden]="!cell.editing">
+                                            <select class="form-select location_select" style="width: 120px;"
+                                                aria-label="Default select example" [(ngModel)]="cell.value"
+                                                (change)="onChangeProgram(cell.value)"
+                                                (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)">
+                                                <option selected value="">Select Program</option>
+                                                <option *ngFor="let locat of programList?.ProgramName"
+                                                    [ngValue]="locat">
+                                                    {{locat}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div (click)="startEditingCell(rowIndex, colIndex)" [hidden]="cell.editing"
+                                            style="width: 120px;">
+                                            {{ cell.value }}
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="cell.properties == 'Sku'">
+                                        <div [hidden]="!cell.editing">
+                                            <select class="form-select location_select" style="width: 120px;"
+                                                aria-label="Default select example" [(ngModel)]="cell.value"
+                                                (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)">
+                                                <option selected value="">Select SKU</option>
+                                                <option *ngFor="let locat of skuList" [ngValue]="locat">
+                                                    {{locat}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div (click)="startEditingCell(rowIndex, colIndex)" [hidden]="cell.editing"
+                                            style="width: 120px;">
+                                            {{ cell.value }}
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="cell.properties == 'Team'">
+                                        <div [hidden]="!cell.editing">
+                                            <select class="form-select location_select" style="width: 120px;"
+                                                aria-label="Default select example" [(ngModel)]="cell.value"
+                                                (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)">
+                                                <option selected value="">Select Team</option>
+                                                <option *ngFor="let loca of teamList?.TeamName" [ngValue]="loca">
+                                                    {{loca}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div (click)="startEditingCell(rowIndex, colIndex)" [hidden]="cell.editing"
+                                            style="width: 120px;">
+                                            {{ cell.value }}
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="cell.properties == 'Vendor'">
+                                        <div [hidden]="!cell.editing">
+                                            <select class="form-select location_select" style="width: 120px;"
+                                                aria-label="Default select example" [(ngModel)]="cell.value"
+                                                (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)">
+                                                <option selected value="">Select Vendor</option>
+                                                <option *ngFor="let locat of vendorList?.Vendors" [ngValue]="locat">
+                                                    {{locat}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div (click)="startEditingCell(rowIndex, colIndex)" [hidden]="cell.editing"
+                                            style="width: 120px;">
+                                            {{ cell.value }}
+                                        </div>
+                                    </ng-container>
+                                    <ng-container
+                                        *ngIf="cell.properties != 'Program' && cell.properties != 'Sku' && cell.properties != 'Team' && cell.properties != 'Vendor' && cell.properties != 'Action'">
+                                        <div [hidden]="!cell.editing">
+                                            <input [(ngModel)]="cell.value" (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)"
+                                                style="width: 60px;" />
+                                        </div>
+                                        <div (click)="startEditingCell(rowIndex, colIndex)" [hidden]="cell.editing"
+                                            style="width: 60px;">
+                                            {{ cell.value }}
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="cell.properties == 'Action'">
+                                        <div style="display: flex;">
+                                            <span style="cursor: pointer;margin-right:5px"
+                                                (click)="AddNewRow(row,rowIndex)"
+                                                *ngIf="cell.value == 'Add'">Save</span>
+                                            <span style="cursor: pointer;margin-right:5px"
+                                                (click)="EditRow(row,rowIndex)"
+                                                *ngIf="cell.value == 'Update'">Update</span> |
+                                            <span style="cursor: pointer;margin-left:5px"
+                                                (click)="DeleteAddRow(rowIndex)"
+                                                *ngIf="cell.value == 'Add'">Delete</span>
+                                            <span style="cursor: pointer;margin-left:5px"
+                                                (click)="DeleteRow(row,rowIndex)"
+                                                *ngIf="cell.value == 'Update'">Delete</span>
+                                        </div>
+                                    </ng-container>
+                                </td>
+                                <!--   <td>
+                                    <div style="display: flex;">
+                                        <span style="cursor: pointer;margin-right:5px" (click)="EditRow()">Update</span> |
+                                        <span style="cursor: pointer;margin-left:5px" (click)="DeleteRow()">Delete</span>
+                                    </div>
+                                </td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- No data available display -->
+                    <div class="no_data_block_display" *ngIf='tableData?.length == 0'>
+                        <h2 class="mt-2">No Data Available</h2>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+</div>
+
+<!-- loader -->
+<div class="overlay-main-lab" *ngIf="!labwiseChartLoader">
+    <div class="spinner-container-lab">
+
+        <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+            <div class="rect6"></div>
+            <div class="rect7"></div>
+            <div class="rect8"></div>
+            <div class="rect9"></div>
+        </div>
+        <div class="proccessing-text">Loading ...</div>
     </div>
 </div>
