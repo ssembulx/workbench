@@ -16,18 +16,70 @@ import * as am5 from '@amcharts/amcharts5';
 import * as am5xy from '@amcharts/amcharts5/xy';
 import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
 import { ExportService } from '../shared/export.service';
+import { ExcelService } from '../shared/excel.service';
 @Component({
-  selector: 'app-lab-efficiency-utilization',
-  templateUrl: './lab-efficiency-utilization.component.html',
-  styleUrls: ['./lab-efficiency-utilization.component.scss'],
+  selector: 'app-allocation-history',
+  templateUrl: './allocation-history.component.html',
+  styleUrls: ['./allocation-history.component.scss'],
 })
-export class LabEfficiencyUtilizationComponent implements OnInit {
+export class AllocationHistoryComponent implements OnInit {
+  preSelectedYear;
+  yearList;
   constructor(
     private dataSvc: SummaryService,
     private toastrService: ToastrService,
-    private exportService1: ExportService
-  ) {}
+    private exportService1: ExportService,
+    private excelService: ExcelService
+  ) {
+    // Get the current year
+    this.preSelectedYear = new Date().getFullYear();
+    // Create an array of years from 2010 to the current year
+    this.yearList = [];
+    for (let year = 2023; year <= this.preSelectedYear; year++) {
+      this.yearList.push(year);
+    }
+
+    console.log(this.yearList);
+
+    function getCurrentISOWeekNumber() {
+      const currentDate = new Date();
+
+      // Get the date for the Thursday of the current week
+      const thursdayDate: any = new Date(currentDate);
+      thursdayDate.setDate(
+        currentDate.getDate() + (3 - ((currentDate.getDay() + 6) % 7))
+      );
+
+      // Get the year of the Thursday date
+      const thursdayYear = thursdayDate.getFullYear();
+
+      // Get the date of the first Thursday of the year
+      const firstThursday: any = new Date(thursdayYear, 0, 4);
+
+      // Calculate the week number
+      const weekNumber = Math.ceil(
+        ((thursdayDate - firstThursday) / 86400000 + 1) / 7
+      );
+
+      return weekNumber;
+    }
+
+    // Example usage:
+    debugger;
+    const currentWeekNumber = getCurrentISOWeekNumber();
+    console.log(`Current ISO Week Number: ${currentWeekNumber}`);
+  }
+
+  onItemSelected() {
+    // this.allocatedAPICall();
+  }
   labwiseChartLoader = true;
+  fullcircle: any = false;
+  setIconPossition: boolean = true;
+
+  getCheckbox() {
+    debugger;
+  }
 
   ngAfterViewInit() {
     this.chartdiv();
@@ -357,7 +409,7 @@ export class LabEfficiencyUtilizationComponent implements OnInit {
   ];
 
   /* Tab selection */
-  typeChart = 'Location chart';
+  typeChart = 'WorkWeek chart';
   Options(status: any) {
     if (status == 'Allocation') {
       this.typeChart = 'Location chart';
@@ -370,9 +422,12 @@ export class LabEfficiencyUtilizationComponent implements OnInit {
 
   WorkWeekSummaryList: any;
   /* API call get WorkWeekSummary list */
-/*   getWorkWeekSummaryList() {
+  getWorkWeekSummaryList() {
     this.labwiseChartLoader = false;
-    this.dataSvc.getWorkWeekSummary().subscribe((res) => {
+    let payload = {
+      Year: this.preSelectedYear,
+    };
+    this.dataSvc.getWorkWeekSummary(payload).subscribe((res) => {
       if (res) {
         debugger;
         this.WorkWeekSummaryList = res;
@@ -380,7 +435,8 @@ export class LabEfficiencyUtilizationComponent implements OnInit {
         this.labwiseChartLoader = true;
       }
     });
-  } */
+  }
+
   tableData: any = [];
   tempList: any[] = [];
   tableDataList: any[] = [
@@ -395,29 +451,113 @@ export class LabEfficiencyUtilizationComponent implements OnInit {
     'boardsODCRack',
   ];
   /* re structure  wrk week summary list*/
+  wwTable = '';
+  structureList = {
+    WW012023: [],
+    WW022023: [],
+    WW032023: [],
+    WW042023: [],
+    WW052023: [],
+    WW062023: [],
+    WW072023: [],
+    WW082023: [],
+    WW092023: [],
+    WW102023: [],
+    WW112023: [],
+    WW122023: [],
+    WW132023: [],
+    WW142023: [],
+    WW152023: [],
+    WW162023: [],
+    WW172023: [],
+    WW182023: [],
+    WW192023: [],
+    WW202023: [],
+    WW212023: [],
+    WW222023: [],
+    WW232023: [],
+    WW242023: [],
+    WW252023: [],
+    WW262023: [],
+    WW272023: [],
+    WW282023: [],
+    WW292023: [],
+    WW302023: [],
+    WW312023: [],
+    WW322023: [],
+    WW332023: [],
+    WW342023: [],
+    WW352023: [],
+    WW362023: [],
+    WW372023: [],
+    WW382023: [],
+    WW392023: [],
+    WW402023: [],
+    WW412023: [],
+    WW422023: [],
+    WW432023: [],
+    WW442023: [],
+    WW452023: [],
+    WW462023: [],
+    WW472023: [],
+    WW482023: [],
+    WW492023: [],
+    WW502023: [],
+    WW512023: [],
+    WW522023: [],
+  };
   formatStructure() {
     debugger;
     this.tableData = [];
     this.tempList = [];
     let finalValue = 0;
-    for (let key in this.WorkWeekSummaryList) {
-      if (this.WorkWeekSummaryList[key].length > 0) {
-        this.WorkWeekSummaryList[key].forEach((element) => {
+    let resultArray = [];
+    for (let key in this.WorkWeekSummaryList[0]) {
+      if (this.WorkWeekSummaryList[0][key].length > 0) {
+        this.WorkWeekSummaryList[0][key].forEach((element) => {
+          debugger;
           finalValue += element?.BenchData.length;
         });
-        this.WorkWeekSummaryList[key].forEach((element) => {
+        this.WorkWeekSummaryList[0][key].forEach((element) => {
           this.tableData.push(element);
         });
-      } else if (this.WorkWeekSummaryList[key].length == 0) {
+      } else if (this.WorkWeekSummaryList[0][key].length == 0) {
         // finalValue = 0;
       }
+
+      function converNumber(param) {
+        // Original string
+        const percentageString = param;
+
+        // Remove the "%" character
+        const numberString = percentageString.replace('%', '');
+
+        // Convert the string to a number
+        const numberValue = parseFloat(numberString);
+
+        return numberValue;
+      }
+      debugger;
+      // Sample arrays
+      const array1 = this.WorkWeekSummaryList[0][key];
+      // Concatenate arrays
+      resultArray = resultArray.concat(array1);
+
+      console.log(resultArray);
+
       this.tempList.push({
         category: key.slice(0, -4),
         value: finalValue,
+        all: converNumber(this.WorkWeekSummaryList[1][key].all),
+        non_siv: converNumber(this.WorkWeekSummaryList[1][key].non_siv),
+        siv: converNumber(this.WorkWeekSummaryList[1][key].siv),
         subdata: {
           category: key.slice(0, -4),
           value: finalValue,
-          report: this.WorkWeekSummaryList[key],
+          all: converNumber(this.WorkWeekSummaryList[1][key].all),
+          non_siv: converNumber(this.WorkWeekSummaryList[1][key].non_siv),
+          siv: converNumber(this.WorkWeekSummaryList[1][key].siv),
+          report: resultArray,
         },
       });
     }
@@ -451,11 +591,27 @@ export class LabEfficiencyUtilizationComponent implements OnInit {
       })
     );
 
+    chart.zoomOutButton.set('forceHidden', true);
+
+    chart.get('colors').set('step', 5);
+
+    // Add legend
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
+    let legend = chart.children.push(
+      am5.Legend.new(root, {
+        centerX: am5.p50,
+        x: am5.p50,
+      })
+    );
+
     // Add cursor
     // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
     let cursor = chart.set('cursor', am5xy.XYCursor.new(root, {}));
     cursor.lineY.set('visible', false);
 
+    let exporting = am5plugins_exporting.Exporting.new(root, {
+      menu: am5plugins_exporting.ExportingMenu.new(root, {}),
+    });
     // Create axes
     // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
     let xRenderer = am5xy.AxisRendererX.new(root, { minGridDistance: 20 });
@@ -493,14 +649,15 @@ export class LabEfficiencyUtilizationComponent implements OnInit {
     // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
     let series = chart.series.push(
       am5xy.ColumnSeries.new(root, {
-        name: 'Series 1',
+        name: 'Allocated Bench Count',
         xAxis: xAxis,
         yAxis: yAxis,
         valueYField: 'value',
         sequencedInterpolation: true,
         categoryXField: 'category',
         tooltip: am5.Tooltip.new(root, {
-          labelText: '{valueY}',
+          //  labelText: '{name}, {categoryX} : {valueY}',
+          labelText: '{name} : {valueY}',
         }),
       })
     );
@@ -521,21 +678,130 @@ export class LabEfficiencyUtilizationComponent implements OnInit {
     let data = this.tempList;
     xAxis.data.setAll(data);
     series.data.setAll(data);
-
-    /* series.columns.template.events.on('click', (ev) => {
+    series.columns.template.events.on('click', (ev) => {
       debugger;
       const categoryData: any = ev.target.dataItem.dataContext;
       if (categoryData.subdata != undefined) {
-        series.data.setAll(categoryData.subdata);
+        /*  series.data.setAll(categoryData.subdata);
         xAxis.data.setAll(categoryData.subdata);
-        yAxis.data.setAll(categoryData.subdata);
-        series.appear();
+        yAxis.data.setAll(categoryData.subdata); */
+        this.tableData = categoryData.subdata.report;
+        this.wwTable =
+          ': ' +
+          categoryData.subdata.category +
+          ' - ' +
+          categoryData.subdata.value;
+        /* series.appear(); */
       }
-    }); */
+    });
+    legend.data.push(series);
+
+    let paretoAxisRenderer = am5xy.AxisRendererY.new(root, { opposite: true });
+    let paretoAxis = chart.yAxes.push(
+      am5xy.ValueAxis.new(root, {
+        renderer: paretoAxisRenderer,
+        min: 0,
+        /*     max: 100,
+        strictMinMax: true, */
+      })
+    );
+
+    paretoAxisRenderer.grid.template.set('forceHidden', true);
+    paretoAxis.set('numberFormat', "#'%");
+
+    // pareto series
+    let paretoSeries = chart.series.push(
+      am5xy.LineSeries.new(root, {
+        name: '% of Total',
+        xAxis: xAxis,
+        yAxis: paretoAxis,
+        valueYField: 'all',
+        categoryXField: 'category',
+        tooltip: am5.Tooltip.new(root, {
+          pointerOrientation: 'horizontal',
+          //  labelText: '{name}, {categoryX} : {valueY}%',
+          labelText: '{name} : {valueY}%',
+        }),
+        /*  stroke: root.interfaceColors.get('alternativeBackground'),
+        maskBullets: false, */
+      })
+    );
+    paretoSeries.strokes.template.setAll({
+      strokeWidth: 3,
+      stroke: paretoSeries.get('fill'),
+    });
+    paretoSeries.bullets.push(function () {
+      return am5.Bullet.new(root, {
+        locationY: 1,
+        sprite: am5.Circle.new(root, {
+          radius: 5,
+          fill: paretoSeries.get('fill'),
+          stroke: root.interfaceColors.get('background'),
+        }),
+      });
+    });
+    paretoSeries.data.setAll(data);
+    legend.data.push(paretoSeries);
+
+    // pareto series1
+    let paretoSeries1 = chart.series.push(
+      am5xy.LineSeries.new(root, {
+        name: '% of WSE',
+        xAxis: xAxis,
+        yAxis: paretoAxis,
+        valueYField: 'siv',
+        categoryXField: 'category',
+        tooltip: am5.Tooltip.new(root, {
+          pointerOrientation: 'horizontal',
+          // labelText: '{name}, {categoryX} : {valueY}%',
+          labelText: '{name} : {valueY}%',
+        }),
+        /*  stroke: root.interfaceColors.get('alternativeBackground'),
+    maskBullets: false, */
+      })
+    );
+    paretoSeries1.strokes.template.setAll({
+      strokeWidth: 3,
+      stroke: paretoSeries1.get('fill'),
+    });
+    paretoSeries1.bullets.push(function () {
+      return am5.Bullet.new(root, {
+        locationY: 1,
+        sprite: am5.Circle.new(root, {
+          radius: 5,
+          fill: paretoSeries1.get('fill'),
+          stroke: root.interfaceColors.get('background'),
+        }),
+      });
+    });
+    paretoSeries1.data.setAll(data);
+    legend.data.push(paretoSeries1);
     // Make stuff animate on load
     // https://www.amcharts.com/docs/v5/concepts/animations/
     series.appear(1000);
+    paretoSeries.appear(1000);
+    paretoSeries1.appear(1000);
     chart.appear(1000, 100);
+  }
+
+  /* download work week summary chart data*/
+  downloadWorkWeekSummaryChartData() {
+    this.excelService.downloadExcel(
+      this.tempList,
+      'Work Week Summary Chart Data'
+    );
+  }
+
+  /* reloadDataTable */
+  reloadDataTable() {
+    debugger;
+    this.tableData = [];
+    this.wwTable = '';
+    for (let key in this.WorkWeekSummaryList[0]) {
+      this.WorkWeekSummaryList[0][key].forEach((element) => {
+        this.tableData.push(element);
+      });
+    }
   }
 
   /* Sorting functionality in table(ascending descending order)  */
@@ -559,7 +825,154 @@ export class LabEfficiencyUtilizationComponent implements OnInit {
   }
   /* download bench details */
   downloadallocatedListbench() {
-    this.exportService1.exportExcel(this.tableData, 'Bench Details');
+    if (this.tableData?.length > 0) {
+      /* let allocatedDownloadData: any = [];
+       this.tableData.forEach((element: any) => {
+        if (element.status == 'allocated') {
+          allocatedDownloadData.push(element);
+        }
+      }); */
+      debugger;
+      let filteredData = this.tableData;
+      if (this.searchLocation != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.Location__Name === null
+            ? val.Location__Name
+            : val.Location__Name.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchLocation.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchTeam != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.Team === null
+            ? val.Team
+            : val.Team.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchTeam.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchProgram != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.Program === null
+            ? val.Program
+            : val.Program.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchProgram.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchSku != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.Sku === null
+            ? val.Sku
+            : val.Sku.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchSku.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchVendor != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.Vendor === null
+            ? val.Vendor
+            : val.Vendor.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchVendor.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchAllocated != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.AllocatedTo[0].Name === null
+            ? val.AllocatedTo[0].Name
+            : val.AllocatedTo[0].Name.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchAllocated.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchfromWW != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.FromWW === null
+            ? val.FromWW
+            : val.FromWW.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchfromWW.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchtoWW != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.ToWW === null
+            ? val.ToWW
+            : val.ToWW.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchtoWW.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchBench != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.BenchData === null
+            ? val.BenchData
+            : val.BenchData.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchBench.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchBenchDetails != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.BenchData === null
+            ? val.BenchData
+            : val.BenchData.toString()
+                .trim()
+                .toLowerCase()
+                .includes(
+                  this.searchBenchDetails.toString().trim().toLowerCase()
+                );
+        });
+      }
+      if (this.searchDuration != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.Duration === null
+            ? val.Duration
+            : val.Duration.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchDuration.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchRemarks != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.Remarks === null
+            ? val.Remarks
+            : val.Remarks.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchRemarks.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchApprovedBy != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.approvedBy === null
+            ? val.approvedBy
+            : val.approvedBy
+                .toString()
+                .trim()
+                .toLowerCase()
+                .includes(
+                  this.searchApprovedBy.toString().trim().toLowerCase()
+                );
+        });
+      }
+      console.log(filteredData);
+      this.exportService1.exportExcel(filteredData, 'Allocated Bench Details');
+    }
+    // this.exportService1.exportExcel(this.tableData, 'Bench Details');
   }
 
   searchText = '';
@@ -569,12 +982,13 @@ export class LabEfficiencyUtilizationComponent implements OnInit {
   searchSku = '';
   searchAllocated = '';
   searchfromWW = '';
-  searchtoWW: '';
-  searchBench: '';
-  searchTeam: '';
-  searchDuration: '';
-  searchApprovedBy: '';
-  searchBenchDetails: '';
+  searchtoWW = '';
+  searchBench = '';
+  searchTeam = '';
+  searchDuration = '';
+  searchApprovedBy = '';
+  searchBenchDetails = '';
+  searchRemarks = '';
   clearInput() {
     this.searchLocation = '';
     this.searchProgram = '';
@@ -587,9 +1001,10 @@ export class LabEfficiencyUtilizationComponent implements OnInit {
     this.searchBenchDetails = '';
     this.searchTeam = '';
     this.searchDuration = '';
+    this.searchRemarks = '';
   }
 
   ngOnInit(): void {
-   // this.getWorkWeekSummaryList();
+    this.getWorkWeekSummaryList();
   }
 }

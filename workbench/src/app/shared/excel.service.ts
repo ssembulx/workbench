@@ -102,4 +102,11 @@ export class ExcelService {
     // fs.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
     fs.saveAs(data, fileName + EXCEL_EXTENSION);
   }
+
+  downloadExcel(data: any[], fileName: string): void {
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, `${fileName}.xlsx`);
+  }
 }

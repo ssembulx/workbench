@@ -21,6 +21,7 @@ import { TutorialComponent } from './tutorial/tutorial.component';
 import { UserApproveComponent } from './user-approve/user-approve.component';
 import { UserComponent } from './user/user.component';
 import { VendorComponent } from './vendor/vendor.component';
+import { AllocationHistoryComponent } from './allocation-history/allocation-history.component';
 const routes: Routes = [
   {
     path: '',
@@ -122,6 +123,11 @@ const routes: Routes = [
   {
     path: 'approver',
     component: ApproverComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'allocation-history',
+    component: AllocationHistoryComponent,
     canActivate: [AuthGuard],
   },
   {

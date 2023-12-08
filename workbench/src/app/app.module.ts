@@ -66,6 +66,7 @@ import { ForecastComponent } from './forecast/forecast.component';
 import { TutorialComponent } from './tutorial/tutorial.component';
 import { AuhenticateComponent } from './auhenticate/auhenticate.component';
 import { ApproverComponent } from './approver/approver.component';
+import { AllocationHistoryComponent } from './allocation-history/allocation-history.component';
 /* import { ToastrService } from 'ngx-toastr'; */
 @NgModule({
   declarations: [
@@ -117,7 +118,8 @@ import { ApproverComponent } from './approver/approver.component';
     ApproverComponent,
     nonsivSearchLab,
     nonsivSearchLabDetails,
-    nonsivSearchLabDetailsNo
+    nonsivSearchLabDetailsNo,
+    AllocationHistoryComponent,
   ],
   imports: [
     BrowserModule,

@@ -15,35 +15,56 @@ import * as am5percent from '@amcharts/amcharts5/percent';
 import * as am5 from '@amcharts/amcharts5';
 import * as am5xy from '@amcharts/amcharts5/xy';
 import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
+
+import { ExcelService } from '../shared/excel.service';
+import * as XLSX from 'xlsx';
+import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+
+type AOA = any[][];
 @Component({
   selector: 'app-forecast',
   templateUrl: './forecast.component.html',
   styleUrls: ['./forecast.component.scss'],
 })
 export class ForecastComponent implements OnInit {
+  modalReference: any;
   yearList;
   preSelectedYear;
   preSelectedYearRVP;
   preSelectedQuarterRVP;
   preSelectedForecastTableSummary;
+  preSelectedYearAddForecast;
   constructor(
     private dataSvc: SummaryService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private excelService: ExcelService,
+    private modalService: NgbModal
   ) {
     // Get the current year
     this.preSelectedYear = new Date().getFullYear();
     this.preSelectedYearRVP = new Date().getFullYear();
     this.preSelectedQuarterRVP = new Date().getFullYear();
     this.preSelectedForecastTableSummary = new Date().getFullYear();
+    this.preSelectedYearAddForecast = new Date().getFullYear();
     // Create an array of years from 2010 to the current year
     this.yearList = [];
-    for (let year = 2023; year <= this.preSelectedYear; year++) {
+    /* for (let year = 2023; year <= this.preSelectedYear; year++) {
       this.yearList.push(year);
-    }
-
+    } */
+    /* API call get year list */
+    this.labwiseChartLoader = false;
+    this.dataSvc.getYearList().subscribe((res) => {
+      if (res) {
+        debugger;
+        for (let key in res) {
+          this.yearList.push(Number(key));
+        }
+        this.labwiseChartLoader = true;
+      }
+    });
     console.log(this.yearList);
   }
-
+  addForecastYearList = [2020, 2021, 2022, 2023, 2024, 2025, 2026];
   programList: any;
   skuList: any;
   vendorList: any;
@@ -63,7 +84,10 @@ export class ForecastComponent implements OnInit {
   /* API call get board list */
   getBoardList() {
     this.labwiseChartLoader = false;
-    this.dataSvc.getBoard().subscribe((res) => {
+    let payload = {
+      year: this.preSelectedYearAddForecast,
+    };
+    this.dataSvc.getBoard(payload).subscribe((res) => {
       if (res) {
         this.boardList = res;
         /*  this.boardList = [
@@ -246,7 +270,7 @@ export class ForecastComponent implements OnInit {
     });
   }
   userInfo: any;
-  benchDemand() {
+  /*  benchDemand() {
     this.dataSvc.getBoard().subscribe((res) => {
       if (res) {
         this.boardList = res;
@@ -254,7 +278,7 @@ export class ForecastComponent implements OnInit {
         this.labwiseChartLoader = true;
       }
     });
-  }
+  } */
   /* allocated api call */
   allocatedList;
   allocatedAPICall() {
@@ -269,6 +293,13 @@ export class ForecastComponent implements OnInit {
         this.labwiseChartLoader = true;
       }
     });
+  }
+  /* download forecast summary */
+  downloadForecastSummary() {
+    this.excelService.downloadExcel(
+      this.allocatedList[this.preSelectedYear],
+      'Forecast Summary Data'
+    );
   }
   /* rvp ramp yearly data API call */
   rvpYearList;
@@ -287,7 +318,15 @@ export class ForecastComponent implements OnInit {
     });
   }
 
-  /* rvp ramp yearly data API call */
+  /* download rvp ramp yearly data */
+  downloadRvpYear() {
+    this.excelService.downloadExcel(
+      this.rvpYearList[this.preSelectedYear],
+      'RVP Ramp Forecast Data'
+    );
+  }
+
+  /* rvp ramp quarterly data API call */
   rvpQuarterList;
   rvpQuarter() {
     this.labwiseChartLoader = false;
@@ -302,6 +341,14 @@ export class ForecastComponent implements OnInit {
         this.labwiseChartLoader = true;
       }
     });
+  }
+
+  /* download rvp ramp quarterly data */
+  downloadRvpRampQuarterly() {
+    this.excelService.downloadExcel(
+      this.rvpQuarterList[this.preSelectedQuarterRVP],
+      'RVP Forecast Quarterly Split Data'
+    );
   }
 
   /* forecast Table Summary API call*/
@@ -321,6 +368,14 @@ export class ForecastComponent implements OnInit {
     });
   }
 
+  /* download forecast Table Summary data */
+  downloadForecastTableSummaryList() {
+    this.excelService.downloadExcel(
+      this.forecastTableSummaryList,
+      'Bench & Rack Demand @ Intel & ODC Data'
+    );
+  }
+
   onItemSelected() {
     this.allocatedAPICall();
   }
@@ -332,6 +387,9 @@ export class ForecastComponent implements OnInit {
   }
   onItemSelectedforecastTableSummary() {
     this.forecastTableSummary();
+  }
+  onItemSelectedAddForecast() {
+    this.getBoardList();
   }
   ngAfterViewInit() {
     this.allocatedAPICall();
@@ -375,6 +433,12 @@ export class ForecastComponent implements OnInit {
         x: am5.p50,
       })
     );
+
+    //Export chart
+    let exporting = am5plugins_exporting.Exporting.new(root, {
+      menu: am5plugins_exporting.ExportingMenu.new(root, {}),
+    });
+
     let data = this.allocatedList[this.preSelectedYear];
     /* let data = [
       {
@@ -482,7 +546,8 @@ export class ForecastComponent implements OnInit {
           categoryXField: 'category',
           tooltip: am5.Tooltip.new(root, {
             pointerOrientation: 'horizontal',
-            labelText: '{name}, {categoryX}:{valueY}',
+            // labelText: '{name}, {categoryX}:{valueY}',
+            labelText: '{name} : {valueY}',
           }),
         })
       );
@@ -528,7 +593,8 @@ export class ForecastComponent implements OnInit {
           categoryXField: 'category',
           tooltip: am5.Tooltip.new(root, {
             pointerOrientation: 'horizontal',
-            labelText: '{name}, {categoryX}:{valueY}',
+            //labelText: '{name}, {categoryX}:{valueY}',
+            labelText: '{name} : {valueY}',
           }),
         })
       );
@@ -555,7 +621,7 @@ export class ForecastComponent implements OnInit {
 
     makeSeries('Intel', 'intel', '#5b9bd5');
     makeSeries('ODC', 'ODC', '#ed7d31');
-    makeLineSeries();
+    //  makeLineSeries();
     /*  makeSeries('Asia', 'asia');
     makeSeries('Latin America', 'lamerica');
     makeSeries('Middle East', 'meast');
@@ -592,7 +658,7 @@ export class ForecastComponent implements OnInit {
         layout: root.verticalLayout,
       })
     );
-
+    chart.get('colors').set('step', 6);
     // Add legend
     // https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
     let legend = chart.children.push(
@@ -601,6 +667,12 @@ export class ForecastComponent implements OnInit {
         x: am5.p50,
       })
     );
+
+    //Export chart
+    let exporting = am5plugins_exporting.Exporting.new(root, {
+      menu: am5plugins_exporting.ExportingMenu.new(root, {}),
+    });
+    debugger;
     let data = this.rvpQuarterList[this.preSelectedQuarterRVP];
     /* let data = [
       {
@@ -708,7 +780,8 @@ export class ForecastComponent implements OnInit {
           categoryXField: 'category',
           tooltip: am5.Tooltip.new(root, {
             pointerOrientation: 'horizontal',
-            labelText: '{name}, {categoryX}:{valueY}',
+            // labelText: '{name}, {categoryX}:{valueY}',
+            labelText: '{name} : {valueY}',
           }),
         })
       );
@@ -754,7 +827,8 @@ export class ForecastComponent implements OnInit {
           categoryXField: 'category',
           tooltip: am5.Tooltip.new(root, {
             pointerOrientation: 'horizontal',
-            labelText: '{name}, {categoryX}:{valueY}',
+            // labelText: '{name}, {categoryX}:{valueY}',
+            labelText: '{name} : {valueY}',
           }),
         })
       );
@@ -781,6 +855,86 @@ export class ForecastComponent implements OnInit {
 
     makeSeries('Intel', 'intel', '#5b9bd5');
     makeSeries('ODC', 'ODC', '#ed7d31');
+
+    let paretoAxisRenderer = am5xy.AxisRendererY.new(root, { opposite: true });
+    let paretoAxis = chart.yAxes.push(
+      am5xy.ValueAxis.new(root, {
+        renderer: paretoAxisRenderer,
+        min: 0,
+        /*     max: 100,
+        strictMinMax: true, */
+      })
+    );
+
+    paretoAxisRenderer.grid.template.set('forceHidden', true);
+    paretoAxis.set('numberFormat', "#'%");
+    // pareto series
+    let paretoSeries = chart.series.push(
+      am5xy.LineSeries.new(root, {
+        name: 'Intel %',
+        xAxis: xAxis,
+        yAxis: paretoAxis,
+        valueYField: 'intel_percentage',
+        categoryXField: 'category',
+        tooltip: am5.Tooltip.new(root, {
+          pointerOrientation: 'horizontal',
+          //  labelText: '{name}, {categoryX} : {valueY}%',
+          labelText: '{name} : {valueY}%',
+        }),
+        /*  stroke: root.interfaceColors.get('alternativeBackground'),
+            maskBullets: false, */
+      })
+    );
+    paretoSeries.strokes.template.setAll({
+      strokeWidth: 3,
+      stroke: paretoSeries.get('fill'),
+    });
+    paretoSeries.bullets.push(function () {
+      return am5.Bullet.new(root, {
+        locationY: 1,
+        sprite: am5.Circle.new(root, {
+          radius: 5,
+          fill: paretoSeries.get('fill'),
+          stroke: root.interfaceColors.get('background'),
+        }),
+      });
+    });
+    paretoSeries.data.setAll(data);
+    legend.data.push(paretoSeries);
+
+    // pareto series1
+    let paretoSeries1 = chart.series.push(
+      am5xy.LineSeries.new(root, {
+        name: 'ODC %',
+        xAxis: xAxis,
+        yAxis: paretoAxis,
+        valueYField: 'ODC_percentage',
+        categoryXField: 'category',
+        tooltip: am5.Tooltip.new(root, {
+          pointerOrientation: 'horizontal',
+          // labelText: '{name}, {categoryX} : {valueY}%',
+          labelText: '{name} : {valueY}%',
+        }),
+        /*  stroke: root.interfaceColors.get('alternativeBackground'),
+        maskBullets: false, */
+      })
+    );
+    paretoSeries1.strokes.template.setAll({
+      strokeWidth: 3,
+      stroke: paretoSeries1.get('fill'),
+    });
+    paretoSeries1.bullets.push(function () {
+      return am5.Bullet.new(root, {
+        locationY: 1,
+        sprite: am5.Circle.new(root, {
+          radius: 5,
+          fill: paretoSeries1.get('fill'),
+          stroke: root.interfaceColors.get('background'),
+        }),
+      });
+    });
+    paretoSeries1.data.setAll(data);
+    legend.data.push(paretoSeries1);
     //  makeLineSeries();
     /*  makeSeries('Asia', 'asia');
     makeSeries('Latin America', 'lamerica');
@@ -790,6 +944,8 @@ export class ForecastComponent implements OnInit {
     // Make stuff animate on load
     // https://www.amcharts.com/docs/v5/concepts/animations/
     // series2.appear(1000, 100);
+    paretoSeries.appear(1000);
+    paretoSeries1.appear(1000);
     chart.appear(1000, 100);
   }
   chartdiv2() {
@@ -818,7 +974,7 @@ export class ForecastComponent implements OnInit {
         layout: root.verticalLayout,
       })
     );
-
+    chart.get('colors').set('step', 5);
     // Add legend
     // https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
     let legend = chart.children.push(
@@ -827,6 +983,12 @@ export class ForecastComponent implements OnInit {
         x: am5.p50,
       })
     );
+
+    //Export chart
+    let exporting = am5plugins_exporting.Exporting.new(root, {
+      menu: am5plugins_exporting.ExportingMenu.new(root, {}),
+    });
+    debugger;
     let data = this.rvpYearList[this.preSelectedYear];
     /* let data = [
       {
@@ -934,7 +1096,8 @@ export class ForecastComponent implements OnInit {
           categoryXField: 'category',
           tooltip: am5.Tooltip.new(root, {
             pointerOrientation: 'horizontal',
-            labelText: '{name}, {categoryX}:{valueY}',
+            //  labelText: '{name}, {categoryX}:{valueY}',
+            labelText: '{name} : {valueY}',
           }),
         })
       );
@@ -970,6 +1133,79 @@ export class ForecastComponent implements OnInit {
       legend.data.push(series);
     }
     function makeLineSeries() {
+      /* intel series line */
+      let seriesIntel = chart.series.push(
+        am5xy.LineSeries.new(root, {
+          /* minBulletDistance: 10, */
+          name: 'Intel',
+          xAxis: xAxis,
+          yAxis: yAxis,
+          valueYField: 'intel',
+          categoryXField: 'category',
+          tooltip: am5.Tooltip.new(root, {
+            pointerOrientation: 'horizontal',
+            //labelText: '{name}, {categoryX}:{valueY}',
+            labelText: '{name} : {valueY}',
+          }),
+        })
+      );
+
+      seriesIntel.strokes.template.setAll({
+        strokeWidth: 3,
+        stroke: am5.color(0xd7a700),
+      });
+
+      seriesIntel.data.setAll(data);
+      seriesIntel.appear(1000);
+      seriesIntel.bullets.push(function () {
+        return am5.Bullet.new(root, {
+          sprite: am5.Circle.new(root, {
+            radius: 6,
+            fill: seriesIntel.get('fill'),
+            stroke: root.interfaceColors.get('background'),
+            strokeWidth: 2,
+          }),
+        });
+      });
+      legend.data.push(seriesIntel);
+
+      /* ODC series line */
+      let seriesODC = chart.series.push(
+        am5xy.LineSeries.new(root, {
+          /* minBulletDistance: 10, */
+          name: 'ODC',
+          xAxis: xAxis,
+          yAxis: yAxis,
+          valueYField: 'ODC',
+          categoryXField: 'category',
+          tooltip: am5.Tooltip.new(root, {
+            pointerOrientation: 'horizontal',
+            //labelText: '{name}, {categoryX}:{valueY}',
+            labelText: '{name} : {valueY}',
+          }),
+        })
+      );
+
+      seriesODC.strokes.template.setAll({
+        strokeWidth: 3,
+        stroke: am5.color(0xd7a700),
+      });
+
+      seriesODC.data.setAll(data);
+      seriesODC.appear(1000);
+      seriesODC.bullets.push(function () {
+        return am5.Bullet.new(root, {
+          sprite: am5.Circle.new(root, {
+            radius: 6,
+            fill: seriesODC.get('fill'),
+            stroke: root.interfaceColors.get('background'),
+            strokeWidth: 2,
+          }),
+        });
+      });
+      legend.data.push(seriesODC);
+
+      /* Ramp line series */
       let series = chart.series.push(
         am5xy.LineSeries.new(root, {
           /* minBulletDistance: 10, */
@@ -980,7 +1216,8 @@ export class ForecastComponent implements OnInit {
           categoryXField: 'category',
           tooltip: am5.Tooltip.new(root, {
             pointerOrientation: 'horizontal',
-            labelText: '{name}, {categoryX}:{valueY}',
+            //labelText: '{name}, {categoryX}:{valueY}',
+            labelText: '{name} : {valueY}',
           }),
         })
       );
@@ -1079,8 +1316,8 @@ export class ForecastComponent implements OnInit {
     this.monthsOfYear = [];
     this.boardsHeaderColumns = [];
     this.columns.forEach((month) => {
+      this.monthsOfYear.push(month);
       for (let i = 0; i < 4; i++) {
-        this.monthsOfYear.push(month);
         this.boardsHeaderColumns.push(this.boardsHeader[i]);
       }
     });
@@ -1093,6 +1330,8 @@ export class ForecastComponent implements OnInit {
       this.typeChart = 'Location chart';
     } else if (status == 'Deallocation') {
       this.typeChart = 'Program chart';
+    } else if (status == 'YOY Comparison') {
+      this.typeChart = 'YOY Comparison';
     }
   }
 
@@ -1198,6 +1437,7 @@ export class ForecastComponent implements OnInit {
     tempAddnewRow['deletedBy'] = this.boardList[rowIndex]?.deletedBy;
     tempAddnewRow['deletedDate'] = this.boardList[rowIndex]?.deletedDate;
     tempAddnewRow['isdeleted'] = false;
+    tempAddnewRow['year'] = this.preSelectedYearAddForecast;
 
     let tempStuctureAddNew = {
       January: {
@@ -1362,6 +1602,7 @@ export class ForecastComponent implements OnInit {
     tempAddnewRow['deletedBy'] = '';
     tempAddnewRow['deletedDate'] = '';
     tempAddnewRow['isdeleted'] = false;
+    tempAddnewRow['year'] = this.preSelectedYearAddForecast;
 
     let tempStuctureAddNew = {
       January: {
@@ -1801,5 +2042,65 @@ export class ForecastComponent implements OnInit {
       },
     ];
     this.tableData.push(tempStucture);
+  }
+
+  data: AOA = [
+    [1, 2],
+    [3, 4],
+  ];
+  wopts: XLSX.WritingOptions = { bookType: 'xlsx', type: 'array' };
+  fileName: string = 'SheetJS.xlsx';
+
+  onFileChange(evt: any) {
+    debugger;
+    /* wire up file reader */
+    const target: DataTransfer = <DataTransfer>evt.target;
+    if (target.files.length !== 1) throw new Error('Cannot use multiple files');
+    const reader: FileReader = new FileReader();
+    reader.onload = (e: any) => {
+      /* read workbook */
+      const bstr: string = e.target.result;
+      const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
+
+      /* grab first sheet */
+      const wsname: string = wb.SheetNames[0];
+      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+
+      /* save data */
+      this.data = <AOA>XLSX.utils.sheet_to_json(ws, { header: 1 });
+      console.log('data:', this.data);
+      this.data.map((res) => {
+        if (res[0] === 'no') {
+          console.log(res[0]);
+        } else {
+          console.log(res[0]);
+        }
+      });
+    };
+    reader.readAsBinaryString(target.files[0]);
+  }
+
+  export(): void {
+    /* generate worksheet */
+    const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(this.data);
+
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, this.fileName);
+  }
+
+  // ***** open modal popup for upload forecast data ****** //
+  UpdloadForecastDataPopUp(addmodal: any) {
+    this.modalReference = this.modalService.open(addmodal, {
+      size: 'xl',
+      backdrop: 'static',
+    });
+  }
+  /* save xl data */
+  saveXLData() {
+    
   }
 }

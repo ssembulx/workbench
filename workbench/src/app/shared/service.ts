@@ -364,17 +364,29 @@ export class SummaryService {
   }
 
   /* get WorkWeekSummary list  */
-  getWorkWeekSummary() {
-    return this.http.get(this.ServiceURL + 'home/workWeek/');
+  getWorkWeekSummary(param: any) {
+    const serviceUrl = this.ServiceURL + 'home/workWeek/';
+    return this.http.post(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
   }
 
   /* get board list  */
-  getBoard() {
-    return this.http.get(this.ServiceURL + 'home/board-api/');
+  getBoard(param: any) {
+    // return this.http.get(this.ServiceURL + 'home/board-api/');
+    const serviceUrl = this.ServiceURL + 'home/yearWiseData/';
+    return this.http.post(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
   }
   /* delete board  */
   deleteBoard(id) {
     return this.http.delete(this.ServiceURL + 'home/board-api/' + id + '/');
+    /* return this.http.delete(this.ServiceURL + 'home/yearWiseData/' + id + '/'); */
   }
   /* add board */
   addBoard(param: any) {
@@ -384,6 +396,12 @@ export class SummaryService {
         'Content-type': 'application/json',
       },
     });
+    /*  const serviceUrl = this.ServiceURL + 'home/yearWiseData/';
+    return this.http.post(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }); */
   }
 
   /* allocated API Call */
@@ -428,6 +446,12 @@ export class SummaryService {
 
   /* update board */
   updateBoard(id, param: any) {
+    /* const serviceUrl = this.ServiceURL + 'home/yearWiseData/' + id + '/';
+    return this.http.put(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }); */
     const serviceUrl = this.ServiceURL + 'home/board-api/' + id + '/';
     return this.http.put(serviceUrl, param, {
       headers: {
@@ -438,6 +462,9 @@ export class SummaryService {
 
   getProgram() {
     return this.http.get(this.ServiceURL + 'home/GetProgramDetails/');
+  }
+  getYearList() {
+    return this.http.get(this.ServiceURL + 'home/year-list/');
   }
   getSKU(program: any) {
     const serviceUrl = this.ServiceURL + 'home/GetSkuDetails/ ';
@@ -490,7 +517,7 @@ export class SummaryService {
       },
     });
   }
-  editApprovalRequests(data: any){
+  editApprovalRequests(data: any) {
     const serviceUrl = this.ServiceURL + 'home/EditApprovalRequests/';
     return this.http.post(serviceUrl, data, {
       headers: {
