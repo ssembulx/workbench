@@ -293,12 +293,12 @@
                                         <td>{{ cart?.seatsLabelNo?.length }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Program :- (<span style="color:red">*</span>)</td>
+                                        <td>Program/Domain :- (<span style="color:red">*</span>)</td>
                                         <td style="padding: 0px;">
                                             <select class="form-select location_select"
                                                 aria-label="Default select example" [(ngModel)]="programName"
                                                 (change)="onChangeProgram(programName)">
-                                                <option selected value="">Select Program</option>
+                                                <option selected value="">Select Program/Domain</option>
                                                 <option *ngFor="let locat of programList?.ProgramName"
                                                     [ngValue]="locat">
                                                     {{locat}}
