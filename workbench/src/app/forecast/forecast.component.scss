@@ -1570,3 +1570,15 @@ td div:not([hidden]):hover {
     overflow-x: scroll;
     display: block;
 }
+
+.display_none {
+    display: none !important;
+}
+
+.float_left {
+    float: left;
+}
+
+.compare_btn {
+    width: 250px;
+}

@@ -67,6 +67,7 @@ import { TutorialComponent } from './tutorial/tutorial.component';
 import { AuhenticateComponent } from './auhenticate/auhenticate.component';
 import { ApproverComponent } from './approver/approver.component';
 import { AllocationHistoryComponent } from './allocation-history/allocation-history.component';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 /* import { ToastrService } from 'ngx-toastr'; */
 @NgModule({
   declarations: [
@@ -142,6 +143,7 @@ import { AllocationHistoryComponent } from './allocation-history/allocation-hist
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     InterceptService,
     { provide: HTTP_INTERCEPTORS, useClass: InterceptService, multi: true },
+    NgbActiveModal
   ],
   bootstrap: [AppComponent],
 })

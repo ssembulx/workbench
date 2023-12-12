@@ -458,10 +458,53 @@
                         <h2 class="mt-2">No Data Available</h2>
                     </div>
                 </div>
+                <div class="table-container display_none">
+                    <table class="table table-bordered mt-3 table_xl_upload_preview" #myTable>
+                        <thead>
+                            <tr *ngFor="let row of theader">
+                                <th *ngFor="let val of row">
+                                    {{val}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of tbody">
+                                <td *ngFor="let val of row">
+                                    {{val}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <!-- YOY Comparison -->
-            <div class="col-12" [hidden]="typeChart != 'YOY Comparison'">
+            <div class="col-12 float_left" [hidden]="typeChart != 'YOY Comparison'">
+                <div class="col-12 mt-3 float_left">
+                    <div class="col-3 float_left">
+                        <select class="form-select location_select compare_btn" aria-label="Default select example"
+                            [(ngModel)]="preSelectedYearCompareFrom" (change)="onItemSelectedCompare()">
+                            <option selected value="">Select Year to Compare</option>
+                            <option *ngFor="let locat of yearList" [ngValue]="locat">
+                                {{locat}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-3 float_left">
+                        <select class="form-select location_select compare_btn" aria-label="Default select example"
+                            [(ngModel)]="preSelectedYearCompareTo" (change)="onItemSelectedCompare()">
+                            <option selected value="">Select Year to Compare</option>
+                            <option *ngFor="let locat of yearList" [ngValue]="locat">
+                                {{locat}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-3 float_left">
+                        <button type="button"
+                            [disabled]="preSelectedYearCompareTo == '' || preSelectedYearCompareFrom ==''"
+                            class="btn btn-primary">Compare</button>
+                    </div>
 
+                </div>
             </div>
         </div>
     </div>
@@ -499,9 +542,16 @@
             <div class="row">
                 <div class="col-12">
                     <div class="table-container">
-                        <table class="table table-bordered mt-3 table_xl_upload_preview">
+                        <table class="table table-bordered mt-3 table_xl_upload_preview" #myTable>
+                            <thead>
+                                <tr *ngFor="let row of theader">
+                                    <th *ngFor="let val of row">
+                                        {{val}}
+                                    </th>
+                                </tr>
+                            </thead>
                             <tbody>
-                                <tr *ngFor="let row of data">
+                                <tr *ngFor="let row of tbody">
                                     <td *ngFor="let val of row">
                                         {{val}}
                                     </td>

@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  Inject,
+} from '@angular/core';
 import { SummaryService } from '../shared/service';
 import { any } from '@amcharts/amcharts5/.internal/core/util/Array';
 import { ToastrService } from 'ngx-toastr';
@@ -19,6 +25,7 @@ import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
 import { ExcelService } from '../shared/excel.service';
 import * as XLSX from 'xlsx';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 type AOA = any[][];
 @Component({
@@ -34,11 +41,15 @@ export class ForecastComponent implements OnInit {
   preSelectedQuarterRVP;
   preSelectedForecastTableSummary;
   preSelectedYearAddForecast;
+  elementRef: ElementRef;
+  @ViewChild('myTable') myTable: ElementRef;
   constructor(
     private dataSvc: SummaryService,
     private toastrService: ToastrService,
     private excelService: ExcelService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    @Inject(ElementRef) elementRef: ElementRef,
+    public activeModal: NgbActiveModal
   ) {
     // Get the current year
     this.preSelectedYear = new Date().getFullYear();
@@ -55,7 +66,6 @@ export class ForecastComponent implements OnInit {
     this.labwiseChartLoader = false;
     this.dataSvc.getYearList().subscribe((res) => {
       if (res) {
-        debugger;
         for (let key in res) {
           this.yearList.push(Number(key));
         }
@@ -63,6 +73,7 @@ export class ForecastComponent implements OnInit {
       }
     });
     console.log(this.yearList);
+    this.elementRef = elementRef;
   }
   addForecastYearList = [2020, 2021, 2022, 2023, 2024, 2025, 2026];
   programList: any;
@@ -310,7 +321,6 @@ export class ForecastComponent implements OnInit {
     };
     this.dataSvc.rvpYearAPICall(payload).subscribe((res) => {
       if (res) {
-        debugger;
         this.rvpYearList = res;
         this.chartdiv2();
         this.labwiseChartLoader = true;
@@ -335,7 +345,6 @@ export class ForecastComponent implements OnInit {
     };
     this.dataSvc.rvpQuarterAPICall(payload).subscribe((res) => {
       if (res) {
-        debugger;
         this.rvpQuarterList = res;
         this.chartdiv1();
         this.labwiseChartLoader = true;
@@ -360,7 +369,6 @@ export class ForecastComponent implements OnInit {
     };
     this.dataSvc.forecastTableSummary(payload).subscribe((res) => {
       if (res) {
-        debugger;
         this.forecastTableSummaryList =
           res[this.preSelectedForecastTableSummary];
         this.labwiseChartLoader = true;
@@ -391,6 +399,11 @@ export class ForecastComponent implements OnInit {
   onItemSelectedAddForecast() {
     this.getBoardList();
   }
+  /* comapre tab year change event */
+  preSelectedYearCompareFrom = '';
+  preSelectedYearCompareTo = '';
+  onItemSelectedCompareFrom() {}
+  onItemSelectedCompareTo() {}
   ngAfterViewInit() {
     this.allocatedAPICall();
     this.rvpYear();
@@ -438,7 +451,7 @@ export class ForecastComponent implements OnInit {
     let exporting = am5plugins_exporting.Exporting.new(root, {
       menu: am5plugins_exporting.ExportingMenu.new(root, {}),
     });
-
+    debugger;
     let data = this.allocatedList[this.preSelectedYear];
     /* let data = [
       {
@@ -2043,16 +2056,16 @@ export class ForecastComponent implements OnInit {
     ];
     this.tableData.push(tempStucture);
   }
-
-  data: AOA = [
-    [1, 2],
-    [3, 4],
-  ];
+  /* show data from uploaded xl document */
+  data: AOA = [[], []];
   wopts: XLSX.WritingOptions = { bookType: 'xlsx', type: 'array' };
   fileName: string = 'SheetJS.xlsx';
-
+  theader: any;
+  tbody: any;
   onFileChange(evt: any) {
     debugger;
+    this.theader = [];
+    this.tbody = [];
     /* wire up file reader */
     const target: DataTransfer = <DataTransfer>evt.target;
     if (target.files.length !== 1) throw new Error('Cannot use multiple files');
@@ -2068,12 +2081,20 @@ export class ForecastComponent implements OnInit {
 
       /* save data */
       this.data = <AOA>XLSX.utils.sheet_to_json(ws, { header: 1 });
+
       console.log('data:', this.data);
       this.data.map((res) => {
         if (res[0] === 'no') {
           console.log(res[0]);
         } else {
           console.log(res[0]);
+        }
+      });
+      this.data.forEach((element, index) => {
+        if (index <= 1) {
+          this.theader.push(element);
+        } else {
+          this.tbody.push(element);
         }
       });
     };
@@ -2101,6 +2122,150 @@ export class ForecastComponent implements OnInit {
   }
   /* save xl data */
   saveXLData() {
-    
+    debugger;
+    this.labwiseChartLoader = false;
+    const tableElement = this.myTable.nativeElement as HTMLTableElement;
+    const elementById = tableElement.querySelector('#myTable');
+    // const table = this.dataTable.nativeElement as HTMLTableElement;
+
+    const headers = Array.from(tableElement.querySelectorAll('thead th')).map(
+      (header) => header.textContent?.trim()
+    );
+    // Use slice to get the last 52 elements
+    const newArray = headers.slice(-53);
+
+    // 'newArray' now contains the last 52 elements of 'originalArray'
+    console.log(newArray);
+
+    // Create a new Date object
+    const currentDateAndTime = new Date();
+
+    // Get the individual components
+    const year = currentDateAndTime.getFullYear();
+    const month = currentDateAndTime.getMonth() + 1; // Months are zero-indexed, so add 1
+    const day = currentDateAndTime.getDate();
+    const hours = currentDateAndTime.getHours();
+    const minutes = currentDateAndTime.getMinutes();
+    const seconds = currentDateAndTime.getSeconds();
+
+    // Format the date and time
+    const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+    console.log(formattedDateTime);
+    const rows = Array.from(tableElement.querySelectorAll('tbody tr')).map(
+      (row) => {
+        const rowData = Array.from(row.querySelectorAll('td')).map((cell) =>
+          cell.textContent?.trim()
+        );
+        return newArray.reduce((acc, header, index) => {
+          acc = {
+            createdBy: this.userInfo?.name,
+            createdDate: formattedDateTime,
+            modifiedBy: '',
+            modifiedDate: '',
+            deletedBy: '',
+            deletedDate: '',
+            isdeleted: false,
+            year: this.preSelectedYearAddForecast,
+            Program: rowData?.[0],
+            Team: rowData?.[2],
+            Vendor: rowData?.[3],
+            TotalBoard: rowData?.[4],
+            Sku: rowData?.[1],
+            January: {
+              boardsIntelBench: rowData?.[5] == '' ? 0 : rowData?.[5],
+              boardIntelRack: rowData?.[6] == '' ? 0 : rowData?.[6],
+              boardsODCBench: rowData?.[7] == '' ? 0 : rowData?.[7],
+              boardsODCRack: rowData?.[8] == '' ? 0 : rowData?.[8],
+            },
+            February: {
+              boardsIntelBench: rowData?.[9] == '' ? 0 : rowData?.[9],
+              boardIntelRack: rowData?.[10] == '' ? 0 : rowData?.[10],
+              boardsODCBench: rowData?.[11] == '' ? 0 : rowData?.[11],
+              boardsODCRack: rowData?.[12] == '' ? 0 : rowData?.[12],
+            },
+            March: {
+              boardsIntelBench: rowData?.[13] == '' ? 0 : rowData?.[13],
+              boardIntelRack: rowData?.[14] == '' ? 0 : rowData?.[14],
+              boardsODCBench: rowData?.[15] == '' ? 0 : rowData?.[15],
+              boardsODCRack: rowData?.[16] == '' ? 0 : rowData?.[16],
+            },
+            April: {
+              boardsIntelBench: rowData?.[17] == '' ? 0 : rowData?.[17],
+              boardIntelRack: rowData?.[18] == '' ? 0 : rowData?.[18],
+              boardsODCBench: rowData?.[19] == '' ? 0 : rowData?.[19],
+              boardsODCRack: rowData?.[20] == '' ? 0 : rowData?.[20],
+            },
+            May: {
+              boardsIntelBench: rowData?.[21] == '' ? 0 : rowData?.[21],
+              boardIntelRack: rowData?.[22] == '' ? 0 : rowData?.[22],
+              boardsODCBench: rowData?.[23] == '' ? 0 : rowData?.[23],
+              boardsODCRack: rowData?.[24] == '' ? 0 : rowData?.[24],
+            },
+            June: {
+              boardsIntelBench: rowData?.[25] == '' ? 0 : rowData?.[25],
+              boardIntelRack: rowData?.[26] == '' ? 0 : rowData?.[26],
+              boardsODCBench: rowData?.[27] == '' ? 0 : rowData?.[27],
+              boardsODCRack: rowData?.[28] == '' ? 0 : rowData?.[28],
+            },
+            July: {
+              boardsIntelBench: rowData?.[29] == '' ? 0 : rowData?.[29],
+              boardIntelRack: rowData?.[30] == '' ? 0 : rowData?.[30],
+              boardsODCBench: rowData?.[31] == '' ? 0 : rowData?.[31],
+              boardsODCRack: rowData?.[32] == '' ? 0 : rowData?.[32],
+            },
+            August: {
+              boardsIntelBench: rowData?.[33] == '' ? 0 : rowData?.[33],
+              boardIntelRack: rowData?.[34] == '' ? 0 : rowData?.[34],
+              boardsODCBench: rowData?.[35] == '' ? 0 : rowData?.[35],
+              boardsODCRack: rowData?.[36] == '' ? 0 : rowData?.[36],
+            },
+            September: {
+              boardsIntelBench: rowData?.[37] == '' ? 0 : rowData?.[37],
+              boardIntelRack: rowData?.[38] == '' ? 0 : rowData?.[38],
+              boardsODCBench: rowData?.[39] == '' ? 0 : rowData?.[39],
+              boardsODCRack: rowData?.[40] == '' ? 0 : rowData?.[40],
+            },
+            October: {
+              boardsIntelBench: rowData?.[41] == '' ? 0 : rowData?.[41],
+              boardIntelRack: rowData?.[42] == '' ? 0 : rowData?.[42],
+              boardsODCBench: rowData?.[43] == '' ? 0 : rowData?.[43],
+              boardsODCRack: rowData?.[44] == '' ? 0 : rowData?.[44],
+            },
+            November: {
+              boardsIntelBench: rowData?.[45] == '' ? 0 : rowData?.[45],
+              boardIntelRack: rowData?.[46] == '' ? 0 : rowData?.[46],
+              boardsODCBench: rowData?.[47] == '' ? 0 : rowData?.[47],
+              boardsODCRack: rowData?.[48] == '' ? 0 : rowData?.[48],
+            },
+            December: {
+              boardsIntelBench: rowData?.[49] == '' ? 0 : rowData?.[49],
+              boardIntelRack: rowData?.[50] == '' ? 0 : rowData?.[50],
+              boardsODCBench: rowData?.[51] == '' ? 0 : rowData?.[51],
+              boardsODCRack: rowData?.[52] == '' ? 0 : rowData?.[52],
+            },
+          };
+          // acc[header as string] = rowData?.[index];
+          return acc;
+        }, {});
+      }
+    );
+
+    //const jsonData = JSON.stringify(rows, null, 2);
+    // console.log(jsonData);
+    if (rows?.length > 0) {
+      this.modalReference.close();
+      this.dataSvc.uploadBoardData(rows).subscribe((res) => {
+        if (res) {
+          debugger;
+          this.toastrService.success(
+            'Forcaste Data Added Successfully',
+            'Success!'
+          );
+          this.getBoardList();
+          this.labwiseChartLoader = true;
+        }
+      });
+    }
   }
 }

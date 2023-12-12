@@ -404,6 +404,22 @@ export class SummaryService {
     }); */
   }
 
+  /* upload xl data */
+  uploadBoardData(param: any) {
+    const serviceUrl = this.ServiceURL + 'home/excelUpload/';
+    return this.http.post(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+    /*  const serviceUrl = this.ServiceURL + 'home/yearWiseData/';
+    return this.http.post(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }); */
+  }
+
   /* allocated API Call */
   allocatedAPICall(param: any) {
     const serviceUrl = this.ServiceURL + 'home/allocated/';
