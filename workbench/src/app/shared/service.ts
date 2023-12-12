@@ -552,7 +552,7 @@ export class SummaryService {
 
   public getUserDetails(obj: any): Observable<any> {
     return this.http.post(
-      'https://cppo.apps1-bg-int.icloud.intel.com/api/Account/GetUserDetails',
+      'https://wsivpd-prod-api.apps1-bg-int.icloud.intel.com/api/Account/GetUserDetails',
       obj,
       {
         withCredentials: true,
