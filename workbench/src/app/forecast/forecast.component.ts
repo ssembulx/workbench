@@ -6,7 +6,7 @@ import {
   Inject,
 } from '@angular/core';
 import { SummaryService } from '../shared/service';
-import { any } from '@amcharts/amcharts5/.internal/core/util/Array';
+import { any, find } from '@amcharts/amcharts5/.internal/core/util/Array';
 import { ToastrService } from 'ngx-toastr';
 // amCharts imports
 // import * as am4core from '@amcharts/amcharts4/core';
@@ -26,6 +26,7 @@ import { ExcelService } from '../shared/excel.service';
 import * as XLSX from 'xlsx';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 type AOA = any[][];
 @Component({
@@ -300,6 +301,9 @@ export class ForecastComponent implements OnInit {
     this.dataSvc.allocatedAPICall(payload).subscribe((res) => {
       if (res) {
         this.allocatedList = res;
+        this.allocatedList[this.preSelectedYear].forEach((element) => {
+          element['Ramp'] = element.intel + element.ODC;
+        });
         this.chartdiv();
         this.labwiseChartLoader = true;
       }
@@ -402,8 +406,511 @@ export class ForecastComponent implements OnInit {
   /* comapre tab year change event */
   preSelectedYearCompareFrom = '';
   preSelectedYearCompareTo = '';
-  onItemSelectedCompareFrom() {}
-  onItemSelectedCompareTo() {}
+  /*  onItemSelectedCompareFrom() {
+    this.compareAllocateFrom(this.preSelectedYearCompareFrom);
+  }
+  onItemSelectedCompareTo() {
+    this.compareAllocateTo(this.preSelectedYearCompareTo);
+  } */
+  clickEventComapreButton() {
+    if (this.preSelectedYearCompareFrom != this.preSelectedYearCompareTo) {
+      this.compareAllocateFrom(this.preSelectedYearCompareFrom);
+      this.compareAllocateTo(this.preSelectedYearCompareTo);
+    } else {
+      this.toastrService.warning('Please select different year', 'Warning');
+    }
+  }
+  fromAllocatedList;
+  compareAllocateFrom(param) {
+    this.labwiseChartLoader = false;
+    let payload = {
+      year: param,
+    };
+    this.dataSvc.allocatedAPICall(payload).subscribe((res) => {
+      if (res) {
+        this.fromAllocatedList = res;
+        this.formatComparisonData();
+        this.comparisonChart();
+        this.comparisonChartYearWise();
+        this.labwiseChartLoader = true;
+      }
+    });
+  }
+  toAllocatedList;
+  compareAllocateTo(param) {
+    this.labwiseChartLoader = false;
+    let payload = {
+      year: param,
+    };
+    this.dataSvc.allocatedAPICall(payload).subscribe((res) => {
+      if (res) {
+        this.toAllocatedList = res;
+        this.formatComparisonData();
+        this.comparisonChart();
+        this.comparisonChartYearWise();
+        this.labwiseChartLoader = true;
+      }
+    });
+  }
+  /* format data for chart */
+  formatedComparisonData = [];
+  formatedComparisonYearData = [];
+  formatComparisonData() {
+    debugger;
+    if (
+      this.fromAllocatedList[this.preSelectedYearCompareFrom]?.length > 0 &&
+      this.toAllocatedList[this.preSelectedYearCompareTo]?.length > 0
+    ) {
+      this.formatedComparisonData = [];
+      this.formatedComparisonYearData = [];
+      let fromYearTotal = 0;
+      let toYearTotal = 0;
+      /* month wise data creation */
+      this.fromAllocatedList[this.preSelectedYearCompareFrom].forEach(
+        (element, index) => {
+          let obj = {};
+          obj['category'] = element.category;
+          obj[this.preSelectedYearCompareFrom + '_' + 'intel'] = element.intel;
+          obj[this.preSelectedYearCompareTo + '_' + 'intel'] =
+            this.toAllocatedList[this.preSelectedYearCompareTo][index].intel;
+          obj[this.preSelectedYearCompareFrom + '_' + 'ODC'] = element.ODC;
+          obj[this.preSelectedYearCompareTo + '_' + 'ODC'] =
+            this.toAllocatedList[this.preSelectedYearCompareTo][index].ODC;
+          obj[this.preSelectedYearCompareFrom + '_' + 'Ramp'] =
+            element.intel + element.ODC;
+          obj[this.preSelectedYearCompareTo + '_' + 'Ramp'] =
+            this.toAllocatedList[this.preSelectedYearCompareTo][index].intel +
+            this.toAllocatedList[this.preSelectedYearCompareTo][index].ODC;
+          fromYearTotal += element.intel + element.ODC;
+          toYearTotal +=
+            this.toAllocatedList[this.preSelectedYearCompareTo][index].intel +
+            this.toAllocatedList[this.preSelectedYearCompareTo][index].ODC;
+          this.formatedComparisonData.push(obj);
+        }
+      );
+      /* year data creation */
+      let objYear = {};
+      objYear['category'] = this.preSelectedYearCompareFrom.toString();
+      objYear['value'] = fromYearTotal;
+      this.formatedComparisonYearData.push(objYear);
+      objYear = {};
+      objYear['category'] = this.preSelectedYearCompareTo.toString();
+      objYear['value'] = toYearTotal;
+      this.formatedComparisonYearData.push(objYear);
+      console.log('Year Data', this.formatedComparisonYearData);
+      console.log('Data', this.formatedComparisonData);
+    }
+  }
+  /* YOY Comparison chart year wise */
+  comparisonChartYearWise() {
+    this.showComparisonChart = true;
+    am5.array.each(am5.registry.rootElements, function (root) {
+      if (root?.dom.id == 'chartdiv5') {
+        root.dispose();
+      }
+    });
+    // Create root element
+    // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+    let root = am5.Root.new('chartdiv5');
+    root._logo.dispose();
+    // Set themes
+    // https://www.amcharts.com/docs/v5/concepts/themes/
+    root.setThemes([am5themes_Animated.new(root)]);
+
+    // Create chart
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/
+    let chart = root.container.children.push(
+      am5xy.XYChart.new(root, {
+        panX: false,
+        panY: false,
+        wheelX: 'panX',
+        wheelY: 'zoomX',
+        layout: root.verticalLayout,
+      })
+    );
+    chart.get('colors').set('step', 5);
+    // Add scrollbar
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
+    /* chart.set(
+      'scrollbarX',
+      am5.Scrollbar.new(root, {
+        orientation: 'horizontal',
+      })
+    ); */
+
+    let data = this.formatedComparisonYearData;
+
+    // Create axes
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+    let xRenderer = am5xy.AxisRendererX.new(root, {
+      //  minorGridEnabled: true,
+      /* cellStartLocation: 0.1,
+      cellEndLocation: 0.9,
+      maxWidth: 100, */
+      minGridDistance: 20,
+    });
+    let xAxis = chart.xAxes.push(
+      am5xy.CategoryAxis.new(root, {
+        categoryField: 'category',
+        renderer: xRenderer,
+        tooltip: am5.Tooltip.new(root, {}),
+      })
+    );
+
+    xRenderer.grid.template.setAll({
+      location: 1,
+    });
+
+    xAxis.data.setAll(data);
+
+    let yAxis = chart.yAxes.push(
+      am5xy.ValueAxis.new(root, {
+        min: 0,
+        //  max: 100,
+        //  numberFormat: "#'%'",
+        //strictMinMax: true,
+        calculateTotals: true,
+        renderer: am5xy.AxisRendererY.new(root, {
+          strokeOpacity: 0.1,
+        }),
+      })
+    );
+
+    // Add legend
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
+    let legend = chart.children.push(
+      am5.Legend.new(root, {
+        centerX: am5.p50,
+        x: am5.p50,
+      })
+    );
+
+    //Export chart
+    let exporting = am5plugins_exporting.Exporting.new(root, {
+      menu: am5plugins_exporting.ExportingMenu.new(root, {}),
+    });
+
+    // Add series
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+    /* function makeSeries(name, fieldName, stacked, color) { */
+    let series = chart.series.push(
+      am5xy.ColumnSeries.new(root, {
+        name: 'Year',
+        xAxis: xAxis,
+        yAxis: yAxis,
+        valueYField: 'value',
+        sequencedInterpolation: true,
+        categoryXField: 'category',
+        tooltip: am5.Tooltip.new(root, {
+          labelText: '{valueY}',
+        }),
+      })
+    );
+
+    series.columns.template.setAll({
+      cornerRadiusTL: 5,
+      cornerRadiusTR: 5,
+      strokeOpacity: 0,
+    });
+    series.columns.template.adapters.add('fill', function (fill, target) {
+      return chart.get('colors').getIndex(series.columns.indexOf(target));
+    });
+
+    series.columns.template.adapters.add('stroke', function (stroke, target) {
+      return chart.get('colors').getIndex(series.columns.indexOf(target));
+    });
+    series.data.setAll(data);
+
+    // Make stuff animate on load
+    // https://www.amcharts.com/docs/v5/concepts/animations/
+    series.appear();
+
+    series.bullets.push(function () {
+      return am5.Bullet.new(root, {
+        sprite: am5.Label.new(root, {
+          text: '{valueY}',
+          fill: root.interfaceColors.get('alternativeText'),
+          centerY: am5.p50,
+          centerX: am5.p50,
+          populateText: true,
+        }),
+      });
+    });
+
+    legend.data.push(series);
+    /*  }
+
+    makeSeries('Year', 'value', false, '#5b9bd5'); */
+    // makeSeries(this.preSelectedYearCompareTo, 'value', false, '#ed7d31');
+
+    chart.set('cursor', am5xy.XYCursor.new(root, {}));
+    // Make stuff animate on load
+    // https://www.amcharts.com/docs/v5/concepts/animations/
+    chart.appear(1000, 100);
+  }
+  /* YOY Comparison chart month wise */
+  showComparisonChart = false;
+  comparisonChart() {
+    this.showComparisonChart = true;
+    am5.array.each(am5.registry.rootElements, function (root) {
+      if (root?.dom.id == 'chartdiv4') {
+        root.dispose();
+      }
+    });
+    // Create root element
+    // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+    let root = am5.Root.new('chartdiv4');
+    root._logo.dispose();
+    // Set themes
+    // https://www.amcharts.com/docs/v5/concepts/themes/
+    root.setThemes([am5themes_Animated.new(root)]);
+
+    // Create chart
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/
+    let chart = root.container.children.push(
+      am5xy.XYChart.new(root, {
+        panX: false,
+        panY: false,
+        wheelX: 'panX',
+        wheelY: 'zoomX',
+        layout: root.verticalLayout,
+      })
+    );
+    chart.get('colors').set('step', 5);
+    // Add scrollbar
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
+    /* chart.set(
+      'scrollbarX',
+      am5.Scrollbar.new(root, {
+        orientation: 'horizontal',
+      })
+    ); */
+
+    let data = this.formatedComparisonData;
+
+    /* let data = [
+      {
+        year: '2021',
+        europe: 2.5,
+        namerica: 2.5,
+        asia: 2.1,
+        lamerica: 1,
+        meast: 0.8,
+        africa: 0.4,
+      },
+      {
+        year: '2022',
+        europe: 2.6,
+        namerica: 2.7,
+        asia: 2.2,
+        lamerica: 0.5,
+        meast: 0.4,
+        africa: 0.3,
+      },
+      {
+        year: '2023',
+        europe: 2.8,
+        namerica: 2.9,
+        asia: 2.4,
+        lamerica: 0.3,
+        meast: 0.9,
+        africa: 0.5,
+      },
+    ]; */
+
+    // Create axes
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+    let xRenderer = am5xy.AxisRendererX.new(root, {
+      //  minorGridEnabled: true,
+      cellStartLocation: 0.1,
+      cellEndLocation: 0.9,
+      maxWidth: 100,
+      minGridDistance: 20,
+    });
+    let xAxis = chart.xAxes.push(
+      am5xy.CategoryAxis.new(root, {
+        categoryField: 'category',
+        renderer: xRenderer,
+        tooltip: am5.Tooltip.new(root, {}),
+      })
+    );
+
+    xRenderer.grid.template.setAll({
+      location: 1,
+    });
+
+    xAxis.data.setAll(data);
+
+    let yAxis = chart.yAxes.push(
+      am5xy.ValueAxis.new(root, {
+        min: 0,
+        //  max: 100,
+        //  numberFormat: "#'%'",
+        //strictMinMax: true,
+        calculateTotals: true,
+        renderer: am5xy.AxisRendererY.new(root, {
+          strokeOpacity: 0.1,
+        }),
+      })
+    );
+
+    // Add legend
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
+    let legend = chart.children.push(
+      am5.Legend.new(root, {
+        centerX: am5.p50,
+        x: am5.p50,
+      })
+    );
+
+    //Export chart
+    let exporting = am5plugins_exporting.Exporting.new(root, {
+      menu: am5plugins_exporting.ExportingMenu.new(root, {}),
+    });
+
+    // Add series
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+    function makeSeries(name, fieldName, stacked, color) {
+      let series = chart.series.push(
+        am5xy.ColumnSeries.new(root, {
+          name: name,
+          /* stacked: stacked, */
+          xAxis: xAxis,
+          yAxis: yAxis,
+          valueYField: fieldName,
+          //  valueYShow: 'valueYTotalPercent',
+          categoryXField: 'category',
+          tooltip: am5.Tooltip.new(root, {
+            pointerOrientation: 'horizontal',
+            // labelText: '{name}, {categoryX}:{valueY}',
+            labelText: '{name} : {valueY}',
+          }),
+        })
+      );
+
+      series.columns.template.setAll({
+        /* tooltipText:
+          "{name}, {categoryX}:{valueYTotalPercent.formatNumber('#.#')}%", */
+        tooltipText: '{name} : {valueY}',
+        width: am5.percent(90),
+        tooltipY: am5.percent(10),
+        fill: am5.color(color),
+        stroke: am5.color(color),
+      });
+      series.data.setAll(data);
+
+      // Make stuff animate on load
+      // https://www.amcharts.com/docs/v5/concepts/animations/
+      series.appear();
+
+      series.bullets.push(function () {
+        return am5.Bullet.new(root, {
+          sprite: am5.Label.new(root, {
+            text: '{valueY}',
+            fill: root.interfaceColors.get('alternativeText'),
+            centerY: am5.p50,
+            centerX: am5.p50,
+            populateText: true,
+          }),
+        });
+      });
+
+      legend.data.push(series);
+    }
+
+    makeSeries(
+      this.preSelectedYearCompareFrom + ' ' + 'Intel',
+      this.preSelectedYearCompareFrom + '_' + 'intel',
+      false,
+      '#5b9bd5'
+    );
+    makeSeries(
+      this.preSelectedYearCompareFrom + ' ' + 'ODC',
+      this.preSelectedYearCompareFrom + '_' + 'ODC',
+      false,
+      '#ed7d31'
+    );
+    makeLineSeries(
+      this.preSelectedYearCompareFrom + ' ' + 'Ramp',
+      this.preSelectedYearCompareFrom + '_' + 'Ramp'
+    );
+    makeSeries(
+      this.preSelectedYearCompareTo + ' ' + 'Intel',
+      this.preSelectedYearCompareTo + '_' + 'intel',
+      true,
+      '#10ac84'
+    );
+    makeSeries(
+      this.preSelectedYearCompareTo + ' ' + 'ODC',
+      this.preSelectedYearCompareTo + '_' + 'ODC',
+      true,
+      '#0abde3'
+    );
+    function makeLineSeries(name, value) {
+      /* preSelectedYearCompareFrom Ramp series line */
+      let seriesIntel = chart.series.push(
+        am5xy.LineSeries.new(root, {
+          /* minBulletDistance: 10, */
+          name: name,
+          xAxis: xAxis,
+          yAxis: yAxis,
+          valueYField: value,
+          categoryXField: 'category',
+          tooltip: am5.Tooltip.new(root, {
+            pointerOrientation: 'horizontal',
+            //labelText: '{name}, {categoryX}:{valueY}',
+            labelText: '{name} : {valueY}',
+          }),
+        })
+      );
+
+      seriesIntel.strokes.template.setAll({
+        strokeWidth: 3,
+        stroke: am5.color(0xd7a700),
+      });
+
+      seriesIntel.data.setAll(data);
+      seriesIntel.appear(1000);
+      seriesIntel.bullets.push(function () {
+        return am5.Bullet.new(root, {
+          sprite: am5.Circle.new(root, {
+            radius: 6,
+            fill: seriesIntel.get('fill'),
+            stroke: root.interfaceColors.get('background'),
+            strokeWidth: 2,
+          }),
+        });
+      });
+      legend.data.push(seriesIntel);
+    }
+    makeLineSeries(
+      this.preSelectedYearCompareTo + ' ' + 'Ramp',
+      this.preSelectedYearCompareTo + '_' + 'Ramp'
+    );
+    /*  makeSeries('Middle East', 'meast');
+    makeSeries('Africa', 'africa'); */
+    chart.set('cursor', am5xy.XYCursor.new(root, {}));
+    // Make stuff animate on load
+    // https://www.amcharts.com/docs/v5/concepts/animations/
+    chart.appear(1000, 100);
+  }
+
+  /* download forecast summary comparison */
+  downloadForecastSummaryComparison() {
+    this.excelService.downloadExcel(
+      this.formatedComparisonData,
+      'Forecast Summary Comparison Data'
+    );
+  }
+
+  /* download forecast summary year comparison */
+  downloadForecastSummaryYearComparison() {
+    this.excelService.downloadExcel(
+      this.formatedComparisonYearData,
+      'Forecast Summary Comparison Yearly Data'
+    );
+  }
+
   ngAfterViewInit() {
     this.allocatedAPICall();
     this.rvpYear();
@@ -451,7 +958,6 @@ export class ForecastComponent implements OnInit {
     let exporting = am5plugins_exporting.Exporting.new(root, {
       menu: am5plugins_exporting.ExportingMenu.new(root, {}),
     });
-    debugger;
     let data = this.allocatedList[this.preSelectedYear];
     /* let data = [
       {
@@ -599,10 +1105,10 @@ export class ForecastComponent implements OnInit {
       let series = chart.series.push(
         am5xy.LineSeries.new(root, {
           /* minBulletDistance: 10, */
-          name: 'WSE Bench Allocation',
+          name: 'Ramp',
           xAxis: xAxis,
           yAxis: yAxis,
-          valueYField: 'WSE_BENCH_Allocation',
+          valueYField: 'Ramp',
           categoryXField: 'category',
           tooltip: am5.Tooltip.new(root, {
             pointerOrientation: 'horizontal',
@@ -634,7 +1140,7 @@ export class ForecastComponent implements OnInit {
 
     makeSeries('Intel', 'intel', '#5b9bd5');
     makeSeries('ODC', 'ODC', '#ed7d31');
-    //  makeLineSeries();
+    makeLineSeries();
     /*  makeSeries('Asia', 'asia');
     makeSeries('Latin America', 'lamerica');
     makeSeries('Middle East', 'meast');
@@ -685,7 +1191,6 @@ export class ForecastComponent implements OnInit {
     let exporting = am5plugins_exporting.Exporting.new(root, {
       menu: am5plugins_exporting.ExportingMenu.new(root, {}),
     });
-    debugger;
     let data = this.rvpQuarterList[this.preSelectedQuarterRVP];
     /* let data = [
       {
@@ -1001,7 +1506,6 @@ export class ForecastComponent implements OnInit {
     let exporting = am5plugins_exporting.Exporting.new(root, {
       menu: am5plugins_exporting.ExportingMenu.new(root, {}),
     });
-    debugger;
     let data = this.rvpYearList[this.preSelectedYear];
     /* let data = [
       {
@@ -1276,7 +1780,6 @@ export class ForecastComponent implements OnInit {
       console.log('userdeatils', res);
       this.userInfo = res;
     });
-    this.getBoardList();
     /* API call get program list */
     this.dataSvc.getProgram().subscribe((res) => {
       if (res) {
@@ -1343,8 +1846,17 @@ export class ForecastComponent implements OnInit {
       this.typeChart = 'Location chart';
     } else if (status == 'Deallocation') {
       this.typeChart = 'Program chart';
+      this.getBoardList();
     } else if (status == 'YOY Comparison') {
       this.typeChart = 'YOY Comparison';
+      if (
+        this.preSelectedYearCompareFrom != '' &&
+        this.preSelectedYearCompareTo != ''
+      ) {
+        this.showComparisonChart = true;
+      } else {
+        this.showComparisonChart = false;
+      }
     }
   }
 
@@ -1379,8 +1891,10 @@ export class ForecastComponent implements OnInit {
   ];
 
   /* re structure  board list*/
+  totalValueList = [];
   formatStructure() {
     this.tableData = [];
+
     this.boardList.forEach((element) => {
       this.tempList = [];
       for (let key in element) {
@@ -1415,6 +1929,156 @@ export class ForecastComponent implements OnInit {
       return typeof variable === 'object' && variable !== null;
     }
     console.log(this.boardList);
+    /* calculatue total value */
+    this.totalValueList = [];
+    this.calculateTotalFromComponent();
+    /*  this.totalValueList.push(this.calculateTotal('TotalBoard'));
+
+    this.totalValueList.push(
+      this.calculateTotalMonth('January', 'boardsIntelBench')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('January', 'boardIntelRack')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('January', 'boardsODCBench')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('January', 'boardsODCRack')
+    );
+
+    this.totalValueList.push(
+      this.calculateTotalMonth('February', 'boardsIntelBench')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('February', 'boardIntelRack')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('February', 'boardsODCBench')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('February', 'boardsODCRack')
+    );
+
+    this.totalValueList.push(
+      this.calculateTotalMonth('March', 'boardsIntelBench')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('March', 'boardIntelRack')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('March', 'boardsODCBench')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('March', 'boardsODCRack')
+    );
+
+    this.totalValueList.push(
+      this.calculateTotalMonth('April', 'boardsIntelBench')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('April', 'boardIntelRack')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('April', 'boardsODCBench')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('April', 'boardsODCRack')
+    );
+
+    this.totalValueList.push(
+      this.calculateTotalMonth('May', 'boardsIntelBench')
+    );
+    this.totalValueList.push(this.calculateTotalMonth('May', 'boardIntelRack'));
+    this.totalValueList.push(this.calculateTotalMonth('May', 'boardsODCBench'));
+    this.totalValueList.push(this.calculateTotalMonth('May', 'boardsODCRack'));
+
+    this.totalValueList.push(
+      this.calculateTotalMonth('June', 'boardsIntelBench')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('June', 'boardIntelRack')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('June', 'boardsODCBench')
+    );
+    this.totalValueList.push(this.calculateTotalMonth('June', 'boardsODCRack'));
+
+    this.totalValueList.push(
+      this.calculateTotalMonth('July', 'boardsIntelBench')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('July', 'boardIntelRack')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('July', 'boardsODCBench')
+    );
+    this.totalValueList.push(this.calculateTotalMonth('July', 'boardsODCRack'));
+
+    this.totalValueList.push(
+      this.calculateTotalMonth('August', 'boardsIntelBench')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('August', 'boardIntelRack')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('August', 'boardsODCBench')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('August', 'boardsODCRack')
+    );
+
+    this.totalValueList.push(
+      this.calculateTotalMonth('September', 'boardsIntelBench')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('September', 'boardIntelRack')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('September', 'boardsODCBench')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('September', 'boardsODCRack')
+    );
+
+    this.totalValueList.push(
+      this.calculateTotalMonth('October', 'boardsIntelBench')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('October', 'boardIntelRack')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('October', 'boardsODCBench')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('October', 'boardsODCRack')
+    );
+
+    this.totalValueList.push(
+      this.calculateTotalMonth('November', 'boardsIntelBench')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('November', 'boardIntelRack')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('November', 'boardsODCBench')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('November', 'boardsODCRack')
+    );
+
+    this.totalValueList.push(
+      this.calculateTotalMonth('December', 'boardsIntelBench')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('December', 'boardIntelRack')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('December', 'boardsODCBench')
+    );
+    this.totalValueList.push(
+      this.calculateTotalMonth('December', 'boardsODCRack')
+    ); */
   }
 
   startEditingCell(rowIndex: number, colIndex: number): void {
@@ -1556,6 +2220,7 @@ export class ForecastComponent implements OnInit {
       this.toastrService.warning('Please select Vendor', 'Warning');
     } else {
       this.labwiseChartLoader = false;
+      debugger;
       this.dataSvc.updateBoard(id, mergedObject).subscribe((res) => {
         if (res) {
           this.toastrService.success(
@@ -2063,7 +2728,6 @@ export class ForecastComponent implements OnInit {
   theader: any;
   tbody: any;
   onFileChange(evt: any) {
-    debugger;
     this.theader = [];
     this.tbody = [];
     /* wire up file reader */
@@ -2122,7 +2786,6 @@ export class ForecastComponent implements OnInit {
   }
   /* save xl data */
   saveXLData() {
-    debugger;
     this.labwiseChartLoader = false;
     const tableElement = this.myTable.nativeElement as HTMLTableElement;
     const elementById = tableElement.querySelector('#myTable');
@@ -2257,7 +2920,6 @@ export class ForecastComponent implements OnInit {
       this.modalReference.close();
       this.dataSvc.uploadBoardData(rows).subscribe((res) => {
         if (res) {
-          debugger;
           this.toastrService.success(
             'Forcaste Data Added Successfully',
             'Success!'
@@ -2267,5 +2929,334 @@ export class ForecastComponent implements OnInit {
         }
       });
     }
+  }
+
+  /* search filter for add forecast data*/
+  searchText = '';
+  searchLocation = '';
+  searchProgram = '';
+  searchVendor = '';
+  searchSku = '';
+  searchAllocated = '';
+  searchfromWW = '';
+  searchtoWW = '';
+  searchBench = '';
+  searchTeam = '';
+  searchDuration = '';
+  searchApprovedBy = '';
+  searchBenchDetails = '';
+  searchRemarks = '';
+  clearInput() {
+    this.searchLocation = '';
+    this.searchProgram = '';
+    this.searchVendor = '';
+    this.searchSku = '';
+    this.searchAllocated = '';
+    this.searchfromWW = '';
+    this.searchtoWW = '';
+    this.searchBench = '';
+    this.searchBenchDetails = '';
+    this.searchTeam = '';
+    this.searchDuration = '';
+    this.searchRemarks = '';
+  }
+
+  tollTipRef: any;
+  showTestTrendSearch(tollTip: any) {
+    this.tollTipRef = tollTip;
+    tollTip.open();
+  }
+  @ViewChild('ts2') ts2: NgbTooltip;
+  hideTestTrendSearchProgram() {
+    if (this.ts2) {
+      this.ts2.close();
+    }
+  }
+  @ViewChild('ts3') ts3: NgbTooltip;
+  hideTestTrendSearchProgramSKU() {
+    if (this.ts3) {
+      this.ts3.close();
+    }
+  }
+  @ViewChild('ts10') ts10: NgbTooltip;
+  hideTestTrendSearchTeam() {
+    if (this.ts10) {
+      this.ts10.close();
+    }
+  }
+  @ViewChild('ts4') ts4: NgbTooltip;
+  hideTestTrendSearchVendor() {
+    if (this.ts4) {
+      this.ts4.close();
+    }
+  }
+
+  hideTestTrendSearch() {
+    this.tollTipRef.close();
+  }
+
+  /* Sorting functionality in table(ascending descending order)  */
+  reverseMappedRelease: boolean = true;
+  orderMappedRelease: string = '';
+  setOrderRelease(value: string) {
+    if (this.orderMappedRelease === value) {
+      this.reverseMappedRelease = !this.reverseMappedRelease;
+    }
+    this.orderMappedRelease = value;
+  }
+
+  /* calculate total */
+
+  arrayLength: any = 54;
+  totalTempValueList: any;
+  calculateTotalFromComponent() {
+    debugger;
+    this.totalTempValueList = Array.from({ length: this.arrayLength }, () => 0);
+    this.tableData.forEach((element, index) => {
+      let total = 0;
+      element.forEach((ele, ind) => {
+        if (
+          ele.properties != 'Program' &&
+          ele.properties != 'Sku' &&
+          ele.properties != 'Team' &&
+          ele.properties != 'Vendor' &&
+          ele.properties != 'Action'
+        ) {
+          this.totalTempValueList[ind] += parseInt(ele.value);
+        }
+        //  this.totalTempValueList[ind] += total;
+      });
+    });
+    console.log(this.totalTempValueList);
+  }
+
+  /* filter Data For table bottom Total Count */
+  filterDataForTotalCount() {
+    let filteredData = this.tableData;
+    if (this.searchTeam != '') {
+      // Use Array.prototype.filter to filter the nested array
+      filteredData = filteredData.filter((item) => {
+        return this.nestedSearchRecursiveTeam(item, this.searchTeam, 'value');
+      });
+    }
+    if (this.searchProgram != '') {
+      filteredData = filteredData.filter((item) => {
+        return this.nestedSearchRecursiveProgram(
+          item,
+          this.searchProgram,
+          'value'
+        );
+      });
+    }
+    if (this.searchSku != '') {
+      filteredData = filteredData.filter((item) => {
+        return this.nestedSearchRecursiveSku(item, this.searchSku, 'value');
+      });
+    }
+    if (this.searchVendor != '') {
+      filteredData = filteredData.filter((item) => {
+        return this.nestedSearchRecursiveVendor(
+          item,
+          this.searchVendor,
+          'value'
+        );
+      });
+    }
+    debugger;
+    console.log(filteredData);
+    /* calculate total count bottom of the table */
+    this.totalTempValueList = Array.from({ length: this.arrayLength }, () => 0);
+    filteredData.forEach((element, index) => {
+      let total = 0;
+      element.forEach((ele, ind) => {
+        if (
+          ele.properties != 'Program' &&
+          ele.properties != 'Sku' &&
+          ele.properties != 'Team' &&
+          ele.properties != 'Vendor' &&
+          ele.properties != 'Action'
+        ) {
+          this.totalTempValueList[ind] += parseInt(ele.value);
+        }
+        //  this.totalTempValueList[ind] += total;
+      });
+    });
+    console.log(this.totalTempValueList);
+  }
+  /* Team child search */
+  nestedSearchRecursiveTeam(
+    item: any,
+    searchTerm: string,
+    property: string
+  ): boolean {
+    if (
+      item[property] &&
+      item[property].toString().toLowerCase().includes(searchTerm.toLowerCase())
+    ) {
+      return true;
+    }
+
+    if (Array.isArray(item)) {
+      for (const child of item) {
+        if (child?.properties == 'Team') {
+          if (this.nestedSearchRecursiveTeam(child, searchTerm, 'value')) {
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
+  }
+  /* Program child search */
+  nestedSearchRecursiveProgram(
+    item: any,
+    searchTerm: string,
+    property: string
+  ): boolean {
+    if (
+      item[property] &&
+      item[property].toString().toLowerCase().includes(searchTerm.toLowerCase())
+    ) {
+      return true;
+    }
+
+    if (Array.isArray(item)) {
+      for (const child of item) {
+        if (child?.properties == 'Program') {
+          if (this.nestedSearchRecursiveProgram(child, searchTerm, 'value')) {
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
+  }
+  /* SKU child search */
+  nestedSearchRecursiveSku(
+    item: any,
+    searchTerm: string,
+    property: string
+  ): boolean {
+    if (
+      item[property] &&
+      item[property].toString().toLowerCase().includes(searchTerm.toLowerCase())
+    ) {
+      return true;
+    }
+
+    if (Array.isArray(item)) {
+      for (const child of item) {
+        if (child?.properties == 'Sku') {
+          if (this.nestedSearchRecursiveSku(child, searchTerm, 'value')) {
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
+  }
+  /* vendor child search */
+  nestedSearchRecursiveVendor(
+    item: any,
+    searchTerm: string,
+    property: string
+  ): boolean {
+    if (
+      item[property] &&
+      item[property].toString().toLowerCase().includes(searchTerm.toLowerCase())
+    ) {
+      return true;
+    }
+
+    if (Array.isArray(item)) {
+      for (const child of item) {
+        if (child?.properties == 'Vendor') {
+          if (this.nestedSearchRecursiveVendor(child, searchTerm, 'value')) {
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
+  }
+
+  calculateTotal(column: string) {
+    let total = 0;
+    this.tableData.forEach((element) => {
+      element.forEach((ele) => {
+        if (ele.properties == column) {
+          total += parseInt(ele.value);
+        }
+      });
+    });
+
+    return total;
+  }
+  calculateTotalMonth(column: string, valueName: string) {
+    let total = 0;
+    this.tableData.forEach((element) => {
+      element.forEach((ele) => {
+        if (ele.properties == column && ele.valueName == valueName) {
+          total += parseInt(ele.value);
+        }
+      });
+    });
+
+    return total;
+  }
+
+  onRowTotalBoardCount(rowIndex: number, colIndex: number): void {
+    /* calculate totalboard value */
+    let sumAllMonthList = [];
+    this.columns.forEach((element) => {
+      let sumAllMonth = 0;
+      this.tableData[rowIndex].forEach((ele) => {
+        if (element == ele.properties) {
+          sumAllMonth += parseInt(ele.value);
+        }
+      });
+      sumAllMonthList.push(sumAllMonth);
+      console.log('sumAllMonth', sumAllMonth);
+    });
+    /* calculate max */
+    const maxNumber = sumAllMonthList.reduce(
+      (max, current) => (current > max ? current : max),
+      sumAllMonthList[0]
+    );
+
+    console.log('maxNumber', maxNumber);
+    if (this.tableData[rowIndex][4]?.properties == 'TotalBoard') {
+      this.tableData[rowIndex][4].value = maxNumber;
+    }
+
+    /*  this.tableData[rowIndex].forEach((element) => {
+      this.columns.forEach((ele) => {
+        if (ele == element.properties) { */
+    /*   for (const key in element[ele]) {
+            if (element[ele].hasOwnProperty(key)) { */
+    /* sumAllMonth += parseInt(element.value); */
+    /* }
+          } */
+    /*    }
+      });
+
+      sumAllMonthList.push(sumAllMonth);
+      console.log('sumAllMonth', sumAllMonth);
+    }); */
+
+    /* calculate max */
+    /*  const maxNumber = sumAllMonthList.reduce(
+      (max, current) => (current > max ? current : max),
+      sumAllMonthList[0]
+    );
+
+    console.log('maxNumber', maxNumber);
+    if (this.tableData[rowIndex][4]?.properties == 'TotalBoard') {
+      this.tableData[rowIndex][4].value = maxNumber;
+    } */
   }
 }

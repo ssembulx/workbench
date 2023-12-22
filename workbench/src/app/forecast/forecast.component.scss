@@ -383,7 +383,9 @@ td div:not([hidden]):hover {
 
 #chartdiv,
 #chartdiv1,
-#chartdiv2 {
+#chartdiv2,
+#chartdiv4,
+#chartdiv5 {
     width: 100%;
     height: 40rem;
 }
@@ -1581,4 +1583,121 @@ td div:not([hidden]):hover {
 
 .compare_btn {
     width: 250px;
+}
+
+.m_l_15 {
+    margin-left: 15px;
+}
+
+.border_all {
+    border-top: 2px solid #716e6e !important;
+    border-right: 2px solid #716e6e !important;
+    border-bottom: 2px solid #716e6e !important;
+    border-left: 2px solid #716e6e !important;
+}
+
+.border_top {
+    border-top: 2px solid #716e6e !important;
+}
+
+.border_right {
+    border-right: 2px solid #716e6e !important;
+}
+
+.border_bottom {
+    border-bottom: 2px solid #716e6e !important;
+}
+
+.border_left {
+    border-left: 2px solid #716e6e !important;
+}
+
+
+th span.sort-by {
+    cursor: pointer;
+    padding-right: 18px;
+    position: relative;
+}
+
+span.sort-by:before,
+span.sort-by:after {
+    border: 4px solid transparent;
+    content: "";
+    display: block;
+    height: 0;
+    right: 5px;
+    top: 50%;
+    position: absolute;
+    width: 0;
+}
+
+span.sort-by:before {
+    border-bottom-color: #0071c5;
+    margin-top: -9px;
+}
+
+span.sort-by:after {
+    border-top-color: #0071c5;
+    margin-top: 1px;
+}
+
+.search-tooltip {
+    .close-tooltip {
+        // float: right;
+        margin-bottom: 2px;
+    }
+
+    .search-ctrl {
+        position: relative;
+        flex: 0 0 50%;
+
+        input:focus {
+            box-shadow: none;
+        }
+
+        i.flaticon-search {
+            position: absolute;
+            right: 0px;
+            bottom: 0px;
+            height: 30px;
+            text-align: center;
+            width: 30px;
+            border-radius: 3px;
+            font-size: 14px;
+            font-weight: bold;
+            // line-height: 38px;
+            color: #ffffff;
+            cursor: pointer;
+            background: #0071c5;
+            padding-top: 7px;
+        }
+
+        i.fa-times {
+            font-size: 12px;
+            top: 9px;
+            right: 40px;
+            position: absolute;
+            cursor: pointer;
+            color: black;
+        }
+
+        .form-control {
+            width: 100%;
+            padding-right: 58px;
+            font-size: 12px;
+            height: 30px;
+        }
+    }
+}
+
+::ng-deep .tooltip {
+    --bs-tooltip-bg: #979c9f;
+}
+
+tfoot tr {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    background-color: #0071c5;
+    color: white;
 }

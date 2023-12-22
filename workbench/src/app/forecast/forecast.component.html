@@ -176,15 +176,15 @@
                             <!-- ******* Labwise chart table view *******  -->
                             <!-- <div id="chartdiv"></div> -->
 
-                            <table class="table table-bordered" cellspacing=0 border=1>
+                            <table class="table table-bordered border_all" cellspacing=0 border=1>
                                 <!-- <ng-container *ngFor="let data of forecastTableSummaryList">
                                     <tr>
                                         <td style="min-width:50px"></td>
                                         <td style="min-width:50px">{{data.category}}</td>
                                     </tr>
                                 </ng-container> -->
-                                <tr>
-                                    <td style="min-width:50px"></td>
+                                <tr class="border_bottom">
+                                    <td style="min-width:50px" class="border_right"></td>
                                     <td style="min-width:50px;font-weight: bold;">JAN</td>
                                     <td style="min-width:50px;font-weight: bold;">FEB</td>
                                     <td style="min-width:50px;font-weight: bold;">MAR</td>
@@ -199,37 +199,41 @@
                                     <td style="min-width:50px;font-weight: bold;">DEC</td>
                                 </tr>
                                 <tr>
-                                    <td style="min-width:50px;font-weight: bold;">Bench Demand @ Intel</td>
+                                    <td style="min-width:50px;font-weight: bold;" class="border_right">Boards @ Intel
+                                        Bench</td>
                                     <ng-container *ngFor="let data of forecastTableSummaryList">
                                         <td style="min-width:50px">{{data.Bench_Demand_Intel}}</td>
                                     </ng-container>
                                 </tr>
                                 <tr>
-                                    <td style="min-width:50px;font-weight: bold;">Rack Demand @ Intel</td>
+                                    <td style="min-width:50px;font-weight: bold;" class="border_right">Board @ Intel
+                                        Rack</td>
                                     <ng-container *ngFor="let data of forecastTableSummaryList">
                                         <td style="min-width:50px">{{data.Rack_Demand_Intel}}</td>
                                     </ng-container>
                                 </tr>
                                 <tr>
-                                    <td style="min-width:50px;font-weight: bold;">Bench Demand @ ODC</td>
+                                    <td style="min-width:50px;font-weight: bold;" class="border_right">Boards @ ODC
+                                        Bench</td>
                                     <ng-container *ngFor="let data of forecastTableSummaryList">
                                         <td style="min-width:50px">{{data.Bench_Demand_ODC}}</td>
                                     </ng-container>
                                 </tr>
                                 <tr>
-                                    <td style="min-width:50px;font-weight: bold;">Rack Demand @ ODC</td>
+                                    <td style="min-width:50px;font-weight: bold;" class="border_right">Boards @ ODC Rack
+                                    </td>
                                     <ng-container *ngFor="let data of forecastTableSummaryList">
                                         <td style="min-width:50px">{{data.Rack_Demand_ODC}}</td>
                                     </ng-container>
                                 </tr>
-                                <tr>
-                                    <td style="min-width:50px;font-weight: bold;">Total</td>
+                                <tr class="border_top border_bottom">
+                                    <td style="min-width:50px;font-weight: bold;" class="border_right">Total</td>
                                     <ng-container *ngFor="let data of forecastTableSummaryList">
                                         <td style="min-width:50px">{{data.Total}}</td>
                                     </ng-container>
                                 </tr>
-                                <tr>
-                                    <td style="min-width:50px;font-weight: bold;">Loading % Intel vs ODC -
+                                <tr class="border_bottom">
+                                    <td style="min-width:50px;font-weight: bold;" class="border_right">Intel vs ODC -
                                         {{preSelectedForecastTableSummary}}</td>
                                     <td style="min-width:50px;font-weight: bold;">JAN</td>
                                     <td style="min-width:50px;font-weight: bold;">FEB</td>
@@ -245,13 +249,13 @@
                                     <td style="min-width:50px;font-weight: bold;">DEC</td>
                                 </tr>
                                 <tr>
-                                    <td style="min-width:50px;font-weight: bold;">Intel %</td>
+                                    <td style="min-width:50px;font-weight: bold;" class="border_right">Intel %</td>
                                     <ng-container *ngFor="let data of forecastTableSummaryList">
                                         <td style="min-width:50px">{{data.Intel_percentage}}</td>
                                     </ng-container>
                                 </tr>
                                 <tr>
-                                    <td style="min-width:50px;font-weight: bold;">ODC % </td>
+                                    <td style="min-width:50px;font-weight: bold;" class="border_right">ODC % </td>
                                     <ng-container *ngFor="let data of forecastTableSummaryList">
                                         <td style="min-width:50px">{{data.ODC_percentage}}</td>
                                     </ng-container>
@@ -320,29 +324,43 @@
                                 <th>
                                     S.No
                                 </th>
-                                <th>
-                                    Program
+                                <th class="v-align" (click)="setOrderRelease('program')"><span class="sort-by"
+                                        [ngbTooltip]="programSearch" placement="top" tooltipClass="custom-tooltip"
+                                        [autoClose]="false" triggers="manual" #ts2="ngbTooltip"
+                                        (click)="showTestTrendSearch(ts2)">
+                                        <i class="fas fa-search"></i>&nbsp;&nbsp;Program</span>
                                 </th>
-                                <th>
-                                    SKU
+                                <th class="v-align" (click)="setOrderRelease('SKU')"><span class="sort-by"
+                                        [ngbTooltip]="skuSearch" placement="top" tooltipClass="custom-tooltip"
+                                        [autoClose]="false" triggers="manual" #ts3="ngbTooltip"
+                                        (click)="showTestTrendSearch(ts3)">
+                                        <i class="fas fa-search"></i>&nbsp;&nbsp;SKU</span>
                                 </th>
-                                <th>
-                                    Function
+                                <th class="v-align" (click)="setOrderRelease('Team')"><span class="sort-by"
+                                        [ngbTooltip]="teamSearch" placement="top" tooltipClass="custom-tooltip"
+                                        [autoClose]="false" triggers="manual" #ts10="ngbTooltip"
+                                        (click)="showTestTrendSearch(ts10)">
+                                        <i class="fas fa-search"></i>&nbsp;&nbsp;Function</span>
                                 </th>
-                                <th>
-                                    Vendor
+                                <th class="v-align" (click)="setOrderRelease('Vendor')"><span class="sort-by"
+                                        [ngbTooltip]="vendorSearch" placement="top" tooltipClass="custom-tooltip"
+                                        [autoClose]="false" triggers="manual" #ts4="ngbTooltip"
+                                        (click)="showTestTrendSearch(ts4)">
+                                        <i class="fas fa-search"></i>&nbsp;&nbsp;Vendor</span>
                                 </th>
                                 <th>
                                     TOTAL Board Count
                                 </th>
-                                <th class="text_align_b_t" *ngFor="let column of boardsHeaderColumns">{{ column }}</th>
+                                <th class="text_align_b_t" *ngFor="let column of boardsHeaderColumns">{{ column }}
+                                </th>
                                 <th>
                                     Action
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let row of tableData; let rowIndex = index">
+                            <tr
+                                *ngFor="let row of tableData | searchFilterProgramAddForecast: searchProgram  | searchFilterSKUAddForecast: searchSku | searchFilterTeamAddForecast:searchTeam | searchFilterVendorAddForecast:searchVendor ; let rowIndex = index">
                                 <td>{{rowIndex+1}}</td>
                                 <td *ngFor="let cell of row; let colIndex = index">
                                     <ng-container *ngIf="cell.properties == 'Program'">
@@ -415,11 +433,17 @@
                                             {{ cell.value }}
                                         </div>
                                     </ng-container>
+                                    <ng-container *ngIf="cell.properties == 'TotalBoard'">
+                                        <h6 style="width: 60px;font-size: 13px;font-weight: 600;">
+                                            {{ cell.value }}
+                                        </h6>
+                                    </ng-container>
                                     <ng-container
-                                        *ngIf="cell.properties != 'Program' && cell.properties != 'Sku' && cell.properties != 'Team' && cell.properties != 'Vendor' && cell.properties != 'Action'">
+                                        *ngIf="cell.properties != 'Program' && cell.properties != 'Sku' && cell.properties != 'Team' && cell.properties != 'Vendor' && cell.properties != 'Action' && cell.properties != 'TotalBoard'">
                                         <div [hidden]="!cell.editing">
                                             <input [(ngModel)]="cell.value" (blur)="onCellEditDone(rowIndex, colIndex)"
                                                 (keydown.enter)="onCellEditDone(rowIndex, colIndex)"
+                                                (ngModelChange)="onRowTotalBoardCount(rowIndex, colIndex)"
                                                 style="width: 60px;" />
                                         </div>
                                         <div (click)="startEditingCell(rowIndex, colIndex)" [hidden]="cell.editing"
@@ -452,6 +476,88 @@
                                 </td> -->
                             </tr>
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <!-- <td colspan="5">Total</td> -->
+                                <ng-container
+                                    *ngFor="let cell of totalTempValueList; let colIndex = index;let last = last">
+                                    <td colspan="5" *ngIf="colIndex == 3">Total</td>
+                                    <td *ngIf="colIndex >3 && !last">{{ cell }}</td>
+                                    <td *ngIf="last"></td>
+                                </ng-container>
+                                <!-- <td></td> -->
+                            </tr>
+                        </tfoot>
+                        <!-- <tfoot>
+                            <tr>
+                                <td colspan="5">Total</td>
+                                <ng-container *ngFor="let cell of totalValueList; let colIndex = index">
+                                     <td>{{ cell }}</td>
+                                </ng-container>
+                                <td>{{ calculateTotal('TotalBoard') }}</td>
+
+                                <td>{{ calculateTotalMonth('January',"boardsIntelBench") }}</td>
+                                <td>{{ calculateTotalMonth('January',"boardIntelRack") }}</td>
+                                <td>{{ calculateTotalMonth('January',"boardsODCBench") }}</td>
+                                <td>{{ calculateTotalMonth('January',"boardsODCRack") }}</td>
+
+                                <td>{{ calculateTotalMonth('February',"boardsIntelBench") }}</td>
+                                <td>{{ calculateTotalMonth('February',"boardIntelRack") }}</td>
+                                <td>{{ calculateTotalMonth('February',"boardsODCBench") }}</td>
+                                <td>{{ calculateTotalMonth('February',"boardsODCRack") }}</td>
+
+                                <td>{{ calculateTotalMonth('March',"boardsIntelBench") }}</td>
+                                <td>{{ calculateTotalMonth('March',"boardIntelRack") }}</td>
+                                <td>{{ calculateTotalMonth('March',"boardsODCBench") }}</td>
+                                <td>{{ calculateTotalMonth('March',"boardsODCRack") }}</td>
+
+                                <td>{{ calculateTotalMonth('April',"boardsIntelBench") }}</td>
+                                <td>{{ calculateTotalMonth('April',"boardIntelRack") }}</td>
+                                <td>{{ calculateTotalMonth('April',"boardsODCBench") }}</td>
+                                <td>{{ calculateTotalMonth('April',"boardsODCRack") }}</td>
+
+                                <td>{{ calculateTotalMonth('May',"boardsIntelBench") }}</td>
+                                <td>{{ calculateTotalMonth('May',"boardIntelRack") }}</td>
+                                <td>{{ calculateTotalMonth('May',"boardsODCBench") }}</td>
+                                <td>{{ calculateTotalMonth('May',"boardsODCRack") }}</td>
+
+                                <td>{{ calculateTotalMonth('June',"boardsIntelBench") }}</td>
+                                <td>{{ calculateTotalMonth('June',"boardIntelRack") }}</td>
+                                <td>{{ calculateTotalMonth('June',"boardsODCBench") }}</td>
+                                <td>{{ calculateTotalMonth('June',"boardsODCRack") }}</td>
+
+                                <td>{{ calculateTotalMonth('July',"boardsIntelBench") }}</td>
+                                <td>{{ calculateTotalMonth('July',"boardIntelRack") }}</td>
+                                <td>{{ calculateTotalMonth('July',"boardsODCBench") }}</td>
+                                <td>{{ calculateTotalMonth('July',"boardsODCRack") }}</td>
+
+                                <td>{{ calculateTotalMonth('August',"boardsIntelBench") }}</td>
+                                <td>{{ calculateTotalMonth('August',"boardIntelRack") }}</td>
+                                <td>{{ calculateTotalMonth('August',"boardsODCBench") }}</td>
+                                <td>{{ calculateTotalMonth('August',"boardsODCRack") }}</td>
+
+                                <td>{{ calculateTotalMonth('September',"boardsIntelBench") }}</td>
+                                <td>{{ calculateTotalMonth('September',"boardIntelRack") }}</td>
+                                <td>{{ calculateTotalMonth('September',"boardsODCBench") }}</td>
+                                <td>{{ calculateTotalMonth('September',"boardsODCRack") }}</td>
+
+                                <td>{{ calculateTotalMonth('October',"boardsIntelBench") }}</td>
+                                <td>{{ calculateTotalMonth('October',"boardIntelRack") }}</td>
+                                <td>{{ calculateTotalMonth('October',"boardsODCBench") }}</td>
+                                <td>{{ calculateTotalMonth('October',"boardsODCRack") }}</td>
+
+                                <td>{{ calculateTotalMonth('November',"boardsIntelBench") }}</td>
+                                <td>{{ calculateTotalMonth('November',"boardIntelRack") }}</td>
+                                <td>{{ calculateTotalMonth('November',"boardsODCBench") }}</td>
+                                <td>{{ calculateTotalMonth('November',"boardsODCRack") }}</td>
+
+                                <td>{{ calculateTotalMonth('December',"boardsIntelBench") }}</td>
+                                <td>{{ calculateTotalMonth('December',"boardIntelRack") }}</td>
+                                <td>{{ calculateTotalMonth('December',"boardsODCBench") }}</td>
+                                <td>{{ calculateTotalMonth('December',"boardsODCRack") }}</td>
+                                <td></td>
+                            </tr>
+                        </tfoot> -->
                     </table>
                     <!-- No data available display -->
                     <div class="no_data_block_display" *ngIf='tableData?.length == 0'>
@@ -480,30 +586,89 @@
             <!-- YOY Comparison -->
             <div class="col-12 float_left" [hidden]="typeChart != 'YOY Comparison'">
                 <div class="col-12 mt-3 float_left">
-                    <div class="col-3 float_left">
+                    <div class="float_left">
                         <select class="form-select location_select compare_btn" aria-label="Default select example"
-                            [(ngModel)]="preSelectedYearCompareFrom" (change)="onItemSelectedCompare()">
+                            [(ngModel)]="preSelectedYearCompareFrom">
                             <option selected value="">Select Year to Compare</option>
                             <option *ngFor="let locat of yearList" [ngValue]="locat">
                                 {{locat}}
                             </option>
                         </select>
                     </div>
-                    <div class="col-3 float_left">
-                        <select class="form-select location_select compare_btn" aria-label="Default select example"
-                            [(ngModel)]="preSelectedYearCompareTo" (change)="onItemSelectedCompare()">
+                    <div class="float_left">
+                        <select class="form-select location_select compare_btn m_l_15"
+                            aria-label="Default select example" [(ngModel)]="preSelectedYearCompareTo">
                             <option selected value="">Select Year to Compare</option>
                             <option *ngFor="let locat of yearList" [ngValue]="locat">
                                 {{locat}}
                             </option>
                         </select>
                     </div>
-                    <div class="col-3 float_left">
+                    <div class="float_left">
                         <button type="button"
                             [disabled]="preSelectedYearCompareTo == '' || preSelectedYearCompareFrom ==''"
-                            class="btn btn-primary">Compare</button>
+                            class="btn btn-primary m_l_15" (click)="clickEventComapreButton()">Compare</button>
                     </div>
+                    <div class="content p-0 m-0" style=" width: 100%;" [hidden]="!showComparisonChart">
+                        <div class="row charts-content col-12">
 
+                            <!-- ******* Semi circle pie chart ******* -->
+                            <div class="semi-pie-chart col-12 mb-0" #fullscreenPie>
+                                <div>
+                                    <div class="chart-style">
+                                        <div class="caption">
+                                            <i class="fa fa-chart-bar fa-2x chart-icon"></i>
+                                            <span class="chart-heading">Forecast Summary Comparison
+                                                {{preSelectedYearCompareFrom}} & {{preSelectedYearCompareTo}}</span>
+                                        </div>
+                                        <i class="fa fa-download  fa-2x chart-icon"
+                                            ngbTooltip="Download Forecast Summary Comparison Data"
+                                            (click)="downloadForecastSummaryYearComparison()" aria-hidden="true"
+                                            style="color: #9eacb4;font-size: 22px;margin-top: -1px;margin-left: 72%;cursor: pointer;"></i>
+                                        <!--  <i class="fa fa-download  fa-2x chart-icon" aria-hidden="true"
+                                        style="color: #9eacb4;font-size: 22px;margin-top: -1px;margin-left: 7px;cursor: pointer;"></i> -->
+                                    </div>
+                                </div>
+
+                                <hr class="box-hr">
+
+                                <!-- ******* Labwise chart table view *******  -->
+                                <div id="chartdiv5"></div>
+
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                    <div class="content p-0 m-0" style=" width: 100%;" [hidden]="!showComparisonChart">
+                        <div class="row charts-content col-12">
+
+                            <!-- ******* Semi circle pie chart ******* -->
+                            <div class="semi-pie-chart col-12 mb-0" #fullscreenPie>
+                                <div>
+                                    <div class="chart-style">
+                                        <div class="caption">
+                                            <i class="fa fa-chart-bar fa-2x chart-icon"></i>
+                                            <span class="chart-heading">Forecast Summary Comparison
+                                                {{preSelectedYearCompareFrom}} & {{preSelectedYearCompareTo}}</span>
+                                        </div>
+                                        <i class="fa fa-download  fa-2x chart-icon"
+                                            ngbTooltip="Download Forecast Summary Comparison Data"
+                                            (click)="downloadForecastSummaryComparison()" aria-hidden="true"
+                                            style="color: #9eacb4;font-size: 22px;margin-top: -1px;margin-left: 72%;cursor: pointer;"></i>
+                                        <!--  <i class="fa fa-download  fa-2x chart-icon" aria-hidden="true"
+                                        style="color: #9eacb4;font-size: 22px;margin-top: -1px;margin-left: 7px;cursor: pointer;"></i> -->
+                                    </div>
+                                </div>
+
+                                <hr class="box-hr">
+
+                                <!-- ******* Labwise chart table view *******  -->
+                                <div id="chartdiv4"></div>
+
+                            </div>
+                        </div>
+                        <br />
+                    </div>
                 </div>
             </div>
         </div>
@@ -566,6 +731,62 @@
             <button type="button" class="btn back-btn close" aria-label="Close"
                 (click)="d('Cross click')">Cancel</button>
             <button type="button" class="btn back-btn" (click)="saveXLData()">Save</button>
+        </div>
+    </div>
+</ng-template>
+
+<!-- program search -->
+<ng-template #programSearch>
+    <div class="search-tooltip">
+        <div class="tooltip-header">
+            <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearchProgram()"></i>
+        </div>
+        <div class="form-group search-ctrl">
+            <input name="target" [(ngModel)]="searchProgram"  (ngModelChange)="filterDataForTotalCount()" placeholder="Search Program" type="text"
+                class="form-control" />
+            <i class="fas fa-times" (click)="clearInput()" *ngIf="searchProgram !== ''"></i>
+            <i class="flaticon-search fas fa-search"></i>
+        </div>
+    </div>
+</ng-template>
+<!-- SKU Search -->
+<ng-template #skuSearch>
+    <div class="search-tooltip">
+        <div class="tooltip-header">
+            <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearchProgramSKU()"></i>
+        </div>
+        <div class="form-group search-ctrl">
+            <input name="target" [(ngModel)]="searchSku"   (ngModelChange)="filterDataForTotalCount()" placeholder="Search SKU" type="text" class="form-control" />
+            <i class="fas fa-times" (click)="clearInput()" *ngIf="searchSku !== ''"></i>
+            <i class="flaticon-search fas fa-search"></i>
+        </div>
+    </div>
+</ng-template>
+<!-- Function Search -->
+<ng-template #teamSearch>
+    <div class="search-tooltip">
+        <div class="tooltip-header">
+            <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearchTeam()"></i>
+        </div>
+        <div class="form-group search-ctrl">
+            <input name="target" [(ngModel)]="searchTeam"  (ngModelChange)="filterDataForTotalCount()" placeholder="Search Function" type="text"
+                class="form-control" />
+            <i class="fas fa-times" (click)="clearInput()" *ngIf="searchTeam !== ''"></i>
+            <i class="flaticon-search fas fa-search"></i>
+        </div>
+    </div>
+</ng-template>
+<!-- vendor search -->
+<ng-template #vendorSearch>
+    <div class="search-tooltip">
+        <div class="tooltip-header">
+            <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearchVendor()"></i>
+        </div>
+        <div class="form-group search-ctrl">
+            <input name="target" [(ngModel)]="searchVendor"  (ngModelChange)="filterDataForTotalCount()" placeholder="Search Vendor" type="text"
+                class="form-control" />
+            <i class="fas fa-times" (click)="clearInput()" *ngIf="searchVendor !== ''"></i>
+            <i class="flaticon-search fas fa-search"></i>
         </div>
     </div>
 </ng-template>

@@ -41,7 +41,11 @@ import {
   SearchApprovedBy,
   nonsivSearchLab,
   nonsivSearchLabDetails,
-  nonsivSearchLabDetailsNo
+  nonsivSearchLabDetailsNo,
+  SearchProgramAddForecast,
+  SearchSKUAddForecast,
+  SearchTeamAddForecast,
+  SearchVendorAddForecast
 } from './search.pipe';
 import { SummaryService } from './shared/service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -121,6 +125,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
     nonsivSearchLabDetails,
     nonsivSearchLabDetailsNo,
     AllocationHistoryComponent,
+    SearchProgramAddForecast,
+    SearchSKUAddForecast,
+    SearchTeamAddForecast,
+    SearchVendorAddForecast
   ],
   imports: [
     BrowserModule,

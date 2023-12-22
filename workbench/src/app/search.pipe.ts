@@ -147,6 +147,145 @@ export class SearchProgram implements PipeTransform {
     });
   }
 }
+/* search program add forecast data */
+@Pipe({
+  name: 'searchFilterProgramAddForecast',
+  pure: false,
+})
+export class SearchProgramAddForecast implements PipeTransform {
+  transform(value: any, searchTerm?: any): any {
+    if (!searchTerm) {
+      return value;
+    }
+
+    // Use Array.prototype.filter to filter the nested array
+    return value.filter(item => {
+      return this.nestedSearchRecursive(item, searchTerm, 'value');
+    });
+  }
+  nestedSearchRecursive(item: any, searchTerm: string, property: string): boolean {
+    if (item[property] && item[property].toString().toLowerCase().includes(searchTerm.toLowerCase())) {
+      return true;
+    }
+
+    if (Array.isArray(item)) {
+      for (const child of item) {
+        if(child?.properties == 'Program'){
+          if (this.nestedSearchRecursive(child, searchTerm, 'value')) {
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
+  }
+}
+
+/* search SKU add forecast data */
+@Pipe({
+  name: 'searchFilterSKUAddForecast',
+  pure: false,
+})
+export class SearchSKUAddForecast implements PipeTransform {
+  transform(value: any, searchTerm?: any): any {
+    if (!searchTerm) {
+      return value;
+    }
+
+    // Use Array.prototype.filter to filter the nested array
+    return value.filter(item => {
+      return this.nestedSearchRecursive(item, searchTerm, 'value');
+    });
+  }
+  nestedSearchRecursive(item: any, searchTerm: string, property: string): boolean {
+    if (item[property] && item[property].toString().toLowerCase().includes(searchTerm.toLowerCase())) {
+      return true;
+    }
+
+    if (Array.isArray(item)) {
+      for (const child of item) {
+        if(child?.properties == 'Sku'){
+          if (this.nestedSearchRecursive(child, searchTerm, 'value')) {
+            return true;
+          }
+        } 
+      }
+    }
+
+    return false;
+  }
+}
+/* search Team add forecast data */
+@Pipe({
+  name: 'searchFilterTeamAddForecast',
+  pure: false,
+})
+export class SearchTeamAddForecast implements PipeTransform {
+  transform(value: any, searchTerm?: any): any {
+    if (!searchTerm) {
+      return value;
+    }
+
+    // Use Array.prototype.filter to filter the nested array
+    return value.filter(item => {
+      return this.nestedSearchRecursive(item, searchTerm, 'value');
+    });
+  }
+  nestedSearchRecursive(item: any, searchTerm: string, property: string): boolean {
+    if (item[property] && item[property].toString().toLowerCase().includes(searchTerm.toLowerCase())) {
+      return true;
+    }
+
+    if (Array.isArray(item)) {
+      for (const child of item) {
+        if(child?.properties == 'Team'){
+          if (this.nestedSearchRecursive(child, searchTerm, 'value')) {
+            return true;
+          }
+        } 
+      }
+    }
+
+    return false;
+  }
+}
+
+/* search Team add forecast data */
+@Pipe({
+  name: 'searchFilterVendorAddForecast',
+  pure: false,
+})
+export class SearchVendorAddForecast implements PipeTransform {
+  transform(value: any, searchTerm?: any): any {
+    if (!searchTerm) {
+      return value;
+    }
+
+    // Use Array.prototype.filter to filter the nested array
+    return value.filter(item => {
+      return this.nestedSearchRecursive(item, searchTerm, 'value');
+    });
+  }
+  nestedSearchRecursive(item: any, searchTerm: string, property: string): boolean {
+    if (item[property] && item[property].toString().toLowerCase().includes(searchTerm.toLowerCase())) {
+      return true;
+    }
+
+    if (Array.isArray(item)) {
+      for (const child of item) {
+        if(child?.properties == 'Vendor'){
+          if (this.nestedSearchRecursive(child, searchTerm, 'value')) {
+            return true;
+          }
+        } 
+      }
+    }
+
+    return false;
+  }
+}
+
 
 @Pipe({
   name: 'searchFilterSku',
