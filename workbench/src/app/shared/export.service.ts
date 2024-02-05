@@ -223,6 +223,441 @@ export class ExportService {
         FileSaver(blob, fileName);
       });
   }
+
+  downloadForecastSummary(jsonData: any[], fileName: string) {
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Report Data');
+    let testcaseData = jsonData;
+
+    let headerNameList = ['Category', 'Intel', 'ODC', 'Ramp'];
+    // let headerRow = worksheet.addRow(headerNameList);
+    const HeaderRowOutlet = worksheet.addRow(headerNameList);
+    HeaderRowOutlet.eachCell((cell, index) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '0072C5' },
+        bgColor: { argb: 'FFFFFFFF' },
+      };
+      cell.border = {
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' },
+      };
+      cell.font = { size: 12, bold: true, color: { argb: 'ffffff' } };
+      cell.alignment = { vertical: 'bottom', horizontal: 'center' };
+      worksheet.getColumn(index).width =
+        headerNameList[index - 1].length < 20
+          ? 20
+          : headerNameList.length[index - 1];
+    });
+    testcaseData.forEach((item: any) => {
+      let rowList = [item.category, item.intel, item.ODC, item.Ramp];
+      const row = worksheet.addRow(rowList);
+    }),
+      workbook.xlsx.writeBuffer().then((data: any) => {
+        let blob = new Blob([data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        FileSaver(blob, fileName);
+      });
+  }
+  downloadRvpYear(jsonData: any[], fileName: string) {
+    debugger;
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Report Data');
+    let testcaseData = jsonData;
+
+    let headerNameList = [
+      'Category',
+      'Ramp',
+      'Intel Bench',
+      'Intel Rack',
+      'ODC Bench',
+      'ODC Rack',
+    ];
+    // let headerRow = worksheet.addRow(headerNameList);
+    const HeaderRowOutlet = worksheet.addRow(headerNameList);
+    HeaderRowOutlet.eachCell((cell, index) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '0072C5' },
+        bgColor: { argb: 'FFFFFFFF' },
+      };
+      cell.border = {
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' },
+      };
+      cell.font = { size: 12, bold: true, color: { argb: 'ffffff' } };
+      cell.alignment = { vertical: 'bottom', horizontal: 'center' };
+      worksheet.getColumn(index).width =
+        headerNameList[index - 1].length < 20
+          ? 20
+          : headerNameList.length[index - 1];
+    });
+    testcaseData.forEach((item: any) => {
+      let rowList = [
+        item?.category,
+        item?.Total,
+        item?.Bench_Demand_Intel,
+        item?.Rack_Demand_Intel,
+        item?.Bench_Demand_ODC,
+        item?.Rack_Demand_ODC,
+      ];
+      const row = worksheet.addRow(rowList);
+    }),
+      workbook.xlsx.writeBuffer().then((data: any) => {
+        let blob = new Blob([data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        FileSaver(blob, fileName);
+      });
+  }
+  downloadRvpRampQuarterly(
+    jsonData: any[],
+    fileName: string,
+    category: string
+  ) {
+    debugger;
+    if (category == 'Total') {
+      let workbook = new Workbook();
+      let worksheet = workbook.addWorksheet('Report Data');
+      let testcaseData = jsonData;
+
+      //let headerNameList = ['Category', 'Intel', 'ODC', 'Intel %', 'ODC %'];
+      let headerNameList = ['Category', 'Intel', 'ODC'];
+      // let headerRow = worksheet.addRow(headerNameList);
+      const HeaderRowOutlet = worksheet.addRow(headerNameList);
+      HeaderRowOutlet.eachCell((cell, index) => {
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: '0072C5' },
+          bgColor: { argb: 'FFFFFFFF' },
+        };
+        cell.border = {
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' },
+        };
+        cell.font = { size: 12, bold: true, color: { argb: 'ffffff' } };
+        cell.alignment = { vertical: 'bottom', horizontal: 'center' };
+        worksheet.getColumn(index).width =
+          headerNameList[index - 1].length < 20
+            ? 20
+            : headerNameList.length[index - 1];
+      });
+
+      testcaseData.forEach((item: any) => {
+        let rowList = [
+          item?.category,
+          item?.intel,
+          item?.ODC,
+          /*    item?.intel_percentage,
+          item?.ODC_percentage, */
+        ];
+        const row = worksheet.addRow(rowList);
+      }),
+        workbook.xlsx.writeBuffer().then((data: any) => {
+          let blob = new Blob([data], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          });
+          FileSaver(blob, fileName);
+        });
+    } else if (category == 'Average') {
+      let workbook = new Workbook();
+      let worksheet = workbook.addWorksheet('Report Data');
+      let testcaseData = jsonData;
+
+      // let headerNameList = ['Category', 'Intel', 'ODC', 'Intel %', 'ODC %'];
+      let headerNameList = ['Category', 'Intel', 'ODC'];
+      // let headerRow = worksheet.addRow(headerNameList);
+      // worksheet.addRow(headerNameList);
+      const HeaderRowOutlet = worksheet.addRow(headerNameList);
+      HeaderRowOutlet.eachCell((cell, index) => {
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: '0072C5' },
+          bgColor: { argb: 'FFFFFFFF' },
+        };
+        cell.border = {
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' },
+        };
+        cell.font = { size: 12, bold: true, color: { argb: 'ffffff' } };
+        cell.alignment = { vertical: 'bottom', horizontal: 'center' };
+        worksheet.getColumn(index).width =
+          headerNameList[index - 1].length < 20
+            ? 20
+            : headerNameList.length[index - 1];
+      });
+      testcaseData.forEach((item: any) => {
+        let rowList = [
+          item?.category,
+          item?.intel_average_value,
+          item?.ODC_average_value,
+          /* item?.intel_average_percentage,
+          item?.ODC_average_percentage, */
+        ];
+        const row = worksheet.addRow(rowList);
+      }),
+        workbook.xlsx.writeBuffer().then((data: any) => {
+          let blob = new Blob([data], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          });
+          FileSaver(blob, fileName);
+        });
+    }
+  }
+  downloadForecastTableSummaryList(jsonData: any[], fileName: string) {
+    debugger;
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Report Data');
+    let testcaseData = jsonData;
+
+    let headerNameList = [
+      'Category',
+      'Bench_Demand_Intel',
+      'Rack_Demand_Intel',
+      'Bench_Demand_ODC',
+      'Rack_Demand_ODC',
+      'Total',
+      'Intel_percentage',
+      'ODC_percentage',
+      'Total_Bench_Intel',
+      'Total_Rack_Intel',
+    ];
+    // let headerRow = worksheet.addRow(headerNameList);
+    const HeaderRowOutlet = worksheet.addRow(headerNameList);
+    HeaderRowOutlet.eachCell((cell, index) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '0072C5' },
+        bgColor: { argb: 'FFFFFFFF' },
+      };
+      cell.border = {
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' },
+      };
+      cell.font = { size: 12, bold: true, color: { argb: 'ffffff' } };
+      cell.alignment = { vertical: 'bottom', horizontal: 'center' };
+      worksheet.getColumn(index).width =
+        headerNameList[index - 1].length < 20
+          ? 20
+          : headerNameList.length[index - 1];
+    });
+    testcaseData.forEach((item: any) => {
+      let rowList = [
+        item?.category,
+        item?.Bench_Demand_Intel,
+        item?.Rack_Demand_Intel,
+        item?.Bench_Demand_ODC,
+        item?.Rack_Demand_ODC,
+        item?.Total,
+        item?.Intel_percentage,
+        item?.ODC_percentage,
+        item?.Total_Bench_Intel,
+        item?.Total_Rack_Intel,
+      ];
+      const row = worksheet.addRow(rowList);
+    }),
+      workbook.xlsx.writeBuffer().then((data: any) => {
+        let blob = new Blob([data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        FileSaver(blob, fileName);
+      });
+  }
+  downloadForecastSummaryComparison(
+    jsonData: any[],
+    fileName: string,
+    fromYear,
+    toYear
+  ) {
+    debugger;
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Report Data');
+    let testcaseData = jsonData;
+
+    let headerNameList = [
+      'Category',
+      fromYear + ' intel',
+      toYear + ' intel',
+      fromYear + ' ODC',
+      toYear + ' ODC',
+      fromYear + ' Ramp',
+      toYear + ' Ramp',
+    ];
+    // let headerRow = worksheet.addRow(headerNameList);
+    const HeaderRowOutlet = worksheet.addRow(headerNameList);
+    HeaderRowOutlet.eachCell((cell, index) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '0072C5' },
+        bgColor: { argb: 'FFFFFFFF' },
+      };
+      cell.border = {
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' },
+      };
+      cell.font = { size: 12, bold: true, color: { argb: 'ffffff' } };
+      cell.alignment = { vertical: 'bottom', horizontal: 'center' };
+      worksheet.getColumn(index).width =
+        headerNameList[index - 1].length < 20
+          ? 20
+          : headerNameList.length[index - 1];
+    });
+    testcaseData.forEach((item: any) => {
+      let rowList = [
+        item?.category,
+        item?.[fromYear + '_intel'],
+        item?.[toYear + '_intel'],
+        item?.[fromYear + '_ODC'],
+        item?.[toYear + '_ODC'],
+        item?.[fromYear + '_Ramp'],
+        item?.[toYear + '_Ramp'],
+      ];
+      const row = worksheet.addRow(rowList);
+    }),
+      workbook.xlsx.writeBuffer().then((data: any) => {
+        let blob = new Blob([data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        FileSaver(blob, fileName);
+      });
+  }
+  downloadForecastSummaryYearComparison(jsonData: any[], fileName: string) {
+    debugger;
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Report Data');
+    let testcaseData = jsonData;
+
+    let headerNameList = ['Category', 'Value'];
+    // let headerRow = worksheet.addRow(headerNameList);
+    const HeaderRowOutlet = worksheet.addRow(headerNameList);
+    HeaderRowOutlet.eachCell((cell, index) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '0072C5' },
+        bgColor: { argb: 'FFFFFFFF' },
+      };
+      cell.border = {
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' },
+      };
+      cell.font = { size: 12, bold: true, color: { argb: 'ffffff' } };
+      cell.alignment = { vertical: 'bottom', horizontal: 'center' };
+      worksheet.getColumn(index).width =
+        headerNameList[index - 1].length < 20
+          ? 20
+          : headerNameList.length[index - 1];
+    });
+    testcaseData.forEach((item: any) => {
+      let rowList = [item?.category, item?.value];
+      const row = worksheet.addRow(rowList);
+    }),
+      workbook.xlsx.writeBuffer().then((data: any) => {
+        let blob = new Blob([data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        FileSaver(blob, fileName);
+      });
+  }
+  downloadUtilizationSummary(jsonData: any[], fileName: string) {
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Report Data');
+    let testcaseData = jsonData;
+
+    let headerNameList = ['Category', 'Planned', 'Actual', 'Actual Utilization %','Utilization %'];
+    // let headerRow = worksheet.addRow(headerNameList);
+    const HeaderRowOutlet = worksheet.addRow(headerNameList);
+    HeaderRowOutlet.eachCell((cell, index) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '0072C5' },
+        bgColor: { argb: 'FFFFFFFF' },
+      };
+      cell.border = {
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' },
+      };
+      cell.font = { size: 12, bold: true, color: { argb: 'ffffff' } };
+      cell.alignment = { vertical: 'bottom', horizontal: 'center' };
+      worksheet.getColumn(index).width =
+        headerNameList[index - 1].length < 20
+          ? 20
+          : headerNameList.length[index - 1];
+    });
+    testcaseData.forEach((item: any) => {
+      let rowList = [item.category, item.Planned, item.Actual, item.Actual_Utilization_Percentage,item.Utilization_Percentage];
+      const row = worksheet.addRow(rowList);
+    }),
+      workbook.xlsx.writeBuffer().then((data: any) => {
+        let blob = new Blob([data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        FileSaver(blob, fileName);
+      });
+  }
+  downloadUtlizationSummaryWW(jsonData: any[], fileName: string) {
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Report Data');
+    let testcaseData = jsonData;
+
+    let headerNameList = ['Category', 'Planned', 'Actual', 'Utilization %'];
+    // let headerRow = worksheet.addRow(headerNameList);
+    const HeaderRowOutlet = worksheet.addRow(headerNameList);
+    HeaderRowOutlet.eachCell((cell, index) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '0072C5' },
+        bgColor: { argb: 'FFFFFFFF' },
+      };
+      cell.border = {
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' },
+      };
+      cell.font = { size: 12, bold: true, color: { argb: 'ffffff' } };
+      cell.alignment = { vertical: 'bottom', horizontal: 'center' };
+      worksheet.getColumn(index).width =
+        headerNameList[index - 1].length < 20
+          ? 20
+          : headerNameList.length[index - 1];
+    });
+    testcaseData.forEach((item: any) => {
+      let rowList = [item.category, item.Planned, item.Actual, item.Utilization];
+      const row = worksheet.addRow(rowList);
+    }),
+      workbook.xlsx.writeBuffer().then((data: any) => {
+        let blob = new Blob([data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        FileSaver(blob, fileName);
+      });
+  }
 }
 
 // import { Injectable } from '@angular/core';

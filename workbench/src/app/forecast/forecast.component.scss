@@ -94,6 +94,9 @@ td div:not([hidden]):hover {
                         tr {
                             th {
                                 text-align: center;
+                                background: #0071c5;
+                                color: white;
+                                border: 1px solid #fff;
 
                                 &:first-child {
                                     width: 10%;
@@ -377,6 +380,26 @@ td div:not([hidden]):hover {
 
 .no_data_block_display {
     margin-top: 17%;
+    text-align: center;
+    color: #9eacb4;
+}
+
+.no_data_block_display_forecastTableSummaryList {
+    text-align: center;
+    color: #9eacb4;
+}
+
+.no_data_block_display_allocatedAPICall {
+    text-align: center;
+    color: #9eacb4;
+}
+
+.no_data_block_display_rvpYear {
+    text-align: center;
+    color: #9eacb4;
+}
+
+.no_data_block_display_rvpQuarterList {
     text-align: center;
     color: #9eacb4;
 }
@@ -1701,3 +1724,23 @@ tfoot tr {
     background-color: #0071c5;
     color: white;
 }
+
+
+/* sticky header */
+.table-container {
+    max-height: 77vh;
+    /* Set a maximum height for vertical scrolling */
+    overflow-y: auto;
+}
+
+thead {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: #f8f9fa;
+    /* Set the background color for the fixed header */
+}
+.mr_10{
+    margin-right: 10px;
+}
+

@@ -383,9 +383,26 @@ export class SummaryService {
       },
     });
   }
+  /* get year Wise utilization list  */
+  yearWiseutilization(param: any) {
+    // return this.http.get(this.ServiceURL + 'home/board-api/');
+    const serviceUrl = this.ServiceURL + 'home/yearWiseutilization/';
+    return this.http.post(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
   /* delete board  */
   deleteBoard(id) {
     return this.http.delete(this.ServiceURL + 'home/board-api/' + id + '/');
+    /* return this.http.delete(this.ServiceURL + 'home/yearWiseData/' + id + '/'); */
+  }
+  /* delete PlannedvsActual  */
+  deletePlannedvsActual(id) {
+    return this.http.delete(
+      this.ServiceURL + 'home/updateUtilization/' + id + '/'
+    );
     /* return this.http.delete(this.ServiceURL + 'home/yearWiseData/' + id + '/'); */
   }
   /* add board */
@@ -402,6 +419,50 @@ export class SummaryService {
         'Content-type': 'application/json',
       },
     }); */
+  }
+
+  /* add PlannedvsActual */
+  addPlannedvsActual(param: any) {
+    const serviceUrl = this.ServiceURL + 'home/utilizationApi/';
+    return this.http.post(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+    /*  const serviceUrl = this.ServiceURL + 'home/yearWiseData/';
+    return this.http.post(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }); */
+  }
+
+  /* add Utilization */
+  UtilizationApi(param: any) {
+    const serviceUrl = this.ServiceURL + 'home/UtilizationApi/';
+    return this.http.post(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+    /*  const serviceUrl = this.ServiceURL + 'home/yearWiseData/';
+    return this.http.post(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }); */
+  }
+
+  /* Delete Utilization */
+  UtilizationApiDelete(param: any) {
+ /*    const serviceUrl = this.ServiceURL + 'home/UtilizationApi/';
+    return this.http.delete(serviceUrl, param); */
+     const serviceUrl = this.ServiceURL + 'home/updateUtilization/';
+    return this.http.post(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
   }
 
   /* upload xl data */
@@ -430,9 +491,49 @@ export class SummaryService {
     });
   }
 
+  /* utilizationSumary API Call */
+  utilizationSumary(param: any) {
+    const serviceUrl = this.ServiceURL + 'home/utilization-summary/';
+    return this.http.post(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+
+  /* utilizationSumary ww API Call */
+  utilizationSumaryWW(param: any) {
+    const serviceUrl = this.ServiceURL + 'home/utilizationSumary/';
+    return this.http.post(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+
   /* rvp year API Call */
   rvpYearAPICall(param: any) {
     const serviceUrl = this.ServiceURL + 'home/forecastRvp/';
+    return this.http.post(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+
+  /* program List Forcast Summary API Call */
+  programListForcastSummary(param: any) {
+    const serviceUrl = this.ServiceURL + 'home/Program_list/';
+    return this.http.post(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+
+  /* program List Forcast YOY comparison API Call */
+  programListForcastComaprision(param: any) {
+    const serviceUrl = this.ServiceURL + 'home/YearWiseComaprision/';
     return this.http.post(serviceUrl, param, {
       headers: {
         'Content-type': 'application/json',
@@ -476,11 +577,37 @@ export class SummaryService {
     });
   }
 
+  /* update PlannedvsActual */
+  updatePlannedvsActual(id, param: any) {
+    /* const serviceUrl = this.ServiceURL + 'home/yearWiseData/' + id + '/';
+    return this.http.put(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }); */
+    const serviceUrl = this.ServiceURL + 'home/updateUtilization/' + id + '/';
+    return this.http.put(serviceUrl, param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+
   getProgram() {
     return this.http.get(this.ServiceURL + 'home/GetProgramDetails/');
   }
+  getLabList() {
+    return this.http.get(this.ServiceURL + 'home/get_lab_list/');
+  }
   getYearList() {
     return this.http.get(this.ServiceURL + 'home/year-list/');
+  }
+  getYearListUtilization(param: any) {
+    return this.http.post(this.ServiceURL + 'home/yearly-utilization/', param, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
   }
   getSKU(program: any) {
     const serviceUrl = this.ServiceURL + 'home/GetSkuDetails/ ';

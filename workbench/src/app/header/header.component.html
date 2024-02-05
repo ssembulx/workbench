@@ -71,20 +71,38 @@
                 </div>
             </div>
             <a routerLink="/approveuser" *ngIf="roleName == 'Admin'">New User Approval</a>
-            <div class="dropdown d-flex" *ngIf="roleName == 'Admin'">
+            <div class="dropdown d-flex" *ngIf="roleName == 'Admin' || roleName == 'Lead'">
                 <button class="dropdown_btn dropdown-toggle" type="button" id="dropdownMenuButton"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Phase 2 <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </button>
                 <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuButton"
                     style="margin-top: 28px;margin-left: -18px;">
-                    <a [routerLink]="['/organization']" (click)="changeView()" class="dropdown-item">Organization</a>
-                    <a [routerLink]="['/allocation-history']" (click)="changeView()" class="dropdown-item">Allocation History</a>
-                    <a [routerLink]="['/utilization']" (click)="changeView()" class="dropdown-item">Utilization</a>
-                    <a [routerLink]="['/forecast']" (click)="changeView()" class="dropdown-item">Forecast</a>
-                    <a [routerLink]="['/broadcast']" (click)="changeView()" class="dropdown-item">Broadcast</a>
+                    <a [routerLink]="['/utilization']" (click)="changeView()" *ngIf="roleName == 'Admin'"
+                        class="dropdown-item">Utilization</a>
+                    <a [routerLink]="['/forecast']" (click)="changeView()"
+                        *ngIf="roleName == 'Admin' || roleName == 'Lead'" class="dropdown-item">Forecast</a>
                     <!--   <a [routerLink]="['/tutorial']" (click)="changeView()" class="dropdown-item">Tutorial</a>
                     <a [routerLink]="['/feedback']" (click)="changeView()" class="dropdown-item">Feedback</a> -->
+                </div>
+            </div>
+            <div class="dropdown d-flex" *ngIf="roleName == 'Admin'">
+                <button class="dropdown_btn dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Phase 3 <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuButton"
+                    style="margin-top: 28px;margin-left: -18px;">
+                    <a [routerLink]="['/organization']" (click)="changeView()" *ngIf="roleName == 'Admin'"
+                        class="dropdown-item">Organization</a>
+                    <a [routerLink]="['/allocation-history']" (click)="changeView()" *ngIf="roleName == 'Admin'"
+                        class="dropdown-item">Allocation
+                        History</a>
+                    <a [routerLink]="['/broadcast']" (click)="changeView()" *ngIf="roleName == 'Admin'"
+                        class="dropdown-item">Broadcast</a>
+                    <a [routerLink]="['/lab-port-utilization']" (click)="changeView()" class="dropdown-item">Lab Port
+                        Utilization</a>
+                    <a [routerLink]="['/auto-approval']" (click)="changeView()" class="dropdown-item">Auto Approval</a>
                 </div>
             </div>
             <div class="dropdown d-flex">

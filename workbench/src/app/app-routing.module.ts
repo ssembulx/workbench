@@ -22,6 +22,8 @@ import { UserApproveComponent } from './user-approve/user-approve.component';
 import { UserComponent } from './user/user.component';
 import { VendorComponent } from './vendor/vendor.component';
 import { AllocationHistoryComponent } from './allocation-history/allocation-history.component';
+import { AutoApprovalComponent } from './auto-approval/auto-approval.component';
+import { LabPortUtilizationComponent } from './lab-port-utilization/lab-port-utilization.component';
 const routes: Routes = [
   {
     path: '',
@@ -137,6 +139,16 @@ const routes: Routes = [
   {
     path: 'User-authenticate',
     component: AuhenticateComponent,
+  },
+  {
+    path: 'auto-approval',
+    component: AutoApprovalComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'lab-port-utilization',
+    component: LabPortUtilizationComponent,
+    canActivate: [AuthGuard],
   },
 ];
 

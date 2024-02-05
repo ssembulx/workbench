@@ -2,27 +2,543 @@
     <div class="content">
         <div class="user-content">
             <div style="display: inline-flex;">
-               <!--  <div class="btn-dv2" [ngClass]="typeChart == 'WorkWeek chart' ? 'active-btn' : ''"
+                <!--  <div class="btn-dv2" [ngClass]="typeChart == 'WorkWeek chart' ? 'active-btn' : ''"
                     (click)="Options('WorkWeek')">
                     Work Week Summary
                 </div> -->
-                <div class="btn-dv2" [ngClass]="typeChart == 'Location chart' ? 'active-btn' : ''"
-                    (click)="Options('Allocation')">
+                <div class="btn-dv2" [ngClass]="typeChart == 'BenchSummary' ? 'active-btn' : ''"
+                    (click)="Options('BenchSummary')">
                     Bench Summary
                 </div>
-                <div class="btn-dv" [ngClass]="typeChart == 'Program chart' ? 'active-btn' : ''"
-                    (click)="Options('Deallocation')">
+                <div class="btn-dv" [ngClass]="typeChart == 'PlannedVSActual' ? 'active-btn' : ''"
+                    (click)="Options('PlannedVSActual')">
+                    Add Utilization Data
+                </div>
+                <div class="btn-dv" [ngClass]="typeChart == 'ProgramSummary' ? 'active-btn' : ''"
+                    (click)="Options('ProgramSummary')">
                     Program Summary
                 </div>
             </div>
             <!-- Bench Summary -->
-            <div class="col-12" [hidden]="typeChart != 'Location chart'">
-            
+            <div class="col-12" [hidden]="typeChart != 'BenchSummary'">
+                <div class="content p-0 m-0" style=" width: 100%;">
+                    <div class="row charts-content">
+
+                        <!-- ******* Semi circle pie chart ******* -->
+                        <div class="semi-pie-chart col-12 mb-0" #fullscreenPie>
+                            <div>
+                                <div class="chart-style">
+                                    <div class="caption">
+                                        <i class="fa fa-chart-bar fa-2x chart-icon"></i>
+                                        <span class="chart-heading">Utilization Chart {{preSelectedYear}}</span>
+                                    </div>
+                                    <i class="fa fa-download  fa-2x chart-icon"
+                                        ngbTooltip="Download Utilization Chart Data"
+                                        (click)="downloadUtlizationSummary()" aria-hidden="true"
+                                        style="color: #9eacb4;font-size: 22px;margin-top: -1px;margin-left: 72%;cursor: pointer;"></i>
+                                    <select class="form-select location_select" style="width: 120px;"
+                                        aria-label="Default select example" [(ngModel)]="preSelectedYear"
+                                        (change)="onItemSelected()">
+                                        <option selected value="">Select Year</option>
+                                        <option *ngFor="let locat of addForecastYearList" [ngValue]="locat">
+                                            {{locat}}
+                                        </option>
+                                    </select>
+                                    <!--  <i class="fa fa-download  fa-2x chart-icon" aria-hidden="true"
+                                    style="color: #9eacb4;font-size: 22px;margin-top: -1px;margin-left: 7px;cursor: pointer;"></i> -->
+                                </div>
+                            </div>
+
+                            <hr class="box-hr">
+
+                            <!-- ******* Labwise chart table view *******  -->
+                            <div id="chartdiv" [hidden]='allocatedAPICall_no_data_available'></div>
+
+                            <!-- No data available display -->
+                            <div class="no_data_block_display_allocatedAPICall"
+                                [hidden]='!allocatedAPICall_no_data_available'>
+                                <h2 class="mt-2">No Data Available</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+                <div class="content p-0 m-0" style=" width: 100%;float:left">
+                    <div class="row charts-content">
+
+                        <!-- ******* Semi circle pie chart ******* -->
+                        <div class="semi-pie-chart col-12 mb-0" #fullscreenPie>
+                            <div>
+                                <div class="chart-style">
+                                    <div class="caption">
+                                        <i class="fa fa-chart-bar fa-2x chart-icon"></i>
+                                        <span class="chart-heading">Utilization Chart {{fromworkweek}}</span>
+                                    </div>
+                                    <i class="fa fa-download  fa-2x chart-icon"
+                                        ngbTooltip="Download Utilization Chart Data"
+                                        (click)="downloadUtlizationSummaryWW()" aria-hidden="true"
+                                        style="color: #9eacb4;font-size: 22px;margin-top: -1px;margin-left: 62%;cursor: pointer;"></i>
+                                    <div class="fields-two">
+                                        <div class="form-group cal">
+                                            <input class="form-control ip1" name="dp" [(bsValue)]="fromworkweekUtiSum"
+                                                #d1="bsDatepicker" bsDatepicker
+                                                (bsValueChange)="onDateSelectFromUtiSum($event);utilizationSumaryWW()"
+                                                disabled>
+                                            <input type="text" placeholder="WW'YYYY" class="form-control cal-input"
+                                                [(ngModel)]="fromworkweekUtiSum" disabled />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary datepicker_btn"
+                                                    (click)="d1.toggle()" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  <select class="form-select location_select" style="width: 120px;"
+                                        aria-label="Default select example" [(ngModel)]="preSelectedYear"
+                                        (change)="onItemSelected()">
+                                        <option selected value="">Select Year</option>
+                                        <option *ngFor="let locat of addForecastYearList" [ngValue]="locat">
+                                            {{locat}}
+                                        </option>
+                                    </select> -->
+                                    <!--  <i class="fa fa-download  fa-2x chart-icon" aria-hidden="true"
+                                    style="color: #9eacb4;font-size: 22px;margin-top: -1px;margin-left: 7px;cursor: pointer;"></i> -->
+                                </div>
+                            </div>
+
+                            <hr class="box-hr">
+
+                            <!-- ******* Labwise chart table view *******  -->
+                            <div id="chartdiv1" [hidden]='wwallocatedAPICall_no_data_available'></div>
+
+                            <!-- No data available display -->
+                            <div class="no_data_block_display_allocatedAPICall"
+                                [hidden]='!wwallocatedAPICall_no_data_available'>
+                                <h2 class="mt-2">No Data Available</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                </div>
             </div>
             <!-- Program Summary -->
-            <div class="col-12" [hidden]="typeChart != 'Program chart'">
+            <div class="col-12" [hidden]="typeChart != 'PlannedVSActual'">
+
+                <div class="btn-add-user mb-3" style="float: right; display: flex;">
+                    <!-- <input #fileInput type="file" style="display: none;"
+                        (change)="onFileChange($event);UpdloadForecastDataPopUp(addmodal)" />
+                    <a class="download-template" (click)="fileInput.click()">Upload Forecaste Data</a>
+                    <a class="download-template" href="/assets/Template/Forecast Data Upload Template.xlsx">Download
+                        Template</a>-->
+                    <i class="fa fa-solid fa-minus"
+                        style="font-size: 22px;cursor: pointer;color: #9eacb4;margin-right: 10px;margin-top: 7px;"
+                        ngbTooltip="Delete Utilization Data" (click)="DeleteAllRow()"></i>
+                    <i class="fa fa-solid fa-plus"
+                        style="font-size: 22px;cursor: pointer;color: #9eacb4;margin-right: 10px;margin-top: 7px;"
+                        ngbTooltip="Add Utilization Data" (click)="AddRow()"></i>
+                    <!-- <button class="btn add-btn" (click)="AddRow()"> Add New Forecast Data </button> -->
+                    <!--  <select class="form-select location_select" style="width: 120px;"
+                        aria-label="Default select example" [(ngModel)]="preSelectedYearAddForecast"
+                        (change)="onItemSelectedAddForecast()">
+                        <option selected value="">Select Year</option>
+                        <option *ngFor="let locat of addForecastYearList" [ngValue]="locat">
+                            {{locat}}
+                        </option>
+                    </select> -->
+                    <div class="fields-two">
+                        <div class="form-group cal">
+                            <input class="form-control ip1" name="dp" [(bsValue)]="fromworkweek" #d="bsDatepicker"
+                                bsDatepicker (bsValueChange)="onDateSelectFrom($event);" disabled>
+                            <input type="text" placeholder="WW'YYYY" class="form-control cal-input"
+                                [(ngModel)]="fromworkweek" disabled />
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary datepicker_btn" (click)="d.toggle()"
+                                    type="button">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-container mt-3">
+                    <table class="table table-bordered" *ngIf='tableData?.length'>
+                        <thead>
+                            <!--  <tr>
+                                <th colspan="5">
+                                    RVP forecast for {{preSelectedYearAddForecast}}
+                                </th>
+                                <th>
+                                    Month
+                                </th>
+                                <th colspan="4" *ngFor="let column of monthsOfYear">{{ column }}</th>
+                                <th>
+
+                                </th>
+                            </tr> -->
+                            <tr>
+                                <th>
+                                    S.No
+                                </th>
+                                <th>WorkWeek</th>
+                                <!-- <th>Location</th> -->
+                                <th>Location - Lab</th>
+                                <th>Bench</th>
+                                <th>Program</th>
+                                <th>SKU</th>
+                                <th>Function</th>
+                                <th>Vendor</th>
+                                <!-- <th class="v-align" (click)="setOrderRelease('program')"><span class="sort-by"
+                                        [ngbTooltip]="programSearch" placement="top" tooltipClass="custom-tooltip"
+                                        [autoClose]="false" triggers="manual" #ts2="ngbTooltip"
+                                        (click)="showTestTrendSearch(ts2)">
+                                        <i class="fas fa-search"></i>&nbsp;&nbsp;Program</span>
+                                </th> 
+                                <th class="v-align" (click)="setOrderRelease('SKU')"><span class="sort-by"
+                                        [ngbTooltip]="skuSearch" placement="top" tooltipClass="custom-tooltip"
+                                        [autoClose]="false" triggers="manual" #ts3="ngbTooltip"
+                                        (click)="showTestTrendSearch(ts3)">
+                                        <i class="fas fa-search"></i>&nbsp;&nbsp;SKU</span>
+                                </th>
+                                <th class="v-align" (click)="setOrderRelease('Team')"><span class="sort-by"
+                                        [ngbTooltip]="teamSearch" placement="top" tooltipClass="custom-tooltip"
+                                        [autoClose]="false" triggers="manual" #ts10="ngbTooltip"
+                                        (click)="showTestTrendSearch(ts10)">
+                                        <i class="fas fa-search"></i>&nbsp;&nbsp;Function</span>
+                                </th>
+                                <th class="v-align" (click)="setOrderRelease('Vendor')"><span class="sort-by"
+                                        [ngbTooltip]="vendorSearch" placement="top" tooltipClass="custom-tooltip"
+                                        [autoClose]="false" triggers="manual" #ts4="ngbTooltip"
+                                        (click)="showTestTrendSearch(ts4)">
+                                        <i class="fas fa-search"></i>&nbsp;&nbsp;Vendor</span>
+                                </th>-->
+                                <!-- <th>
+                                    TOTAL Board Count
+                                </th> -->
+                                <th>Planned utilization</th>
+                                <th>Actual utilization</th>
+                                <th>Actual utilization in %</th>
+                                <th>Utilization%</th>
+                                <th>Allocated POC ( BB / CW)</th>
+                                <th>Remarks</th>
+                                <th>Prepared by </th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let row of tableData | searchFilterProgramAddForecast: searchProgram  | searchFilterSKUAddForecast: searchSku | searchFilterTeamAddForecast:searchTeam | searchFilterVendorAddForecast:searchVendor ; let rowIndex = index">
+                                <td>{{rowIndex+1}}</td>
+                                <td *ngFor="let cell of row; let colIndex = index">
+                                    <ng-container *ngIf="cell.properties == 'workweek'">
+                                        <!--  <div [hidden]="!cell.editing">
+                                            <div class="fields-two">
+                                                <div class="form-group cal">
+                                                    <input class="form-control ip1" name="dp" [(bsValue)]="cell.value"
+                                                        #d="bsDatepicker" bsDatepicker
+                                                        (bsValueChange)="onDateSelectFrom($event);updateWorkWeek(cell.value,rowIndex, colIndex)"
+                                                        disabled>
+                                                    <input type="text" placeholder="WW'YYYY"
+                                                        class="form-control cal-input" [(ngModel)]="cell.value" disabled
+                                                        (ngModelChange)="updateWorkWeek(cell.value,rowIndex, colIndex)" />
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-secondary datepicker_btn"
+                                                            (click)="d.toggle()" type="button">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <div style="width: 120px;">
+                                            {{ cell.value | ww: 10 }}
+                                        </div>
+                                    </ng-container>
+                                    <!--  <ng-container *ngIf="cell.properties == 'Lab'">
+                                        <div [hidden]="!cell.editing">
+                                            <select class="form-select location_select" style="width: 120px;"
+                                                aria-label="Default select example" [(ngModel)]="cell.value"
+                                                (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)">
+                                                <option selected value="">Select Location</option>
+                                                <option *ngFor="let locat of get_lab_list?.labs" [ngValue]="locat">
+                                                    {{locat}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div (click)="startEditingCell(rowIndex, colIndex)" [hidden]="cell.editing"
+                                            style="width: 120px;">
+                                            {{ cell.value }}
+                                        </div>
+                                    </ng-container> -->
+                                    <ng-container *ngIf="cell.properties == 'Location'">
+                                        <div [hidden]="!cell.editing">
+                                            <select class="form-select location_select" style="width: 120px;"
+                                                aria-label="Default select example" [(ngModel)]="cell.value"
+                                                (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)">
+                                                <option selected value="">Select Lab</option>
+                                                <option *ngFor="let locat of locationList?.LabLocations"
+                                                    [ngValue]="locat">
+                                                    {{locat}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div [hidden]="cell.editing" style="width: 120px;">
+                                            {{ cell.value }}
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="cell.properties == 'BenchData'">
+                                        <div [hidden]=" !cell.editing">
+                                            <input [(ngModel)]="cell.value" (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)"
+                                                style="width: 120px;" />
+                                        </div>
+                                        <div [hidden]="cell.editing" style="width: 120px;">
+                                            {{ cell.value }}
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="cell.properties == 'Program'">
+                                        <div [hidden]="!cell.editing">
+                                            <select class="form-select location_select" style="width: 120px;"
+                                                aria-label="Default select example" [(ngModel)]="cell.value"
+                                                (change)="onChangeProgram(cell.value)"
+                                                (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)">
+                                                <option selected value="">Select Program</option>
+                                                <option *ngFor="let locat of programList?.ProgramName"
+                                                    [ngValue]="locat">
+                                                    {{locat}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div [hidden]="cell.editing" style="width: 120px;">
+                                            {{ cell.value }}
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="cell.properties == 'Sku'">
+                                        <div [hidden]="!cell.editing">
+                                            <select class="form-select location_select" style="width: 120px;"
+                                                aria-label="Default select example" [(ngModel)]="cell.value"
+                                                (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)">
+                                                <option selected value="">Select SKU</option>
+                                                <option *ngFor="let locat of skuList" [ngValue]="locat">
+                                                    {{locat}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div [hidden]="cell.editing" style="width: 120px;">
+                                            {{ cell.value }}
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="cell.properties == 'Team'">
+                                        <div [hidden]="!cell.editing">
+                                            <select class="form-select location_select" style="width: 120px;"
+                                                aria-label="Default select example" [(ngModel)]="cell.value"
+                                                (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)">
+                                                <option selected value="">Select Team</option>
+                                                <option *ngFor="let loca of teamList?.TeamName" [ngValue]="loca">
+                                                    {{loca}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div [hidden]="cell.editing" style="width: 120px;">
+                                            {{ cell.value }}
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="cell.properties == 'Vendor'">
+                                        <div [hidden]="!cell.editing">
+                                            <select class="form-select location_select" style="width: 120px;"
+                                                aria-label="Default select example" [(ngModel)]="cell.value"
+                                                (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)">
+                                                <option selected value="">Select Vendor</option>
+                                                <option *ngFor="let locat of vendorList?.Vendors" [ngValue]="locat">
+                                                    {{locat}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div [hidden]="cell.editing" style="width: 120px;">
+                                            {{ cell.value }}
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="cell.properties == 'Planned_Utilization'">
+                                        <div [hidden]=" !cell.editing">
+                                            <input type="number" [(ngModel)]="cell.value"
+                                                (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)"
+                                                (ngModelChange)="onRowTotalBoardCount(rowIndex, colIndex)"
+                                                style="width: 60px;" />
+                                        </div>
+                                        <div (click)="startEditingCell(rowIndex, colIndex)" [hidden]="cell.editing"
+                                            style="width: 60px;">
+                                            {{ cell.value }}
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="cell.properties == 'Actual_Utilization'">
+                                        <div [hidden]=" !cell.editing">
+                                            <input type="number" [(ngModel)]="cell.value"
+                                                (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)"
+                                                (ngModelChange)="onRowTotalBoardCount(rowIndex, colIndex);onRowUtilizationPercentage(rowIndex, colIndex)"
+                                                style="width: 60px;" />
+                                        </div>
+                                        <div (click)="startEditingCell(rowIndex, colIndex)" [hidden]="cell.editing"
+                                            style="width: 60px;">
+                                            {{ cell.value }}
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="cell.properties == 'Actual_utilization_in_percentage'">
+                                        <!-- <div [hidden]=" !cell.editing">
+                                            <input type="number" [(ngModel)]="cell.value"
+                                                (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)"
+                                                (ngModelChange)="onRowTotalBoardCount(rowIndex, colIndex)"
+                                                style="width: 60px;" />
+                                        </div> -->
+                                        <div [hidden]="cell.editing" style="width: 60px;">
+                                            {{ cell.value }}
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="cell.properties == 'Utilization_Percentage'">
+                                        <div [hidden]=" !cell.editing">
+                                            <input [(ngModel)]="cell.value" (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)"
+                                                style="width: 60px;" />
+                                        </div>
+                                        <div (click)="startEditingCell(rowIndex, colIndex)" [hidden]="cell.editing"
+                                            style="width: 60px;">
+                                            {{ cell.value }}
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="cell.properties == 'Allocated_POC'">
+                                        <div style="width: 60px;">
+                                            {{ cell.value }}
+                                        </div>
+                                        <!-- <div class="field-ctrl">
+                                            <input name="user" [(ngModel)]="cell.value"
+                                                (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)" type="text"
+                                                class="form-control ww-input" placeholder="Search with WWID" />
+                                            <i class="fa fa-search"
+                                                (click)="getUserDetails(cell.value,rowIndex, colIndex)"></i>
+                                        </div> -->
+                                        <!-- <div [hidden]=" !cell.editing">
+                                            <input [(ngModel)]="cell.value" (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)"
+                                                style="width: 60px;" />
+                                        </div> -->
+                                        <!-- <div (click)="startEditingCell(rowIndex, colIndex)" [hidden]="cell.editing"
+                                            style="width: 60px;">
+                                            {{ cell.value }}
+                                        </div> -->
+                                    </ng-container>
+                                    <!-- <ng-container
+                                        *ngIf="cell.properties != 'Program' && cell.properties != 'Sku' && cell.properties != 'Function' && cell.properties != 'Vendor' && cell.properties != 'Action' && cell.properties != 'CreatedBy'">
+                                        <div [hidden]="!cell.editing">
+                                            <input [(ngModel)]="cell.value" (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)"
+                                                (ngModelChange)="onRowTotalBoardCount(rowIndex, colIndex)"
+                                                style="width: 60px;" />
+                                        </div>
+                                        <div (click)="startEditingCell(rowIndex, colIndex)" [hidden]="cell.editing"
+                                            style="width: 60px;">
+                                            {{ cell.value }}
+                                        </div>
+                                    </ng-container> -->
+                                    <ng-container *ngIf="cell.properties == 'Remarks_Utilization'">
+                                        <div [hidden]="!cell.editing">
+                                            <input [(ngModel)]="cell.value" (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)"
+                                                style="width: 120px;" />
+                                        </div>
+                                        <div (click)="startEditingCell(rowIndex, colIndex)" [hidden]="cell.editing"
+                                            style="width: 120px;">
+                                            {{ cell.value }}
+                                        </div>
+                                    </ng-container>
+                                    <ng-container
+                                        *ngIf="cell.properties != 'workweek' && cell.properties != 'Location' && cell.properties != 'BenchData' && cell.properties != 'Program' && cell.properties != 'Sku' && cell.properties != 'Team' && cell.properties != 'Vendor' && cell.properties != 'Planned_Utilization' && cell.properties != 'Actual_Utilization' && cell.properties != 'Actual_utilization_in_percentage' && cell.properties != 'Utilization_Percentage' && cell.properties != 'Allocated_POC' && cell.properties != 'Remarks_Utilization' && cell.properties != 'Action'">
+                                        <!-- <div [hidden]="!cell.editing">
+                                            <input [(ngModel)]="cell.value" (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)"
+                                                style="width: 60px;" />
+                                        </div> -->
+                                        <div style="width: 250px;">
+                                            {{ cell.value }}
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="cell.properties == 'Action'">
+                                        <div style="display: flex;">
+                                            <span style="cursor: pointer;margin-right:5px"
+                                                (click)="AddNewRow(row,rowIndex)"
+                                                *ngIf="cell.value == 'Add'">Save</span>
+                                            <span style="cursor: pointer;margin-right:5px"
+                                                (click)="EditRow(row,rowIndex)"
+                                                *ngIf="cell.value == 'Update'">Update</span>
+                                            <span style="cursor: pointer;margin-left:5px"
+                                                (click)="DeleteAddRow(rowIndex)"
+                                                *ngIf="cell.value == 'Add'">Delete</span>
+                                            <!-- <span style="cursor: pointer;margin-left:5px"
+                                                (click)="DeleteRow(row,rowIndex)"
+                                                *ngIf="cell.value == 'Update'">Delete</span> -->
+                                        </div>
+                                    </ng-container>
+                                </td>
+                                <!--   <td>
+                                    <div style="display: flex;">
+                                        <span style="cursor: pointer;margin-right:5px" (click)="EditRow()">Update</span> |
+                                        <span style="cursor: pointer;margin-left:5px" (click)="DeleteRow()">Delete</span>
+                                    </div>
+                                </td> -->
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <!-- <td colspan="5">Total</td> -->
+                                <ng-container
+                                    *ngFor="let cell of totalTempValueList; let colIndex = index;let last = last">
+                                    <td colspan="5" *ngIf="colIndex == 3">Total</td>
+                                    <td *ngIf="colIndex >3 && !last">{{ cell }}</td>
+                                    <td *ngIf="last"></td>
+                                </ng-container>
+                                <!-- <td></td> -->
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <!-- No data available display -->
+                    <div class="no_data_block_display" *ngIf='tableData?.length == 0'>
+                        <h2 class="mt-2">No Data Available</h2>
+                    </div>
+                </div>
+                <!-- <div class="table-container display_none">
+                    <table class="table table-bordered mt-3 table_xl_upload_preview" #myTable>
+                        <thead>
+                            <tr *ngFor="let row of theader">
+                                <th *ngFor="let val of row">
+                                    {{val}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of tbody">
+                                <td *ngFor="let val of row">
+                                    {{val}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> -->
+            </div>
+            <!-- Program Summary -->
+            <div class="col-12" [hidden]="typeChart != 'ProgramSummary'">
 
             </div>
+
         </div>
     </div>
 </div>

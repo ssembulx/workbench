@@ -72,6 +72,8 @@ import { AuhenticateComponent } from './auhenticate/auhenticate.component';
 import { ApproverComponent } from './approver/approver.component';
 import { AllocationHistoryComponent } from './allocation-history/allocation-history.component';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { LabPortUtilizationComponent } from './lab-port-utilization/lab-port-utilization.component';
+import { AutoApprovalComponent } from './auto-approval/auto-approval.component';
 /* import { ToastrService } from 'ngx-toastr'; */
 @NgModule({
   declarations: [
@@ -128,7 +130,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
     SearchProgramAddForecast,
     SearchSKUAddForecast,
     SearchTeamAddForecast,
-    SearchVendorAddForecast
+    SearchVendorAddForecast,
+    LabPortUtilizationComponent,
+    AutoApprovalComponent
   ],
   imports: [
     BrowserModule,
