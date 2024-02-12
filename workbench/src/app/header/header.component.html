@@ -82,6 +82,8 @@
                         class="dropdown-item">Utilization</a>
                     <a [routerLink]="['/forecast']" (click)="changeView()"
                         *ngIf="roleName == 'Admin' || roleName == 'Lead'" class="dropdown-item">Forecast</a>
+                    <a [routerLink]="['/broadcast']" (click)="changeView()" *ngIf="roleName == 'Admin'"
+                        class="dropdown-item">Broadcast</a>
                     <!--   <a [routerLink]="['/tutorial']" (click)="changeView()" class="dropdown-item">Tutorial</a>
                     <a [routerLink]="['/feedback']" (click)="changeView()" class="dropdown-item">Feedback</a> -->
                 </div>
@@ -98,8 +100,6 @@
                     <a [routerLink]="['/allocation-history']" (click)="changeView()" *ngIf="roleName == 'Admin'"
                         class="dropdown-item">Allocation
                         History</a>
-                    <a [routerLink]="['/broadcast']" (click)="changeView()" *ngIf="roleName == 'Admin'"
-                        class="dropdown-item">Broadcast</a>
                     <a [routerLink]="['/lab-port-utilization']" (click)="changeView()" class="dropdown-item">Lab Port
                         Utilization</a>
                     <a [routerLink]="['/auto-approval']" (click)="changeView()" class="dropdown-item">Auto Approval</a>

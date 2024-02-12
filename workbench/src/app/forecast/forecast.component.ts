@@ -87,6 +87,52 @@ export class ForecastComponent implements OnInit {
   vendorList: any;
   teamList: any;
   boardList: any;
+  copyclipboard() {
+    /* const image = document.getElementById('chartdiv');
+    this.clipboard.copy(image);
+    alert('Image copied to clipboard!'); */
+    debugger;
+    // Assume you have an image element with the id "myImage"
+    const imageElement = document.getElementById(
+      'chartdiv'
+    ) as HTMLImageElement;
+
+    // Create a canvas element
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+
+    // Set canvas dimensions equal to the image dimensions
+    canvas.width = imageElement?.clientWidth;
+    canvas.height = imageElement?.clientHeight;
+    // Create a temporary image element
+    const image = new Image();
+
+    // Set the source of the image to a data URL representing the div content
+    image.src =
+      'data:image/svg+xml,' +
+      encodeURIComponent(new XMLSerializer().serializeToString(imageElement));
+
+    // Wait for the image to load
+    //image.onload = () => {
+    // Draw the image onto the canvas
+    context.drawImage(image, 0, 0);
+
+    // Convert the canvas content to a Blob
+    canvas.toBlob((blob) => {
+      if (blob) {
+        // Use the Clipboard API to copy the Blob to the clipboard
+        navigator.clipboard
+          .write([new ClipboardItem({ 'image/png': blob })])
+          .then(() => {
+            console.log('Image copied to clipboard successfully!');
+          })
+          .catch((err) => {
+            console.error('Error copying image to clipboard:', err);
+          });
+      }
+    }, 'image/png');
+    //};
+  }
   /* onchange program dropdown */
   onChangeProgram(value: any) {
     this.labwiseChartLoader = false;
@@ -304,6 +350,7 @@ export class ForecastComponent implements OnInit {
     let payload = {
       year: this.preSelectedYear,
       Program: this.preSelectedprogramListSummary,
+      Sku: this.preSelectedSKUListSummary,
     };
     this.dataSvc.allocatedAPICall(payload).subscribe((res) => {
       if (res) {
@@ -340,6 +387,7 @@ export class ForecastComponent implements OnInit {
     let payload = {
       year: this.preSelectedYear,
       Program: this.preSelectedprogramListSummary,
+      Sku: this.preSelectedSKUListSummary,
     };
     this.dataSvc.rvpYearAPICall(payload).subscribe((res) => {
       if (res) {
@@ -375,6 +423,7 @@ export class ForecastComponent implements OnInit {
     let payload = {
       year: this.preSelectedYear,
       Program: this.preSelectedprogramListSummary,
+      Sku: this.preSelectedSKUListSummary,
     };
     this.dataSvc.rvpQuarterAPICall(payload).subscribe((res) => {
       if (res) {
@@ -418,10 +467,14 @@ export class ForecastComponent implements OnInit {
     let payload = {
       year: this.preSelectedYear,
       Program: this.preSelectedprogramListSummary,
+      Sku: this.preSelectedSKUListSummary,
     };
     this.dataSvc.forecastTableSummary(payload).subscribe((res) => {
       if (res) {
         this.forecastTableSummaryList = res[this.preSelectedYear];
+        this.forecastTableSummaryList.map(
+          (data) => (data['GAP_Demand'] = data['GAP/Demand'])
+        );
         this.labwiseChartLoader = true;
       }
     });
@@ -470,7 +523,7 @@ export class ForecastComponent implements OnInit {
       this.compareAllocateTo(this.preSelectedYearCompareTo);
       this.forecastTableSummaryFrom();
       this.forecastTableSummaryTo();
-      this.programListForcastComaprision();
+      this.programListForcastComaprision('All');
     } else {
       this.toastrService.warning('Please select different year', 'Warning');
     }
@@ -490,11 +543,15 @@ export class ForecastComponent implements OnInit {
     let payload = {
       year: this.preSelectedYearCompareFrom,
       Program: this.preSelectedprogramListComparison,
+      Sku: this.preSelectedSKUListComparison,
     };
     this.dataSvc.forecastTableSummary(payload).subscribe((res) => {
       if (res) {
         this.forecastTableSummaryListFrom =
           res[this.preSelectedYearCompareFrom];
+        this.forecastTableSummaryListFrom.map(
+          (data) => (data['GAP_Demand'] = data['GAP/Demand'])
+        );
         this.labwiseChartLoader = true;
       }
     });
@@ -513,10 +570,14 @@ export class ForecastComponent implements OnInit {
     let payload = {
       year: this.preSelectedYearCompareTo,
       Program: this.preSelectedprogramListComparison,
+      Sku: this.preSelectedSKUListComparison,
     };
     this.dataSvc.forecastTableSummary(payload).subscribe((res) => {
       if (res) {
         this.forecastTableSummaryListTo = res[this.preSelectedYearCompareTo];
+        this.forecastTableSummaryListTo.map(
+          (data) => (data['GAP_Demand'] = data['GAP/Demand'])
+        );
         this.labwiseChartLoader = true;
       }
     });
@@ -527,6 +588,7 @@ export class ForecastComponent implements OnInit {
     let payload = {
       year: param,
       Program: this.preSelectedprogramListComparison,
+      Sku: this.preSelectedSKUListComparison,
     };
     this.dataSvc.allocatedAPICall(payload).subscribe((res) => {
       if (res) {
@@ -544,6 +606,7 @@ export class ForecastComponent implements OnInit {
     let payload = {
       year: param,
       Program: this.preSelectedprogramListComparison,
+      Sku: this.preSelectedSKUListComparison,
     };
     this.dataSvc.allocatedAPICall(payload).subscribe((res) => {
       if (res) {
@@ -806,18 +869,23 @@ export class ForecastComponent implements OnInit {
     });
   }
   /* YOY Comparison get program list */
-  programListForcastComaprision() {
+  programListComparisonAll;
+  programListForcastComaprision(selectedSKu) {
     this.labwiseChartLoader = false;
     let payload = {
       fromyear: this.preSelectedYearCompareFrom,
       toyear: this.preSelectedYearCompareTo,
-      Program: 'All',
+      Program: this.preSelectedprogramListComparison,
+      Sku: selectedSKu,
     };
     this.dataSvc
       .programListForcastComaprision(payload)
       .subscribe((res: any) => {
         if (res) {
           this.programListComparison = res;
+          if (this.preSelectedprogramListComparison == 'All') {
+            this.programListComparisonAll = this.programListComparison?.Program;
+          }
           this.labwiseChartLoader = true;
         }
       });
@@ -825,8 +893,18 @@ export class ForecastComponent implements OnInit {
   programListForecast;
   programListComparison;
   preSelectedprogramListComparison = 'All';
+  preSelectedSKUListComparison = 'All';
   preSelectedprogramListSummary = 'All';
+  preSelectedSKUListSummary = 'All';
   onItemProgramSelectedSummary() {
+    this.preSelectedSKUListSummary = 'All';
+    this.allocatedAPICall();
+    this.rvpYear();
+    this.rvpQuarter();
+    this.forecastTableSummary();
+    this.getSKUList(this.preSelectedprogramListSummary);
+  }
+  onItemSKUSelectedSummary() {
     this.allocatedAPICall();
     this.rvpYear();
     this.rvpQuarter();
@@ -834,6 +912,19 @@ export class ForecastComponent implements OnInit {
   }
   onItemProgramSelectedComparison() {
     if (this.preSelectedYearCompareFrom != this.preSelectedYearCompareTo) {
+      this.preSelectedSKUListComparison = 'All';
+      this.programListForcastComaprision(this.preSelectedSKUListComparison);
+      this.compareAllocateFrom(this.preSelectedYearCompareFrom);
+      this.compareAllocateTo(this.preSelectedYearCompareTo);
+      this.forecastTableSummaryFrom();
+      this.forecastTableSummaryTo();
+    } else {
+      this.toastrService.warning('Please select different year', 'Warning');
+    }
+  }
+  onItemSkuSelectedComparison() {
+    if (this.preSelectedYearCompareFrom != this.preSelectedYearCompareTo) {
+      // this.programListForcastComaprision(this.preSelectedSKUListComparison);
       this.compareAllocateFrom(this.preSelectedYearCompareFrom);
       this.compareAllocateTo(this.preSelectedYearCompareTo);
       this.forecastTableSummaryFrom();
@@ -1920,7 +2011,22 @@ export class ForecastComponent implements OnInit {
         this.labwiseChartLoader = true;
       }
     });
+    this.getSKUList('All');
     this.createHeadarColumns();
+  }
+  summarySKUList;
+  getSKUList(program) {
+    this.labwiseChartLoader = false;
+    let payload = {
+      year: this.preSelectedYear,
+      Program: program,
+    };
+    this.dataSvc.getSKUList(payload).subscribe((res: any) => {
+      if (res) {
+        this.summarySKUList = res?.Sku;
+        this.labwiseChartLoader = true;
+      }
+    });
   }
 
   columns: string[] = [

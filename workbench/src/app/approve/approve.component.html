@@ -212,7 +212,8 @@
                         <div class="col-lg-12 mb-2" style="text-align: center;">
                             <button type="button" class="btn back-btn close" aria-label="Close"
                                 (click)="cancelEditView()">Cancel</button>
-                            <button type="button" class="btn back-btn" style="margin-left: 10px;" (click)="updateBench()">Update</button>
+                            <button type="button" class="btn back-btn" style="margin-left: 10px;"
+                                (click)="updateBench()">Update</button>
                         </div>
 
                     </div>
@@ -334,6 +335,8 @@
                             </th>
                             <th class="v-align" (click)="setOrderRelease('Allocated To')"><span
                                     class="sort-by">Allocated To</span></th>
+                            <th class="v-align" (click)="setOrderRelease('Requested By')"><span
+                                    class="sort-by">Requested By</span></th>
                             <th class="v-align">Remarks</th>
                             <th class="v-align"><input class="form-check-input chcekbox-style" type="checkbox"
                                     id="flexCheckChecked" ngbTooltip="Select / Deselect All" placement="left"
@@ -355,6 +358,7 @@
                             <td>{{data.ToWW | ww: 10}}</td>
                             <td>{{data.Duration}}</td>
                             <td>{{data.AllocatedTo[0]?.Name}}</td>
+                            <td>{{data?.RequestedBy?.[0]?.Name}}</td>
                             <td>{{data.Remarks}}</td>
                             <td>
                                 <input class="form-check-input chcekbox-style" type="checkbox" [checked]="isChecked"

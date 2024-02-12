@@ -31,7 +31,7 @@
                                     <div style="text-align: right;flex:1;padding-right: 10px;">
                                         <i class="fa fa-download  fa-2x chart-icon"
                                             ngbTooltip="Download Forecast Summary Comparison Data"
-                                            (click)="downloadForecastSummary()" aria-hidden="true"
+                                            (click)="downloadForecastSummary();copyclipboard()" aria-hidden="true"
                                             style="color: #9eacb4;font-size: 22px;margin-top: -1px;cursor: pointer;"></i>
                                     </div>
                                     <!--  <i class="fa fa-download  fa-2x chart-icon"
@@ -46,11 +46,19 @@
                                             {{locat}}
                                         </option>
                                     </select>
-                                    <select class="form-select location_select" style="width: 120px;"
+                                    <select class="form-select location_select mr_10" style="width: 120px;"
                                         aria-label="Default select example" [(ngModel)]="preSelectedprogramListSummary"
                                         (change)="onItemProgramSelectedSummary()">
                                         <option selected value="All">All Program</option>
                                         <option *ngFor="let locat of programListForecast?.Program" [ngValue]="locat">
+                                            {{locat}}
+                                        </option>
+                                    </select>
+                                    <select class="form-select location_select" style="width: 120px;"
+                                        aria-label="Default select example" [(ngModel)]="preSelectedSKUListSummary"
+                                        (change)="onItemSKUSelectedSummary()">
+                                        <option selected value="All">All SKU</option>
+                                        <option *ngFor="let locat of summarySKUList" [ngValue]="locat">
                                             {{locat}}
                                         </option>
                                     </select>
@@ -301,6 +309,18 @@
                                         <td style="min-width:50px">{{data.Total_Rack_Intel}}</td>
                                     </ng-container>
                                 </tr>
+                                <tr>
+                                    <td style="min-width:50px;font-weight: bold;" class="border_right">WSE BENCH Allocation </td>
+                                    <ng-container *ngFor="let data of forecastTableSummaryList">
+                                        <td style="min-width:50px">{{data.WSE_BENCH_allocation}}</td>
+                                    </ng-container>
+                                </tr>
+                                <tr>
+                                    <td style="min-width:50px;font-weight: bold;" class="border_right">GAP / Demand </td>
+                                    <ng-container *ngFor="let data of forecastTableSummaryList">
+                                        <td style="min-width:50px">{{data.GAP_Demand}}</td>
+                                    </ng-container>
+                                </tr>
                             </table>
                             <!-- No data available display -->
                             <div class="no_data_block_display_forecastTableSummaryList"
@@ -318,9 +338,12 @@
                 <div class="btn-add-user" style="float: right; display: flex;">
                     <input #fileInput type="file" style="display: none;" onclick="this.value = null"
                         (change)="onFileChange($event);UpdloadForecastDataPopUp(addmodal)" />
-                    <a class="download-template" (click)="fileInput.click()">Upload Forecaste Data</a>
+                    <!-- <a class="download-template" (click)="fileInput.click()">Upload Forecaste Data</a> -->
                     <a class="download-template" href="/assets/Template/Forecast Data Upload Template.xlsx">Download
                         Template</a>
+                    <i class="fa fa-solid fa-upload"
+                        style="font-size: 22px;cursor: pointer;color: #9eacb4;margin-right: 10px;margin-top: 5px;"
+                        aria-hidden="true" (click)="fileInput.click()" ngbTooltip="Upload Forecaste Data"></i>
                     <i class="fa fa-solid fa-download"
                         style="font-size: 22px;cursor: pointer;color: #9eacb4;margin-right: 10px;margin-top: 5px;"
                         ngbTooltip="Download RVP Forecast Data" (click)="fireEvent()"></i>
@@ -682,13 +705,22 @@
                                                 {{locat}}
                                             </option>
                                         </select>
-                                        <select class="form-select location_select" style="width: 120px;"
+                                        <select class="form-select location_select mr_10" style="width: 120px;"
                                             aria-label="Default select example"
                                             [(ngModel)]="preSelectedprogramListComparison"
                                             (change)="onItemProgramSelectedComparison()">
                                             <option selected value="All">All Program</option>
-                                            <option *ngFor="let locat of programListComparison?.Program"
+                                            <option *ngFor="let locat of programListComparisonAll"
                                                 [ngValue]="locat">
+                                                {{locat}}
+                                            </option>
+                                        </select>
+                                        <select class="form-select location_select" style="width: 120px;"
+                                            aria-label="Default select example"
+                                            [(ngModel)]="preSelectedSKUListComparison"
+                                            (change)="onItemSkuSelectedComparison()">
+                                            <option selected value="All">All SKU</option>
+                                            <option *ngFor="let locat of programListComparison?.Sku" [ngValue]="locat">
                                                 {{locat}}
                                             </option>
                                         </select>
@@ -871,6 +903,18 @@
                                             <td style="min-width:50px">{{data.Total_Rack_Intel}}</td>
                                         </ng-container>
                                     </tr>
+                                    <tr>
+                                        <td style="min-width:50px;font-weight: bold;" class="border_right">WSE BENCH Allocation </td>
+                                        <ng-container *ngFor="let data of forecastTableSummaryListFrom">
+                                            <td style="min-width:50px">{{data.WSE_BENCH_allocation}}</td>
+                                        </ng-container>
+                                    </tr>
+                                    <tr>
+                                        <td style="min-width:50px;font-weight: bold;" class="border_right">GAP / Demand </td>
+                                        <ng-container *ngFor="let data of forecastTableSummaryListFrom">
+                                            <td style="min-width:50px">{{data.GAP_Demand}}</td>
+                                        </ng-container>
+                                    </tr>
                                 </table>
                                 <!-- No data available display -->
                                 <div class="no_data_block_display_forecastTableSummaryList"
@@ -1017,6 +1061,18 @@
                                             Required @ Intel </td>
                                         <ng-container *ngFor="let data of forecastTableSummaryListTo">
                                             <td style="min-width:50px">{{data.Total_Rack_Intel}}</td>
+                                        </ng-container>
+                                    </tr>
+                                    <tr>
+                                        <td style="min-width:50px;font-weight: bold;" class="border_right">WSE BENCH Allocation </td>
+                                        <ng-container *ngFor="let data of forecastTableSummaryListTo">
+                                            <td style="min-width:50px">{{data.WSE_BENCH_allocation}}</td>
+                                        </ng-container>
+                                    </tr>
+                                    <tr>
+                                        <td style="min-width:50px;font-weight: bold;" class="border_right">GAP / Demand </td>
+                                        <ng-container *ngFor="let data of forecastTableSummaryListTo">
+                                            <td style="min-width:50px">{{data.GAP_Demand}}</td>
                                         </ng-container>
                                     </tr>
                                 </table>

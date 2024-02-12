@@ -623,6 +623,14 @@ export class SummaryService {
   getTeam() {
     return this.http.get(this.ServiceURL + 'home/GetTeamNames/');
   }
+  getSKUList(data: any) {
+    const serviceUrl = this.ServiceURL + 'home/Skulist/';
+    return this.http.post(serviceUrl, data, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
   saveBooking(data: any) {
     const serviceUrl = this.ServiceURL + 'home/BookBench/';
     return this.http.post(serviceUrl, data, {

@@ -918,6 +918,16 @@ export class VPGLabComponent implements OnInit, OnChanges {
         Team: this.teamName,
 
         Duration: this.duration,
+        RequestedBy: [
+          {
+            WWID: this.userInfo?.wwid,
+            Name: this.userInfo?.name,
+            Email: this.userInfo?.emailId,
+          },
+        ],
+        RequestedDate: '',
+        DeallocatedBy: '',
+        DeallocatedDate: '',
       };
       this.dataSvc.saveBooking(bookingData).subscribe((res) => {
         if (res) {
@@ -1217,23 +1227,55 @@ export class VPGLabComponent implements OnInit, OnChanges {
     //   indentifier: this.modal.user.trim()
     // };
     this.labViewLoader = false;
-    this.dataSvc.getUserDetails(obj).subscribe((res) => {
-      if (res['name'] === null || res['name'] === undefined) {
-        this.labViewLoader = true;
-        this.toastrService.success(
-          'No users found with entered details, Kindly enter correct details!',
-          'Success!'
-        );
-        /*  this.alertService.showWarning(
-          'No users found with entered details, Kindly enter correct details!'
-        ); */
-      } else {
-        this.labViewLoader = true;
-        this.userDetails = res;
-        this.allocatitedTo = res['name'];
+    this.dataSvc.getUserDetails(obj).subscribe(
+      (res) => {
+        debugger;
+        if (res) {
+          if (res['name'] === null || res['name'] === undefined) {
+            this.labViewLoader = true;
+            this.toastrService.warning(
+              'No users found with entered details, Kindly enter correct details!',
+              'Warning'
+            );
+            /*  this.alertService.showWarning(
+            'No users found with entered details, Kindly enter correct details!'
+          ); */
+          } else {
+            this.labViewLoader = true;
+            this.userDetails = res;
+            this.allocatitedTo = res['name'];
+          }
+        } else {
+          this.labViewLoader = true;
+          this.toastrService.warning(
+            'No users found with entered details, Kindly enter correct details!',
+            'Warning'
+          );
+        }
+        //  this.loadRoles();
+      },
+      (error) => {
+        debugger;
+        if (error?.status === 204) {
+          // Handle 204 No Content response
+          //console.log('Received a 204 No Content response.');
+          /* this.toastrService.warning(
+            'Received a 204 No Content response.',
+            'Warning'
+          ); */
+          this.toastrService.warning(
+            'No users found with entered details, Kindly enter correct details!',
+            'Warning'
+          );
+          this.labViewLoader = true;
+        } else {
+          // Handle other errors
+          // console.error('Error:', error);
+          this.labViewLoader = true;
+           this.toastrService.warning(error, 'Warning');
+        }
       }
-      //  this.loadRoles();
-    });
+    );
   }
   notifyUserDetails: any;
   getNotifyUserDetails() {
@@ -1272,21 +1314,54 @@ export class VPGLabComponent implements OnInit, OnChanges {
     //   indentifier: this.modal.user.trim()
     // };
 
-    this.dataSvc.getUserDetails(obj).subscribe((res) => {
-      if (res['name'] === null || res['name'] === undefined) {
-        this.toastrService.success(
-          'No users found with entered details, Kindly enter correct details!',
-          'Success!'
-        );
-        /*  this.alertService.showWarning(
+    this.dataSvc.getUserDetails(obj).subscribe(
+      (res) => {
+        if (res) {
+        if (res['name'] === null || res['name'] === undefined) {
+          this.labViewLoader = true;
+            this.toastrService.warning(
+              'No users found with entered details, Kindly enter correct details!',
+              'Warning'
+            );
+          /*  this.alertService.showWarning(
           'No users found with entered details, Kindly enter correct details!'
         ); */
+        } else {
+          this.labViewLoader = true;
+          this.notifyUserDetails = res;
+          this.notifyTo = res['name'];
+        }
       } else {
-        this.notifyUserDetails = res;
-        this.notifyTo = res['name'];
+        this.labViewLoader = true;
+        this.toastrService.warning(
+          'No users found with entered details, Kindly enter correct details!',
+          'Warning'
+        );
       }
-      //  this.loadRoles();
-    });
+        //  this.loadRoles();
+      },
+      (error) => {
+        debugger;
+        if (error?.status === 204) {
+          // Handle 204 No Content response
+          //console.log('Received a 204 No Content response.');
+          /* this.toastrService.warning(
+            'Received a 204 No Content response.',
+            'Warning'
+          ); */
+          this.toastrService.warning(
+            'No users found with entered details, Kindly enter correct details!',
+            'Warning'
+          );
+          this.labViewLoader = true;
+        } else {
+          // Handle other errors
+          // console.error('Error:', error);
+          this.labViewLoader = true;
+           this.toastrService.warning(error, 'Warning');
+        }
+      }
+    );
   }
   deAllocateBenchList: any = [];
   deAllocateBenchLabelList: any = [];
