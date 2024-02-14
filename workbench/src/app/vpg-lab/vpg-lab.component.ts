@@ -918,6 +918,16 @@ export class VPGLabComponent implements OnInit, OnChanges {
         Team: this.teamName,
 
         Duration: this.duration,
+        RequestedBy: [
+          {
+            WWID: this.userInfo?.wwid,
+            Name: this.userInfo?.name,
+            Email: this.userInfo?.emailId,
+          },
+        ],
+        RequestedDate: '',
+        DeallocatedBy: '',
+        DeallocatedDate: '',
       };
       this.dataSvc.saveBooking(bookingData).subscribe((res) => {
         if (res) {
