@@ -133,6 +133,56 @@ export class HomeComponent implements OnInit {
     // this.vendor = "All";
 
     // this.getSemiPiechart();
+    this.getLabListDetails();
+    this.getLabListDetailsCount();
+  }
+  /* call for 11 lab details total count */
+  labListDetailsCount;
+  dataBind = {
+    Total_Lab: 0,
+    Total_Bench: 0,
+    Total_Non_Siv: 0,
+    Bench_Allocated: 0,
+    Bench_Free: 0,
+    Total_Rack: 0,
+    Total_Closed_Room: 0,
+  };
+  getLabListDetailsCount() {
+    this.service.getLabListDetailsCount().subscribe((res) => {
+      debugger;
+      this.labListDetailsCount = res;
+      this.dataBind = {
+        Total_Lab: this.labListDetailsCount['Total Lab'],
+        Total_Bench: this.labListDetailsCount['Total Bench'],
+        Total_Non_Siv: this.labListDetailsCount['Total Non-Siv'],
+        Bench_Allocated: this.labListDetailsCount['Bench Allocated'],
+        Bench_Free: this.labListDetailsCount['Bench Free'],
+        Total_Rack: this.labListDetailsCount['Total Rack'],
+        Total_Closed_Room: this.labListDetailsCount['Total Closed Room'],
+      };
+      Object.keys(this.labListDetailsCount).forEach((key) => {
+        // console.log(`${key}: ${myObject[key]}`);
+      });
+    });
+  }
+  /* call for 11 lab details */
+  labListDetails;
+  getLabListDetails() {
+    this.service.getLabListDetail().subscribe((res) => {
+      this.labListDetails = res;
+      debugger;
+      this.labListDetails.forEach((item) => {
+        item['Total_Work_Bench'] = item.NonSIVCounts + item.SIVCounts;
+      });
+    });
+  }
+
+  /* download Lab Details List */
+  downloadLabDetailsList() {
+    this.exportService1.downloadLabDetailsList(
+      this.labListDetails,
+      'Lab Details'
+    );
   }
 
   //**** Calling labdetails API for select drop down in labwise program chart ***//
@@ -243,7 +293,7 @@ export class HomeComponent implements OnInit {
           this.ChartData.forEach((element: any, index: any) => {
             debugger;
             if (element.category == 'Free') {
-              this.freeTotal=element?.value;
+              this.freeTotal = element?.value;
               for (let key in element?.Report) {
                 let tempList = element?.Report[key][0];
                 let tempArr: any = [];
@@ -269,7 +319,7 @@ export class HomeComponent implements OnInit {
                 }
               }
             } else if (element.category == 'Non-WSE') {
-              this.nonwseTotal=element?.value;
+              this.nonwseTotal = element?.value;
               for (let key in element?.Report) {
                 let tempList = element?.Report[key][0];
                 let tempArr: any = [];
@@ -296,7 +346,7 @@ export class HomeComponent implements OnInit {
               }
             } else if (element.category == 'Allocated') {
               debugger;
-              this.allocatedTotal=element?.value;
+              this.allocatedTotal = element?.value;
               const groupedData = element?.Report.reduce(
                 (acc: any, obj: any) => {
                   const key = obj.Location__Name;
@@ -366,7 +416,7 @@ export class HomeComponent implements OnInit {
           this.ChartData.forEach((element: any, index: any) => {
             debugger;
             if (element.category == 'Free') {
-              this.freeTotal=element?.value;
+              this.freeTotal = element?.value;
               for (let key in element?.Report) {
                 let tempList = element?.Report[key][0];
                 let tempArr: any = [];
@@ -392,7 +442,7 @@ export class HomeComponent implements OnInit {
                 }
               }
             } else if (element.category == 'Non-WSE') {
-              this.nonwseTotal=element?.value;
+              this.nonwseTotal = element?.value;
               for (let key in element?.Report) {
                 let tempList = element?.Report[key][0];
                 let tempArr: any = [];
@@ -419,7 +469,7 @@ export class HomeComponent implements OnInit {
               }
             } else if (element.category == 'Allocated') {
               debugger;
-              this.allocatedTotal=element?.value;
+              this.allocatedTotal = element?.value;
               const groupedData = element?.Report.reduce(
                 (acc: any, obj: any) => {
                   const key = obj.Location__Name;
@@ -712,49 +762,49 @@ export class HomeComponent implements OnInit {
       this.ChartData.forEach((element: any, index: any) => {
         debugger;
         /* if (element.category == 'Allocated') { */
-          debugger;
-          if(element.category == 'All'){
-            this.allocatedTotal=element?.value;
+        debugger;
+        if (element.category == 'All') {
+          this.allocatedTotal = element?.value;
+        }
+        const groupedData = element?.Report.reduce((acc: any, obj: any) => {
+          const key = obj.Location__Name;
+
+          if (!acc[key]) {
+            acc[key] = [];
           }
-          const groupedData = element?.Report.reduce((acc: any, obj: any) => {
-            const key = obj.Location__Name;
 
-            if (!acc[key]) {
-              acc[key] = [];
-            }
+          acc[key].push(obj);
 
-            acc[key].push(obj);
+          return acc;
+        }, {});
 
-            return acc;
-          }, {});
-
-          console.log(groupedData);
-          for (let k in groupedData) {
-            let Count = 0;
-            groupedData[k].forEach((element: any) => {
-              Count = Count + element?.BenchData?.length;
-            });
-            groupedData[k] = {
-              category: k,
-              value: Count,
-              subdata: [
-                {
-                  category: k,
-                  value: Count,
-                },
-              ],
-            };
-          }
-          console.log(groupedData);
-          element?.breakdown.forEach((elem: any) => {
-            let tempArr: any = [];
-            for (let key in groupedData) {
-              if (key.includes(elem.category)) {
-                tempArr.push(groupedData[key]);
-              }
-            }
-            elem['subdata'] = tempArr;
+        console.log(groupedData);
+        for (let k in groupedData) {
+          let Count = 0;
+          groupedData[k].forEach((element: any) => {
+            Count = Count + element?.BenchData?.length;
           });
+          groupedData[k] = {
+            category: k,
+            value: Count,
+            subdata: [
+              {
+                category: k,
+                value: Count,
+              },
+            ],
+          };
+        }
+        console.log(groupedData);
+        element?.breakdown.forEach((elem: any) => {
+          let tempArr: any = [];
+          for (let key in groupedData) {
+            if (key.includes(elem.category)) {
+              tempArr.push(groupedData[key]);
+            }
+          }
+          elem['subdata'] = tempArr;
+        });
         /* } */
       });
       this.getFullPiechartLocation(totalCount);
@@ -808,55 +858,55 @@ export class HomeComponent implements OnInit {
           totalCount = totalCount + obj[i];
         }
       }
-         //making JSON format for right side bar chart drill down data
-         this.ChartData.forEach((element: any, index: any) => {
-          debugger;
-          /* if (element.category == 'Allocated') { */
-            debugger;
-            if(element.category == 'All'){
-              this.allocatedTotal=element?.value;
-            }
-            const groupedData = element?.Report.reduce((acc: any, obj: any) => {
-              const key = obj.Location__Name;
-  
-              if (!acc[key]) {
-                acc[key] = [];
-              }
-  
-              acc[key].push(obj);
-  
-              return acc;
-            }, {});
-  
-            console.log(groupedData);
-            for (let k in groupedData) {
-              let Count = 0;
-              groupedData[k].forEach((element: any) => {
-                Count = Count + element?.BenchData?.length;
-              });
-              groupedData[k] = {
+      //making JSON format for right side bar chart drill down data
+      this.ChartData.forEach((element: any, index: any) => {
+        debugger;
+        /* if (element.category == 'Allocated') { */
+        debugger;
+        if (element.category == 'All') {
+          this.allocatedTotal = element?.value;
+        }
+        const groupedData = element?.Report.reduce((acc: any, obj: any) => {
+          const key = obj.Location__Name;
+
+          if (!acc[key]) {
+            acc[key] = [];
+          }
+
+          acc[key].push(obj);
+
+          return acc;
+        }, {});
+
+        console.log(groupedData);
+        for (let k in groupedData) {
+          let Count = 0;
+          groupedData[k].forEach((element: any) => {
+            Count = Count + element?.BenchData?.length;
+          });
+          groupedData[k] = {
+            category: k,
+            value: Count,
+            subdata: [
+              {
                 category: k,
                 value: Count,
-                subdata: [
-                  {
-                    category: k,
-                    value: Count,
-                  },
-                ],
-              };
+              },
+            ],
+          };
+        }
+        console.log(groupedData);
+        element?.breakdown.forEach((elem: any) => {
+          let tempArr: any = [];
+          for (let key in groupedData) {
+            if (key.includes(elem.category)) {
+              tempArr.push(groupedData[key]);
             }
-            console.log(groupedData);
-            element?.breakdown.forEach((elem: any) => {
-              let tempArr: any = [];
-              for (let key in groupedData) {
-                if (key.includes(elem.category)) {
-                  tempArr.push(groupedData[key]);
-                }
-              }
-              elem['subdata'] = tempArr;
-            });
-          /* } */
+          }
+          elem['subdata'] = tempArr;
         });
+        /* } */
+      });
       this.getFullPiechart(totalCount, this.typeChart);
       //console.log('stacked chart', this.ChartData);
       //this.getFullPiechart();
@@ -890,49 +940,49 @@ export class HomeComponent implements OnInit {
       this.ChartData.forEach((element: any, index: any) => {
         debugger;
         /* if (element.category == 'Allocated') { */
-          debugger;
-          if(element.category == 'All'){
-            this.allocatedTotal=element?.value;
+        debugger;
+        if (element.category == 'All') {
+          this.allocatedTotal = element?.value;
+        }
+        const groupedData = element?.Report.reduce((acc: any, obj: any) => {
+          const key = obj.Location__Name;
+
+          if (!acc[key]) {
+            acc[key] = [];
           }
-          const groupedData = element?.Report.reduce((acc: any, obj: any) => {
-            const key = obj.Location__Name;
 
-            if (!acc[key]) {
-              acc[key] = [];
-            }
+          acc[key].push(obj);
 
-            acc[key].push(obj);
+          return acc;
+        }, {});
 
-            return acc;
-          }, {});
-
-          console.log(groupedData);
-          for (let k in groupedData) {
-            let Count = 0;
-            groupedData[k].forEach((element: any) => {
-              Count = Count + element?.BenchData?.length;
-            });
-            groupedData[k] = {
-              category: k,
-              value: Count,
-              subdata: [
-                {
-                  category: k,
-                  value: Count,
-                },
-              ],
-            };
-          }
-          console.log(groupedData);
-          element?.breakdown.forEach((elem: any) => {
-            let tempArr: any = [];
-            for (let key in groupedData) {
-              if (key.includes(elem.category)) {
-                tempArr.push(groupedData[key]);
-              }
-            }
-            elem['subdata'] = tempArr;
+        console.log(groupedData);
+        for (let k in groupedData) {
+          let Count = 0;
+          groupedData[k].forEach((element: any) => {
+            Count = Count + element?.BenchData?.length;
           });
+          groupedData[k] = {
+            category: k,
+            value: Count,
+            subdata: [
+              {
+                category: k,
+                value: Count,
+              },
+            ],
+          };
+        }
+        console.log(groupedData);
+        element?.breakdown.forEach((elem: any) => {
+          let tempArr: any = [];
+          for (let key in groupedData) {
+            if (key.includes(elem.category)) {
+              tempArr.push(groupedData[key]);
+            }
+          }
+          elem['subdata'] = tempArr;
+        });
         /* } */
       });
       this.getFullPiechart(totalCount, this.typeChart);
@@ -961,55 +1011,55 @@ export class HomeComponent implements OnInit {
           totalCount = totalCount + obj[i];
         }
       }
-        //making JSON format for right side bar chart drill down data
-        this.ChartData.forEach((element: any, index: any) => {
-          debugger;
-          /* if (element.category == 'Allocated') { */
-            debugger;
-            if(element.category == 'All'){
-              this.allocatedTotal=element?.value;
-            }
-            const groupedData = element?.Report.reduce((acc: any, obj: any) => {
-              const key = obj.Location__Name;
-  
-              if (!acc[key]) {
-                acc[key] = [];
-              }
-  
-              acc[key].push(obj);
-  
-              return acc;
-            }, {});
-  
-            console.log(groupedData);
-            for (let k in groupedData) {
-              let Count = 0;
-              groupedData[k].forEach((element: any) => {
-                Count = Count + element?.BenchData?.length;
-              });
-              groupedData[k] = {
+      //making JSON format for right side bar chart drill down data
+      this.ChartData.forEach((element: any, index: any) => {
+        debugger;
+        /* if (element.category == 'Allocated') { */
+        debugger;
+        if (element.category == 'All') {
+          this.allocatedTotal = element?.value;
+        }
+        const groupedData = element?.Report.reduce((acc: any, obj: any) => {
+          const key = obj.Location__Name;
+
+          if (!acc[key]) {
+            acc[key] = [];
+          }
+
+          acc[key].push(obj);
+
+          return acc;
+        }, {});
+
+        console.log(groupedData);
+        for (let k in groupedData) {
+          let Count = 0;
+          groupedData[k].forEach((element: any) => {
+            Count = Count + element?.BenchData?.length;
+          });
+          groupedData[k] = {
+            category: k,
+            value: Count,
+            subdata: [
+              {
                 category: k,
                 value: Count,
-                subdata: [
-                  {
-                    category: k,
-                    value: Count,
-                  },
-                ],
-              };
+              },
+            ],
+          };
+        }
+        console.log(groupedData);
+        element?.breakdown.forEach((elem: any) => {
+          let tempArr: any = [];
+          for (let key in groupedData) {
+            if (key.includes(elem.category)) {
+              tempArr.push(groupedData[key]);
             }
-            console.log(groupedData);
-            element?.breakdown.forEach((elem: any) => {
-              let tempArr: any = [];
-              for (let key in groupedData) {
-                if (key.includes(elem.category)) {
-                  tempArr.push(groupedData[key]);
-                }
-              }
-              elem['subdata'] = tempArr;
-            });
-          /* } */
+          }
+          elem['subdata'] = tempArr;
         });
+        /* } */
+      });
       this.getFullPiechart(totalCount, this.typeChart);
     });
   }
@@ -1057,9 +1107,9 @@ export class HomeComponent implements OnInit {
 
   // **** Full Pie-Chart Function ****//
   reportData: any;
-  allocatedTotal:any;
-  freeTotal:any;
-  nonwseTotal:any;
+  allocatedTotal: any;
+  freeTotal: any;
+  nonwseTotal: any;
   getFullPiechart(totalCount: any, chartType: any) {
     am5.array.each(am5.registry.rootElements, function (root) {
       if (root?.dom.id == 'chartdiv') {
@@ -1399,7 +1449,7 @@ export class HomeComponent implements OnInit {
             slice.get('fill'),
             false
           ); */
-          this.allocatedTotal=slice.dataItem.dataContext.value;
+          this.allocatedTotal = slice.dataItem.dataContext.value;
           this.reportData = slice.dataItem.dataContext.Report;
           debugger;
           this.reportSummary(this.reportData);
@@ -1467,7 +1517,7 @@ export class HomeComponent implements OnInit {
               columnSeries.data.setAll(categoryData.subdata);
               xAxis.data.setAll(categoryData.subdata);
               yAxis.data.setAll(categoryData.subdata);
-              this.allocatedTotal=categoryData.value;
+              this.allocatedTotal = categoryData.value;
               this.allocatedList = this.allocatedList.filter(
                 (item: any) =>
                   item.Location__Name.toLowerCase().includes(
@@ -1534,7 +1584,7 @@ export class HomeComponent implements OnInit {
             false
           );
  */
-          this.nonwseTotal=slice.dataItem.dataContext.value;
+          this.nonwseTotal = slice.dataItem.dataContext.value;
           this.reportData = slice.dataItem.dataContext.Report;
           debugger;
           this.reportSummary(this.reportData, 'Non-WSE');
@@ -1602,7 +1652,7 @@ export class HomeComponent implements OnInit {
               columnSeries.data.setAll(categoryData.subdata);
               xAxis.data.setAll(categoryData.subdata);
               yAxis.data.setAll(categoryData.subdata);
-              this.nonwseTotal=categoryData.value;
+              this.nonwseTotal = categoryData.value;
               this.nonSIVList = this.nonSIVList.filter(
                 (item: any) =>
                   item.location.toLowerCase() ===
@@ -1626,7 +1676,7 @@ export class HomeComponent implements OnInit {
             am5.color('#0xd7a700'),
             false
           ); */
-          this.allocatedTotal=slice.dataItem.dataContext.value;
+          this.allocatedTotal = slice.dataItem.dataContext.value;
           this.reportData = slice.dataItem.dataContext.Report;
           debugger;
           this.reportSummary(this.reportData, 'Allocated');
@@ -1694,7 +1744,7 @@ export class HomeComponent implements OnInit {
               columnSeries.data.setAll(categoryData.subdata);
               xAxis.data.setAll(categoryData.subdata);
               yAxis.data.setAll(categoryData.subdata);
-              this.allocatedTotal=categoryData.value;
+              this.allocatedTotal = categoryData.value;
               this.allocatedList = this.allocatedList.filter(
                 (item: any) =>
                   item.Location__Name.toLowerCase().includes(
@@ -1723,7 +1773,7 @@ export class HomeComponent implements OnInit {
             am5.color('#0x68ad5c'),
             false
           ); */
-          this.freeTotal=slice.dataItem.dataContext.value;
+          this.freeTotal = slice.dataItem.dataContext.value;
           this.reportData = slice.dataItem.dataContext.Report;
           debugger;
           this.reportSummary(this.reportData, 'Free');
@@ -1791,7 +1841,7 @@ export class HomeComponent implements OnInit {
               columnSeries.data.setAll(categoryData.subdata);
               xAxis.data.setAll(categoryData.subdata);
               yAxis.data.setAll(categoryData.subdata);
-              this.freeTotal=categoryData.value;
+              this.freeTotal = categoryData.value;
               this.freeList = this.freeList.filter(
                 (item: any) =>
                   item.location.toLowerCase() ===
@@ -2291,7 +2341,7 @@ export class HomeComponent implements OnInit {
         if (columnChart.series.length >= 1) {
           columnChart.series.clear();
         }
-       /*  createSeries(
+        /*  createSeries(
           'value',
           'value',
           slice.dataItem.dataContext.breakdown,
@@ -2299,82 +2349,82 @@ export class HomeComponent implements OnInit {
           false
         ); */
         // Add series
-      // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-      let allBoolean = false;
-      let columnSeries = columnChart.series.push(
-        am5xy.ColumnSeries.new(root, {
-          name: 'value',
-          xAxis: xAxis,
-          yAxis: yAxis,
-          stacked: true,
-          valueXField: 'value',
-          categoryYField: 'category',
-          // reverseChildren: true
-        })
-      );
+        // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+        let allBoolean = false;
+        let columnSeries = columnChart.series.push(
+          am5xy.ColumnSeries.new(root, {
+            name: 'value',
+            xAxis: xAxis,
+            yAxis: yAxis,
+            stacked: true,
+            valueXField: 'value',
+            categoryYField: 'category',
+            // reverseChildren: true
+          })
+        );
 
-      //Bar chart Tooltip text
-      columnSeries.columns.template.setAll({
-        tooltipText: '{name}: {valueX}',
-        /* tooltipText: "{categoryY}: {name} - {valueX}", */
-        // minHeight: 150
-      });
-      if (allBoolean == false) {
-        //Bar chart bullet
-        columnSeries.bullets.push(function () {
-          return am5.Bullet.new(root, {
-            locationX: 1,
-            locationY: 0.5,
-            sprite: am5.Label.new(root, {
-              text: '{valueX}',
-              // fill: root.interfaceColors.get("alternativeText"),
-              centerY: am5.p50,
-              // centerX: am5.p50,
-              populateText: true,
-              fill: am5.color('#000000'),
-            }),
-          });
+        //Bar chart Tooltip text
+        columnSeries.columns.template.setAll({
+          tooltipText: '{name}: {valueX}',
+          /* tooltipText: "{categoryY}: {name} - {valueX}", */
+          // minHeight: 150
         });
-      } else {
-        columnSeries.bullets.push(function () {
-          return am5.Bullet.new(root, {
-            sprite: am5.Label.new(root, {
-              text: '{valueX}',
-              fill: root.interfaceColors.get('alternativeText'),
-              centerY: am5.p50,
-              centerX: am5.p50,
-              populateText: true,
-            }),
+        if (allBoolean == false) {
+          //Bar chart bullet
+          columnSeries.bullets.push(function () {
+            return am5.Bullet.new(root, {
+              locationX: 1,
+              locationY: 0.5,
+              sprite: am5.Label.new(root, {
+                text: '{valueX}',
+                // fill: root.interfaceColors.get("alternativeText"),
+                centerY: am5.p50,
+                // centerX: am5.p50,
+                populateText: true,
+                fill: am5.color('#000000'),
+              }),
+            });
           });
+        } else {
+          columnSeries.bullets.push(function () {
+            return am5.Bullet.new(root, {
+              sprite: am5.Label.new(root, {
+                text: '{valueX}',
+                fill: root.interfaceColors.get('alternativeText'),
+                centerY: am5.p50,
+                centerX: am5.p50,
+                populateText: true,
+              }),
+            });
+          });
+        }
+
+        // let color = slice.get("fill")
+        columnSeries.columns.template.setAll({
+          fill: slice.get('fill'),
+          stroke: slice.get('fill'),
         });
-      }
 
-      // let color = slice.get("fill")
-      columnSeries.columns.template.setAll({
-        fill: slice.get('fill'),
-        stroke: slice.get('fill'),
-      });
-
-      columnSeries.columns.template.events.on('click', (ev) => {
-        debugger;
-        const categoryData: any = ev.target.dataItem.dataContext;
-        if (categoryData.subdata != undefined) {
-          columnSeries.data.setAll(categoryData.subdata);
-          xAxis.data.setAll(categoryData.subdata);
-          yAxis.data.setAll(categoryData.subdata);
-        /*   this.freeList = this.freeList.filter(
+        columnSeries.columns.template.events.on('click', (ev) => {
+          debugger;
+          const categoryData: any = ev.target.dataItem.dataContext;
+          if (categoryData.subdata != undefined) {
+            columnSeries.data.setAll(categoryData.subdata);
+            xAxis.data.setAll(categoryData.subdata);
+            yAxis.data.setAll(categoryData.subdata);
+            /*   this.freeList = this.freeList.filter(
             (item: any) =>
               item.location.toLowerCase() ===
                 categoryData.category.toLowerCase() ||
               item.lab.toLowerCase() === categoryData.category.toLowerCase()
           ); */
-          // filterData(categoryData.category);
-          columnSeries.appear();
-        }
-      });
+            // filterData(categoryData.category);
+            columnSeries.appear();
+          }
+        });
 
-      columnSeries.data.setAll(slice.dataItem.dataContext.breakdown);
-     // return columnSeries;
+        columnSeries.data.setAll(slice.dataItem.dataContext.breakdown);
+        // return columnSeries;
       }
 
       /*   columnSeries.columns.template.setAll({

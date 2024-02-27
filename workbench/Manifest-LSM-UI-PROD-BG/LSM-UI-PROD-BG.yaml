@@ -9,4 +9,4 @@
   - route: LabSpace.apps1-bg-int.icloud.intel.com
   buildpacks: 
   - staticfile_buildpack
-  stack: cflinuxfs3
+  stack: cflinuxfs4

@@ -467,6 +467,26 @@ export class SearchApprovedBy implements PipeTransform {
 }
 
 @Pipe({
+  name: 'searchFilterRequestedBy',
+  pure: false,
+})
+export class SearchRequestedBy implements PipeTransform {
+  transform(value: any, args?: any): any {
+    if (!args) {
+      return value;
+    }
+    return value.filter((val: any) => {
+      return val.RequestedBy === null
+        ? val.RequestedBy
+        : val.RequestedBy[0].Name.toString()
+            .trim()
+            .toLowerCase()
+            .includes(args.toString().trim().toLowerCase());
+    });
+  }
+}
+
+@Pipe({
   name: 'searchFilterDetails',
   pure: false,
 })

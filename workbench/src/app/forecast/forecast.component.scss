@@ -408,7 +408,8 @@ td div:not([hidden]):hover {
 #chartdiv1,
 #chartdiv2,
 #chartdiv4,
-#chartdiv5 {
+#chartdiv5,
+#chartdiv6 {
     width: 100%;
     height: 40rem;
 }
@@ -1740,7 +1741,7 @@ thead {
     background-color: #f8f9fa;
     /* Set the background color for the fixed header */
 }
-.mr_10{
+
+.mr_10 {
     margin-right: 10px;
 }
-

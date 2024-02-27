@@ -24,6 +24,7 @@ export class ReportComponent implements OnInit {
   searchDuration = '';
   searchRemarks = '';
   searchApprovedBy = '';
+  searchRequestedBy = '';
   searchBenchDetails = '';
   reportData: any;
   reportDataAll: any;
@@ -240,6 +241,16 @@ export class ReportComponent implements OnInit {
                 .includes(
                   this.searchApprovedBy.toString().trim().toLowerCase()
                 );
+        });
+      }
+      if (this.searchRequestedBy != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.RequestedBy[0].Name === null
+            ? val.RequestedBy[0].Name
+            : val.RequestedBy[0].Name.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchRequestedBy.toString().trim().toLowerCase());
         });
       }
       console.log(filteredData);
@@ -519,6 +530,16 @@ export class ReportComponent implements OnInit {
                 .includes(
                   this.searchApprovedBy.toString().trim().toLowerCase()
                 );
+        });
+      }
+      if (this.searchRequestedBy != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.RequestedBy?.[0].Name === null
+            ? val.RequestedBy?.[0].Name
+            : val.RequestedBy?.[0].Name.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchRequestedBy.toString().trim().toLowerCase());
         });
       }
       console.log(filteredData);

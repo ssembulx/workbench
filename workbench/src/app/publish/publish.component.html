@@ -1,7 +1,114 @@
-<div class="publish">
-  <div class="content">
-      <div class="block_display">
-          <h2 class="mt-2">Under Development</h2>
+<div class="users">
+  <div class="content p-0">
+    <div class="user-content">
+      <!-- Summary -->
+      <div class="col-12">
+        <div class="content p-0 m-0" style=" width: 100%;">
+          <div class="row charts-content">
+            <div class="btn-add-user">
+              <!-- <button class="btn add-btn" style="margin-right: 5px;" (click)="AddRow(addmodal)">New BroadCast
+                Mail</button> -->
+              <i class="fa fa-solid fa-plus  fa-2x chart-icon" ngbTooltip="New BroadCast Mail"
+                (click)="AddRow(addmodal)" aria-hidden="true" placement="left"
+                style="color: #9eacb4;font-size: 22px;cursor: pointer;margin-right: 10px;"></i>
+              <i class="fa fa-download  fa-2x chart-icon" ngbTooltip="Download Broadcast Summary Data"
+                (click)="downloadData()" aria-hidden="true" style="color: #9eacb4;font-size: 22px;cursor: pointer;"></i>
+            </div>
+            <!--  <div style="text-align: right;flex:1;padding-right: 10px;">
+              <i class="fa fa-download  fa-2x chart-icon" ngbTooltip="Download Broadcast Summary Data"
+                (click)="downloadData()" aria-hidden="true"
+                style="color: #9eacb4;font-size: 22px;margin-top: -1px;cursor: pointer;"></i>
+            </div> -->
+            <table class="table table-bordered user-table mt-2" *ngIf="broadcastList">
+              <thead>
+                <tr style="text-align: center;">
+                  <th class="v-align" style="width:5%;">SL NO.</th>
+                  <th class="v-align" style="width:15%;">Subject</th>
+                  <th class="v-align" style="width:25%;">Content</th>
+                  <th class="v-align" style="width:15%;">BroadCast By</th>
+                  <th class="v-align" style="width:30%;">User Mail List</th>
+                  <th class="v-align" style="width:10%;">Created Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="text-align: center;" *ngFor="let data of broadcastList  ; let i=index">
+                  <td style="width:5%;">{{(i+1)}}</td>
+                  <td style="width:15%;">{{data.Subject}}</td>
+                  <td style="width:25%;">{{data.Content}}</td>
+                  <td style="width:15%;">{{data.BroadCast_by}}
+                  <td style="text-align: left;width:30%;">
+                    <div [ngClass]="{'read-more': !data.showFull}">{{data.User_mail_list}}</div>
+
+                    <a (click)="toggleReadMore(data)" class="show-more">
+                      {{ data.showFull ? 'Read Less' : '...Read More' }}
+                    </a>
+                  </td>
+                  <td style="width:10%;">{{data.CreatedDate}}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- No data available display -->
+            <div class="no_data_block_display_allocatedAPICall" *ngIf='broadcastList?.length == 0'>
+              <h2 class="mt-2">No Data Available</h2>
+            </div>
+          </div>
+          <br />
+        </div>
       </div>
+    </div>
   </div>
 </div>
+
+<!-- loader -->
+<div class="overlay-main-lab" *ngIf="!labwiseChartLoader">
+  <div class="spinner-container-lab">
+
+    <div class="spinner">
+      <div class="rect1"></div>
+      <div class="rect2"></div>
+      <div class="rect3"></div>
+      <div class="rect4"></div>
+      <div class="rect5"></div>
+      <div class="rect6"></div>
+      <div class="rect7"></div>
+      <div class="rect8"></div>
+      <div class="rect9"></div>
+    </div>
+    <div class="proccessing-text">Loading ...</div>
+  </div>
+</div>
+
+
+<!-- =========***** Modal popup for add user*****=============-->
+<ng-template #addmodal let-c="close" let-d="dismiss">
+  <div class="modal-add">
+    <div class="modal-header">
+      <h1 class="modal-title fs-5" id="testModalLabel"><i class="fas fa-envelope"></i>&nbsp; New BroadCast Mail
+      </h1>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <i class='fas fa-times'></i></button>
+    </div>
+    <div class="modal-body">
+      <table class="table table-bordered user-table">
+        <tbody>
+          <tr>
+            <td style="width: 30%;">Broadcast Subject</td>
+            <td>
+              <input type="text" class="text-box" [(ngModel)]="Subject">
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 30%;">Broadcast Content</td>
+            <td><textarea type="text" class="text-box" [(ngModel)]="Content"></textarea></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
+      <button type="button" class="btn back-btn" (click)="AddUser()"
+        [disabled]="Subject =='' && Content ==''">Publish</button>
+    </div>
+  </div>
+</ng-template>

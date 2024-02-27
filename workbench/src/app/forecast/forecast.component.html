@@ -31,7 +31,7 @@
                                     <div style="text-align: right;flex:1;padding-right: 10px;">
                                         <i class="fa fa-download  fa-2x chart-icon"
                                             ngbTooltip="Download Forecast Summary Comparison Data"
-                                            (click)="downloadForecastSummary();copyclipboard()" aria-hidden="true"
+                                            (click)="downloadForecastSummary()" aria-hidden="true"
                                             style="color: #9eacb4;font-size: 22px;margin-top: -1px;cursor: pointer;"></i>
                                     </div>
                                     <!--  <i class="fa fa-download  fa-2x chart-icon"
@@ -310,13 +310,15 @@
                                     </ng-container>
                                 </tr>
                                 <tr>
-                                    <td style="min-width:50px;font-weight: bold;" class="border_right">WSE BENCH Allocation </td>
+                                    <td style="min-width:50px;font-weight: bold;" class="border_right">WSE BENCH
+                                        Allocation </td>
                                     <ng-container *ngFor="let data of forecastTableSummaryList">
                                         <td style="min-width:50px">{{data.WSE_BENCH_allocation}}</td>
                                     </ng-container>
                                 </tr>
                                 <tr>
-                                    <td style="min-width:50px;font-weight: bold;" class="border_right">GAP / Demand </td>
+                                    <td style="min-width:50px;font-weight: bold;" class="border_right">GAP / Demand
+                                    </td>
                                     <ng-container *ngFor="let data of forecastTableSummaryList">
                                         <td style="min-width:50px">{{data.GAP_Demand}}</td>
                                     </ng-container>
@@ -710,8 +712,7 @@
                                             [(ngModel)]="preSelectedprogramListComparison"
                                             (change)="onItemProgramSelectedComparison()">
                                             <option selected value="All">All Program</option>
-                                            <option *ngFor="let locat of programListComparisonAll"
-                                                [ngValue]="locat">
+                                            <option *ngFor="let locat of programListComparisonAll" [ngValue]="locat">
                                                 {{locat}}
                                             </option>
                                         </select>
@@ -904,13 +905,15 @@
                                         </ng-container>
                                     </tr>
                                     <tr>
-                                        <td style="min-width:50px;font-weight: bold;" class="border_right">WSE BENCH Allocation </td>
+                                        <td style="min-width:50px;font-weight: bold;" class="border_right">WSE BENCH
+                                            Allocation </td>
                                         <ng-container *ngFor="let data of forecastTableSummaryListFrom">
                                             <td style="min-width:50px">{{data.WSE_BENCH_allocation}}</td>
                                         </ng-container>
                                     </tr>
                                     <tr>
-                                        <td style="min-width:50px;font-weight: bold;" class="border_right">GAP / Demand </td>
+                                        <td style="min-width:50px;font-weight: bold;" class="border_right">GAP / Demand
+                                        </td>
                                         <ng-container *ngFor="let data of forecastTableSummaryListFrom">
                                             <td style="min-width:50px">{{data.GAP_Demand}}</td>
                                         </ng-container>
@@ -1064,13 +1067,15 @@
                                         </ng-container>
                                     </tr>
                                     <tr>
-                                        <td style="min-width:50px;font-weight: bold;" class="border_right">WSE BENCH Allocation </td>
+                                        <td style="min-width:50px;font-weight: bold;" class="border_right">WSE BENCH
+                                            Allocation </td>
                                         <ng-container *ngFor="let data of forecastTableSummaryListTo">
                                             <td style="min-width:50px">{{data.WSE_BENCH_allocation}}</td>
                                         </ng-container>
                                     </tr>
                                     <tr>
-                                        <td style="min-width:50px;font-weight: bold;" class="border_right">GAP / Demand </td>
+                                        <td style="min-width:50px;font-weight: bold;" class="border_right">GAP / Demand
+                                        </td>
                                         <ng-container *ngFor="let data of forecastTableSummaryListTo">
                                             <td style="min-width:50px">{{data.GAP_Demand}}</td>
                                         </ng-container>
@@ -1083,6 +1088,36 @@
                                 </div>
                             </div>
 
+                        </div>
+                        <br />
+                    </div>
+                    <!-- all year Comparison -->
+                    <div class="content p-0 m-0" style=" width: 100%;">
+                        <div class="row charts-content col-12">
+
+                            <!-- ******* Semi circle pie chart ******* -->
+                            <div class="semi-pie-chart col-12 mb-0" #fullscreenPie>
+                                <div>
+                                    <div class="chart-style">
+                                        <div class="caption">
+                                            <i class="fa fa-chart-bar fa-2x chart-icon"></i>
+                                            <span class="chart-heading">Forecast Summary Comparison</span>
+                                        </div>
+                                        <i class="fa fa-download  fa-2x chart-icon"
+                                            ngbTooltip="Download Forecast Summary Comparison Data"
+                                            (click)="downloadForecastSummaryComparisonAllYear()" aria-hidden="true"
+                                            style="color: #9eacb4;font-size: 22px;margin-top: -1px;margin-left: 72%;cursor: pointer;"></i>
+                                        <!--  <i class="fa fa-download  fa-2x chart-icon" aria-hidden="true"
+                                        style="color: #9eacb4;font-size: 22px;margin-top: -1px;margin-left: 7px;cursor: pointer;"></i> -->
+                                    </div>
+                                </div>
+
+                                <hr class="box-hr">
+
+                                <!-- ******* Labwise chart table view *******  -->
+                                <div id="chartdiv6"></div>
+
+                            </div>
                         </div>
                         <br />
                     </div>

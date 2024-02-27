@@ -7,6 +7,72 @@ import { Injectable } from '@angular/core';
 })
 export class ExportService {
   constructor() {}
+  downloadBroadcastSummary(jsonData: any[], fileName: string) {
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Report Data');
+    let testcaseData = jsonData;
+
+    let headerNameList = [
+      'Subject',
+      'Content',
+      'BroadCast By',
+      'Created Date',
+      'User Mail List',
+    ];
+    // let headerRow = worksheet.addRow(headerNameList);
+    worksheet.addRow(headerNameList);
+
+    testcaseData.forEach((item: any) => {
+      let rowList = [
+        item.Subject,
+        item.Content,
+        item.BroadCast_by,
+        item.CreatedDate,
+        item.User_mail_list,
+      ];
+      const row = worksheet.addRow(rowList);
+    }),
+      workbook.xlsx.writeBuffer().then((data: any) => {
+        let blob = new Blob([data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        FileSaver(blob, fileName);
+      });
+  }
+  downloadLabDetailsList(jsonData: any[], fileName: string) {
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Report Data');
+    let testcaseData = jsonData;
+
+    let headerNameList = [
+      'Location',
+      'Total Work Bench',
+      'Non WSE Counts',
+      'WSE Allocated',
+      'WSE Free',
+      'WSE Counts',
+    ];
+    // let headerRow = worksheet.addRow(headerNameList);
+    worksheet.addRow(headerNameList);
+
+    testcaseData.forEach((item: any) => {
+      let rowList = [
+        item.Name,
+        item.Total_Work_Bench,
+        item.NonSIVCounts,
+        item.SIVAllocated,
+        item.SIVFree,
+        item.SIVCounts,
+      ];
+      const row = worksheet.addRow(rowList);
+    }),
+      workbook.xlsx.writeBuffer().then((data: any) => {
+        let blob = new Blob([data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        FileSaver(blob, fileName);
+      });
+  }
 
   exportExcel(jsonData: any[], fileName: string) {
     let workbook = new Workbook();
@@ -26,6 +92,8 @@ export class ExportService {
       'To WW',
       'Duration',
       'Remarks',
+      'Approved By',
+      'Requested By',
       'Status',
     ];
     // let headerRow = worksheet.addRow(headerNameList);
@@ -45,6 +113,8 @@ export class ExportService {
         item.ToWW,
         item.Duration,
         item.Remarks,
+        item.approvedBy,
+        item.RequestedBy?.[0]?.Name,
         item.status,
       ];
       const row = worksheet.addRow(rowList);
@@ -77,6 +147,8 @@ export class ExportService {
       'Remarks',
       'Deallocated By',
       'Deallocated Date',
+      'Approved By',
+      'Requested By',
       'Status',
     ];
     // let headerRow = worksheet.addRow(headerNameList);
@@ -98,6 +170,8 @@ export class ExportService {
         item.Remarks,
         item.DeallocatedBy,
         item.DeallocatedDate,
+        item.approvedBy,
+        item.RequestedBy?.[0]?.Name,
         item.status,
       ];
       const row = worksheet.addRow(rowList);
@@ -133,6 +207,8 @@ export class ExportService {
       'Rejected By',
       'Rejected Date',
       'Rejected Reason',
+      'Approved By',
+      'Requested By',
       'Status',
     ];
     // let headerRow = worksheet.addRow(headerNameList);
@@ -157,6 +233,8 @@ export class ExportService {
         item.RejectedBy,
         item.RejectedDate,
         item.Reason,
+        item.approvedBy,
+        item.RequestedBy?.[0]?.Name,
         item.status,
       ];
       const row = worksheet.addRow(rowList);
@@ -190,6 +268,8 @@ export class ExportService {
       'Rejected By',
       'Rejected Date',
       'Rejected Reason',
+      'Approved By',
+      'Requested By',
       'Status',
     ];
     // let headerRow = worksheet.addRow(headerNameList);
@@ -212,6 +292,8 @@ export class ExportService {
         item.RejectedBy,
         item.RejectedDate,
         item.Reason,
+        item.approvedBy,
+        item.RequestedBy?.[0]?.Name,
         item.status,
       ];
       const row = worksheet.addRow(rowList);
@@ -540,6 +622,57 @@ export class ExportService {
         FileSaver(blob, fileName);
       });
   }
+  downloadForecastSummaryComparisonAllYear(
+    jsonData: any[],
+    fileName: string,
+    header: any
+  ) {
+    debugger;
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Report Data');
+    let testcaseData = jsonData;
+
+    let headerNameList = header;
+    // let headerRow = worksheet.addRow(headerNameList);
+    const HeaderRowOutlet = worksheet.addRow(headerNameList);
+    HeaderRowOutlet.eachCell((cell, index) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '0072C5' },
+        bgColor: { argb: 'FFFFFFFF' },
+      };
+      cell.border = {
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' },
+      };
+      cell.font = { size: 12, bold: true, color: { argb: 'ffffff' } };
+      cell.alignment = { vertical: 'bottom', horizontal: 'center' };
+      worksheet.getColumn(index).width =
+        headerNameList[index - 1].length < 20
+          ? 20
+          : headerNameList.length[index - 1];
+    });
+    testcaseData.forEach((item: any) => {
+      let rowList = [];
+      header.forEach((element) => {
+        if (element == 'Category') {
+          rowList.push(item['category']);
+        } else {
+          rowList.push(item[element]);
+        }
+      });
+      const row = worksheet.addRow(rowList);
+    }),
+      workbook.xlsx.writeBuffer().then((data: any) => {
+        let blob = new Blob([data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        FileSaver(blob, fileName);
+      });
+  }
   downloadForecastSummaryYearComparison(jsonData: any[], fileName: string) {
     debugger;
     let workbook = new Workbook();
@@ -585,7 +718,13 @@ export class ExportService {
     let worksheet = workbook.addWorksheet('Report Data');
     let testcaseData = jsonData;
 
-    let headerNameList = ['Category', 'Planned', 'Actual', 'Actual Utilization %','Utilization %'];
+    let headerNameList = [
+      'Category',
+      'Planned',
+      'Actual',
+      'Actual Utilization %',
+      'Utilization %',
+    ];
     // let headerRow = worksheet.addRow(headerNameList);
     const HeaderRowOutlet = worksheet.addRow(headerNameList);
     HeaderRowOutlet.eachCell((cell, index) => {
@@ -609,7 +748,13 @@ export class ExportService {
           : headerNameList.length[index - 1];
     });
     testcaseData.forEach((item: any) => {
-      let rowList = [item.category, item.Planned, item.Actual, item.Actual_Utilization_Percentage,item.Utilization_Percentage];
+      let rowList = [
+        item.category,
+        item.Planned,
+        item.Actual,
+        item.Actual_Utilization_Percentage,
+        item.Utilization_Percentage,
+      ];
       const row = worksheet.addRow(rowList);
     }),
       workbook.xlsx.writeBuffer().then((data: any) => {
@@ -648,7 +793,12 @@ export class ExportService {
           : headerNameList.length[index - 1];
     });
     testcaseData.forEach((item: any) => {
-      let rowList = [item.category, item.Planned, item.Actual, item.Utilization];
+      let rowList = [
+        item.category,
+        item.Planned,
+        item.Actual,
+        item.Utilization,
+      ];
       const row = worksheet.addRow(rowList);
     }),
       workbook.xlsx.writeBuffer().then((data: any) => {

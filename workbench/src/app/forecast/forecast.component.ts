@@ -55,7 +55,8 @@ export class ForecastComponent implements OnInit {
     private modalService: NgbModal,
     @Inject(ElementRef) elementRef: ElementRef,
     public activeModal: NgbActiveModal,
-    private ExportService: ExportService
+    private ExportService: ExportService,
+    private ExcelService: ExcelService
   ) {
     // Get the current year
     this.preSelectedYear = new Date().getFullYear();
@@ -88,50 +89,10 @@ export class ForecastComponent implements OnInit {
   teamList: any;
   boardList: any;
   copyclipboard() {
-    /* const image = document.getElementById('chartdiv');
-    this.clipboard.copy(image);
-    alert('Image copied to clipboard!'); */
     debugger;
-    // Assume you have an image element with the id "myImage"
-    const imageElement = document.getElementById(
-      'chartdiv'
-    ) as HTMLImageElement;
-
-    // Create a canvas element
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
-
-    // Set canvas dimensions equal to the image dimensions
-    canvas.width = imageElement?.clientWidth;
-    canvas.height = imageElement?.clientHeight;
-    // Create a temporary image element
-    const image = new Image();
-
-    // Set the source of the image to a data URL representing the div content
-    image.src =
-      'data:image/svg+xml,' +
-      encodeURIComponent(new XMLSerializer().serializeToString(imageElement));
-
-    // Wait for the image to load
-    //image.onload = () => {
-    // Draw the image onto the canvas
-    context.drawImage(image, 0, 0);
-
-    // Convert the canvas content to a Blob
-    canvas.toBlob((blob) => {
-      if (blob) {
-        // Use the Clipboard API to copy the Blob to the clipboard
-        navigator.clipboard
-          .write([new ClipboardItem({ 'image/png': blob })])
-          .then(() => {
-            console.log('Image copied to clipboard successfully!');
-          })
-          .catch((err) => {
-            console.error('Error copying image to clipboard:', err);
-          });
-      }
-    }, 'image/png');
-    //};
+    const divElement = document.getElementById('chartdiv');
+    const base64String = divElement.getAttribute('data-base64');
+    const decodedBase64String = atob(base64String);
   }
   /* onchange program dropdown */
   onChangeProgram(value: any) {
@@ -507,6 +468,14 @@ export class ForecastComponent implements OnInit {
   }
   onItemSelectedAddForecast() {
     this.getBoardList();
+    this.searchProgram = '';
+    this.searchSku = '';
+    this.searchTeam = '';
+    this.searchVendor = '';
+    this.hideTestTrendSearchProgram();
+    this.hideTestTrendSearchProgramSKU();
+    this.hideTestTrendSearchTeam();
+    this.hideTestTrendSearchVendor();
   }
   /* comapre tab year change event */
   preSelectedYearCompareFrom = '';
@@ -636,8 +605,10 @@ export class ForecastComponent implements OnInit {
     ) {
       this.formatedComparisonData = [];
       this.formatedComparisonYearData = [];
-      let fromYearTotal = 0;
-      let toYearTotal = 0;
+      let fromYearTotalIntel = 0;
+      let fromYearTotalODC = 0;
+      let toYearTotalIntel = 0;
+      let toYearTotalODC = 0;
       /* month wise data creation */
       this.fromAllocatedList[this.preSelectedYearCompareFrom].forEach(
         (element, index) => {
@@ -654,16 +625,22 @@ export class ForecastComponent implements OnInit {
           obj[this.preSelectedYearCompareTo + '_' + 'Ramp'] =
             this.toAllocatedList[this.preSelectedYearCompareTo][index].intel +
             this.toAllocatedList[this.preSelectedYearCompareTo][index].ODC;
-          fromYearTotal += element.intel + element.ODC;
+          /* fromYearTotal += element.intel + element.ODC;
           toYearTotal +=
             this.toAllocatedList[this.preSelectedYearCompareTo][index].intel +
+            this.toAllocatedList[this.preSelectedYearCompareTo][index].ODC; */
+          fromYearTotalIntel += element.intel;
+          fromYearTotalODC += element.ODC;
+          toYearTotalIntel +=
+            this.toAllocatedList[this.preSelectedYearCompareTo][index].intel;
+          toYearTotalODC +=
             this.toAllocatedList[this.preSelectedYearCompareTo][index].ODC;
           this.formatedComparisonData.push(obj);
         }
       );
       /* year data creation */
       if (this.preSelectedCompOptionList == 'Total') {
-        let objYear = {};
+        /* let objYear = {};
         objYear['category'] = this.preSelectedYearCompareFrom.toString();
         objYear['value'] = this.fromAllocatedList?.TotalBoard;
         this.formatedComparisonYearData.push(objYear);
@@ -672,15 +649,53 @@ export class ForecastComponent implements OnInit {
         objYear['value'] = this.toAllocatedList?.TotalBoard;
         this.formatedComparisonYearData.push(objYear);
         console.log('Year Data', this.formatedComparisonYearData);
-        console.log('Data', this.formatedComparisonData);
-      } else if (this.preSelectedCompOptionList == 'Average') {
+        console.log('Data', this.formatedComparisonData); */
         let objYear = {};
         objYear['category'] = this.preSelectedYearCompareFrom.toString();
-        objYear['value'] = Math.round(fromYearTotal / 12);
+        objYear['intel'] = this.formatedComparisonData.reduce(
+          (max, obj) =>
+            obj[this.preSelectedYearCompareFrom + '_' + 'intel'] > max
+              ? obj[this.preSelectedYearCompareFrom + '_' + 'intel']
+              : max,
+          -Infinity
+        );
+        objYear['ODC'] = this.formatedComparisonData.reduce(
+          (max, obj) =>
+            obj[this.preSelectedYearCompareFrom + '_' + 'ODC'] > max
+              ? obj[this.preSelectedYearCompareFrom + '_' + 'ODC']
+              : max,
+          -Infinity
+        );
         this.formatedComparisonYearData.push(objYear);
         objYear = {};
         objYear['category'] = this.preSelectedYearCompareTo.toString();
-        objYear['value'] = Math.round(toYearTotal / 12);
+        objYear['intel'] = this.formatedComparisonData.reduce(
+          (max, obj) =>
+            obj[this.preSelectedYearCompareTo + '_' + 'intel'] > max
+              ? obj[this.preSelectedYearCompareTo + '_' + 'intel']
+              : max,
+          -Infinity
+        );
+        objYear['ODC'] = this.formatedComparisonData.reduce(
+          (max, obj) =>
+            obj[this.preSelectedYearCompareTo + '_' + 'ODC'] > max
+              ? obj[this.preSelectedYearCompareTo + '_' + 'ODC']
+              : max,
+          -Infinity
+        );
+        this.formatedComparisonYearData.push(objYear);
+      } else if (this.preSelectedCompOptionList == 'Average') {
+        let objYear = {};
+        objYear['category'] = this.preSelectedYearCompareFrom.toString();
+        //objYear['value'] = Math.round(fromYearTotal / 12);
+        objYear['intel'] = Math.round(fromYearTotalIntel / 12);
+        objYear['ODC'] = Math.round(fromYearTotalODC / 12);
+        this.formatedComparisonYearData.push(objYear);
+        objYear = {};
+        objYear['category'] = this.preSelectedYearCompareTo.toString();
+        // objYear['value'] = Math.round(toYearTotal / 12);
+        objYear['intel'] = Math.round(toYearTotalIntel / 12);
+        objYear['ODC'] = Math.round(toYearTotalODC / 12);
         this.formatedComparisonYearData.push(objYear);
         console.log('Year Data', this.formatedComparisonYearData);
         console.log('Data', this.formatedComparisonData);
@@ -695,17 +710,52 @@ export class ForecastComponent implements OnInit {
             element[this.preSelectedYearCompareTo + '_' + 'Ramp']
           );
         });
-        let objYear = {};
+        /* let objYear = {};
         objYear['category'] = this.preSelectedYearCompareFrom.toString();
         objYear['value'] = Math.min(...fromYearList);
         this.formatedComparisonYearData.push(objYear);
         objYear = {};
         objYear['category'] = this.preSelectedYearCompareTo.toString();
         objYear['value'] = Math.min(...toYearList);
+        this.formatedComparisonYearData.push(objYear); */
+        let objYear = {};
+        objYear['category'] = this.preSelectedYearCompareFrom.toString();
+        objYear['intel'] = this.formatedComparisonData.reduce(
+          (min, obj) =>
+            obj[this.preSelectedYearCompareFrom + '_' + 'intel'] < min
+              ? obj[this.preSelectedYearCompareFrom + '_' + 'intel']
+              : min,
+          Infinity
+        );
+        objYear['ODC'] = this.formatedComparisonData.reduce(
+          (min, obj) =>
+            obj[this.preSelectedYearCompareFrom + '_' + 'ODC'] < min
+              ? obj[this.preSelectedYearCompareFrom + '_' + 'ODC']
+              : min,
+          Infinity
+        );
+        this.formatedComparisonYearData.push(objYear);
+        objYear = {};
+        objYear['category'] = this.preSelectedYearCompareTo.toString();
+        objYear['intel'] = this.formatedComparisonData.reduce(
+          (min, obj) =>
+            obj[this.preSelectedYearCompareTo + '_' + 'intel'] < min
+              ? obj[this.preSelectedYearCompareTo + '_' + 'intel']
+              : min,
+          Infinity
+        );
+        objYear['ODC'] = this.formatedComparisonData.reduce(
+          (min, obj) =>
+            obj[this.preSelectedYearCompareTo + '_' + 'ODC'] < min
+              ? obj[this.preSelectedYearCompareTo + '_' + 'ODC']
+              : min,
+          Infinity
+        );
         this.formatedComparisonYearData.push(objYear);
         console.log('Year Data', this.formatedComparisonYearData);
         console.log('Data', this.formatedComparisonData);
       }
+      debugger;
     }
   }
   /* YOY Comparison chart year wise */
@@ -760,7 +810,7 @@ export class ForecastComponent implements OnInit {
       am5xy.CategoryAxis.new(root, {
         categoryField: 'category',
         renderer: xRenderer,
-        tooltip: am5.Tooltip.new(root, {}),
+        // tooltip: am5.Tooltip.new(root, {}),
       })
     );
 
@@ -800,7 +850,71 @@ export class ForecastComponent implements OnInit {
     // Add series
     // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
     /* function makeSeries(name, fieldName, stacked, color) { */
-    let series = chart.series.push(
+    function makeSeries(name, fieldName, stacked, color) {
+      let series = chart.series.push(
+        am5xy.ColumnSeries.new(root, {
+          name: name,
+          stacked: stacked,
+          xAxis: xAxis,
+          yAxis: yAxis,
+          valueYField: fieldName,
+          //  valueYShow: 'valueYTotalPercent',
+          categoryXField: 'category',
+          sequencedInterpolation: true,
+          tooltip: am5.Tooltip.new(root, {
+            pointerOrientation: 'horizontal',
+            // labelText: '{name}, {categoryX}:{valueY}',
+            labelText: '{name} : {valueY}',
+          }),
+        })
+      );
+
+      series.columns.template.setAll({
+        /* tooltipText:
+          "{name}, {categoryX}:{valueYTotalPercent.formatNumber('#.#')}%", */
+        tooltipText: '{name} : {valueY}',
+        width: am5.percent(90),
+        //  tooltipY: am5.percent(10),
+        fill: am5.color(color),
+        stroke: am5.color(color),
+      });
+      series.data.setAll(data);
+
+      // Make stuff animate on load
+      // https://www.amcharts.com/docs/v5/concepts/animations/
+      series.appear();
+
+      series.bullets.push(function () {
+        return am5.Bullet.new(root, {
+          sprite: am5.Label.new(root, {
+            text: '{valueY}',
+            fill: root.interfaceColors.get('alternativeText'),
+            centerY: am5.p50,
+            centerX: am5.p50,
+            populateText: true,
+          }),
+        });
+      });
+
+      legend.data.push(series);
+    }
+
+    makeSeries('Intel', 'intel', false, '#5b9bd5');
+    makeSeries('ODC', 'ODC', true, '#3db13d');
+    /*  makeSeries(
+      this.preSelectedYearCompareTo + ' ' + 'Intel',
+      this.preSelectedYearCompareTo + '_' + 'intel',
+      false,
+      '#5b9bd5'
+    );
+    makeSeries(
+      this.preSelectedYearCompareTo + ' ' + 'ODC',
+      this.preSelectedYearCompareTo + '_' + 'ODC',
+      true,
+      '#3db13d'
+    ); */
+
+    /*  let series = chart.series.push(
       am5xy.ColumnSeries.new(root, {
         name: 'Year',
         xAxis: xAxis,
@@ -826,11 +940,11 @@ export class ForecastComponent implements OnInit {
     series.columns.template.adapters.add('stroke', function (stroke, target) {
       return chart.get('colors').getIndex(series.columns.indexOf(target));
     });
-    series.data.setAll(data);
+    series.data.setAll(data); */
 
     // Make stuff animate on load
     // https://www.amcharts.com/docs/v5/concepts/animations/
-    series.appear();
+    /*  series.appear();
 
     series.bullets.push(function () {
       return am5.Bullet.new(root, {
@@ -844,7 +958,7 @@ export class ForecastComponent implements OnInit {
       });
     });
 
-    legend.data.push(series);
+    legend.data.push(series); */
     /*  }
 
     makeSeries('Year', 'value', false, '#5b9bd5'); */
@@ -918,6 +1032,7 @@ export class ForecastComponent implements OnInit {
       this.compareAllocateTo(this.preSelectedYearCompareTo);
       this.forecastTableSummaryFrom();
       this.forecastTableSummaryTo();
+      this.allYearSummary();
     } else {
       this.toastrService.warning('Please select different year', 'Warning');
     }
@@ -929,6 +1044,7 @@ export class ForecastComponent implements OnInit {
       this.compareAllocateTo(this.preSelectedYearCompareTo);
       this.forecastTableSummaryFrom();
       this.forecastTableSummaryTo();
+      this.allYearSummary();
     } else {
       this.toastrService.warning('Please select different year', 'Warning');
     }
@@ -1026,7 +1142,7 @@ export class ForecastComponent implements OnInit {
       am5xy.CategoryAxis.new(root, {
         categoryField: 'category',
         renderer: xRenderer,
-        tooltip: am5.Tooltip.new(root, {}),
+        // tooltip: am5.Tooltip.new(root, {}),
       })
     );
 
@@ -1279,7 +1395,7 @@ export class ForecastComponent implements OnInit {
       am5xy.CategoryAxis.new(root, {
         categoryField: 'category',
         renderer: xRenderer,
-        tooltip: am5.Tooltip.new(root, {}),
+        //  tooltip: am5.Tooltip.new(root, {}),
       })
     );
 
@@ -1302,19 +1418,33 @@ export class ForecastComponent implements OnInit {
     // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
     function makeSeries(name, fieldName, color, tooltipTxt) {
       let series = chart.series.push(
-        am5xy.ColumnSeries.new(root, {
-          name: name,
-          stacked: true,
-          xAxis: xAxis,
-          yAxis: yAxis,
-          valueYField: fieldName,
-          categoryXField: 'category',
-          tooltip: am5.Tooltip.new(root, {
+        tooltipTxt == ''
+          ? am5xy.ColumnSeries.new(root, {
+              name: name,
+              stacked: true,
+              xAxis: xAxis,
+              yAxis: yAxis,
+              valueYField: fieldName,
+              categoryXField: 'category',
+              /*  tooltip: am5.Tooltip.new(root, {
             pointerOrientation: 'horizontal',
             // labelText: '{name}, {categoryX}:{valueY}',
             labelText: tooltipTxt,
-          }),
-        })
+          }), */
+            })
+          : am5xy.ColumnSeries.new(root, {
+              name: name,
+              stacked: true,
+              xAxis: xAxis,
+              yAxis: yAxis,
+              valueYField: fieldName,
+              categoryXField: 'category',
+              tooltip: am5.Tooltip.new(root, {
+                pointerOrientation: 'horizontal',
+                // labelText: '{name}, {categoryX}:{valueY}',
+                labelText: tooltipTxt,
+              }),
+            })
       );
 
       series.columns.template.setAll({
@@ -1396,14 +1526,15 @@ export class ForecastComponent implements OnInit {
       'Intel',
       'intel',
       '#5b9bd5',
-      '[font-size:14px;color:white] Bench : {Bench_Demand_Intel} \n Rack :{Rack_Demand_Intel}'
+      '[font-size:14px;color:white] Bench : {Total_Bench_Intel} \n Rack :{Total_Rack_Intel}'
     );
-    makeSeries(
+    /*  makeSeries(
       'ODC',
       'ODC',
       '#3db13d',
       '[font-size:14px;color:white] Bench : {Bench_Demand_ODC} \n Rack :{Rack_Demand_ODC}'
-    );
+    ); */
+    makeSeries('ODC', 'ODC', '#3db13d', '');
     makeLineSeries();
     /*  makeSeries('Asia', 'asia');
     makeSeries('Latin America', 'lamerica');
@@ -1483,7 +1614,7 @@ export class ForecastComponent implements OnInit {
       am5xy.CategoryAxis.new(root, {
         categoryField: 'category',
         renderer: xRenderer,
-        tooltip: am5.Tooltip.new(root, {}),
+        // tooltip: am5.Tooltip.new(root, {}),
       })
     );
 
@@ -1506,20 +1637,35 @@ export class ForecastComponent implements OnInit {
     // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
     function makeSeries(name, fieldName, color, tooltipTxt) {
       let series = chart.series.push(
-        am5xy.ColumnSeries.new(root, {
-          name: name,
-          stacked: true,
-          xAxis: xAxis,
-          yAxis: yAxis,
-          valueYField: fieldName,
-          categoryXField: 'category',
-          tooltip: am5.Tooltip.new(root, {
+        tooltipTxt == ''
+          ? am5xy.ColumnSeries.new(root, {
+              name: name,
+              stacked: true,
+              xAxis: xAxis,
+              yAxis: yAxis,
+              valueYField: fieldName,
+              categoryXField: 'category',
+              /* tooltip: am5.Tooltip.new(root, {
             pointerOrientation: 'horizontal',
             // labelText: '{name}, {categoryX}:{valueY}',
             // labelText: '{name} : {valueY}',
             labelText: tooltipTxt,
-          }),
-        })
+          }), */
+            })
+          : am5xy.ColumnSeries.new(root, {
+              name: name,
+              stacked: true,
+              xAxis: xAxis,
+              yAxis: yAxis,
+              valueYField: fieldName,
+              categoryXField: 'category',
+              tooltip: am5.Tooltip.new(root, {
+                pointerOrientation: 'horizontal',
+                // labelText: '{name}, {categoryX}:{valueY}',
+                // labelText: '{name} : {valueY}',
+                labelText: tooltipTxt,
+              }),
+            })
       );
 
       series.columns.template.setAll({
@@ -1603,14 +1749,15 @@ export class ForecastComponent implements OnInit {
         'Intel',
         'intel',
         '#5b9bd5',
-        '[font-size:14px;color:white] Bench : {Bench_Demand_Intel} \n Rack :{Rack_Demand_Intel}'
+        '[font-size:14px;color:white] Bench : {Total_Bench_Intel} \n Rack : {Total_Rack_Intel}'
       );
-      makeSeries(
+      /*  makeSeries(
         'ODC',
         'ODC',
         '#3db13d',
         '[font-size:14px;color:white] Bench : {Bench_Demand_ODC} \n Rack :{Rack_Demand_ODC}'
-      );
+      ); */
+      makeSeries('ODC', 'ODC', '#3db13d', '');
     } else if (this.preSelectedQuarterRVPOptionList == 'Average') {
       makeSeries(
         'Intel',
@@ -1849,7 +1996,7 @@ export class ForecastComponent implements OnInit {
       am5xy.CategoryAxis.new(root, {
         categoryField: 'category',
         renderer: xRenderer,
-        tooltip: am5.Tooltip.new(root, {}),
+        // tooltip: am5.Tooltip.new(root, {}),
       })
     );
 
@@ -1870,22 +2017,32 @@ export class ForecastComponent implements OnInit {
 
     // Add series
     // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-    function makeSeries(name, fieldName, color) {
+    function makeSeries(name, fieldName, color, tooltipTxt) {
       let series = chart.series.push(
-        am5xy.ColumnSeries.new(root, {
-          name: name,
-          stacked: true,
-          xAxis: xAxis,
-          yAxis: yAxis,
-          valueYField: fieldName,
-          categoryXField: 'category',
-          tooltip: am5.Tooltip.new(root, {
-            pointerOrientation: 'horizontal',
-            //  labelText: '{name}, {categoryX}:{valueY}',
-            labelText: '{name} : {valueY}',
-            /* labelText: '{name}', */
-          }),
-        })
+        tooltipTxt == ''
+          ? am5xy.ColumnSeries.new(root, {
+              name: name,
+              stacked: true,
+              xAxis: xAxis,
+              yAxis: yAxis,
+              valueYField: fieldName,
+              categoryXField: 'category',
+            })
+          : am5xy.ColumnSeries.new(root, {
+              name: name,
+              stacked: true,
+              xAxis: xAxis,
+              yAxis: yAxis,
+              valueYField: fieldName,
+              categoryXField: 'category',
+              tooltip: am5.Tooltip.new(root, {
+                pointerOrientation: 'horizontal',
+                //  labelText: '{name}, {categoryX}:{valueY}',
+                // labelText: '{name} : {valueY}',
+                labelText: tooltipTxt,
+                /* labelText: '{name}', */
+              }),
+            })
       );
 
       series.columns.template.setAll({
@@ -1966,10 +2123,20 @@ export class ForecastComponent implements OnInit {
       legend.data.push(series);
     }
 
-    makeSeries('Intel Bench', 'Bench_Demand_Intel', '#5b9bd5');
-    makeSeries('Intel Rack', 'Rack_Demand_Intel', '#95c3ed');
-    makeSeries('ODC Bench', 'Bench_Demand_ODC', '#3db13d');
-    makeSeries('ODC Rack', 'Rack_Demand_ODC', '#76cc76');
+    makeSeries(
+      'Intel Bench',
+      'Bench_Demand_Intel',
+      '#5b9bd5',
+      '[font-size:14px;color:white] Bench : {Total_Bench_Intel}'
+    );
+    makeSeries(
+      'Intel Rack',
+      'Rack_Demand_Intel',
+      '#95c3ed',
+      '[font-size:14px;color:white] Rack : {Total_Rack_Intel}'
+    );
+    makeSeries('ODC Bench', 'Bench_Demand_ODC', '#3db13d', '');
+    makeSeries('ODC Rack', 'Rack_Demand_ODC', '#76cc76', '');
     makeLineSeries();
     /*  makeSeries('Asia', 'asia');
     makeSeries('Latin America', 'lamerica');
@@ -2013,6 +2180,342 @@ export class ForecastComponent implements OnInit {
     });
     this.getSKUList('All');
     this.createHeadarColumns();
+  }
+  allYearSummaryList;
+  allYearSummaryFormatedList = [];
+  monthObjects: any;
+  allYearXlHeader = ['Category'];
+  allYearSummary() {
+    this.labwiseChartLoader = false;
+    let payload = {
+      Program: this.preSelectedprogramListComparison,
+      Sku: this.preSelectedSKUListComparison,
+    };
+    this.dataSvc.allYearSummary(payload).subscribe((res) => {
+      if (res) {
+        this.allYearSummaryList = res;
+        debugger;
+        const months = [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December',
+        ];
+
+        this.monthObjects = [];
+
+        for (const month of months) {
+          const monthObject = {
+            category: month,
+          };
+          this.monthObjects.push(monthObject);
+        }
+        this.allYearSummaryList.forEach((element) => {
+          Object.keys(element).forEach((key) => {
+            this.allYearXlHeader.push(key);
+            element[key].forEach((ele) => {
+              this.monthObjects.forEach((el) => {
+                if (el.category == ele.category) {
+                  el[key] = ele.Ramp_value;
+                }
+              });
+            });
+          });
+        });
+        this.allYearComparisonChart(this.monthObjects);
+        this.labwiseChartLoader = true;
+      }
+    });
+  }
+  downloadForecastSummaryComparisonAllYear() {
+    this.ExportService.downloadForecastSummaryComparisonAllYear(
+      this.monthObjects,
+      'Forecast Summary Comparison Data',
+      this.allYearXlHeader
+    );
+    /*  this.ExcelService.exportAsExcelFile(
+      this.monthObjects,
+      'Forecast Summary Comparison Data'
+    ); */
+  }
+  allYearComparisonChart(monthObjects: any) {
+    am5.array.each(am5.registry.rootElements, function (root) {
+      if (root?.dom.id == 'chartdiv6') {
+        root.dispose();
+      }
+    });
+    // Create root element
+    // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+    let root = am5.Root.new('chartdiv6');
+    root._logo.dispose();
+    // Set themes
+    // https://www.amcharts.com/docs/v5/concepts/themes/
+    root.setThemes([am5themes_Animated.new(root)]);
+
+    // Create chart
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/
+    let chart = root.container.children.push(
+      am5xy.XYChart.new(root, {
+        panX: false,
+        panY: false,
+        wheelX: 'panX',
+        wheelY: 'zoomX',
+        layout: root.verticalLayout,
+      })
+    );
+    chart.get('colors').set('step', 7);
+    var scrollbarX = am5.Scrollbar.new(root, {
+      orientation: 'horizontal',
+    });
+
+    chart.set('scrollbarX', scrollbarX);
+    chart.bottomAxesContainer.children.push(scrollbarX);
+    //Export chart
+    am5plugins_exporting.Exporting.new(root, {
+      menu: am5plugins_exporting.ExportingMenu.new(root, {}),
+    });
+    // Add scrollbar
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
+    /* chart.set(
+      'scrollbarX',
+      am5.Scrollbar.new(root, {
+        orientation: 'horizontal',
+      })
+    ); */
+
+    let data = monthObjects;
+
+    /* let data = [
+      {
+        year: '2021',
+        europe: 2.5,
+        namerica: 2.5,
+        asia: 2.1,
+        lamerica: 1,
+        meast: 0.8,
+        africa: 0.4,
+      },
+      {
+        year: '2022',
+        europe: 2.6,
+        namerica: 2.7,
+        asia: 2.2,
+        lamerica: 0.5,
+        meast: 0.4,
+        africa: 0.3,
+      },
+      {
+        year: '2023',
+        europe: 2.8,
+        namerica: 2.9,
+        asia: 2.4,
+        lamerica: 0.3,
+        meast: 0.9,
+        africa: 0.5,
+      },
+    ]; */
+
+    // Create axes
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+    let xRenderer = am5xy.AxisRendererX.new(root, {
+      //  minorGridEnabled: true,
+      cellStartLocation: 0.1,
+      cellEndLocation: 0.9,
+      maxWidth: 100,
+      minGridDistance: 20,
+    });
+    let xAxis = chart.xAxes.push(
+      am5xy.CategoryAxis.new(root, {
+        categoryField: 'category',
+        renderer: xRenderer,
+        // tooltip: am5.Tooltip.new(root, {}),
+      })
+    );
+
+    xRenderer.grid.template.setAll({
+      location: 1,
+    });
+
+    xAxis.data.setAll(data);
+
+    let yAxis = chart.yAxes.push(
+      am5xy.ValueAxis.new(root, {
+        min: 0,
+        //  max: 100,
+        //  numberFormat: "#'%'",
+        //strictMinMax: true,
+        calculateTotals: true,
+        renderer: am5xy.AxisRendererY.new(root, {
+          strokeOpacity: 0.1,
+        }),
+      })
+    );
+
+    // Add legend
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
+    let legend = chart.children.push(
+      am5.Legend.new(root, {
+        centerX: am5.p50,
+        x: am5.p50,
+      })
+    );
+
+    //Export chart
+    let exporting = am5plugins_exporting.Exporting.new(root, {
+      menu: am5plugins_exporting.ExportingMenu.new(root, {}),
+    });
+
+    // Add series
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+    function makeSeries(name, fieldName, stacked, color) {
+      let series = chart.series.push(
+        am5xy.ColumnSeries.new(root, {
+          name: name,
+          stacked: stacked,
+          xAxis: xAxis,
+          yAxis: yAxis,
+          valueYField: fieldName,
+          //  valueYShow: 'valueYTotalPercent',
+          categoryXField: 'category',
+          tooltip: am5.Tooltip.new(root, {
+            pointerOrientation: 'horizontal',
+            // labelText: '{name}, {categoryX}:{valueY}',
+            labelText: '{name} : {valueY}',
+          }),
+        })
+      );
+
+      series.columns.template.setAll({
+        /* tooltipText:
+          "{name}, {categoryX}:{valueYTotalPercent.formatNumber('#.#')}%", */
+        tooltipText: '{name} : {valueY}',
+        width: am5.percent(90),
+        tooltipY: am5.percent(10),
+        fill: am5.color(color),
+        stroke: am5.color(color),
+      });
+      series.data.setAll(data);
+
+      // Make stuff animate on load
+      // https://www.amcharts.com/docs/v5/concepts/animations/
+      series.appear();
+
+      series.bullets.push(function () {
+        return am5.Bullet.new(root, {
+          sprite: am5.Label.new(root, {
+            text: '{valueY}',
+            fill: root.interfaceColors.get('alternativeText'),
+            centerY: am5.p50,
+            centerX: am5.p50,
+            populateText: true,
+          }),
+        });
+      });
+
+      legend.data.push(series);
+    }
+
+    /* makeSeries(
+      this.preSelectedYearCompareFrom + ' ' + 'Intel',
+      this.preSelectedYearCompareFrom + '_' + 'intel',
+      false,
+      '#5b9bd5'
+    );
+    makeSeries(
+      this.preSelectedYearCompareFrom + ' ' + 'ODC',
+      this.preSelectedYearCompareFrom + '_' + 'ODC',
+      true,
+      '#3db13d'
+    ); */
+
+    /* monthObjects.forEach((element) => { */
+    Object.keys(monthObjects[0]).forEach((key) => {
+      if (key != 'category') {
+        makeLineSeries(key, key);
+      }
+    });
+    /* }); */
+    /*     makeSeries(
+      this.preSelectedYearCompareTo + ' ' + 'Intel',
+      this.preSelectedYearCompareTo + '_' + 'intel',
+      false,
+      '#5b9bd5'
+    );
+    makeSeries(
+      this.preSelectedYearCompareTo + ' ' + 'ODC',
+      this.preSelectedYearCompareTo + '_' + 'ODC',
+      true,
+      '#3db13d'
+    ); */
+    function makeLineSeries(name, value) {
+      /* preSelectedYearCompareFrom Ramp series line */
+      let seriesIntel = chart.series.push(
+        am5xy.LineSeries.new(root, {
+          /* minBulletDistance: 10, */
+          name: name,
+          xAxis: xAxis,
+          yAxis: yAxis,
+          valueYField: value,
+          categoryXField: 'category',
+          tooltip: am5.Tooltip.new(root, {
+            pointerOrientation: 'horizontal',
+            //labelText: '{name}, {categoryX}:{valueY}',
+            labelText: '{name} : {valueY}',
+          }),
+        })
+      );
+
+      seriesIntel.strokes.template.setAll({
+        strokeWidth: 3,
+        stroke: am5.color(0xd7a700),
+      });
+
+      seriesIntel.data.setAll(data);
+      seriesIntel.appear(1000);
+      seriesIntel.bullets.push(function () {
+        return am5.Bullet.new(root, {
+          sprite: am5.Circle.new(root, {
+            radius: 6,
+            fill: seriesIntel.get('fill'),
+            stroke: root.interfaceColors.get('background'),
+            strokeWidth: 2,
+          }),
+        });
+      });
+      seriesIntel.bullets.push(function () {
+        return am5.Bullet.new(root, {
+          locationX: 0.5,
+          locationY: 1,
+          sprite: am5.Label.new(root, {
+            centerY: am5.p100,
+            centerX: am5.p50,
+            text: '{valueY}',
+            fill: seriesIntel.get('fill'),
+            populateText: true,
+          }),
+        });
+      });
+
+      legend.data.push(seriesIntel);
+    }
+    /* makeLineSeries(
+      this.preSelectedYearCompareTo + ' ' + 'Ramp',
+      this.preSelectedYearCompareTo + '_' + 'Ramp'
+    ); */
+    /*  makeSeries('Middle East', 'meast');
+    makeSeries('Africa', 'africa'); */
+    chart.set('cursor', am5xy.XYCursor.new(root, {}));
+    // Make stuff animate on load
+    // https://www.amcharts.com/docs/v5/concepts/animations/
+    chart.appear(1000, 100);
   }
   summarySKUList;
   getSKUList(program) {
@@ -2078,6 +2581,7 @@ export class ForecastComponent implements OnInit {
       this.getBoardList();
     } else if (status == 'YOY Comparison') {
       this.typeChart = 'YOY Comparison';
+      this.allYearSummary();
       if (
         this.preSelectedYearCompareFrom != '' &&
         this.preSelectedYearCompareTo != ''

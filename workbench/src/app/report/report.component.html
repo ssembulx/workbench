@@ -200,8 +200,8 @@
                     </div>
                 </div>
             </div>
-            <div class="table-container" *ngIf="reportData?.length">
-                <div class="search-bar col-12 float-right row mb-2">
+            <ng-container *ngIf="reportData?.length">
+                <div class="search-bar col-12 float-right row mb-2 mt-2">
                     <div class="col-3 float-right">
                         <div class="caption">
                             <i class="fa fa-table fa-2x chart-icon barchart-icon"></i>
@@ -250,6 +250,8 @@
                         </span>
                     </div>
                 </div>
+            </ng-container>
+            <div class="table-container" *ngIf="reportData?.length">
                 <table class="table table-bordered user-table" *ngIf="reportdataLoader">
                     <thead>
                         <tr>
@@ -341,12 +343,17 @@
                                     [autoClose]="false" triggers="manual" #ts16="ngbTooltip"
                                     (click)="showTestTrendSearch(ts16)">
                                     <i class="fas fa-search"></i>&nbsp;&nbsp;Approved By</span></th>
+                            <th class="v-align" (click)="setOrderRelease('Requested By')"><span class="sort-by"
+                                    [ngbTooltip]="RequestedBySearch" placement="top" tooltipClass="custom-tooltip"
+                                    [autoClose]="false" triggers="manual" #ts17="ngbTooltip"
+                                    (click)="showTestTrendSearch(ts17)">
+                                    <i class="fas fa-search"></i>&nbsp;&nbsp;Requested By</span></th>
                             <!-- <th class="v-align"><input class="form-check-input chcekbox-style" type="checkbox" value="" id="flexCheckChecked"/>Select All</th> -->
                         </tr>
                     </thead>
                     <tbody>
                         <tr
-                            *ngFor="let data of reportData | searchFilter: searchText | searchFilterLocation: searchLocation | searchFilterTeam: searchTeam | searchFilterProgram: searchProgram |  searchFilterSku: searchSku | searchFilterVendor : searchVendor | searchFilterAllocated : searchAllocated | searchFilterFromWW : searchfromWW | searchFilterToWW : searchtoWW | searchFilterBench : searchBench | searchFilterDetails : searchBenchDetails | searchFilterDuration : searchDuration | searchFilterApprovedBy : searchApprovedBy |searchFilterRemarks :searchRemarks  let i=index">
+                            *ngFor="let data of reportData | searchFilter: searchText | searchFilterLocation: searchLocation | searchFilterTeam: searchTeam | searchFilterProgram: searchProgram |  searchFilterSku: searchSku | searchFilterVendor : searchVendor | searchFilterAllocated : searchAllocated | searchFilterFromWW : searchfromWW | searchFilterToWW : searchtoWW | searchFilterBench : searchBench | searchFilterDetails : searchBenchDetails | searchFilterDuration : searchDuration | searchFilterApprovedBy : searchApprovedBy |searchFilterRemarks :searchRemarks |searchFilterRequestedBy : searchRequestedBy;  let i=index">
                             <td>{{i+1}}</td>
                             <td>{{data.Location__Name}}</td>
                             <td>{{data.Team}}</td>
@@ -362,6 +369,7 @@
                             <td>{{data.Duration}}</td>
                             <td>{{data.Remarks}}</td>
                             <td>{{data.approvedBy}}</td>
+                            <td>{{data?.RequestedBy?.[0]?.Name}}</td>
                             <!-- <td><input class="form-check-input chcekbox-style" type="checkbox" value="" id="flexCheckChecked"/></td> -->
                         </tr>
                     </tbody>
@@ -381,8 +389,8 @@
             <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
         </div>
         <div class="form-group search-ctrl">
-            <input name="target" [(ngModel)]="searchLocation"  (ngModelChange)="valuechange()" placeholder="Search Location" type="text"
-                class="form-control" />
+            <input name="target" [(ngModel)]="searchLocation" (ngModelChange)="valuechange()"
+                placeholder="Search Location" type="text" class="form-control" />
             <i class="fas fa-times" (click)="clearInput()" *ngIf="searchLocation !== ''"></i>
             <i class="flaticon-search fas fa-search"></i>
         </div>
@@ -395,7 +403,8 @@
             <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
         </div>
         <div class="form-group search-ctrl">
-            <input name="target" [(ngModel)]="searchTeam" (ngModelChange)="valuechange()" placeholder="Search Team" type="text" class="form-control" />
+            <input name="target" [(ngModel)]="searchTeam" (ngModelChange)="valuechange()" placeholder="Search Team"
+                type="text" class="form-control" />
             <i class="fas fa-times" (click)="clearInput()" *ngIf="searchTeam !== ''"></i>
             <i class="flaticon-search fas fa-search"></i>
         </div>
@@ -408,8 +417,8 @@
             <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
         </div>
         <div class="form-group search-ctrl">
-            <input name="target" [(ngModel)]="searchProgram"  (ngModelChange)="valuechange()" placeholder="Search Program" type="text"
-                class="form-control" />
+            <input name="target" [(ngModel)]="searchProgram" (ngModelChange)="valuechange()"
+                placeholder="Search Program" type="text" class="form-control" />
             <i class="fas fa-times" (click)="clearInput()" *ngIf="searchProgram !== ''"></i>
             <i class="flaticon-search fas fa-search"></i>
         </div>
@@ -422,7 +431,8 @@
             <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
         </div>
         <div class="form-group search-ctrl">
-            <input name="target" [(ngModel)]="searchSku"  (ngModelChange)="valuechange()" placeholder="Search SKU" type="text" class="form-control" />
+            <input name="target" [(ngModel)]="searchSku" (ngModelChange)="valuechange()" placeholder="Search SKU"
+                type="text" class="form-control" />
             <i class="fas fa-times" (click)="clearInput()" *ngIf="searchSku !== ''"></i>
             <i class="flaticon-search fas fa-search"></i>
         </div>
@@ -435,8 +445,8 @@
             <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
         </div>
         <div class="form-group search-ctrl">
-            <input name="target" [(ngModel)]="searchVendor"  (ngModelChange)="valuechange()" placeholder="Search Vendor" type="text"
-                class="form-control" />
+            <input name="target" [(ngModel)]="searchVendor" (ngModelChange)="valuechange()" placeholder="Search Vendor"
+                type="text" class="form-control" />
             <i class="fas fa-times" (click)="clearInput()" *ngIf="searchVendor !== ''"></i>
             <i class="flaticon-search fas fa-search"></i>
         </div>
@@ -449,8 +459,8 @@
             <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
         </div>
         <div class="form-group search-ctrl">
-            <input name="target" [(ngModel)]="searchAllocated"  (ngModelChange)="valuechange()" placeholder="Search Allocated" type="text"
-                class="form-control" />
+            <input name="target" [(ngModel)]="searchAllocated" (ngModelChange)="valuechange()"
+                placeholder="Search Allocated" type="text" class="form-control" />
             <i class="fas fa-times" (click)="clearInput()" *ngIf="searchAllocated !== ''"></i>
             <i class="flaticon-search fas fa-search"></i>
         </div>
@@ -463,8 +473,8 @@
             <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
         </div>
         <div class="form-group search-ctrl">
-            <input name="target" [(ngModel)]="searchfromWW"  (ngModelChange)="valuechange()" placeholder="Search FromWW" type="text"
-                class="form-control" />
+            <input name="target" [(ngModel)]="searchfromWW" (ngModelChange)="valuechange()" placeholder="Search FromWW"
+                type="text" class="form-control" />
             <i class="fas fa-times" (click)="clearInput()" *ngIf="searchfromWW !== ''"></i>
             <i class="flaticon-search fas fa-search"></i>
         </div>
@@ -477,7 +487,8 @@
             <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
         </div>
         <div class="form-group search-ctrl">
-            <input name="target" [(ngModel)]="searchtoWW"  (ngModelChange)="valuechange()" placeholder="Search ToWW" type="text" class="form-control" />
+            <input name="target" [(ngModel)]="searchtoWW" (ngModelChange)="valuechange()" placeholder="Search ToWW"
+                type="text" class="form-control" />
             <i class="fas fa-times" (click)="clearInput()" *ngIf="searchtoWW !== ''"></i>
             <i class="flaticon-search fas fa-search"></i>
         </div>
@@ -490,8 +501,8 @@
             <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
         </div>
         <div class="form-group search-ctrl">
-            <input name="target" [(ngModel)]="searchBench"  (ngModelChange)="valuechange()" placeholder="Search Bench" type="text"
-                class="form-control" />
+            <input name="target" [(ngModel)]="searchBench" (ngModelChange)="valuechange()" placeholder="Search Bench"
+                type="text" class="form-control" />
             <i class="fas fa-times" (click)="clearInput()" *ngIf="searchBench !== ''"></i>
             <i class="flaticon-search fas fa-search"></i>
         </div>
@@ -504,8 +515,8 @@
             <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
         </div>
         <div class="form-group search-ctrl">
-            <input name="target" [(ngModel)]="searchBenchDetails"  (ngModelChange)="valuechange()" placeholder="Search BenchDetails" type="text"
-                class="form-control" />
+            <input name="target" [(ngModel)]="searchBenchDetails" (ngModelChange)="valuechange()"
+                placeholder="Search BenchDetails" type="text" class="form-control" />
             <i class="fas fa-times" (click)="clearInput()" *ngIf="searchBenchDetails !== ''"></i>
             <i class="flaticon-search fas fa-search"></i>
         </div>
@@ -518,8 +529,8 @@
             <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
         </div>
         <div class="form-group search-ctrl">
-            <input name="target" [(ngModel)]="searchDuration"  (ngModelChange)="valuechange()" placeholder="Search Duration" type="text"
-                class="form-control" />
+            <input name="target" [(ngModel)]="searchDuration" (ngModelChange)="valuechange()"
+                placeholder="Search Duration" type="text" class="form-control" />
             <i class="fas fa-times" (click)="clearInput()" *ngIf="searchDuration !== ''"></i>
             <i class="flaticon-search fas fa-search"></i>
         </div>
@@ -531,8 +542,8 @@
             <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
         </div>
         <div class="form-group search-ctrl">
-            <input name="target" [(ngModel)]="searchRemarks"  (ngModelChange)="valuechange()" placeholder="Search Remarks" type="text"
-                class="form-control" />
+            <input name="target" [(ngModel)]="searchRemarks" (ngModelChange)="valuechange()"
+                placeholder="Search Remarks" type="text" class="form-control" />
             <i class="fas fa-times" (click)="clearInput()" *ngIf="searchRemarks !== ''"></i>
             <i class="flaticon-search fas fa-search"></i>
         </div>
@@ -544,9 +555,22 @@
             <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
         </div>
         <div class="form-group search-ctrl">
-            <input name="target" [(ngModel)]="searchApprovedBy"  (ngModelChange)="valuechange()" placeholder="Search ApprovedBy" type="text"
-                class="form-control" />
+            <input name="target" [(ngModel)]="searchApprovedBy" (ngModelChange)="valuechange()"
+                placeholder="Search ApprovedBy" type="text" class="form-control" />
             <i class="fas fa-times" (click)="clearInput()" *ngIf="searchApprovedBy !== ''"></i>
+            <i class="flaticon-search fas fa-search"></i>
+        </div>
+    </div>
+</ng-template>
+<ng-template #RequestedBySearch>
+    <div class="search-tooltip">
+        <div class="tooltip-header">
+            <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
+        </div>
+        <div class="form-group search-ctrl">
+            <input name="target" [(ngModel)]="searchRequestedBy" (ngModelChange)="valuechange()"
+                placeholder="Search RequestedBy" type="text" class="form-control" />
+            <i class="fas fa-times" (click)="clearInput()" *ngIf="searchRequestedBy !== ''"></i>
             <i class="flaticon-search fas fa-search"></i>
         </div>
     </div>

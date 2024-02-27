@@ -132,10 +132,91 @@
                 }
             }
 
+            .search-bar {
+                .input-group {
+                    /*  width: 19%;
+                    // float: right;
+                    margin-left: 72%; */
+
+                    input {
+                        height: 35px;
+                        padding: 5px;
+                    }
+
+                    input[type=text] {
+                        padding: 3px 0px;
+                        padding-left: 10px;
+
+                        input[type=text]::placeholder {
+                            text-align: center;
+                        }
+
+                    }
+                }
+
+                .save-btn {
+                    float: right;
+                    font-family: "IntelOne Display AR Medium";
+                    background-color: #0071c5;
+                    padding: 3px 0px;
+                    color: white;
+                    border-top-right-radius: 5px;
+                    border-bottom-right-radius: 5px;
+                    border-top-left-radius: 0;
+                    border-bottom-left-radius: 0;
+                    box-shadow: #7f9fff 3px 3px 6px 0px inset, #350d33 -3px -3px 6px 1px inset;
+                    width: 40px;
+                    text-align: center;
+                    height: 35px;
+
+                    i {
+                        font-size: 16px;
+                        margin-top: 4px;
+                    }
+                }
+
+                .save-btn:hover {
+                    float: right;
+                    font-family: "IntelOne Display AR Medium";
+                    background-color: #0071c5;
+                    padding: 3px 0px;
+                    color: white;
+                    border-top-right-radius: 5px;
+                    border-bottom-right-radius: 5px;
+                    border-top-left-radius: 0;
+                    border-bottom-left-radius: 0;
+                    box-shadow: #7f9fff 3px 3px 6px 0px inset, #350d33 -3px -3px 6px 1px inset;
+                    width: 40px;
+                    text-align: center;
+                }
+            }
+
+            .downloadbtn {
+                .download-btn {
+                    font-family: "IntelOne Display AR Medium";
+                    background-color: #0071c5;
+                    ;
+                    // padding: 4px;
+                    color: white;
+                    font-size: 13px;
+                    border-radius: 0px;
+                    box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
+                    /* width: 105px; */
+                    text-align: center;
+                    /*   margin-left: 92% !important;
+                    margin-top: -58px; */
+                    border-radius: 4px;
+
+                    i {
+                        margin-right: 8px;
+                    }
+                }
+            }
+
             .table-container {
                 width: 100%;
                 overflow: auto;
-              /*   margin: 0px 15px 0px 15px; */
+                /*   margin: 0px 15px 0px 15px; */
                 margin-top: 10px;
 
                 .user-table {
@@ -145,7 +226,7 @@
                     thead {
                         background-color: #d5cbd7;
                         display: table;
-                        width: 100%;
+                        width: 110%;
                         table-layout: fixed;
 
                         tr {
@@ -209,6 +290,10 @@
                                 &:nth-child(14) {
                                     width: 9.2%;
                                 }
+
+                                &:nth-child(15) {
+                                    width: 9.2%;
+                                }
                             }
                         }
 
@@ -218,6 +303,7 @@
                         display: block;
                         max-height: 70vh;
                         overflow-y: auto;
+                        width: 110%;
 
                         tr {
                             display: table;
@@ -283,6 +369,10 @@
                                 }
 
                                 &:nth-child(14) {
+                                    width: 9.2%;
+                                }
+
+                                &:nth-child(15) {
                                     width: 8.2%;
                                 }
                             }
@@ -291,86 +381,7 @@
 
                 }
 
-                .search-bar {
-                    .input-group {
-                       /*  width: 19%;
-                        // float: right;
-                        margin-left: 72%; */
 
-                        input {
-                            height: 35px;
-                            padding: 5px;
-                        }
-
-                        input[type=text] {
-                            padding: 3px 0px;
-                            padding-left: 10px;
-
-                            input[type=text]::placeholder {
-                                text-align: center;
-                            }
-
-                        }
-                    }
-
-                    .save-btn {
-                        float: right;
-                        font-family: "IntelOne Display AR Medium";
-                        background-color: #0071c5;
-                        padding: 3px 0px;
-                        color: white;
-                        border-top-right-radius: 5px;
-                        border-bottom-right-radius: 5px;
-                        border-top-left-radius: 0;
-                        border-bottom-left-radius: 0;
-                        box-shadow: #7f9fff 3px 3px 6px 0px inset, #350d33 -3px -3px 6px 1px inset;
-                        width: 40px;
-                        text-align: center;
-                        height: 35px;
-
-                        i {
-                            font-size: 16px;
-                            margin-top: 4px;
-                        }
-                    }
-
-                    .save-btn:hover {
-                        float: right;
-                        font-family: "IntelOne Display AR Medium";
-                        background-color: #0071c5;
-                        padding: 3px 0px;
-                        color: white;
-                        border-top-right-radius: 5px;
-                        border-bottom-right-radius: 5px;
-                        border-top-left-radius: 0;
-                        border-bottom-left-radius: 0;
-                        box-shadow: #7f9fff 3px 3px 6px 0px inset, #350d33 -3px -3px 6px 1px inset;
-                        width: 40px;
-                        text-align: center;
-                    }
-                }
-
-                .downloadbtn {
-                    .download-btn {
-                        font-family: "IntelOne Display AR Medium";
-                        background-color: #0071c5;
-                        ;
-                        // padding: 4px;
-                        color: white;
-                        font-size: 13px;
-                        border-radius: 0px;
-                        box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
-                        /* width: 105px; */
-                        text-align: center;
-                      /*   margin-left: 92% !important;
-                        margin-top: -58px; */
-                        border-radius: 4px;
-
-                        i {
-                            margin-right: 8px;
-                        }
-                    }
-                }
             }
 
             .no_data_block_display {
@@ -1315,7 +1326,7 @@ span.sort-by:after {
 
                     .search-bar {
                         .input-group {
-                           /*  width: 19%;
+                            /*  width: 19%;
                             margin-left: 71% !important; */
                         }
                     }
@@ -1328,9 +1339,9 @@ span.sort-by:after {
                             font-size: 13px;
                             border-radius: 0px;
                             box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
-                           /*  width: 105px; */
+                            /*  width: 105px; */
                             text-align: center;
-                          /*   margin-left: 91% !important;
+                            /*   margin-left: 91% !important;
                             margin-top: -58px; */
                             border-radius: 4px;
                         }
@@ -1398,7 +1409,7 @@ span.sort-by:after {
 
                     .search-bar {
                         .input-group {
-                          /*   width: 19%;
+                            /*   width: 19%;
                             margin-left: 67% !important; */
                         }
                     }
@@ -1411,9 +1422,9 @@ span.sort-by:after {
                             font-size: 13px;
                             border-radius: 0px;
                             box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53 13 51) -3px -3px 6px 1px inset;
-                           /*  width: 105px; */
+                            /*  width: 105px; */
                             text-align: center;
-                           /*  margin-left: 87% !important;
+                            /*  margin-left: 87% !important;
                             margin-top: -58px; */
                             border-radius: 4px;
                         }

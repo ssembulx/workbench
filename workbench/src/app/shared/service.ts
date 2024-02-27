@@ -79,6 +79,16 @@ export class SummaryService {
     return this.http.get(this.ServiceURL + 'home/GetBuildingNames/');
   }
 
+  // ***** get lab list (11) details  API for labwsie summary chart in home page ******//
+  public getLabListDetail(): Observable<any> {
+    return this.http.get(this.ServiceURL + 'home/lab-details/');
+  }
+
+  // ***** get lab list all count details  API for labwsie summary chart in home page ******//
+  public getLabListDetailsCount(): Observable<any> {
+    return this.http.get(this.ServiceURL + 'home/labdetailCount/');
+  }
+
   // ***** get prgoram details  API for labwsie summary chart in home page ******//
   public getPrgmDetail(): Observable<any> {
     return this.http.get(this.ServiceURL + 'home/GetProgramSkuDropdownNames/');
@@ -455,9 +465,9 @@ export class SummaryService {
 
   /* Delete Utilization */
   UtilizationApiDelete(param: any) {
- /*    const serviceUrl = this.ServiceURL + 'home/UtilizationApi/';
+    /*    const serviceUrl = this.ServiceURL + 'home/UtilizationApi/';
     return this.http.delete(serviceUrl, param); */
-     const serviceUrl = this.ServiceURL + 'home/updateUtilization/';
+    const serviceUrl = this.ServiceURL + 'home/updateUtilization/';
     return this.http.post(serviceUrl, param, {
       headers: {
         'Content-type': 'application/json',
@@ -490,6 +500,16 @@ export class SummaryService {
       },
     });
   }
+
+    /* allYearSummary API Call */
+    allYearSummary(param: any) {
+      const serviceUrl = this.ServiceURL + 'home/allyearsummary/';
+      return this.http.post(serviceUrl, param, {
+        headers: {
+          'Content-type': 'application/json',
+        },
+      });
+    }
 
   /* utilizationSumary API Call */
   utilizationSumary(param: any) {
@@ -630,6 +650,17 @@ export class SummaryService {
         'Content-type': 'application/json',
       },
     });
+  }
+  newBroadcastMail(data: any) {
+    const serviceUrl = this.ServiceURL + 'home/broadcastmail/';
+    return this.http.post(serviceUrl, data, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+  getBroadcastList() {
+    return this.http.get(this.ServiceURL + 'home/broadcastdetail/');
   }
   saveBooking(data: any) {
     const serviceUrl = this.ServiceURL + 'home/BookBench/';
