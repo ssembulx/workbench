@@ -11,7 +11,7 @@
               <i class="fa fa-solid fa-plus  fa-2x chart-icon" ngbTooltip="New BroadCast Mail"
                 (click)="AddRow(addmodal)" aria-hidden="true" placement="left"
                 style="color: #9eacb4;font-size: 22px;cursor: pointer;margin-right: 10px;"></i>
-              <i class="fa fa-download  fa-2x chart-icon" ngbTooltip="Download Broadcast Summary Data"
+              <i class="fa fa-download  fa-2x chart-icon" *ngIf="broadcastList?.length>0" ngbTooltip="Download Broadcast Summary Data"
                 (click)="downloadData()" aria-hidden="true" style="color: #9eacb4;font-size: 22px;cursor: pointer;"></i>
             </div>
             <!--  <div style="text-align: right;flex:1;padding-right: 10px;">
@@ -19,7 +19,7 @@
                 (click)="downloadData()" aria-hidden="true"
                 style="color: #9eacb4;font-size: 22px;margin-top: -1px;cursor: pointer;"></i>
             </div> -->
-            <table class="table table-bordered user-table mt-2" *ngIf="broadcastList">
+            <table class="table table-bordered user-table mt-2" *ngIf="broadcastList?.length>0">
               <thead>
                 <tr style="text-align: center;">
                   <th class="v-align" style="width:5%;">SL NO.</th>
@@ -34,7 +34,7 @@
                 <tr style="text-align: center;" *ngFor="let data of broadcastList  ; let i=index">
                   <td style="width:5%;">{{(i+1)}}</td>
                   <td style="width:15%;">{{data.Subject}}</td>
-                  <td style="width:25%;">{{data.Content}}</td>
+                  <td style="width:25%;">{{data.content_without_html}}</td>
                   <td style="width:15%;">{{data.BroadCast_by}}
                   <td style="text-align: left;width:30%;">
                     <div [ngClass]="{'read-more': !data.showFull}">{{data.User_mail_list}}</div>
@@ -93,14 +93,44 @@
       <table class="table table-bordered user-table">
         <tbody>
           <tr>
-            <td style="width: 30%;">Broadcast Subject</td>
+            <td style="width: 30%;" class="bold_center">Recipient Lab Users</td>
             <td>
-              <input type="text" class="text-box" [(ngModel)]="Subject">
+              <div [ngClass]="{'read-more': !showFull}">
+                <ng-container *ngFor="let data of userData"><span
+                    class="badge badge-secondary">{{data.Email}}</span></ng-container>
+              </div>
+
+              <a (click)="toggleReadMoreNew()" class="show-more">
+                {{ showFull ? 'Read Less' : '...Read More' }}
+              </a>
             </td>
           </tr>
           <tr>
-            <td style="width: 30%;">Broadcast Content</td>
-            <td><textarea type="text" class="text-box" [(ngModel)]="Content"></textarea></td>
+            <td style="width: 30%;" class="bold_center">Add New Email</td>
+            <td>
+              <div class="field-ctrl">
+                <input name="user" [(ngModel)]="allocatitedTo" type="text" class="form-control ww-input"
+                  placeholder="Search with WWID" (ngModelChange)="getUserDetails()" />
+                <!-- <i class="fa fa-search" (click)="getUserDetails()"></i> -->
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 30%;" class="bold_center">Broadcast Subject<b class="text-danger">*</b></td>
+            <td>
+              <div class="field-ctrl">
+                <input [(ngModel)]="Subject" type="text" class="form-control ww-input"
+                  placeholder="Enter Broadcast Subject here..." />
+                <!-- <i class="fa fa-search" (click)="getUserDetails()"></i> -->
+              </div>
+              <!--    <input type="text" class="text-box" placeholder="Enter Broadcast Subject here..." [(ngModel)]="Subject"> -->
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 30%;" class="bold_center">Broadcast Content<b class="text-danger">*</b></td>
+            <!-- <td><textarea type="text" class="text-box" [(ngModel)]="Content"></textarea></td> -->
+            <td><angular-editor [placeholder]="'Enter Broadcast Content here...'" [config]="config"
+                [(ngModel)]="htmlContent"></angular-editor></td>
           </tr>
         </tbody>
       </table>
@@ -108,7 +138,7 @@
     <div class="modal-footer">
       <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
       <button type="button" class="btn back-btn" (click)="AddUser()"
-        [disabled]="Subject =='' && Content ==''">Publish</button>
+        [disabled]="Subject =='' || htmlContent ==''">Publish</button>
     </div>
   </div>
 </ng-template>

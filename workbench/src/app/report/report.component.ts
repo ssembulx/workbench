@@ -12,6 +12,7 @@ export class ReportComponent implements OnInit {
   reverseMappedRelease: boolean = true;
   searchText = '';
   searchLocation = '';
+  searchAllocatedDate='';
   searchProgram = '';
   searchVendor = '';
   searchSku = '';
@@ -116,6 +117,16 @@ export class ReportComponent implements OnInit {
                 .trim()
                 .toLowerCase()
                 .includes(this.searchLocation.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchAllocatedDate != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.AllocatedDate === null
+            ? val.AllocatedDate
+            : val.AllocatedDate.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchAllocatedDate.toString().trim().toLowerCase());
         });
       }
       if (this.searchTeam != '') {
@@ -278,6 +289,7 @@ export class ReportComponent implements OnInit {
   // }
   clearInput() {
     this.searchLocation = '';
+    this.searchAllocatedDate='';
     this.searchProgram = '';
     this.searchVendor = '';
     this.searchSku = '';
@@ -405,6 +417,16 @@ export class ReportComponent implements OnInit {
                 .trim()
                 .toLowerCase()
                 .includes(this.searchLocation.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchAllocatedDate != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.AllocatedDate === null
+            ? val.AllocatedDate
+            : val.AllocatedDate.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchAllocatedDate.toString().trim().toLowerCase());
         });
       }
       if (this.searchTeam != '') {

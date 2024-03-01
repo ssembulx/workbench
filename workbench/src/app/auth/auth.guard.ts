@@ -9,6 +9,7 @@ import {
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SummaryService } from '../shared/service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -26,56 +27,22 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     // ***** Local code ***** //
-     const resAuth: any = {
-      emailId: 'sakthirajanx.sembulingam@intel.com',
-      name: 'Sembulingam, SakthirajanX',
-      idsid: 'ssembulx',
-      wwid: 11981339,
-      employeeBadgeType: 'GB',
-      avatarURL: 'https://photos.intel.com/images/11981339.jpg',
-      role: 'Admin',
-      domain: null,
-      comments: null,
-      displayName: 'Sembulingam, SakthirajanX',
-      isApplicationAccess: true,
-      programAccesses: null,
-      Role: 'Admin',
-    };
-    if (
-      resAuth.Role == 'Admin' ||
-      resAuth.Role == 'User' ||
-      resAuth.Role == 'Lead' ||
-      resAuth.Role == 'View'
-    ) {
-      this.service.authenticationDone(true);
-      this.service.setValue(true);
-      this.service.SetUser(resAuth);
-      return true;
-    } else if (resAuth.Role == 'View') {
-      this.router.navigate(['/home']);
-    } else {
-      debugger;
-      this.service.authenticationDone(true);
-      this.service.SetUser(resAuth);
-      this.router.navigate(['/access-restrict']);
-      return false;
-    }
-    // ******  Server code ****** //
-    //
-    //   //  let userInfo = this.service.GetUser();
-   /*  let userInfo;
-    this.service.GetUser().subscribe((res: any) => {
-      console.log('userdeatils-auth', res);
-      userInfo = res;
-    });
-    console.log(userInfo, 'res userInfo');
-    if (userInfo == null || userInfo == undefined) {
-      console.log(userInfo, 'if res userInfo');
-      const tokenData: any = await this.service.getWindowsAuthP();
-      const resAuth: any = await this.service.getUserDetailP({
-        token: tokenData.token,
-      });
-      console.log(resAuth, 'res Auth');
+    if (!environment.production) {
+      const resAuth: any = {
+        emailId: 'sakthirajanx.sembulingam@intel.com',
+        name: 'Sembulingam, SakthirajanX',
+        idsid: 'ssembulx',
+        wwid: 11981339,
+        employeeBadgeType: 'GB',
+        avatarURL: 'https://photos.intel.com/images/11981339.jpg',
+        role: 'Admin',
+        domain: null,
+        comments: null,
+        displayName: 'Sembulingam, SakthirajanX',
+        isApplicationAccess: true,
+        programAccesses: null,
+        Role: 'Admin',
+      };
       if (
         resAuth.Role == 'Admin' ||
         resAuth.Role == 'User' ||
@@ -86,17 +53,54 @@ export class AuthGuard implements CanActivate {
         this.service.setValue(true);
         this.service.SetUser(resAuth);
         return true;
+      } else if (resAuth.Role == 'View') {
+        this.router.navigate(['/home']);
       } else {
+        debugger;
         this.service.authenticationDone(true);
         this.service.SetUser(resAuth);
         this.router.navigate(['/access-restrict']);
         return false;
       }
-    } else {
-      console.log(userInfo, 'else res userInfo');
-      return true;
-    } */
-
+    }
+    // ******  Server code ****** //
+    //
+    //   //  let userInfo = this.service.GetUser();
+    if (environment.production) {
+      let userInfo;
+      this.service.GetUser().subscribe((res: any) => {
+        console.log('userdeatils-auth', res);
+        userInfo = res;
+      });
+      console.log(userInfo, 'res userInfo');
+      if (userInfo == null || userInfo == undefined) {
+        console.log(userInfo, 'if res userInfo');
+        const tokenData: any = await this.service.getWindowsAuthP();
+        const resAuth: any = await this.service.getUserDetailP({
+          token: tokenData.token,
+        });
+        console.log(resAuth, 'res Auth');
+        if (
+          resAuth.Role == 'Admin' ||
+          resAuth.Role == 'User' ||
+          resAuth.Role == 'Lead' ||
+          resAuth.Role == 'View'
+        ) {
+          this.service.authenticationDone(true);
+          this.service.setValue(true);
+          this.service.SetUser(resAuth);
+          return true;
+        } else {
+          this.service.authenticationDone(true);
+          this.service.SetUser(resAuth);
+          this.router.navigate(['/access-restrict']);
+          return false;
+        }
+      } else {
+        console.log(userInfo, 'else res userInfo');
+        return true;
+      }
+    }
     //   if (!this.helper.token) {
     //     let userToken:any = await this.service.getWindowsAuthP();
     //     const payload = { "userToken": userToken.token }

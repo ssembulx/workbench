@@ -109,6 +109,26 @@ export class SearchLab implements PipeTransform {
 }
 
 @Pipe({
+  name: 'searchFilterAllocationDate',
+  pure: false,
+})
+export class SearchAllocationDate implements PipeTransform {
+  transform(value: any, args?: any): any {
+    if (!args) {
+      return value;
+    }
+    return value.filter((val: any) => {
+      return val.AllocatedDate === null
+        ? val.AllocatedDate
+        : val.AllocatedDate.toString()
+            .trim()
+            .toLowerCase()
+            .includes(args.toString().trim().toLowerCase());
+    });
+  }
+}
+
+@Pipe({
   name: 'searchFilterTeam',
   pure: false,
 })

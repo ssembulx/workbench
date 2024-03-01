@@ -25,7 +25,7 @@ export class ExportService {
     testcaseData.forEach((item: any) => {
       let rowList = [
         item.Subject,
-        item.Content,
+        item.content_without_html,
         item.BroadCast_by,
         item.CreatedDate,
         item.User_mail_list,
@@ -80,6 +80,7 @@ export class ExportService {
     let testcaseData = jsonData;
 
     let headerNameList = [
+      'Allocated Date',
       'Lab Details',
       'Team',
       '#Bench',
@@ -101,6 +102,7 @@ export class ExportService {
 
     testcaseData.forEach((item: any) => {
       let rowList = [
+        item?.AllocatedDate,
         item.Location__Name,
         item.Team,
         item.BenchData?.length,
@@ -133,6 +135,7 @@ export class ExportService {
     let testcaseData = jsonData;
 
     let headerNameList = [
+      'Allocated Date',
       'Lab Details',
       'Team',
       '#Bench',
@@ -156,6 +159,7 @@ export class ExportService {
 
     testcaseData.forEach((item: any) => {
       let rowList = [
+        item?.AllocatedDate,
         item.Location__Name,
         item.Team,
         item.BenchData?.length,
@@ -169,7 +173,7 @@ export class ExportService {
         item.Duration,
         item.Remarks,
         item.DeallocatedBy,
-        item.DeallocatedDate,
+        item.deallocatedDate,
         item.approvedBy,
         item.RequestedBy?.[0]?.Name,
         item.status,
@@ -190,6 +194,7 @@ export class ExportService {
     let testcaseData = jsonData;
 
     let headerNameList = [
+      'Allocated Date',
       'Lab Details',
       'Team',
       '#Bench',
@@ -216,6 +221,7 @@ export class ExportService {
 
     testcaseData.forEach((item: any) => {
       let rowList = [
+        item?.AllocatedDate,
         item.Location__Name,
         item.Team,
         item.BenchData?.length,
@@ -229,7 +235,7 @@ export class ExportService {
         item.Duration,
         item.Remarks,
         item.DeallocatedBy,
-        item.DeallocatedDate,
+        item.deallocatedDate,
         item.RejectedBy,
         item.RejectedDate,
         item.Reason,
@@ -253,6 +259,7 @@ export class ExportService {
     let testcaseData = jsonData;
 
     let headerNameList = [
+      'Allocated Date',
       'Lab Details',
       'Team',
       '#Bench',
@@ -277,6 +284,7 @@ export class ExportService {
 
     testcaseData.forEach((item: any) => {
       let rowList = [
+        item?.AllocatedDate,
         item.Location__Name,
         item.Team,
         item.BenchData?.length,

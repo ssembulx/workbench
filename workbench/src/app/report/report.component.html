@@ -256,6 +256,12 @@
                     <thead>
                         <tr>
                             <th class="v-align">#</th>
+                            <th class="v-align" (click)="setOrderRelease('Allocated Date')"><span class="sort-by"
+                                    [ngbTooltip]="allocatedDateSearch" placement="top" tooltipClass="custom-tooltip"
+                                    [autoClose]="false" triggers="manual" #ts21="ngbTooltip"
+                                    (click)="showTestTrendSearch(ts21)">
+                                    <i class="fas fa-search"></i>&nbsp;&nbsp;Allocated Date</span>
+                            </th>
                             <th class="v-align" (click)="setOrderRelease('Lab Details')"><span class="sort-by"
                                     [ngbTooltip]="testTrendSearch" placement="top" tooltipClass="custom-tooltip"
                                     [autoClose]="false" triggers="manual" #ts1="ngbTooltip"
@@ -353,8 +359,9 @@
                     </thead>
                     <tbody>
                         <tr
-                            *ngFor="let data of reportData | searchFilter: searchText | searchFilterLocation: searchLocation | searchFilterTeam: searchTeam | searchFilterProgram: searchProgram |  searchFilterSku: searchSku | searchFilterVendor : searchVendor | searchFilterAllocated : searchAllocated | searchFilterFromWW : searchfromWW | searchFilterToWW : searchtoWW | searchFilterBench : searchBench | searchFilterDetails : searchBenchDetails | searchFilterDuration : searchDuration | searchFilterApprovedBy : searchApprovedBy |searchFilterRemarks :searchRemarks |searchFilterRequestedBy : searchRequestedBy;  let i=index">
+                            *ngFor="let data of reportData | searchFilter: searchText | searchFilterAllocationDate:searchAllocatedDate | searchFilterLocation: searchLocation | searchFilterTeam: searchTeam | searchFilterProgram: searchProgram |  searchFilterSku: searchSku | searchFilterVendor : searchVendor | searchFilterAllocated : searchAllocated | searchFilterFromWW : searchfromWW | searchFilterToWW : searchtoWW | searchFilterBench : searchBench | searchFilterDetails : searchBenchDetails | searchFilterDuration : searchDuration | searchFilterApprovedBy : searchApprovedBy |searchFilterRemarks :searchRemarks |searchFilterRequestedBy : searchRequestedBy;  let i=index">
                             <td>{{i+1}}</td>
+                            <td>{{data.AllocatedDate}}</td>
                             <td>{{data.Location__Name}}</td>
                             <td>{{data.Team}}</td>
                             <td>{{data.BenchData?.length}}</td>
@@ -382,7 +389,19 @@
         </div>
     </div>
 </div>
-
+<ng-template #allocatedDateSearch>
+    <div class="search-tooltip">
+        <div class="tooltip-header">
+            <i class="fas fa-times close-tooltip" (click)="hideTestTrendSearch()"></i>
+        </div>
+        <div class="form-group search-ctrl">
+            <input name="target" [(ngModel)]="searchAllocatedDate" (ngModelChange)="valuechange()"
+                placeholder="Search Allocated Date" type="text" class="form-control" />
+            <i class="fas fa-times" (click)="clearInput()" *ngIf="searchAllocatedDate !== ''"></i>
+            <i class="flaticon-search fas fa-search"></i>
+        </div>
+    </div>
+</ng-template>
 <ng-template #testTrendSearch>
     <div class="search-tooltip">
         <div class="tooltip-header">

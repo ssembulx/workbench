@@ -1272,7 +1272,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
           // Handle other errors
           // console.error('Error:', error);
           this.labViewLoader = true;
-           this.toastrService.warning(error, 'Warning');
+          this.toastrService.warning(error, 'Warning');
         }
       }
     );
@@ -1317,27 +1317,27 @@ export class VPGLabComponent implements OnInit, OnChanges {
     this.dataSvc.getUserDetails(obj).subscribe(
       (res) => {
         if (res) {
-        if (res['name'] === null || res['name'] === undefined) {
-          this.labViewLoader = true;
+          if (res['name'] === null || res['name'] === undefined) {
+            this.labViewLoader = true;
             this.toastrService.warning(
               'No users found with entered details, Kindly enter correct details!',
               'Warning'
             );
-          /*  this.alertService.showWarning(
+            /*  this.alertService.showWarning(
           'No users found with entered details, Kindly enter correct details!'
         ); */
+          } else {
+            this.labViewLoader = true;
+            this.notifyUserDetails = res;
+            this.notifyTo = res['name'];
+          }
         } else {
           this.labViewLoader = true;
-          this.notifyUserDetails = res;
-          this.notifyTo = res['name'];
+          this.toastrService.warning(
+            'No users found with entered details, Kindly enter correct details!',
+            'Warning'
+          );
         }
-      } else {
-        this.labViewLoader = true;
-        this.toastrService.warning(
-          'No users found with entered details, Kindly enter correct details!',
-          'Warning'
-        );
-      }
         //  this.loadRoles();
       },
       (error) => {
@@ -1358,7 +1358,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
           // Handle other errors
           // console.error('Error:', error);
           this.labViewLoader = true;
-           this.toastrService.warning(error, 'Warning');
+          this.toastrService.warning(error, 'Warning');
         }
       }
     );
@@ -1368,14 +1368,11 @@ export class VPGLabComponent implements OnInit, OnChanges {
   deSelectBenchAllocationList: any = [];
   deSelectSeat(seatObject: any) {
     debugger;
-    if (this.userInfo?.Role == 'User') {
+    if (this.userInfo?.Role == 'User' || this.userInfo?.Role == 'Lead') {
       if (seatObject?.AllocationData[0]?.Who[0]?.WWID == this.userInfo?.wwid) {
         this.deSelectSeatFunclogic(seatObject);
       }
-    } else if (
-      this.userInfo?.Role == 'Admin' ||
-      this.userInfo?.Role == 'Lead'
-    ) {
+    } else if (this.userInfo?.Role == 'Admin') {
       this.deSelectSeatFunclogic(seatObject);
     }
   }

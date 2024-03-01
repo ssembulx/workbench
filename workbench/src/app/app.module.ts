@@ -28,6 +28,7 @@ import {
   SearchBench,
   SearchFromWW,
   SearchLab,
+  SearchAllocationDate,
   SearchPipe,
   SearchProgram,
   SearchSku,
@@ -75,6 +76,7 @@ import { AllocationHistoryComponent } from './allocation-history/allocation-hist
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { LabPortUtilizationComponent } from './lab-port-utilization/lab-port-utilization.component';
 import { AutoApprovalComponent } from './auto-approval/auto-approval.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 /* import { ToastrService } from 'ngx-toastr'; */
 @NgModule({
   declarations: [
@@ -96,6 +98,7 @@ import { AutoApprovalComponent } from './auto-approval/auto-approval.component';
     ReportComponent,
     SearchPipe,
     SearchLab,
+    SearchAllocationDate,
     SearchTeam,
     SearchProgram,
     SearchVendor,
@@ -151,6 +154,7 @@ import { AutoApprovalComponent } from './auto-approval/auto-approval.component';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    AngularEditorModule,
   ],
   providers: [
     SummaryService,

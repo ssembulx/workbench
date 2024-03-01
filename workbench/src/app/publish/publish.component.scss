@@ -1759,13 +1759,13 @@ thead {
       padding-bottom: 7px;
 
       .user-table {
-          max-width: 150%;
-          margin-top: 6px;
+          /* max-width: 150%;
+          margin-top: 6px; */
           // border: 1px solid grey;
           tbody {
               td {
-                  text-align: center;
-                  font-weight: bold;
+               /*    text-align: center;
+                  font-weight: bold; */
                   &:first-child {
                       width: 50%;
                   }
@@ -1867,4 +1867,13 @@ thead {
   text-decoration: underline;
   color: blue;
   cursor: pointer;
+}
+
+.badge-secondary {
+    color: #fff;
+    background-color: #6c757d;
+}
+.bold_center{
+        text-align: center;
+    font-weight: bold;
 }
