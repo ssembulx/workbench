@@ -12,6 +12,7 @@ export class ReportComponent implements OnInit {
   reverseMappedRelease: boolean = true;
   searchText = '';
   searchLocation = '';
+  searchAllocatedDate='';
   searchProgram = '';
   searchVendor = '';
   searchSku = '';
@@ -24,6 +25,7 @@ export class ReportComponent implements OnInit {
   searchDuration = '';
   searchRemarks = '';
   searchApprovedBy = '';
+  searchRequestedBy = '';
   searchBenchDetails = '';
   reportData: any;
   reportDataAll: any;
@@ -115,6 +117,16 @@ export class ReportComponent implements OnInit {
                 .trim()
                 .toLowerCase()
                 .includes(this.searchLocation.toString().trim().toLowerCase());
+        });
+      }
+      if (this.searchAllocatedDate != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.AllocatedDate === null
+            ? val.AllocatedDate
+            : val.AllocatedDate.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchAllocatedDate.toString().trim().toLowerCase());
         });
       }
       if (this.searchTeam != '') {
@@ -242,6 +254,16 @@ export class ReportComponent implements OnInit {
                 );
         });
       }
+      if (this.searchRequestedBy != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.RequestedBy[0].Name === null
+            ? val.RequestedBy[0].Name
+            : val.RequestedBy[0].Name.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchRequestedBy.toString().trim().toLowerCase());
+        });
+      }
       console.log(filteredData);
       this.allocatedTotal = 0;
       filteredData.forEach((element) => {
@@ -267,6 +289,7 @@ export class ReportComponent implements OnInit {
   // }
   clearInput() {
     this.searchLocation = '';
+    this.searchAllocatedDate='';
     this.searchProgram = '';
     this.searchVendor = '';
     this.searchSku = '';
@@ -279,6 +302,7 @@ export class ReportComponent implements OnInit {
     this.searchDuration = '';
     this.searchRemarks = '';
     this.searchApprovedBy = '';
+    this.searchRequestedBy='';
     /* reset count  */
     if (this.reportData?.length > 0) {
       this.allocatedTotal = 0;
@@ -396,6 +420,16 @@ export class ReportComponent implements OnInit {
                 .includes(this.searchLocation.toString().trim().toLowerCase());
         });
       }
+      if (this.searchAllocatedDate != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.AllocatedDate === null
+            ? val.AllocatedDate
+            : val.AllocatedDate.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchAllocatedDate.toString().trim().toLowerCase());
+        });
+      }
       if (this.searchTeam != '') {
         filteredData = filteredData.filter((val: any) => {
           return val.Team === null
@@ -519,6 +553,16 @@ export class ReportComponent implements OnInit {
                 .includes(
                   this.searchApprovedBy.toString().trim().toLowerCase()
                 );
+        });
+      }
+      if (this.searchRequestedBy != '') {
+        filteredData = filteredData.filter((val: any) => {
+          return val.RequestedBy?.[0].Name === null
+            ? val.RequestedBy?.[0].Name
+            : val.RequestedBy?.[0].Name.toString()
+                .trim()
+                .toLowerCase()
+                .includes(this.searchRequestedBy.toString().trim().toLowerCase());
         });
       }
       console.log(filteredData);

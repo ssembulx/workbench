@@ -38,7 +38,7 @@
             <a routerLink="/home">Home</a>
             <a routerLink="/allocation"
                 *ngIf="roleName == 'Admin' || roleName == 'User' || roleName == 'Lead'">Allocation</a>
-            <a routerLink="/approve" *ngIf="roleName == 'Admin' || roleName == 'Lead'">Approve</a>
+            <a routerLink="/approve" *ngIf="roleName == 'Admin'">Approve</a>
             <a routerLink="/report">Report</a>
             <div class="dropdown d-flex" *ngIf="roleName == 'Admin' || roleName == 'Lead'">
                 <button class="dropdown_btn dropdown-toggle" type="button" id="dropdownMenuButton"

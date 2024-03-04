@@ -109,6 +109,26 @@ export class SearchLab implements PipeTransform {
 }
 
 @Pipe({
+  name: 'searchFilterAllocationDate',
+  pure: false,
+})
+export class SearchAllocationDate implements PipeTransform {
+  transform(value: any, args?: any): any {
+    if (!args) {
+      return value;
+    }
+    return value.filter((val: any) => {
+      return val.AllocatedDate === null
+        ? val.AllocatedDate
+        : val.AllocatedDate.toString()
+            .trim()
+            .toLowerCase()
+            .includes(args.toString().trim().toLowerCase());
+    });
+  }
+}
+
+@Pipe({
   name: 'searchFilterTeam',
   pure: false,
 })
@@ -147,6 +167,145 @@ export class SearchProgram implements PipeTransform {
     });
   }
 }
+/* search program add forecast data */
+@Pipe({
+  name: 'searchFilterProgramAddForecast',
+  pure: false,
+})
+export class SearchProgramAddForecast implements PipeTransform {
+  transform(value: any, searchTerm?: any): any {
+    if (!searchTerm) {
+      return value;
+    }
+
+    // Use Array.prototype.filter to filter the nested array
+    return value.filter(item => {
+      return this.nestedSearchRecursive(item, searchTerm, 'value');
+    });
+  }
+  nestedSearchRecursive(item: any, searchTerm: string, property: string): boolean {
+    if (item[property] && item[property].toString().toLowerCase().includes(searchTerm.toLowerCase())) {
+      return true;
+    }
+
+    if (Array.isArray(item)) {
+      for (const child of item) {
+        if(child?.properties == 'Program'){
+          if (this.nestedSearchRecursive(child, searchTerm, 'value')) {
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
+  }
+}
+
+/* search SKU add forecast data */
+@Pipe({
+  name: 'searchFilterSKUAddForecast',
+  pure: false,
+})
+export class SearchSKUAddForecast implements PipeTransform {
+  transform(value: any, searchTerm?: any): any {
+    if (!searchTerm) {
+      return value;
+    }
+
+    // Use Array.prototype.filter to filter the nested array
+    return value.filter(item => {
+      return this.nestedSearchRecursive(item, searchTerm, 'value');
+    });
+  }
+  nestedSearchRecursive(item: any, searchTerm: string, property: string): boolean {
+    if (item[property] && item[property].toString().toLowerCase().includes(searchTerm.toLowerCase())) {
+      return true;
+    }
+
+    if (Array.isArray(item)) {
+      for (const child of item) {
+        if(child?.properties == 'Sku'){
+          if (this.nestedSearchRecursive(child, searchTerm, 'value')) {
+            return true;
+          }
+        } 
+      }
+    }
+
+    return false;
+  }
+}
+/* search Team add forecast data */
+@Pipe({
+  name: 'searchFilterTeamAddForecast',
+  pure: false,
+})
+export class SearchTeamAddForecast implements PipeTransform {
+  transform(value: any, searchTerm?: any): any {
+    if (!searchTerm) {
+      return value;
+    }
+
+    // Use Array.prototype.filter to filter the nested array
+    return value.filter(item => {
+      return this.nestedSearchRecursive(item, searchTerm, 'value');
+    });
+  }
+  nestedSearchRecursive(item: any, searchTerm: string, property: string): boolean {
+    if (item[property] && item[property].toString().toLowerCase().includes(searchTerm.toLowerCase())) {
+      return true;
+    }
+
+    if (Array.isArray(item)) {
+      for (const child of item) {
+        if(child?.properties == 'Team'){
+          if (this.nestedSearchRecursive(child, searchTerm, 'value')) {
+            return true;
+          }
+        } 
+      }
+    }
+
+    return false;
+  }
+}
+
+/* search Team add forecast data */
+@Pipe({
+  name: 'searchFilterVendorAddForecast',
+  pure: false,
+})
+export class SearchVendorAddForecast implements PipeTransform {
+  transform(value: any, searchTerm?: any): any {
+    if (!searchTerm) {
+      return value;
+    }
+
+    // Use Array.prototype.filter to filter the nested array
+    return value.filter(item => {
+      return this.nestedSearchRecursive(item, searchTerm, 'value');
+    });
+  }
+  nestedSearchRecursive(item: any, searchTerm: string, property: string): boolean {
+    if (item[property] && item[property].toString().toLowerCase().includes(searchTerm.toLowerCase())) {
+      return true;
+    }
+
+    if (Array.isArray(item)) {
+      for (const child of item) {
+        if(child?.properties == 'Vendor'){
+          if (this.nestedSearchRecursive(child, searchTerm, 'value')) {
+            return true;
+          }
+        } 
+      }
+    }
+
+    return false;
+  }
+}
+
 
 @Pipe({
   name: 'searchFilterSku',
@@ -320,6 +479,26 @@ export class SearchApprovedBy implements PipeTransform {
         ? val.approvedBy
         : val.approvedBy
             .toString()
+            .trim()
+            .toLowerCase()
+            .includes(args.toString().trim().toLowerCase());
+    });
+  }
+}
+
+@Pipe({
+  name: 'searchFilterRequestedBy',
+  pure: false,
+})
+export class SearchRequestedBy implements PipeTransform {
+  transform(value: any, args?: any): any {
+    if (!args) {
+      return value;
+    }
+    return value.filter((val: any) => {
+      return val.RequestedBy === null
+        ? val.RequestedBy
+        : val.RequestedBy[0].Name.toString()
             .trim()
             .toLowerCase()
             .includes(args.toString().trim().toLowerCase());

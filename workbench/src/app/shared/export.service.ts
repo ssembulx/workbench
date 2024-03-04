@@ -14,6 +14,7 @@ export class ExportService {
     let testcaseData = jsonData;
 
     let headerNameList = [
+      'Allocated Date',
       'Lab Details',
       'Team',
       '#Bench',
@@ -33,6 +34,7 @@ export class ExportService {
 
     testcaseData.forEach((item: any) => {
       let rowList = [
+        item?.AllocatedDate,
         item.Location__Name,
         item.Team,
         item.BenchData?.length,
@@ -63,6 +65,7 @@ export class ExportService {
     let testcaseData = jsonData;
 
     let headerNameList = [
+      'Allocated Date',
       'Lab Details',
       'Team',
       '#Bench',
@@ -84,6 +87,7 @@ export class ExportService {
 
     testcaseData.forEach((item: any) => {
       let rowList = [
+        item?.AllocatedDate,
         item.Location__Name,
         item.Team,
         item.BenchData?.length,
@@ -97,7 +101,7 @@ export class ExportService {
         item.Duration,
         item.Remarks,
         item.DeallocatedBy,
-        item.DeallocatedDate,
+        item.deallocatedDate,
         item.status,
       ];
       const row = worksheet.addRow(rowList);
@@ -116,6 +120,7 @@ export class ExportService {
     let testcaseData = jsonData;
 
     let headerNameList = [
+      'Allocated Date',
       'Lab Details',
       'Team',
       '#Bench',
@@ -140,6 +145,7 @@ export class ExportService {
 
     testcaseData.forEach((item: any) => {
       let rowList = [
+        item?.AllocatedDate,
         item.Location__Name,
         item.Team,
         item.BenchData?.length,
@@ -153,7 +159,7 @@ export class ExportService {
         item.Duration,
         item.Remarks,
         item.DeallocatedBy,
-        item.DeallocatedDate,
+        item.deallocatedDate,
         item.RejectedBy,
         item.RejectedDate,
         item.Reason,
@@ -175,6 +181,7 @@ export class ExportService {
     let testcaseData = jsonData;
 
     let headerNameList = [
+      'Allocated Date',
       'Lab Details',
       'Team',
       '#Bench',
@@ -197,6 +204,7 @@ export class ExportService {
 
     testcaseData.forEach((item: any) => {
       let rowList = [
+        item?.AllocatedDate,
         item.Location__Name,
         item.Team,
         item.BenchData?.length,

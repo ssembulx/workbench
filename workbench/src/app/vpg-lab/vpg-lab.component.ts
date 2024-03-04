@@ -1303,14 +1303,11 @@ export class VPGLabComponent implements OnInit, OnChanges {
   deSelectBenchAllocationList: any = [];
   deSelectSeat(seatObject: any) {
     debugger;
-    if (this.userInfo?.Role == 'User') {
+    if (this.userInfo?.Role == 'User' || this.userInfo?.Role == 'Lead') {
       if (seatObject?.AllocationData[0]?.Who[0]?.WWID == this.userInfo?.wwid) {
         this.deSelectSeatFunclogic(seatObject);
       }
-    } else if (
-      this.userInfo?.Role == 'Admin' ||
-      this.userInfo?.Role == 'Lead'
-    ) {
+    } else if (this.userInfo?.Role == 'Admin') {
       this.deSelectSeatFunclogic(seatObject);
     }
   }
