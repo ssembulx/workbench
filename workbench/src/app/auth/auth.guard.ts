@@ -35,13 +35,13 @@ export class AuthGuard implements CanActivate {
         wwid: 11981339,
         employeeBadgeType: 'GB',
         avatarURL: 'https://photos.intel.com/images/11981339.jpg',
-        role: 'Lead',
+        role: 'Admin',
         domain: null,
         comments: null,
         displayName: 'Sembulingam, SakthirajanX',
         isApplicationAccess: true,
         programAccesses: null,
-        Role: 'Lead',
+        Role: 'Admin',
       };
       if (
         resAuth.Role == 'Admin' ||

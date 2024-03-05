@@ -14,7 +14,7 @@ export class ExportService {
     let testcaseData = jsonData;
 
     let headerNameList = [
-      'Allocated Date',
+      'Booking Date',
       'Lab Details',
       'Team',
       '#Bench',
@@ -65,7 +65,7 @@ export class ExportService {
     let testcaseData = jsonData;
 
     let headerNameList = [
-      'Allocated Date',
+      'Booking Date',
       'Lab Details',
       'Team',
       '#Bench',
@@ -120,7 +120,7 @@ export class ExportService {
     let testcaseData = jsonData;
 
     let headerNameList = [
-      'Allocated Date',
+      'Booking Date',
       'Lab Details',
       'Team',
       '#Bench',
@@ -181,7 +181,7 @@ export class ExportService {
     let testcaseData = jsonData;
 
     let headerNameList = [
-      'Allocated Date',
+      'Booking Date',
       'Lab Details',
       'Team',
       '#Bench',
