@@ -28,10 +28,18 @@
                                         <i class="fa fa-chart-bar fa-2x chart-icon"></i>
                                         <span class="chart-heading">Forecast Summary {{preSelectedYear}}</span>
                                     </div>
+                                    <!-- <div style="text-align: right;flex:1;padding-right: 10px;">
+                                        <i class="fa fa-solid fa-copy fa-2x chart-icon" (click)="copyclipboard()"
+                                            [ngbTooltip]="copyImageToolTip" aria-hidden="true"
+                                            style="color: #9eacb4;font-size: 22px;margin-top: -1px;cursor: pointer;"></i>
+                                    </div> -->
                                     <div style="text-align: right;flex:1;padding-right: 10px;">
+                                        <i class="fa fa-solid fa-copy fa-2x chart-icon" (click)="copyclipboard()"
+                                            [ngbTooltip]="copyImageToolTip" aria-hidden="true"
+                                            style="color: #9eacb4;font-size: 22px;margin-top: -1px;cursor: pointer;padding-right: 10px;"></i>
                                         <i class="fa fa-download  fa-2x chart-icon"
                                             ngbTooltip="Download Forecast Summary Comparison Data"
-                                            (click)="downloadForecastSummary()" aria-hidden="true"
+                                            (click)="downloadForecastSummary();" aria-hidden="true"
                                             style="color: #9eacb4;font-size: 22px;margin-top: -1px;cursor: pointer;"></i>
                                     </div>
                                     <!--  <i class="fa fa-download  fa-2x chart-icon"
@@ -70,8 +78,8 @@
                             <hr class="box-hr">
 
                             <!-- ******* Labwise chart table view *******  -->
-                            <div id="chartdiv" [hidden]='allocatedAPICall_no_data_available'></div>
-
+                            <div id="chartdiv" #chartdiv [hidden]='allocatedAPICall_no_data_available'></div>
+                            <canvas #canvas style="display: none;"></canvas>
                             <!-- No data available display -->
                             <div class="no_data_block_display_allocatedAPICall"
                                 [hidden]='!allocatedAPICall_no_data_available'>

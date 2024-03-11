@@ -11,8 +11,9 @@
               <i class="fa fa-solid fa-plus  fa-2x chart-icon" ngbTooltip="New BroadCast Mail"
                 (click)="AddRow(addmodal)" aria-hidden="true" placement="left"
                 style="color: #9eacb4;font-size: 22px;cursor: pointer;margin-right: 10px;"></i>
-              <i class="fa fa-download  fa-2x chart-icon" *ngIf="broadcastList?.length>0" ngbTooltip="Download Broadcast Summary Data"
-                (click)="downloadData()" aria-hidden="true" style="color: #9eacb4;font-size: 22px;cursor: pointer;"></i>
+              <i class="fa fa-download  fa-2x chart-icon" *ngIf="broadcastList?.length>0"
+                ngbTooltip="Download Broadcast Summary Data" (click)="downloadData()" aria-hidden="true"
+                style="color: #9eacb4;font-size: 22px;cursor: pointer;"></i>
             </div>
             <!--  <div style="text-align: right;flex:1;padding-right: 10px;">
               <i class="fa fa-download  fa-2x chart-icon" ngbTooltip="Download Broadcast Summary Data"
@@ -22,28 +23,52 @@
             <table class="table table-bordered user-table mt-2" *ngIf="broadcastList?.length>0">
               <thead>
                 <tr style="text-align: center;">
-                  <th class="v-align" style="width:5%;">SL NO.</th>
+                  <th class="v-align" style="width:7%;">Broadcast No</th>
+                  <th class="v-align" style="width:15%;">Created Date</th>
                   <th class="v-align" style="width:15%;">Subject</th>
-                  <th class="v-align" style="width:25%;">Content</th>
-                  <th class="v-align" style="width:15%;">BroadCast By</th>
+                  <th class="v-align" style="width:25%;">Broadcast Message</th>
                   <th class="v-align" style="width:30%;">User Mail List</th>
-                  <th class="v-align" style="width:10%;">Created Date</th>
+                  <th class="v-align" style="width:10%;">Broadcast By</th>
+                  <th class="v-align" style="width:7%;">Broadcast Content</th>
                 </tr>
               </thead>
               <tbody>
                 <tr style="text-align: center;" *ngFor="let data of broadcastList  ; let i=index">
-                  <td style="width:5%;">{{(i+1)}}</td>
+                  <td style="width:7%;">{{(i+1)}}</td>
+                  <td style="width:15%;">{{data.CreatedDate}}</td>
                   <td style="width:15%;">{{data.Subject}}</td>
-                  <td style="width:25%;">{{data.content_without_html}}</td>
-                  <td style="width:15%;">{{data.BroadCast_by}}
+                  <td style="width:25%;">{{data.Content}}
+                    <ng-container *ngIf="data?.Attachment?.length !=0">
+                      <div>
+                        <span *ngIf="data?.Attachment?.length>1">Attachements :</span>
+                        <span *ngIf="data?.Attachment?.length==1">Attachement :</span>
+                      </div>
+                      <ng-container *ngFor="let base of data?.Attachment">
+                        <span>
+                          <img src="{{base}}" style="width: 50px; height: 50px;" />
+                        </span>
+                      </ng-container>
+                    </ng-container>
+
+                  </td>
                   <td style="text-align: left;width:30%;">
-                    <div [ngClass]="{'read-more': !data.showFull}">{{data.User_mail_list}}</div>
+                    <div [ngClass]="{'read-more': !data.showFull}">
+                      <ng-container *ngFor="let list of data?.User_mail_list">
+                        <span class="badge badge-secondary">{{list}}</span>
+                      </ng-container>
+                    </div>
 
                     <a (click)="toggleReadMore(data)" class="show-more">
                       {{ data.showFull ? 'Read Less' : '...Read More' }}
                     </a>
                   </td>
-                  <td style="width:10%;">{{data.CreatedDate}}</td>
+                  <td style="width:10%;">{{data.BroadCast_by?.[0]?.Name}}</td>
+                  <td style="width:7%;">
+                    <button type="button" class="btn back-btn close" aria-label="Close"
+                      (click)="openEditorInfo(newmessagemodal,data)">View <i class="fa fa-eye"
+                        aria-hidden="true"></i></button>
+                    <!-- <i class="fa fa-info-circle" (click)="openEditorInfo(newmessagemodal,data)" aria-hidden="true"></i> -->
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -80,13 +105,13 @@
 </div>
 
 
-<!-- =========***** Modal popup for add user*****=============-->
+<!-- =========***** Modal popup for new publish*****=============-->
 <ng-template #addmodal let-c="close" let-d="dismiss">
   <div class="modal-add">
     <div class="modal-header">
       <h1 class="modal-title fs-5" id="testModalLabel"><i class="fas fa-envelope"></i>&nbsp; New BroadCast Mail
       </h1>
-      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <button type="button" class="close" aria-label="Close" (click)="closeModal()">
         <i class='fas fa-times'></i></button>
     </div>
     <div class="modal-body">
@@ -108,10 +133,24 @@
           <tr>
             <td style="width: 30%;" class="bold_center">Add New Email</td>
             <td>
-              <div class="field-ctrl">
+              <!-- <div class="field-ctrl">
                 <input name="user" [(ngModel)]="allocatitedTo" type="text" class="form-control ww-input"
-                  placeholder="Search with WWID" (ngModelChange)="getUserDetails()" />
-                <!-- <i class="fa fa-search" (click)="getUserDetails()"></i> -->
+                  placeholder="Type WWID" (ngModelChange)="getUserDetails()" />
+              </div> -->
+              <div class="input-tags">
+                <div class="editor-tag field-ctrl">
+                  <span class="tag-item" *ngFor="let tag of addedUserList; let i = index;">
+                    <span>
+                      {{tag.Email}}
+                    </span>
+                    <span class="remove-tag" (click)="removeTag(tag.Email, i)">×</span>
+                  </span>
+                  <input name="user" [(ngModel)]="allocatitedTo" type="text" class="form-control ww-input input-tag" placeholder="Type WWID"
+                    (ngModelChange)="getUserDetails()" />
+                  <!-- <input placeholder="Enter Email" type="email" class="input-tag"
+                        (keyup)="onKeyUp($event, contact.SIVExecutionTeamList.length, 'siv')"
+                        formControlName="tag" (change)="valueChange('SIV Team')"> -->
+                </div>
               </div>
             </td>
           </tr>
@@ -136,9 +175,36 @@
       </table>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
+      <button type="button" class="btn back-btn close" aria-label="Close" (click)="closeModal()">Cancel</button>
       <button type="button" class="btn back-btn" (click)="AddUser()"
         [disabled]="Subject =='' || htmlContent ==''">Publish</button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- =========***** Modal popup for view broadcast message*****=============-->
+<ng-template #newmessagemodal let-c="close" let-d="dismiss">
+  <div class="modal-add">
+    <div class="modal-header">
+      <h1 class="modal-title fs-5" id="testModalLabel"><i class="fas fa-envelope"></i>&nbsp; Broadcast Content
+      </h1>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <i class='fas fa-times'></i></button>
+    </div>
+    <div class="modal-body">
+      <table class="table table-bordered user-table">
+        <tbody>
+          <tr>
+            <!-- <td style="width: 30%;" class="bold_center">Broadcast Content<b class="text-danger">*</b></td> -->
+            <!-- <td><textarea type="text" class="text-box" [(ngModel)]="Content"></textarea></td> -->
+            <td><angular-editor [placeholder]="'Enter Broadcast Content here...'" [config]="config"
+                [(ngModel)]="htmlContentView"></angular-editor></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
     </div>
   </div>
 </ng-template>

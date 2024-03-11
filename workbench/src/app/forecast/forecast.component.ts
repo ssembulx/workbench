@@ -16,6 +16,7 @@ import { Chart } from '@amcharts/amcharts5';
 import * as am5plugins_exporting from '@amcharts/amcharts5/plugins/exporting';
 import { fitAngleToRange } from '@amcharts/amcharts5/.internal/core/util/Math';
 import * as am5percent from '@amcharts/amcharts5/percent';
+import html2canvas from 'html2canvas';
 
 // amCharts imports
 import * as am5 from '@amcharts/amcharts5';
@@ -88,11 +89,53 @@ export class ForecastComponent implements OnInit {
   vendorList: any;
   teamList: any;
   boardList: any;
+  @ViewChild('chartdiv') contentToCapture!: ElementRef;
+  @ViewChild('canvas') canvas!: ElementRef;
+  private imageBlob: Blob | null = null;
+  copyImageToolTip: any = 'Copy Image';
+  copyCanvasToClipboard() {
+    if (this.imageBlob) {
+      const clipboardItem = new ClipboardItem({ 'image/png': this.imageBlob });
+
+      // Use the Clipboard API to write the Blob to the clipboard
+      navigator.clipboard
+        .write([clipboardItem])
+        .then(() => {
+          console.log('Canvas copied to clipboard');
+          this.copyImageToolTip = 'Copied';
+          setTimeout(() => {
+            this.copyImageToolTip = 'Copy Image';
+          }, 3000);
+        })
+        .catch((err) => {
+          console.error('Failed to copy canvas to clipboard', err);
+        });
+    } else {
+      console.warn('No canvas content to copy. Capture the canvas first.');
+    }
+  }
+
   copyclipboard() {
     debugger;
-    const divElement = document.getElementById('chartdiv');
-    const base64String = divElement.getAttribute('data-base64');
-    const decodedBase64String = atob(base64String);
+    const content = this.contentToCapture.nativeElement;
+    const canvasElement = this.canvas.nativeElement;
+
+    html2canvas(content).then((canvas) => {
+      // Clear previous content
+      const ctx = canvasElement.getContext('2d');
+      ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+
+      // Draw the captured canvas onto the provided canvas element
+      canvasElement.width = canvas.width;
+      canvasElement.height = canvas.height;
+      ctx.drawImage(canvas, 0, 0);
+
+      // Store the canvas content as a Blob
+      canvas.toBlob((blob) => {
+        this.imageBlob = blob;
+        this.copyCanvasToClipboard();
+      });
+    });
   }
   /* onchange program dropdown */
   onChangeProgram(value: any) {

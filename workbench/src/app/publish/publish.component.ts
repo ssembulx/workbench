@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ExportService } from '../shared/export.service';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-publish',
   templateUrl: './publish.component.html',
@@ -16,7 +17,8 @@ export class PublishComponent implements OnInit {
     private dataSvc: SummaryService,
     private toastrService: ToastrService,
     private ExportService: ExportService,
-    config: NgbModalConfig
+    config: NgbModalConfig,
+    private fb: FormBuilder
   ) {
     config.backdrop = 'static';
     config.size = 'lg';
@@ -31,9 +33,10 @@ export class PublishComponent implements OnInit {
     minWidth: '5rem',
     placeholder: 'Enter text here...',
     translate: 'no',
+    sanitize: false,
     defaultParagraphSeparator: 'p',
     defaultFontName: 'Arial',
-    toolbarHiddenButtons: [['bold']],
+    toolbarHiddenButtons: [['insertVideo']],
     customClasses: [
       {
         name: 'quote',
@@ -102,8 +105,16 @@ export class PublishComponent implements OnInit {
     this.modalReference = this.modalService.open(addmodal);
   }
 
+  /* open view broad cast message content */
+  openEditorInfo(addmodal: any, data: any) {
+    debugger;
+    this.modalReference = this.modalService.open(addmodal);
+    this.htmlContentView = data?.Content_with_html_tag;
+  }
+
   userDetails: any;
   allocatitedTo = '';
+  addedUserList = [];
   getUserDetails() {
     /*     let flag = this.checkUserExists();
     if (this.modal.user === '' || this.modal.user === undefined) {
@@ -159,7 +170,13 @@ export class PublishComponent implements OnInit {
             } else {
               this.labwiseChartLoader = true;
               this.userDetails = res;
-              this.allocatitedTo = res['emailId'];
+              let result = {
+                WWID: res['wwid'],
+                Name: res['name'],
+                Email: res['emailId'],
+              };
+              this.addedUserList.push(result);
+              this.allocatitedTo = '';
             }
           } else {
             this.labwiseChartLoader = true;
@@ -172,6 +189,7 @@ export class PublishComponent implements OnInit {
         },
         (error) => {
           debugger;
+          this.labwiseChartLoader = true;
           if (error?.status === 204) {
             // Handle 204 No Content response
             //console.log('Received a 204 No Content response.');
@@ -184,17 +202,21 @@ export class PublishComponent implements OnInit {
               'Warning'
             );
             this.labwiseChartLoader = true;
+          } else if (error?.status === 404) {
+            this.labwiseChartLoader = true;
+            this.toastrService.warning(error?.message, 'Warning');
           } else {
             // Handle other errors
             // console.error('Error:', error);
             this.labwiseChartLoader = true;
-            this.toastrService.warning(error, 'Warning');
+            this.toastrService.warning(error?.message, 'Warning');
           }
         }
       );
     }
   }
   htmlContent = '';
+  htmlContentView = '';
   AddUser() {
     let payload = {
       Subject: this.Subject,
@@ -207,13 +229,7 @@ export class PublishComponent implements OnInit {
         },
       ],
       CreatedDate: '',
-      NewUser: [
-        {
-          WWID: this.userDetails?.wwid,
-          Name: this.userDetails?.name,
-          Email: this.userDetails?.emailId,
-        },
-      ],
+      NewUser: this.addedUserList,
     };
     debugger;
     this.modalReference.close();
@@ -224,11 +240,19 @@ export class PublishComponent implements OnInit {
         this.Subject = '';
         this.htmlContent = '';
         this.allocatitedTo = '';
+        this.addedUserList = [];
         this.labwiseChartLoader = true;
         this.toastrService.success('Success!', 'Success!');
         this.getBroadcastList();
       }
     });
+  }
+  closeModal() {
+    this.modalReference.close();
+    this.Subject = '';
+    this.htmlContent = '';
+    this.allocatitedTo = '';
+    this.addedUserList = [];
   }
   showFull = false;
   toggleReadMoreNew() {
@@ -236,5 +260,8 @@ export class PublishComponent implements OnInit {
   }
   toggleReadMore(item: any) {
     item.showFull = !item.showFull;
+  }
+  removeTag(email, index) {
+    this.addedUserList.splice(index, 1);
   }
 }

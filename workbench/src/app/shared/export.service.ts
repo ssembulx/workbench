@@ -13,22 +13,22 @@ export class ExportService {
     let testcaseData = jsonData;
 
     let headerNameList = [
-      'Subject',
-      'Content',
-      'BroadCast By',
       'Created Date',
+      'Subject',
+      'Broadcast Message',
       'User Mail List',
+      'BroadCast By',
     ];
     // let headerRow = worksheet.addRow(headerNameList);
     worksheet.addRow(headerNameList);
 
     testcaseData.forEach((item: any) => {
       let rowList = [
-        item.Subject,
-        item.content_without_html,
-        item.BroadCast_by,
-        item.CreatedDate,
-        item.User_mail_list,
+        item?.CreatedDate,
+        item?.Subject,
+        item?.Content,
+        item?.User_mail_list,
+        item?.BroadCast_by?.[0]?.Name,
       ];
       const row = worksheet.addRow(rowList);
     }),
@@ -80,7 +80,7 @@ export class ExportService {
     let testcaseData = jsonData;
 
     let headerNameList = [
-      'Allocated Date',
+      'Booking Date',
       'Lab Details',
       'Team',
       '#Bench',
@@ -135,7 +135,7 @@ export class ExportService {
     let testcaseData = jsonData;
 
     let headerNameList = [
-      'Allocated Date',
+      'Booking Date',
       'Lab Details',
       'Team',
       '#Bench',
@@ -194,7 +194,7 @@ export class ExportService {
     let testcaseData = jsonData;
 
     let headerNameList = [
-      'Allocated Date',
+      'Booking Date',
       'Lab Details',
       'Team',
       '#Bench',
@@ -259,7 +259,7 @@ export class ExportService {
     let testcaseData = jsonData;
 
     let headerNameList = [
-      'Allocated Date',
+      'Booking Date',
       'Lab Details',
       'Team',
       '#Bench',

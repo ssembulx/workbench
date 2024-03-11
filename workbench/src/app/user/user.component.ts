@@ -101,77 +101,83 @@ export class UserComponent implements OnInit {
   //***** Calling user details API ****//
   getUserDetails() {
     debugger;
-    if (!/^\d+$/.test(this.wwid.trim())) {
-      var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
-      if (format.test(this.wwid.trim())) {
+    const eightCharRegex = /(.{8})/;
+    const matches = eightCharRegex.test(this.wwid.trim());
+    if (matches) {
+      if (!/^\d+$/.test(this.wwid.trim())) {
+        var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+        if (format.test(this.wwid.trim())) {
+          var obj = {
+            type: 'CorporateEmailTxt',
+            values: this.wwid.trim(),
+          };
+        } else {
+          var obj = {
+            type: 'FullNm',
+            values: this.wwid.trim(),
+          };
+        }
+      }
+      if (/^\d+$/.test(this.wwid.trim())) {
         var obj = {
-          type: 'CorporateEmailTxt',
-          values: this.wwid.trim(),
-        };
-      } else {
-        var obj = {
-          type: 'FullNm',
+          type: 'Wwid',
           values: this.wwid.trim(),
         };
       }
-    }
-    if (/^\d+$/.test(this.wwid.trim())) {
-      var obj = {
-        type: 'Wwid',
-        values: this.wwid.trim(),
-      };
-    }
 
-    this.service.getUserDetails(obj).subscribe(
-      (res) => {
-        if (res) {
-          if (
-            res['wwid'] === null ||
-            res['wwid'] === undefined ||
-            res['wwid'] != this.wwid
-          ) {
-            debugger;
+      this.service.getUserDetails(obj).subscribe(
+        (res) => {
+          if (res) {
+            if (
+              res['wwid'] === null ||
+              res['wwid'] === undefined ||
+              res['wwid'] != this.wwid
+            ) {
+              debugger;
+              this.toastrService.warning(
+                'No users found with entered details, Kindly enter correct details!',
+                'Warning!'
+              );
+            } else {
+              this.userDetails = res;
+              this.name = res['name'];
+              this.email = res['emailId'];
+              this.wwid = res['wwid'];
+              this.role = res['role'];
+              this.idsid = res['idsid'];
+              this.badge = res['employeeBadgeType'];
+              this.displayname = res['displayName'];
+            }
+          } else {
             this.toastrService.warning(
               'No users found with entered details, Kindly enter correct details!',
-              'Warning!'
+              'Warning'
             );
-          } else {
-            this.userDetails = res;
-            this.name = res['name'];
-            this.email = res['emailId'];
-            this.wwid = res['wwid'];
-            this.role = res['role'];
-            this.idsid = res['idsid'];
-            this.badge = res['employeeBadgeType'];
-            this.displayname = res['displayName'];
           }
-        } else {
-          this.toastrService.warning(
-            'No users found with entered details, Kindly enter correct details!',
-            'Warning'
-          );
-        }
-      },
-      (error) => {
-        debugger;
-        if (error?.status === 204) {
-          // Handle 204 No Content response
-          //console.log('Received a 204 No Content response.');
-          /* this.toastrService.warning(
+        },
+        (error) => {
+          debugger;
+          if (error?.status === 204) {
+            // Handle 204 No Content response
+            //console.log('Received a 204 No Content response.');
+            /* this.toastrService.warning(
           'Received a 204 No Content response.',
           'Warning'
         ); */
-          this.toastrService.warning(
-            'No users found with entered details, Kindly enter correct details!',
-            'Warning'
-          );
-        } else {
-          // Handle other errors
-          // console.error('Error:', error);
-          this.toastrService.warning(error, 'Warning');
+            this.toastrService.warning(
+              'No users found with entered details, Kindly enter correct details!',
+              'Warning'
+            );
+          } else if (error?.status === 404) {
+            this.toastrService.warning(error?.message, 'Warning');
+          } else {
+            // Handle other errors
+            // console.error('Error:', error);
+            this.toastrService.warning(error?.message, 'Warning');
+          }
         }
-      }
-    );
+      );
+    }
   }
 
   //**** Edit Row functionality in table ****//

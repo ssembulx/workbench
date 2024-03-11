@@ -1199,6 +1199,9 @@ export class VPGLabComponent implements OnInit, OnChanges {
       );
     } else { */
     /* if (flag) { */
+    const eightCharRegex = /(.{8})/;
+    const matches = eightCharRegex.test(this.allocatitedTo.trim());
+    if (matches) {
     if (!/^\d+$/.test(this.allocatitedTo.trim())) {
       var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
       if (format.test(this.allocatitedTo.trim())) {
@@ -1256,6 +1259,7 @@ export class VPGLabComponent implements OnInit, OnChanges {
       },
       (error) => {
         debugger;
+        this.labViewLoader = true;
         if (error?.status === 204) {
           // Handle 204 No Content response
           //console.log('Received a 204 No Content response.');
@@ -1268,14 +1272,18 @@ export class VPGLabComponent implements OnInit, OnChanges {
             'Warning'
           );
           this.labViewLoader = true;
-        } else {
+        } else if(error?.status === 404){
+          this.labViewLoader = true;
+          this.toastrService.warning(error?.message, 'Warning');
+        }else {
           // Handle other errors
           // console.error('Error:', error);
           this.labViewLoader = true;
-          this.toastrService.warning(error, 'Warning');
+          this.toastrService.warning(error?.message, 'Warning');
         }
       }
     );
+    }
   }
   notifyUserDetails: any;
   getNotifyUserDetails() {

@@ -387,8 +387,8 @@
                                         <td style="padding: 0px;">
                                             <div class="field-ctrl">
                                                 <input name="user" [(ngModel)]="allocatitedTo" type="text"
-                                                    class="form-control ww-input" placeholder="Search with WWID" />
-                                                <i class="fa fa-search" (click)="getUserDetails()"></i>
+                                                    class="form-control ww-input" placeholder="Search with WWID" (ngModelChange)="getUserDetails()" />
+                                                <!-- <i class="fa fa-search" (click)="getUserDetails()"></i> -->
                                             </div>
                                             <!--  <input style="width: 100%;" type="text" class="text-box"
                                             placeholder="Srikanth Uppuluri" [(ngModel)]="allocatitedTo"> -->

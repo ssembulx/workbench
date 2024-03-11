@@ -1877,3 +1877,67 @@ thead {
         text-align: center;
     font-weight: bold;
 }
+
+.back-btn {
+    font-family: "IntelOne Display AR Medium";
+    background-color: #0071c5;
+    padding: 0px;
+    color: white;
+    font-size: 14px;
+    border-radius: 0px;
+    box-shadow: #7f9fff 3px 3px 6px 0px inset, rgb(53, 13, 51) -3px -3px 6px 1px inset;
+    width: 60px;
+    text-align: center;
+}
+
+/* multiuser css */
+.input-tags {
+    width: 99%;
+.editor-tag {
+    max-width: 100%;
+    cursor: text;
+    font-size: 12px;
+    padding: 0px;
+    background: white;
+    text-align: left;
+    overflow: auto;
+
+    & .tag-item {
+        line-height: 21px;
+        border-radius: 3px;
+        font-size: 12.5px;
+        display: inline-block;
+        color: #2b2b2b;
+        background-color: #dadada;
+        padding-left: 5px;
+        padding-bottom: 0px;
+        margin-bottom: 2px;
+        margin-right: 6px;
+        cursor: pointer;
+      .remove-tag {
+        padding-right: 5px;
+        padding-left: 5px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: bold;
+      }
+    }
+
+    & .tag-item:not(:first-child) {
+      margin-right: 6px;
+    }
+    & input {
+      /*   margin: 0;
+        border: none;
+        outline: none;
+        border-radius: 0px;
+        padding: 0px!important;
+        height: 31px!important;
+        width: 95%;
+        text-align: left!important;
+        margin-left: 5px;
+        margin-right: 0px!important;
+        margin-left: 5px; */
+      }
+  }
+}
