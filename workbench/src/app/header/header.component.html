@@ -71,7 +71,7 @@
                 </div>
             </div>
             <a routerLink="/approveuser" *ngIf="roleName == 'Admin'">New User Approval</a>
-            <div class="dropdown d-flex" *ngIf="roleName == 'Admin' || roleName == 'Lead'">
+            <div class="dropdown d-flex">
                 <button class="dropdown_btn dropdown-toggle" type="button" id="dropdownMenuButton"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Phase 2 <i class="fa fa-angle-down" aria-hidden="true"></i>
@@ -80,8 +80,7 @@
                     style="margin-top: 28px;margin-left: -18px;">
                     <a [routerLink]="['/utilization']" (click)="changeView()" *ngIf="roleName == 'Admin'"
                         class="dropdown-item">Utilization</a>
-                    <a [routerLink]="['/forecast']" (click)="changeView()"
-                        *ngIf="roleName == 'Admin' || roleName == 'Lead'" class="dropdown-item">Forecast</a>
+                    <a [routerLink]="['/forecast']" (click)="changeView()" class="dropdown-item">Forecast</a>
                     <a [routerLink]="['/broadcast']" (click)="changeView()" *ngIf="roleName == 'Admin'"
                         class="dropdown-item">Broadcast</a>
                     <!--   <a [routerLink]="['/tutorial']" (click)="changeView()" class="dropdown-item">Tutorial</a>

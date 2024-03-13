@@ -2694,11 +2694,13 @@ export class ForecastComponent implements OnInit {
         }
       }
       console.log('Temporary list', this.tempList);
-      this.tempList.push({
-        value: 'Update',
-        editing: false,
-        properties: 'Action',
-      });
+      if (this.roleName == 'Admin') {
+        this.tempList.push({
+          value: 'Update',
+          editing: false,
+          properties: 'Action',
+        });
+      }
       this.tableData.push(this.tempList);
     });
     function isObject(variable) {
@@ -2858,11 +2860,15 @@ export class ForecastComponent implements OnInit {
   }
 
   startEditingCell(rowIndex: number, colIndex: number): void {
-    this.tableData[rowIndex][colIndex].editing = true;
+    if (this.roleName == 'Admin') {
+      this.tableData[rowIndex][colIndex].editing = true;
+    }
   }
 
   onCellEditDone(rowIndex: number, colIndex: number): void {
-    this.tableData[rowIndex][colIndex].editing = false;
+    if (this.roleName == 'Admin') {
+      this.tableData[rowIndex][colIndex].editing = false;
+    }
   }
   /* update row  */
   EditRow(row, rowIndex) {
@@ -2999,7 +3005,7 @@ export class ForecastComponent implements OnInit {
       debugger;
       this.dataSvc.updateBoard(id, mergedObject).subscribe((res: any) => {
         if (res) {
-          this.toastrService.success(res?.message, 'Success!');
+          this.toastrService.success(res, 'Success!');
           this.getBoardList();
           this.labwiseChartLoader = true;
         }
@@ -3161,7 +3167,7 @@ export class ForecastComponent implements OnInit {
       this.labwiseChartLoader = false;
       this.dataSvc.addBoard(mergedObject).subscribe((res: any) => {
         if (res) {
-          this.toastrService.success(res?.message, 'Success!');
+          this.toastrService.success(res, 'Success!');
           this.getBoardList();
           this.labwiseChartLoader = true;
         }
@@ -3938,7 +3944,7 @@ export class ForecastComponent implements OnInit {
       this.modalReference.close();
       this.dataSvc.uploadBoardData(rows).subscribe((res: any) => {
         if (res) {
-          this.toastrService.success(res?.message, 'Success!');
+          this.toastrService.success(res, 'Success!');
           this.getBoardList();
           this.labwiseChartLoader = true;
         }

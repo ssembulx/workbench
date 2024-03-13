@@ -54,6 +54,36 @@ export class PublishComponent implements OnInit {
     ],
   };
 
+  configView: AngularEditorConfig = {
+    editable: false,
+    spellcheck: true,
+    height: '15rem',
+    minHeight: '5rem',
+    width: 'auto',
+    minWidth: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    sanitize: false,
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    toolbarHiddenButtons: [['insertVideo']],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
+
   labwiseChartLoader = false;
   roleName: any;
   userInfo: any;

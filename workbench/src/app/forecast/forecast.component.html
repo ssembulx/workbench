@@ -34,13 +34,16 @@
                                             style="color: #9eacb4;font-size: 22px;margin-top: -1px;cursor: pointer;"></i>
                                     </div> -->
                                     <div style="text-align: right;flex:1;padding-right: 10px;">
-                                        <i class="fa fa-solid fa-copy fa-2x chart-icon" (click)="copyclipboard()"
+                                        <img src="./assets/IMG/clipboard.svg" (click)="copyclipboard()"
+                                            [ngbTooltip]="copyImageToolTip"
+                                            style="cursor: pointer;padding-right: 10px;margin-top: -10px;">
+                                        <!-- <i class="fa fa-solid fa-copy fa-2x chart-icon" (click)="copyclipboard()"
                                             [ngbTooltip]="copyImageToolTip" aria-hidden="true"
-                                            style="color: #9eacb4;font-size: 22px;margin-top: -1px;cursor: pointer;padding-right: 10px;"></i>
+                                            style="color: #9eacb4;font-size: 22px;margin-top: -1px;cursor: pointer;padding-right: 10px;"></i> -->
                                         <i class="fa fa-download  fa-2x chart-icon"
                                             ngbTooltip="Download Forecast Summary Comparison Data"
                                             (click)="downloadForecastSummary();" aria-hidden="true"
-                                            style="color: #9eacb4;font-size: 22px;margin-top: -1px;cursor: pointer;"></i>
+                                            style="color: #9eacb4;font-size: 22px;margin-top: 2px;cursor: pointer;"></i>
                                     </div>
                                     <!--  <i class="fa fa-download  fa-2x chart-icon"
                                         ngbTooltip="Download Forecast Summary Data" (click)="downloadForecastSummary()"
@@ -351,13 +354,13 @@
                     <!-- <a class="download-template" (click)="fileInput.click()">Upload Forecaste Data</a> -->
                     <a class="download-template" href="/assets/Template/Forecast Data Upload Template.xlsx">Download
                         Template</a>
-                    <i class="fa fa-solid fa-upload"
+                    <i class="fa fa-solid fa-upload" *ngIf="roleName == 'Admin'"
                         style="font-size: 22px;cursor: pointer;color: #9eacb4;margin-right: 10px;margin-top: 5px;"
                         aria-hidden="true" (click)="fileInput.click()" ngbTooltip="Upload Forecaste Data"></i>
                     <i class="fa fa-solid fa-download"
                         style="font-size: 22px;cursor: pointer;color: #9eacb4;margin-right: 10px;margin-top: 5px;"
                         ngbTooltip="Download RVP Forecast Data" (click)="fireEvent()"></i>
-                    <i class="fa fa-solid fa-plus" *ngIf="roleName == 'Admin' || roleName == 'Lead'"
+                    <i class="fa fa-solid fa-plus" *ngIf="roleName == 'Admin'"
                         style="font-size: 22px;cursor: pointer;color: #9eacb4;margin-right: 10px;margin-top: 5px;"
                         ngbTooltip="Add New Forecast Data" (click)="AddRow()"></i>
                     <!-- <button class="btn add-btn" (click)="AddRow()"> Add New Forecast Data </button> -->
@@ -393,7 +396,7 @@
                                     Month
                                 </th>
                                 <th colspan="4" *ngFor="let column of monthsOfYear">{{ column }}</th>
-                                <th>
+                                <th *ngIf="roleName == 'Admin'">
 
                                 </th>
                             </tr>
@@ -430,7 +433,7 @@
                                 </th>
                                 <th class="text_align_b_t" *ngFor="let column of boardsHeaderColumns">{{ column }}
                                 </th>
-                                <th>
+                                <th *ngIf="roleName == 'Admin'">
                                     Action
                                 </th>
                             </tr>
@@ -439,113 +442,209 @@
                             <tr
                                 *ngFor="let row of tableData | searchFilterProgramAddForecast: searchProgram  | searchFilterSKUAddForecast: searchSku | searchFilterTeamAddForecast:searchTeam | searchFilterVendorAddForecast:searchVendor ; let rowIndex = index">
                                 <td>{{rowIndex+1}}</td>
-                                <td *ngFor="let cell of row; let colIndex = index">
-                                    <ng-container *ngIf="cell.properties == 'Program'">
-                                        <div *ngIf="cell.editing">
-                                            <select class="form-select location_select" style="width: 120px;"
-                                                aria-label="Default select example" [(ngModel)]="cell.value"
-                                                (change)="onChangeProgram(cell.value)"
-                                                (blur)="onCellEditDone(rowIndex, colIndex)"
-                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)">
-                                                <option selected value="">Select Program</option>
-                                                <option *ngFor="let locat of programList?.ProgramName"
-                                                    [ngValue]="locat">
-                                                    {{locat}}
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div (click)="startEditingCell(rowIndex, colIndex)" *ngIf="!cell.editing"
-                                            style="width: 120px;">
-                                            {{ cell.value }}
-                                        </div>
-                                    </ng-container>
-                                    <ng-container *ngIf="cell.properties == 'Sku'">
-                                        <div *ngIf="cell.editing">
-                                            <select class="form-select location_select" style="width: 120px;"
-                                                aria-label="Default select example" [(ngModel)]="cell.value"
-                                                (blur)="onCellEditDone(rowIndex, colIndex)"
-                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)">
-                                                <option selected value="">Select SKU</option>
-                                                <option *ngFor="let locat of skuList" [ngValue]="locat">
-                                                    {{locat}}
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div (click)="startEditingCell(rowIndex, colIndex)" *ngIf="!cell.editing"
-                                            style="width: 120px;">
-                                            {{ cell.value }}
-                                        </div>
-                                    </ng-container>
-                                    <ng-container *ngIf="cell.properties == 'Team'">
-                                        <div *ngIf="cell.editing">
-                                            <select class="form-select location_select" style="width: 120px;"
-                                                aria-label="Default select example" [(ngModel)]="cell.value"
-                                                (blur)="onCellEditDone(rowIndex, colIndex)"
-                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)">
-                                                <option selected value="">Select Team</option>
-                                                <option *ngFor="let loca of teamList?.TeamName" [ngValue]="loca">
-                                                    {{loca}}
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div (click)="startEditingCell(rowIndex, colIndex)" *ngIf="!cell.editing"
-                                            style="width: 120px;">
-                                            {{ cell.value }}
-                                        </div>
-                                    </ng-container>
-                                    <ng-container *ngIf="cell.properties == 'Vendor'">
-                                        <div *ngIf="cell.editing">
-                                            <select class="form-select location_select" style="width: 120px;"
-                                                aria-label="Default select example" [(ngModel)]="cell.value"
-                                                (blur)="onCellEditDone(rowIndex, colIndex)"
-                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)">
-                                                <option selected value="">Select Vendor</option>
-                                                <option *ngFor="let locat of vendorList?.Vendors" [ngValue]="locat">
-                                                    {{locat}}
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div (click)="startEditingCell(rowIndex, colIndex)" *ngIf="!cell.editing"
-                                            style="width: 120px;">
-                                            {{ cell.value }}
-                                        </div>
-                                    </ng-container>
-                                    <ng-container *ngIf="cell.properties == 'TotalBoard'">
-                                        <h6 style="width: 60px;font-size: 13px;font-weight: 600;">
-                                            {{ cell.value }}
-                                        </h6>
-                                    </ng-container>
-                                    <ng-container
-                                        *ngIf="cell.properties != 'Program' && cell.properties != 'Sku' && cell.properties != 'Team' && cell.properties != 'Vendor' && cell.properties != 'Action' && cell.properties != 'TotalBoard'">
-                                        <div [hidden]="!cell.editing">
-                                            <input [(ngModel)]="cell.value" (blur)="onCellEditDone(rowIndex, colIndex)"
-                                                (keydown.enter)="onCellEditDone(rowIndex, colIndex)"
-                                                (ngModelChange)="onRowTotalBoardCount(rowIndex, colIndex)"
-                                                style="width: 60px;" />
-                                        </div>
-                                        <div (click)="startEditingCell(rowIndex, colIndex)" [hidden]="cell.editing"
-                                            style="width: 60px;">
-                                            {{ cell.value }}
-                                        </div>
-                                    </ng-container>
-                                    <ng-container *ngIf="cell.properties == 'Action'">
-                                        <div style="display: flex;">
-                                            <span style="cursor: pointer;margin-right:5px"
-                                                (click)="AddNewRow(row,rowIndex)"
-                                                *ngIf="cell.value == 'Add'">Save</span>
-                                            <span style="cursor: pointer;margin-right:5px"
-                                                (click)="EditRow(row,rowIndex)"
-                                                *ngIf="cell.value == 'Update' && (roleName == 'Admin' || roleName == 'Lead')">Update</span>
-                                            <span *ngIf="roleName == 'Admin'">|</span>
-                                            <span style="cursor: pointer;margin-left:5px"
-                                                (click)="DeleteAddRow(rowIndex)"
-                                                *ngIf="cell.value == 'Add'">Delete</span>
-                                            <span style="cursor: pointer;margin-left:5px"
-                                                (click)="DeleteRow(row,rowIndex)"
-                                                *ngIf="cell.value == 'Update' && roleName == 'Admin'">Delete</span>
-                                        </div>
-                                    </ng-container>
-                                </td>
+                                <ng-container *ngIf="roleName != 'Admin'">
+                                    <td *ngFor="let cell of row; let colIndex = index">
+                                        <ng-container *ngIf="cell.properties == 'Program'">
+                                            <div *ngIf="cell.editing">
+                                                <select class="form-select location_select" style="width: 120px;"
+                                                    aria-label="Default select example" [(ngModel)]="cell.value"
+                                                    (change)="onChangeProgram(cell.value)"
+                                                    (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                    (keydown.enter)="onCellEditDone(rowIndex, colIndex)">
+                                                    <option selected value="">Select Program</option>
+                                                    <option *ngFor="let locat of programList?.ProgramName"
+                                                        [ngValue]="locat">
+                                                        {{locat}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div (click)="startEditingCell(rowIndex, colIndex)" *ngIf="!cell.editing"
+                                                style="width: 120px;">
+                                                {{ cell.value }}
+                                            </div>
+                                        </ng-container>
+                                        <ng-container *ngIf="cell.properties == 'Sku'">
+                                            <div *ngIf="cell.editing">
+                                                <select class="form-select location_select" style="width: 120px;"
+                                                    aria-label="Default select example" [(ngModel)]="cell.value"
+                                                    (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                    (keydown.enter)="onCellEditDone(rowIndex, colIndex)">
+                                                    <option selected value="">Select SKU</option>
+                                                    <option *ngFor="let locat of skuList" [ngValue]="locat">
+                                                        {{locat}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div (click)="startEditingCell(rowIndex, colIndex)" *ngIf="!cell.editing"
+                                                style="width: 120px;">
+                                                {{ cell.value }}
+                                            </div>
+                                        </ng-container>
+                                        <ng-container *ngIf="cell.properties == 'Team'">
+                                            <div *ngIf="cell.editing">
+                                                <select class="form-select location_select" style="width: 120px;"
+                                                    aria-label="Default select example" [(ngModel)]="cell.value"
+                                                    (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                    (keydown.enter)="onCellEditDone(rowIndex, colIndex)">
+                                                    <option selected value="">Select Team</option>
+                                                    <option *ngFor="let loca of teamList?.TeamName" [ngValue]="loca">
+                                                        {{loca}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div (click)="startEditingCell(rowIndex, colIndex)" *ngIf="!cell.editing"
+                                                style="width: 120px;">
+                                                {{ cell.value }}
+                                            </div>
+                                        </ng-container>
+                                        <ng-container *ngIf="cell.properties == 'Vendor'">
+                                            <div *ngIf="cell.editing">
+                                                <select class="form-select location_select" style="width: 120px;"
+                                                    aria-label="Default select example" [(ngModel)]="cell.value"
+                                                    (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                    (keydown.enter)="onCellEditDone(rowIndex, colIndex)">
+                                                    <option selected value="">Select Vendor</option>
+                                                    <option *ngFor="let locat of vendorList?.Vendors" [ngValue]="locat">
+                                                        {{locat}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div (click)="startEditingCell(rowIndex, colIndex)" *ngIf="!cell.editing"
+                                                style="width: 120px;">
+                                                {{ cell.value }}
+                                            </div>
+                                        </ng-container>
+                                        <ng-container *ngIf="cell.properties == 'TotalBoard'">
+                                            <h6 style="width: 60px;font-size: 13px;font-weight: 600;">
+                                                {{ cell.value }}
+                                            </h6>
+                                        </ng-container>
+                                        <ng-container
+                                            *ngIf="cell.properties != 'Program' && cell.properties != 'Sku' && cell.properties != 'Team' && cell.properties != 'Vendor' && cell.properties != 'Action' && cell.properties != 'TotalBoard'">
+                                            <div [hidden]="!cell.editing">
+                                                <input [(ngModel)]="cell.value"
+                                                    (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                    (keydown.enter)="onCellEditDone(rowIndex, colIndex)"
+                                                    (ngModelChange)="onRowTotalBoardCount(rowIndex, colIndex)"
+                                                    style="width: 60px;" />
+                                            </div>
+                                            <div (click)="startEditingCell(rowIndex, colIndex)" [hidden]="cell.editing"
+                                                style="width: 60px;">
+                                                {{ cell.value }}
+                                            </div>
+                                        </ng-container>
+                                    </td>
+                                </ng-container>
+                                <ng-container *ngIf="roleName == 'Admin'">
+                                    <td *ngFor="let cell of row; let colIndex = index">
+                                        <ng-container *ngIf="cell.properties == 'Program'">
+                                            <div *ngIf="cell.editing">
+                                                <select class="form-select location_select" style="width: 120px;"
+                                                    aria-label="Default select example" [(ngModel)]="cell.value"
+                                                    (change)="onChangeProgram(cell.value)"
+                                                    (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                    (keydown.enter)="onCellEditDone(rowIndex, colIndex)">
+                                                    <option selected value="">Select Program</option>
+                                                    <option *ngFor="let locat of programList?.ProgramName"
+                                                        [ngValue]="locat">
+                                                        {{locat}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div (click)="startEditingCell(rowIndex, colIndex)" *ngIf="!cell.editing"
+                                                style="width: 120px;">
+                                                {{ cell.value }}
+                                            </div>
+                                        </ng-container>
+                                        <ng-container *ngIf="cell.properties == 'Sku'">
+                                            <div *ngIf="cell.editing">
+                                                <select class="form-select location_select" style="width: 120px;"
+                                                    aria-label="Default select example" [(ngModel)]="cell.value"
+                                                    (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                    (keydown.enter)="onCellEditDone(rowIndex, colIndex)">
+                                                    <option selected value="">Select SKU</option>
+                                                    <option *ngFor="let locat of skuList" [ngValue]="locat">
+                                                        {{locat}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div (click)="startEditingCell(rowIndex, colIndex)" *ngIf="!cell.editing"
+                                                style="width: 120px;">
+                                                {{ cell.value }}
+                                            </div>
+                                        </ng-container>
+                                        <ng-container *ngIf="cell.properties == 'Team'">
+                                            <div *ngIf="cell.editing">
+                                                <select class="form-select location_select" style="width: 120px;"
+                                                    aria-label="Default select example" [(ngModel)]="cell.value"
+                                                    (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                    (keydown.enter)="onCellEditDone(rowIndex, colIndex)">
+                                                    <option selected value="">Select Team</option>
+                                                    <option *ngFor="let loca of teamList?.TeamName" [ngValue]="loca">
+                                                        {{loca}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div (click)="startEditingCell(rowIndex, colIndex)" *ngIf="!cell.editing"
+                                                style="width: 120px;">
+                                                {{ cell.value }}
+                                            </div>
+                                        </ng-container>
+                                        <ng-container *ngIf="cell.properties == 'Vendor'">
+                                            <div *ngIf="cell.editing">
+                                                <select class="form-select location_select" style="width: 120px;"
+                                                    aria-label="Default select example" [(ngModel)]="cell.value"
+                                                    (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                    (keydown.enter)="onCellEditDone(rowIndex, colIndex)">
+                                                    <option selected value="">Select Vendor</option>
+                                                    <option *ngFor="let locat of vendorList?.Vendors" [ngValue]="locat">
+                                                        {{locat}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div (click)="startEditingCell(rowIndex, colIndex)" *ngIf="!cell.editing"
+                                                style="width: 120px;">
+                                                {{ cell.value }}
+                                            </div>
+                                        </ng-container>
+                                        <ng-container *ngIf="cell.properties == 'TotalBoard'">
+                                            <h6 style="width: 60px;font-size: 13px;font-weight: 600;">
+                                                {{ cell.value }}
+                                            </h6>
+                                        </ng-container>
+                                        <ng-container
+                                            *ngIf="cell.properties != 'Program' && cell.properties != 'Sku' && cell.properties != 'Team' && cell.properties != 'Vendor' && cell.properties != 'Action' && cell.properties != 'TotalBoard'">
+                                            <div [hidden]="!cell.editing">
+                                                <input [(ngModel)]="cell.value"
+                                                    (blur)="onCellEditDone(rowIndex, colIndex)"
+                                                    (keydown.enter)="onCellEditDone(rowIndex, colIndex)"
+                                                    (ngModelChange)="onRowTotalBoardCount(rowIndex, colIndex)"
+                                                    style="width: 60px;" />
+                                            </div>
+                                            <div (click)="startEditingCell(rowIndex, colIndex)" [hidden]="cell.editing"
+                                                style="width: 60px;">
+                                                {{ cell.value }}
+                                            </div>
+                                        </ng-container>
+                                        <ng-container *ngIf="cell.properties == 'Action'">
+                                            <div style="display: flex;">
+                                                <span style="cursor: pointer;margin-right:5px"
+                                                    (click)="AddNewRow(row,rowIndex)"
+                                                    *ngIf="cell.value == 'Add'">Save</span>
+                                                <span style="cursor: pointer;margin-right:5px"
+                                                    (click)="EditRow(row,rowIndex)"
+                                                    *ngIf="cell.value == 'Update' && roleName == 'Admin'">Update</span>
+                                                <span *ngIf="roleName == 'Admin'">|</span>
+                                                <span style="cursor: pointer;margin-left:5px"
+                                                    (click)="DeleteAddRow(rowIndex)"
+                                                    *ngIf="cell.value == 'Add'">Delete</span>
+                                                <span style="cursor: pointer;margin-left:5px"
+                                                    (click)="DeleteRow(row,rowIndex)"
+                                                    *ngIf="cell.value == 'Update' && roleName == 'Admin'">Delete</span>
+                                            </div>
+                                        </ng-container>
+                                    </td>
+                                </ng-container>
                                 <!--   <td>
                                     <div style="display: flex;">
                                         <span style="cursor: pointer;margin-right:5px" (click)="EditRow()">Update</span> |
@@ -561,7 +660,7 @@
                                     *ngFor="let cell of totalTempValueList; let colIndex = index;let last = last">
                                     <td colspan="5" *ngIf="colIndex == 3">Total</td>
                                     <td *ngIf="colIndex >3 && !last">{{ cell }}</td>
-                                    <td *ngIf="last"></td>
+                                    <td *ngIf="last && roleName == 'Admin'"></td>
                                 </ng-container>
                                 <!-- <td></td> -->
                             </tr>

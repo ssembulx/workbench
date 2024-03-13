@@ -115,64 +115,66 @@
         <i class='fas fa-times'></i></button>
     </div>
     <div class="modal-body">
-      <table class="table table-bordered user-table">
-        <tbody>
-          <tr>
-            <td style="width: 30%;" class="bold_center">Recipient Lab Users</td>
-            <td>
-              <div [ngClass]="{'read-more': !showFull}">
-                <ng-container *ngFor="let data of userData"><span
-                    class="badge badge-secondary">{{data.Email}}</span></ng-container>
-              </div>
-
-              <a (click)="toggleReadMoreNew()" class="show-more">
-                {{ showFull ? 'Read Less' : '...Read More' }}
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <td style="width: 30%;" class="bold_center">Add New Email</td>
-            <td>
-              <!-- <div class="field-ctrl">
-                <input name="user" [(ngModel)]="allocatitedTo" type="text" class="form-control ww-input"
-                  placeholder="Type WWID" (ngModelChange)="getUserDetails()" />
-              </div> -->
-              <div class="input-tags">
-                <div class="editor-tag field-ctrl">
-                  <span class="tag-item" *ngFor="let tag of addedUserList; let i = index;">
-                    <span>
-                      {{tag.Email}}
-                    </span>
-                    <span class="remove-tag" (click)="removeTag(tag.Email, i)">×</span>
-                  </span>
-                  <input name="user" [(ngModel)]="allocatitedTo" type="text" class="form-control ww-input input-tag" placeholder="Type WWID"
-                    (ngModelChange)="getUserDetails()" />
-                  <!-- <input placeholder="Enter Email" type="email" class="input-tag"
-                        (keyup)="onKeyUp($event, contact.SIVExecutionTeamList.length, 'siv')"
-                        formControlName="tag" (change)="valueChange('SIV Team')"> -->
+      <div class="row table-responsive">
+        <table class="table table-bordered user-table">
+          <tbody>
+            <tr>
+              <td style="width: 30%;" class="bold_center">Recipient Lab Users</td>
+              <td>
+                <div [ngClass]="{'read-more': !showFull}">
+                  <ng-container *ngFor="let data of userData"><span
+                      class="badge badge-secondary">{{data.Email}}</span></ng-container>
                 </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td style="width: 30%;" class="bold_center">Broadcast Subject<b class="text-danger">*</b></td>
-            <td>
-              <div class="field-ctrl">
-                <input [(ngModel)]="Subject" type="text" class="form-control ww-input"
-                  placeholder="Enter Broadcast Subject here..." />
-                <!-- <i class="fa fa-search" (click)="getUserDetails()"></i> -->
-              </div>
-              <!--    <input type="text" class="text-box" placeholder="Enter Broadcast Subject here..." [(ngModel)]="Subject"> -->
-            </td>
-          </tr>
-          <tr>
-            <td style="width: 30%;" class="bold_center">Broadcast Content<b class="text-danger">*</b></td>
-            <!-- <td><textarea type="text" class="text-box" [(ngModel)]="Content"></textarea></td> -->
-            <td><angular-editor [placeholder]="'Enter Broadcast Content here...'" [config]="config"
-                [(ngModel)]="htmlContent"></angular-editor></td>
-          </tr>
-        </tbody>
-      </table>
+
+                <a (click)="toggleReadMoreNew()" class="show-more">
+                  {{ showFull ? 'Read Less' : '...Read More' }}
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 30%;" class="bold_center">Add New Email</td>
+              <td>
+                <!-- <div class="field-ctrl">
+                  <input name="user" [(ngModel)]="allocatitedTo" type="text" class="form-control ww-input"
+                    placeholder="Type WWID" (ngModelChange)="getUserDetails()" />
+                </div> -->
+                <div class="input-tags">
+                  <div class="editor-tag field-ctrl">
+                    <span class="tag-item" *ngFor="let tag of addedUserList; let i = index;">
+                      <span>
+                        {{tag.Email}}
+                      </span>
+                      <span class="remove-tag" (click)="removeTag(tag.Email, i)">×</span>
+                    </span>
+                    <input name="user" [(ngModel)]="allocatitedTo" type="text" class="form-control ww-input input-tag"
+                      placeholder="Type WWID" (ngModelChange)="getUserDetails()" />
+                    <!-- <input placeholder="Enter Email" type="email" class="input-tag"
+                          (keyup)="onKeyUp($event, contact.SIVExecutionTeamList.length, 'siv')"
+                          formControlName="tag" (change)="valueChange('SIV Team')"> -->
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 30%;" class="bold_center">Broadcast Subject<b class="text-danger">*</b></td>
+              <td>
+                <div class="field-ctrl">
+                  <input [(ngModel)]="Subject" type="text" class="form-control ww-input"
+                    placeholder="Enter Broadcast Subject here..." />
+                  <!-- <i class="fa fa-search" (click)="getUserDetails()"></i> -->
+                </div>
+                <!--    <input type="text" class="text-box" placeholder="Enter Broadcast Subject here..." [(ngModel)]="Subject"> -->
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 30%;" class="bold_center">Broadcast Content<b class="text-danger">*</b></td>
+              <!-- <td><textarea type="text" class="text-box" [(ngModel)]="Content"></textarea></td> -->
+              <td><angular-editor [placeholder]="'Enter Broadcast Content here...'" [config]="config"
+                  [(ngModel)]="htmlContent"></angular-editor></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn back-btn close" aria-label="Close" (click)="closeModal()">Cancel</button>
@@ -192,16 +194,18 @@
         <i class='fas fa-times'></i></button>
     </div>
     <div class="modal-body">
-      <table class="table table-bordered user-table">
-        <tbody>
-          <tr>
-            <!-- <td style="width: 30%;" class="bold_center">Broadcast Content<b class="text-danger">*</b></td> -->
-            <!-- <td><textarea type="text" class="text-box" [(ngModel)]="Content"></textarea></td> -->
-            <td><angular-editor [placeholder]="'Enter Broadcast Content here...'" [config]="config"
-                [(ngModel)]="htmlContentView"></angular-editor></td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="row table-responsive">
+        <table class="table table-bordered user-table">
+          <tbody>
+            <tr>
+              <!-- <td style="width: 30%;" class="bold_center">Broadcast Content<b class="text-danger">*</b></td> -->
+              <!-- <td><textarea type="text" class="text-box" [(ngModel)]="Content"></textarea></td> -->
+              <td><angular-editor [placeholder]="'Enter Broadcast Content here...'" [config]="configView"
+                  [(ngModel)]="htmlContentView"></angular-editor></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn back-btn close" aria-label="Close" (click)="d('Cross click')">Cancel</button>
