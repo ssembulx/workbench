@@ -6,76 +6,87 @@ import { SummaryService } from '../shared/service';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+  styleUrls: ['./user.component.scss'],
 })
 export class UserComponent implements OnInit {
-
   name = '';
-  email ='';
+  email = '';
   wwid = '';
   idsid = '';
   badge = '';
   displayname = '';
   orderMappedRelease: string = '';
   reverseMappedRelease: boolean = true;
-  rowValue:any;
-  modalReference:any;
+  rowValue: any;
+  modalReference: any;
   userDetails: any;
-  role:any = '';
-  roleList:any
-  userData :any;
-  modal:any={
-    Name:'',
-    wwid:'',
-    displayname:'',
-    IDSID:'',
-    email:'',
-    role:'',
-    badge:'',
-    lastloggedon:''
+  role: any = '';
+  roleList: any;
+  userData: any;
+  modal: any = {
+    Name: '',
+    wwid: '',
+    displayname: '',
+    IDSID: '',
+    email: '',
+    role: '',
+    badge: '',
+    lastloggedon: '',
   };
   userdataLoader = false;
 
-  constructor(private modalService:NgbModal,config: NgbModalConfig,  private service: SummaryService, private toastrService: ToastrService,) { 
+  constructor(
+    private modalService: NgbModal,
+    config: NgbModalConfig,
+    private service: SummaryService,
+    private toastrService: ToastrService
+  ) {
     config.backdrop = 'static';
     config.size = 'md';
   }
 
   ngOnInit(): void {
-     this.getuserData();
+    this.getuserData();
 
-     //**** Calling Role API for select drop down in add user modal popup ***//
-     this.service.getRole().subscribe((res) => {
-        this.roleList = res;
-        console.log(this.roleList,"****")
+    //**** Calling Role API for select drop down in add user modal popup ***//
+    this.service.getRole().subscribe((res) => {
+      this.roleList = res;
+      console.log(this.roleList, '****');
     });
   }
 
   //**** Calling API for user data in table ****//
-  getuserData(){
+  getuserData() {
     this.userdataLoader = false;
-    this.service.getUserData().subscribe((res:any) => {
+    this.service.getUserData().subscribe((res: any) => {
       this.userData = res;
-      console.log(this.userData,"user")
+      console.log(this.userData, 'user');
       this.userdataLoader = true;
     });
   }
 
   //*** calling add user data modal popup ****//
-  AddRow(addmodal:any){
-    this.modalReference=this.modalService.open(addmodal)  
+  AddRow(addmodal: any) {
+    this.modalReference = this.modalService.open(addmodal);
   }
 
   //*** Add user data functionality****//
-  AddUser(){ 
+  AddUser() {
     //*** payload for add user data****//
-    let req =  {"wwid":this.wwid,"idsid":this.idsid,"name":this.name,"emailId":this.email,"role":this.role,"employeeBadgeType": this.badge,"displayName": this.displayname}
-    
-    // **** Calling Add row API***** //
-   this.service.getAddUserData(req).subscribe((res:any) => {
-     this.getuserData();
+    let req = {
+      wwid: this.wwid,
+      idsid: this.idsid,
+      name: this.name,
+      emailId: this.email,
+      role: this.role,
+      employeeBadgeType: this.badge,
+      displayName: this.displayname,
+    };
 
-   });
+    // **** Calling Add row API***** //
+    this.service.getAddUserData(req).subscribe((res: any) => {
+      this.getuserData();
+    });
     this.modalReference.close();
     //*** To clearing existing values****//
     this.wwid = '';
@@ -89,110 +100,146 @@ export class UserComponent implements OnInit {
 
   //***** Calling user details API ****//
   getUserDetails() {
-    debugger
-    if (!/^\d+$/.test(this.wwid.trim())) {
-      var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
-      if (format.test(this.wwid.trim())) {
+    debugger;
+    const eightCharRegex = /(.{8})/;
+    const matches = eightCharRegex.test(this.wwid.trim());
+    if (matches) {
+      if (!/^\d+$/.test(this.wwid.trim())) {
+        var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+        if (format.test(this.wwid.trim())) {
+          var obj = {
+            type: 'CorporateEmailTxt',
+            values: this.wwid.trim(),
+          };
+        } else {
+          var obj = {
+            type: 'FullNm',
+            values: this.wwid.trim(),
+          };
+        }
+      }
+      if (/^\d+$/.test(this.wwid.trim())) {
         var obj = {
-          type: 'CorporateEmailTxt',
-          values: this.wwid.trim(),
-        };
-      } else {
-        var obj = {
-          type: 'FullNm',
+          type: 'Wwid',
           values: this.wwid.trim(),
         };
       }
-    }
-    if (/^\d+$/.test(this.wwid.trim())) {
-      var obj = {
-        type: 'Wwid',
-        values: this.wwid.trim(),
-      };
-    }
 
-    this.service.getUserDetails(obj).subscribe((res) => {
-      if (res['wwid'] === null || res['wwid'] === undefined || res['wwid'] != this.wwid) {
-        debugger
-        this.toastrService.warning(
-          'No users found with entered details, Kindly enter correct details!',
-          'Warning!'
-        );
-      } else {
-        this.userDetails = res;
-        this.name = res['name'];
-        this.email = res ['emailId'];
-        this.wwid = res ['wwid'];
-        this.role = res['role'];
-        this.idsid = res['idsid'];
-        this.badge = res['employeeBadgeType'];
-        this.displayname = res['displayName'];
-      }
-    });
+      this.service.getUserDetails(obj).subscribe(
+        (res) => {
+          if (res) {
+            if (
+              res['wwid'] === null ||
+              res['wwid'] === undefined ||
+              res['wwid'] != this.wwid
+            ) {
+              debugger;
+              this.toastrService.warning(
+                'No users found with entered details, Kindly enter correct details!',
+                'Warning!'
+              );
+            } else {
+              this.userDetails = res;
+              this.name = res['name'];
+              this.email = res['emailId'];
+              this.wwid = res['wwid'];
+              this.role = res['role'];
+              this.idsid = res['idsid'];
+              this.badge = res['employeeBadgeType'];
+              this.displayname = res['displayName'];
+            }
+          } else {
+            this.toastrService.warning(
+              'No users found with entered details, Kindly enter correct details!',
+              'Warning'
+            );
+          }
+        },
+        (error) => {
+          debugger;
+          if (error?.status === 204) {
+            // Handle 204 No Content response
+            //console.log('Received a 204 No Content response.');
+            /* this.toastrService.warning(
+          'Received a 204 No Content response.',
+          'Warning'
+        ); */
+            this.toastrService.warning(
+              'No users found with entered details, Kindly enter correct details!',
+              'Warning'
+            );
+          } else if (error?.status === 404) {
+            this.toastrService.warning(error?.message, 'Warning');
+          } else {
+            // Handle other errors
+            // console.error('Error:', error);
+            this.toastrService.warning(error?.message, 'Warning');
+          }
+        }
+      );
+    }
   }
 
   //**** Edit Row functionality in table ****//
-  EditRow(editmodal:any,wwid:any,roleName:any){
-
-    this.userData.forEach((element:any) => {
-      if(element.WWID == wwid && element.Role__role_name == roleName){
-       this.modal['IDSID']=element.Idsid
-       this.modal['displayname']=element.DisplayName
-       this.modal['Name']=element.Name
-       this.modal['wwid']=element.WWID
-       this.modal['email']=element.Email
-       this.modal['role']=element.Role__role_name
-       this.modal['badge']=element.Badge
-       this.modal['lastloggedon']=element.LastLoggedOn
+  EditRow(editmodal: any, wwid: any, roleName: any) {
+    this.userData.forEach((element: any) => {
+      if (element.WWID == wwid && element.Role__role_name == roleName) {
+        this.modal['IDSID'] = element.Idsid;
+        this.modal['displayname'] = element.DisplayName;
+        this.modal['Name'] = element.Name;
+        this.modal['wwid'] = element.WWID;
+        this.modal['email'] = element.Email;
+        this.modal['role'] = element.Role__role_name;
+        this.modal['badge'] = element.Badge;
+        this.modal['lastloggedon'] = element.LastLoggedOn;
       }
     });
-    console.log(this.userData,"dgfhjkl")
-     this.modalReference=this.modalService.open(editmodal)  
-   }
- 
-   //**** Update Row functionality in table ****//
-   UpdateTable(){
-    let req = {"WWID":this.modal.wwid,"Role":this.modal.role}
+    console.log(this.userData, 'dgfhjkl');
+    this.modalReference = this.modalService.open(editmodal);
+  }
 
-     // **** Calling Update row API***** //
-     this.service.getUserUpdateData(req).subscribe((res:any)=>{
-        this.getuserData();
-     });
-     this.modalReference.close();
-  
-     //*** To clearing existing values****//
-     this.modal.wwid = '';
-     this.modal.idsid = '';
-     this.modal.Name = '';
-     this.modal.email = '';
-     this.modal.role = '';
-     this.modal.badge = '';
-     this.modal.lastloggedon = '';
-     this.modal.displayname = '';
-   }
+  //**** Update Row functionality in table ****//
+  UpdateTable() {
+    let req = { WWID: this.modal.wwid, Role: this.modal.role };
+
+    // **** Calling Update row API***** //
+    this.service.getUserUpdateData(req).subscribe((res: any) => {
+      this.getuserData();
+    });
+    this.modalReference.close();
+
+    //*** To clearing existing values****//
+    this.modal.wwid = '';
+    this.modal.idsid = '';
+    this.modal.Name = '';
+    this.modal.email = '';
+    this.modal.role = '';
+    this.modal.badge = '';
+    this.modal.lastloggedon = '';
+    this.modal.displayname = '';
+  }
 
   //**** Delete Row functionality in table ****//
-  DeleteRow(deletemodal:any,wwid:any) {
+  DeleteRow(deletemodal: any, wwid: any) {
     this.rowValue = wwid;
-    this.modalReference=this.modalService.open(deletemodal)
+    this.modalReference = this.modalService.open(deletemodal);
   }
 
   //**** Confirm Delete Row functionality in table ****//
-  ConfirmDelete()
-  {
-    let req = {"WWID":this.rowValue}
+  ConfirmDelete() {
+    let req = { WWID: this.rowValue };
 
     // **** Calling Delete row API***** //
-    this.service.getUserDelete(req).subscribe((res:any)=>{
-       this.getuserData();
+    this.service.getUserDelete(req).subscribe((res: any) => {
+      this.getuserData();
     });
     // this.userData.splice(this.rowValue, 1);
     this.modalReference.close();
   }
 
   //***** to clear the input fields in add user modal popup****//
-  clearInput(){
-    debugger
+  clearInput() {
+    debugger;
     this.wwid = '';
     this.idsid = '';
     this.name = '';
@@ -202,12 +249,11 @@ export class UserComponent implements OnInit {
     this.displayname = '';
   }
 
-   //**** Sorting functionality in table(ascending descending order) ****//
-   setOrderRelease(value: string) {
+  //**** Sorting functionality in table(ascending descending order) ****//
+  setOrderRelease(value: string) {
     if (this.orderMappedRelease === value) {
       this.reverseMappedRelease = !this.reverseMappedRelease;
     }
     this.orderMappedRelease = value;
   }
- 
 }

@@ -54,8 +54,8 @@
                     <tr>
                         <td>WWID</td>
                         <td>
-                            <input type="text" class="wwid-text-box" [(ngModel)]="wwid">
-                            <i class="fa fa-search" (click)="getUserDetails()"></i>
+                            <input type="text" class="wwid-text-box" [(ngModel)]="wwid" placeholder="Type WWID" (ngModelChange)="getUserDetails()">
+                            <!-- <i class="fa fa-search" (click)="getUserDetails()"></i> -->
                         </td>
                         </tr>
                     <tr>

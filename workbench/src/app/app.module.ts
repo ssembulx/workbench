@@ -43,7 +43,11 @@ import {
   SearchRequestedBy,
   nonsivSearchLab,
   nonsivSearchLabDetails,
-  nonsivSearchLabDetailsNo
+  nonsivSearchLabDetailsNo,
+  SearchProgramAddForecast,
+  SearchSKUAddForecast,
+  SearchTeamAddForecast,
+  SearchVendorAddForecast,
 } from './search.pipe';
 import { SummaryService } from './shared/service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -69,6 +73,8 @@ import { TutorialComponent } from './tutorial/tutorial.component';
 import { AuhenticateComponent } from './auhenticate/auhenticate.component';
 import { ApproverComponent } from './approver/approver.component';
 /* import { ToastrService } from 'ngx-toastr'; */
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     AppComponent,
@@ -121,7 +127,11 @@ import { ApproverComponent } from './approver/approver.component';
     ApproverComponent,
     nonsivSearchLab,
     nonsivSearchLabDetails,
-    nonsivSearchLabDetailsNo
+    nonsivSearchLabDetailsNo,
+    SearchProgramAddForecast,
+    SearchSKUAddForecast,
+    SearchTeamAddForecast,
+    SearchVendorAddForecast,
   ],
   imports: [
     BrowserModule,
@@ -138,12 +148,14 @@ import { ApproverComponent } from './approver/approver.component';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    AngularEditorModule,
   ],
   providers: [
     SummaryService,
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     InterceptService,
     { provide: HTTP_INTERCEPTORS, useClass: InterceptService, multi: true },
+    NgbActiveModal
   ],
   bootstrap: [AppComponent],
 })
